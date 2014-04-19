@@ -1,0 +1,102 @@
+#tv-dashboard-showlist {
+	li {
+		width: 30%;
+		margin-right: 2%;
+		padding: 0;
+
+		&:nth-child(3n) {
+			margin-right: 0;
+		}
+
+		@media (min-width: @screen-sm-min) {
+			width: 170px;
+			margin-right: 10px;
+			margin-bottom: 10px;
+
+			&:nth-child(3n) {
+				margin-right: 10px;
+			}
+
+			&:nth-child(4n) {
+				margin-right: 0;
+			}
+		}
+
+		@media (min-width: @screen-md-min) {
+			width: 175px;
+			margin-right: 12px;
+			margin-bottom: 12px;
+
+			&:nth-child(3n) {
+				margin-right: 12px;
+			}
+
+			&:nth-child(4n) {
+				margin-right: 12px;
+			}
+
+			&:nth-child(5n) {
+				margin-right: 0;
+			}
+		}
+
+		@media (min-width: @screen-lg-min) {
+			margin-right: 16px;
+			margin-bottom: 16px;
+
+			&:nth-child(3n) {
+				margin-right: 16px;
+			}
+
+			&:nth-child(4n) {
+				margin-right: 16px;
+			}
+
+			&:nth-child(5n) {
+				margin-right: 16px;
+			}
+
+			&:nth-child(6n) {
+				margin-right: 0;
+			}
+		}
+
+		a {
+			img {
+				width: 100%;
+				height: auto;
+
+				.grayscale(60%);
+				.transition(all .3s ease);
+
+				&:hover {
+					.grayscale-disable();
+				}
+			}
+
+			.text {
+
+			}
+		}
+	}
+}
+
+#tv-view {
+	h2:first-of-type {
+		margin-top: 0;
+	}
+}
+
+#season-view {
+	#season-view-episodes {
+		li {
+			&.has-seen {
+				color: @gray-light;
+			}
+
+			label {
+				cursor: pointer;
+			}
+		}
+	}
+}

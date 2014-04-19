@@ -1,0 +1,29 @@
+{
+  "name": "seen",
+  "version": "0.1.0",
+  "description": "",
+  "main": "web/index.php",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vendor/bin/codecept build && vendor/bin/codecept run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thelfensdrfer/seen.git"
+  },
+  "author": "Tim Helfensdörfer <thelfensdrfer@gmail.com>",
+  "license": "Proprietary",
+  "bugs": {
+    "url": "https://github.com/thelfensdrfer/seen/issues"
+  },
+  "homepage": "https://github.com/thelfensdrfer/seen",
+  "dependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-less": "^0.11.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}

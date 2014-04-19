@@ -1,0 +1,24 @@
+{
+  "name": "seen",
+  "version": "0.1.0",
+  "homepage": "https://github.com/thelfensdrfer/seen",
+  "authors": [
+    "Tim Helfensdörfer <thelfensdrfer@gmail.com"
+  ],
+  "main": "web/index.php",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "Proprietary",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootswatch": "~3.1.1"
+  }
+}
