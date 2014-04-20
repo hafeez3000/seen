@@ -5,14 +5,44 @@
 	}
 }
 
+#ajax-loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(255, 255, 255, .8);
+	text-align: center;
+	z-index: 10000;
+	display: none;
+
+	.spinner {
+		left: 50%;
+		top: 50%;
+	}
+}
+
 /**
  * Frontpage
  */
-
 #frontpage {
 	.jumbotron {
 		img {
 			margin-top: 25px;
 		}
+	}
+}
+
+h2, h3, h4 {
+	text-transform: uppercase;
+
+	&.panel-heading {
+		margin-bottom: 0;
+	}
+}
+
+.panel-heading {
+	h2, h3, h4 {
+		margin-bottom: 0;
 	}
 }

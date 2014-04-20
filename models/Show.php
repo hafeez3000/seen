@@ -197,6 +197,27 @@ class Show extends ActiveRecord
 	}
 
 	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUserShow()
+	{
+		return $this->hasMany(UserShow::className(), ['show_id' => 'id']);
+	}
+
+	/**
+	 * Check if the current user is subscribed to the show.
+	 *
+	 * @return boolean
+	 */
+	public function getIsUserSubscribed()
+	{
+		if (Yii::$app->user->isGuest)
+			return false;
+
+		return $this->getUserShow()->where(['user_id' => Yii::$app->user->id])->exists();
+	}
+
+	/**
 	 * @return UserEpisode|null
 	 */
 	public function getLastEpisode()

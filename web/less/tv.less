@@ -1,10 +1,43 @@
 #missing-information {
 	a {
 		display: inline-block;
-		margin-top: 20px;
+		margin-top: 40px;
 	}
 }
 
+/**
+ * Search
+ */
+#tv-search {
+	display: inline-block;
+	margin-top: 30px;
+}
+
+.select2-results {
+	li {
+		&.select2-highlighted {
+			background-color: lighten(@brand-primary, 40%);
+		}
+
+		.select2-result-label {
+			padding: 0;
+
+			img {
+				width: 100%;
+				height: auto;
+			}
+
+			.tv-search-info {
+				vertical-align: top;
+				padding-left: 10px;
+			}
+		}
+	}
+}
+
+/**
+ * Tv/Dashboard
+ */
 #tv-dashboard-showlist {
 	li {
 		width: 30%;
@@ -88,35 +121,63 @@
 	}
 }
 
+/**
+ * Tv/View
+ */
 #tv-view {
 	#tv-view-content {
-		> div {
-			margin-top: 20px;
+		margin-top: 20px;
 
-			&:first-of-type {
+		#tv-view-information {
+			> div {
+				margin-top: 20px;
+
+				&:first-of-type {
+					margin-top: 0;
+				}
+			}
+
+			h2 {
 				margin-top: 0;
 			}
 		}
 
-		h2 {
-			margin-top: 0;
+		#tv-view-seasons {
+			h3 {
+				&:first-of-type {
+					margin-top: 0;
+					line-height: 1;
+				}
+			}
 		}
-	}
-}
 
-#season-view {
-	#season-view-episodes {
-		li {
-			&.has-seen {
-				color: @gray-light;
-			}
-
-			&.highlight {
-				color: @brand-primary
-			}
-
-			label {
+		.tv-view-episodes {
+			li {
+				display: inline-block;
+				width: 24%;
+				height: 30px;
+				padding: 1%;
 				cursor: pointer;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				line-height: 1;
+
+				&.has-seen {
+					color: @gray-light;
+				}
+
+				&.highlight {
+					color: @brand-primary
+				}
+
+				&:hover {
+					background-color: @gray-lighter;
+				}
+
+				label {
+					cursor: pointer;
+				}
 			}
 		}
 	}

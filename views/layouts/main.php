@@ -28,6 +28,20 @@ AppAsset::register($this);
 		echo Html::encode(Yii::$app->name);
 	?></title>
 
+	<script type="text/javascript">
+		var App = {
+			language: "<?php echo Yii::$app->language; ?>",
+			themoviedb: {
+				key: "<?php echo Yii::$app->params['themoviedb']['key']; ?>",
+				url: "<?php echo Yii::$app->params['themoviedb']['url']; ?>",
+				image_url: "<?php echo Yii::$app->params['themoviedb']['image_url']; ?>"
+			},
+			translation: {
+				noPosterImage: "<?php echo Yii::t('Show', 'No image available'); ?>"
+			}
+		}
+	</script>
+
 	<?php $this->head() ?>
 </head>
 	<body>
@@ -81,6 +95,30 @@ AppAsset::register($this);
 		</header>
 
 		<div id="content">
+			<div id="flash-messages">
+				<div class="container">
+					<?php
+						$flashMessages = Yii::$app->session->getAllFlashes();
+
+						if (is_array($flashMessages)) {
+							foreach ($flashMessages as $key => $message) {
+								if ($key == 'error')
+									$key = 'danger';
+
+								echo Alert::widget([
+									'options' => [
+										'class' => 'alert-' . $key
+									],
+									'body' => $message,
+								]);
+							}
+						}
+					?>
+				</div>
+			</div>
+
+			<div id="ajax-loading"></div>
+
 			<?php echo $content; ?>
 		</div>
 

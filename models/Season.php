@@ -171,6 +171,15 @@ class Season extends ActiveRecord
 			]);
 	}
 
+	public function getUserEpisodesSeen()
+	{
+		return $this
+			->getLatestUserEpisodes()
+			->indexBy('episode_id')
+			->asArray()
+			->all();
+	}
+
 	public function getFullName()
 	{
 		if (!empty($this->name))

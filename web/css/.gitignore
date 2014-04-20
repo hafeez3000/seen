@@ -1,2 +1,4 @@
 !.gitignore
 *.min.css
+*.png
+*.gif

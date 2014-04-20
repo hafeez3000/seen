@@ -3,7 +3,7 @@
 $config['name'] = 'SEEN';
 $config['basePath'] = dirname(dirname(__DIR__));
 $config['bootstrap'] = ['log'];
-$config['language'] = 'en';
+$config['language'] = 'de';
 
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');
 
@@ -16,6 +16,9 @@ $config['components']['urlManager'] = [
 	'showScriptName' => false,
 	'rules' => [
 		'tv' => 'tv/index',
+		'tv/load' => 'tv/load',
+		'tv/subscribe/<slug:.*?>' => 'tv/subscribe',
+		'tv/unsubscribe/<slug:.*?>' => 'tv/unsubscribe',
 		'tv/<slug:.*?>/<number:\d+>' => 'season/view',
 		'tv/<slug:.*?>' => 'tv/view',
 
