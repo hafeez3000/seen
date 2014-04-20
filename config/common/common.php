@@ -19,7 +19,9 @@ $config['components']['urlManager'] = [
 		'tv/load' => 'tv/load',
 		'tv/subscribe/<slug:.*?>' => 'tv/subscribe',
 		'tv/unsubscribe/<slug:.*?>' => 'tv/unsubscribe',
-		'tv/<slug:.*?>/<number:\d+>' => 'season/view',
+		'tv/archive' => 'tv/archive',
+		'tv/archive/<slug:.*?>' => 'tv/archive-show',
+		'tv/unarchive/<slug:.*?>' => 'tv/unarchive-show',
 		'tv/<slug:.*?>' => 'tv/view',
 
 		'movies' => 'movies/index',

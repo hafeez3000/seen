@@ -257,6 +257,20 @@ class User extends ActiveRecord implements IdentityInterface
 	 */
 	public function getShows()
 	{
-		return $this->hasMany(Show::className(), ['id' => 'show_id'])->viaTable('{{%user_show}}', ['user_id' => 'id']);
+		return $this->hasMany(Show::className(), ['id' => 'show_id'])
+			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
+				$query->where(['{{%user_show}}.[[archived]]' => 0]);
+			});
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getArchivedShows()
+	{
+		return $this->hasMany(Show::className(), ['id' => 'show_id'])
+			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
+				$query->where(['{{%user_show}}.[[archived]]' => 1]);
+			});
 	}
 }

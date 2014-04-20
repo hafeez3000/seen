@@ -4,7 +4,7 @@
  */
 
 echo $this->render('_dashboard', [
-	'archive' => false,
-	'title' => Yii::t('Show/Dashboard', 'Your TV Shows'),
+	'archive' => true,
+	'title' => Yii::t('Show/Dashboard', 'Your archived TV Shows'),
 	'shows' => $shows,
 ]);
