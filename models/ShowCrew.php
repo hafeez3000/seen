@@ -4,6 +4,7 @@ use \Yii;
 use \yii\db\ActiveRecord;
 
 use \app\components\TimestampBehavior;
+use \app\components\PersonTrait;
 
 /**
  * This is the model class for the Show Crew.
@@ -21,6 +22,8 @@ use \app\components\TimestampBehavior;
  */
 class ShowCrew extends ActiveRecord
 {
+	use PersonTrait;
+
 	/**
 	 * @inheritdoc
 	 */

@@ -45,9 +45,9 @@ AppAsset::register($this);
 				echo Nav::widget([
 					'options' => ['class' => 'navbar-nav'],
 					'items' => [
-						['label' => Yii::t('Site/Navigation', 'Home'), 'url' => ['/site/index']],
-						['label' => Yii::t('Site/Navigation', 'About'), 'url' => ['/site/about']],
-						['label' => Yii::t('Site/Navigation', 'Contact'), 'url' => ['/site/contact']],
+						['label' => Yii::t('Site/Navigation', 'Home'), 'url' => ['site/index']],
+						['label' => Yii::t('Site/Navigation', 'About'), 'url' => ['site/about']],
+						['label' => Yii::t('Site/Navigation', 'Contact'), 'url' => ['site/contact']],
 					],
 				]);
 
@@ -55,21 +55,21 @@ AppAsset::register($this);
 					echo Nav::widget([
 						'options' => ['class' => 'navbar-nav navbar-right'],
 						'items' => [
-								['label' => Yii::t('Site/Navigation', 'Login'), 'url' => ['/site/login']],
+								['label' => Yii::t('Site/Navigation', 'Login'), 'url' => ['site/login']],
 						],
 					]);
 				} else {
 					echo Nav::widget([
 						'options' => ['class' => 'navbar-nav navbar-right'],
 						'items' => [
-							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['/tv']],
-							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['/movie']],
+							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index']],
+							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index']],
 							['label' => Yii::$app->user->identity->email,
 								'items' => [
-									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['/user/account']],
-									['label' => Yii::t('Site/Navigation', 'Calendar'), 'url' => ['/user/calendar']],
+									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
+									['label' => Yii::t('Site/Navigation', 'Calendar'), 'url' => ['user/calendar']],
 									['label' => '', 'options' => ['class' => 'divider']],
-									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout'], 'linkOptions' => ['data-method' => 'post']],
 								]
 							]
 						],

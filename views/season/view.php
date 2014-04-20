@@ -9,7 +9,17 @@ use \yii\helpers\Url;
 
 <div id="season-view">
 	<div class="container">
-		<h1><a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]); ?>"><?php echo Html::encode($show->name); ?></a></h1>
+		<div class="clearfix">
+			<div class="pull-left">
+				<h1><a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]); ?>"><?php echo Html::encode($show->name); ?></a></h1>
+			</div>
+
+			<div class="pull-right" id="missing-information">
+				<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>/season/<?php echo $season->number; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank" title="<?php echo Yii::t('Season/View', 'Update season information on The Movie Database') ?>">
+					<?php echo Yii::t('Season/View', 'Missing information?') ?>
+				</a>
+			</div>
+		</div>
 
 		<div class="row">
 			<?php echo $this->render('/tv/_seasons', [

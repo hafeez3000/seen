@@ -4,6 +4,7 @@ use \Yii;
 use \yii\db\ActiveRecord;
 
 use \app\components\TimestampBehavior;
+use \app\components\PersonTrait;
 
 /**
  * This is the model class for table "prod_person".
@@ -26,6 +27,8 @@ use \app\components\TimestampBehavior;
  */
 class Person extends \yii\db\ActiveRecord
 {
+	use PersonTrait;
+
 	/**
 	 * @inheritdoc
 	 */

@@ -15,8 +15,12 @@ $config['components']['urlManager'] = [
 	'enablePrettyUrl' => true,
 	'showScriptName' => false,
 	'rules' => [
+		'tv' => 'tv/index',
 		'tv/<slug:.*?>/<number:\d+>' => 'season/view',
 		'tv/<slug:.*?>' => 'tv/view',
+
+		'movies' => 'movies/index',
+		'movies/<slug:.*?>' => 'movies/view',
 
 		'<controller:\w+>/<id:\d+>' => '<controller>/view',
 		'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

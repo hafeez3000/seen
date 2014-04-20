@@ -13,7 +13,7 @@ use \yii\helpers\Url;
 		<?php foreach ($shows as $show): ?>
 			<li id="show-<?php echo $show->id; ?>">
 				<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>">
-					<img src="<?php echo $show->poster; ?>">
+					<img src="<?php echo $show->posterUrl; ?>">
 
 					<div class="last-seen">
 						<?php if ($show->lastEpisode !== null): ?>

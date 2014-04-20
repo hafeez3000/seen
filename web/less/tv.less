@@ -1,3 +1,10 @@
+#missing-information {
+	a {
+		display: inline-block;
+		margin-top: 20px;
+	}
+}
+
 #tv-dashboard-showlist {
 	li {
 		width: 30%;
@@ -82,8 +89,18 @@
 }
 
 #tv-view {
-	h2:first-of-type {
-		margin-top: 0;
+	#tv-view-content {
+		> div {
+			margin-top: 20px;
+
+			&:first-of-type {
+				margin-top: 0;
+			}
+		}
+
+		h2 {
+			margin-top: 0;
+		}
 	}
 }
 
@@ -92,6 +109,10 @@
 		li {
 			&.has-seen {
 				color: @gray-light;
+			}
+
+			&.highlight {
+				color: @brand-primary
 			}
 
 			label {

@@ -16,6 +16,7 @@ class SeasonController extends Controller
 			->with('creators')
 			->with('cast')
 			->with('crew')
+			->with('language')
 			->with('seasons.episodes')
 			->one();
 		if ($show === null)

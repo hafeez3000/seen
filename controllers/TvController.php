@@ -14,7 +14,7 @@ class TvController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['add', 'logout', 'signup'],
+				'only' => ['add'],
 				'rules' => [
 					[
 						'actions' => ['add'],
@@ -82,9 +82,9 @@ class TvController extends Controller
 				->with('creators')
 				->with('cast')
 				->with('crew')
-				->with('seasons.episodes');
-
-		$show = $show->one();
+				->with('language')
+				->with('seasons.episodes')
+				->one();
 		if ($show === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 

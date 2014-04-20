@@ -1,3 +1,26 @@
+function highlightEpisode() {
+	var lastChecked = false;
+	var foundEpisode = false;
+
+	$("#season-view-episodes li").removeClass("highlight");
+
+	$("#season-view-episodes input").each(function(index) {
+		if ($(this).prop("checked")) {
+			lastChecked = true;
+			foundEpisode = true;
+		} else {
+			if (lastChecked === true) {
+				$(this).closest("li").addClass("highlight");
+				lastChecked = false;
+			}
+		}
+	});
+
+	if (foundEpisode === false) {
+		$("#season-view-episodes li:first").addClass("highlight");
+	}
+}
+
 $(function() {
 	console.log("Init application...");
 
@@ -13,6 +36,7 @@ $(function() {
 
 				if (data && data.success) {
 					$input.closest("li").addClass("has-seen");
+					highlightEpisode();
 				}
 			});
 		} else {
@@ -21,8 +45,12 @@ $(function() {
 
 				if (data && data.success) {
 					$input.closest("li").removeClass("has-seen");
+					highlightEpisode();
 				}
 			});
 		}
 	});
+
+	if ($("#season-view-episodes").length)
+		highlightEpisode();
 });

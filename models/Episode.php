@@ -107,7 +107,7 @@ class Episode extends ActiveRecord
 	public function getFullName()
 	{
 		if (empty($this->name))
-			return Yii::t('Episode', '#{number}', ['number' => $this->number]);
+			return Yii::t('Episode', 'Episode #{number}', ['number' => $this->number]);
 		else
 			return Yii::t('Episode', '#{number} {name}', ['number' => $this->number, 'name' => $this->name]);
 	}
