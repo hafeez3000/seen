@@ -23,6 +23,7 @@ use \app\components\Email;
  * @property string $deleted_at
  *
  * @property Show[] $shows
+ * @property Language $language
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -245,6 +246,14 @@ class User extends ActiveRecord implements IdentityInterface
 			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
 				$query->where(['{{%user_show}}.[[archived]]' => 0]);
 			});
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getLanguage()
+	{
+		return $this->hasOne(Language::className(), ['id' => 'language_id']);
 	}
 
 	/**
