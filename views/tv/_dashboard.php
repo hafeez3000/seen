@@ -8,27 +8,27 @@ use \yii\widgets\ActiveForm;
 ?>
 
 <div id="tv-dashboard<?php if($archive): ?>-archive<?php endif; ?>" class="tv-dashboard">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-6 col-md-8">
-				<h1>
-					<?php echo $title; ?>
+	<div class="row">
+		<div class="col-sm-6 col-md-8">
+			<h1>
+				<?php echo $title; ?>
 
-					<?php if (!$archive): ?>
-						<small><a href="<?php echo Url::toRoute(['archive']); ?>" title="<?php echo Yii::t('User/Dashboard', 'Archive'); ?>"><span class="glyphicon glyphicon-lock"></span></a></small>
-					<?php endif; ?>
-				</h1>
-			</div>
-
-			<div class="col-sm-6 col-md-4">
-				<?php $form = ActiveForm::begin([
-					'action' => Yii::$app->urlManager->createAbsoluteUrl(['tv/load']),
-				]); ?>
-					<input type="hidden" id="tv-search" name="id" style="margin-top: 30px; width: 100%;">
-				<?php ActiveForm::end(); ?>
-			</div>
+				<?php if (!$archive): ?>
+					<small><a href="<?php echo Url::toRoute(['archive']); ?>"><?php echo Yii::t('User/Dashboard', 'Archive'); ?></a></small>
+				<?php endif; ?>
+			</h1>
 		</div>
 
+		<div class="col-sm-6 col-md-4">
+			<?php $form = ActiveForm::begin([
+				'action' => Yii::$app->urlManager->createAbsoluteUrl(['tv/load']),
+			]); ?>
+				<input type="hidden" id="tv-search" name="id" style="margin-top: 30px; width: 100%;">
+			<?php ActiveForm::end(); ?>
+		</div>
+	</div>
+
+	<?php if (count($shows)): ?>
 		<ul id="tv-dashboard-showlist" class="list-unstyled list-inline">
 			<?php foreach ($shows as $show): ?>
 				<li id="show-<?php echo $show->id; ?>">
@@ -47,16 +47,24 @@ use \yii\widgets\ActiveForm;
 							<?php endif; ?>
 						</div>
 
-						<div class="pull-right">
+						<div class="pull-right tv-dashboard-showlist-actions">
 							<?php if (!$archive): ?>
-								<a href="<?php echo Url::toRoute(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-lock"></span></a>
+								<a class="text-muted" href="<?php echo Url::toRoute(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-lock"></span></a>
 							<?php else: ?>
-								<a href="<?php echo Url::toRoute(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Unarchive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
+								<a class="text-muted" href="<?php echo Url::toRoute(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Unarchive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
 							<?php endif; ?>
 						</div>
 					</div>
 				</li>
 			<?php endforeach; ?>
 		</ul>
-	</div>
+	<?php else: ?>
+		<div class="alert alert-info">
+			<?php if (!$archive): ?>
+				<?php echo Yii::t('Show/Dashboard', 'You are not subscribe to a TV Show! Start with searching for your favorite ones'); ?>
+			<?php else: ?>
+				<?php echo Yii::t('Show/Dashboard', 'Your archive is empty! Add TV Shows which are not in production anymore or you are currently not watching.'); ?>
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
 </div>

@@ -24,15 +24,13 @@ App.init = function() {
 };
 
 function highlightEpisodes() {
-	var foundEpisode = false;
 	var lastChecked = false;
 
-	$(this).find("li").removeClass("highlight");
+	$(".tv-view-episodes li").removeClass("highlight");
 
 	$(".tv-view-episodes li").each(function() {
-		if ($(this).data("seen") == 1) {
+		if ($(this).attr("data-seen") == "1") {
 			lastChecked = true;
-			foundEpisode = true;
 		} else {
 			if (lastChecked === true) {
 				$(this).addClass("highlight");
@@ -40,10 +38,6 @@ function highlightEpisodes() {
 			}
 		}
 	});
-
-	if (foundEpisode === false) {
-		$(".tv-view-episodes li:first[data-seen=0]").addClass("highlight");
-	}
 }
 
 $(function() {
@@ -58,11 +52,11 @@ $(function() {
 		var urlUnCheck = $(this).closest("#tv-view-seasons").data("uncheck-url");
 		var id = $(this).data("id");
 
-		if ($listItem.data("seen") == 0) {
+		if ($listItem.attr("data-seen") == "0") {
 			$.post(urlCheck, {id: id}, function(data) {
 				if (data && data.success) {
 					$listItem.addClass("has-seen");
-					$listItem.data("seen", 1);
+					$listItem.attr("data-seen", "1");
 					highlightEpisodes();
 				}
 			}, 'json');
@@ -70,7 +64,7 @@ $(function() {
 			$.post(urlUnCheck, {id: id}, function(data) {
 				if (data && data.success) {
 					$listItem.removeClass("has-seen");
-					$listItem.data("seen", 0);
+					$listItem.attr("data-seen", "0");
 					highlightEpisodes();
 				}
 			}, 'json');

@@ -7,7 +7,5 @@ use yii\helpers\Html;
 $this->title[] = Yii::t('Site/About', 'About');
 ?>
 <div id="about">
-	<div class="container">
-		<h1><?php echo Yii::t('Site/About', 'About'); ?></h1>
-	</div>
+	<h1><?php echo Yii::t('Site/About', 'About'); ?></h1>
 </div>

@@ -10,7 +10,7 @@ use app\components\ActiveForm;
 
 $this->title[] = Yii::t('Site/Login', 'Login');
 ?>
-<div id="login" class="container">
+<div id="login">
 	<h1><?php echo Yii::t('Site/Login', 'Login') ?></h1>
 
 	<div class="row">

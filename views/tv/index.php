@@ -4,6 +4,6 @@
  */
 ?>
 
-<div class="container" id="tv-index">
+<div id="tv-index">
 	<h1><?php echo Yii::t('Tv/Index', 'TV Shows'); ?></h1>
 </div>

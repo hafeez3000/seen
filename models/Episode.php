@@ -120,7 +120,7 @@ class Episode extends ActiveRecord
 			->orderBy(['created_at' => SORT_DESC])
 			->one();
 		if ($run === null)
-			throw new yii\web\BadRequestHttpException;
+			throw new \yii\web\BadRequestHttpException;
 
 		$userEpisode = new UserEpisode;
 		$userEpisode->episode_id = $this->id;
@@ -136,14 +136,14 @@ class Episode extends ActiveRecord
 			->orderBy(['created_at' => SORT_DESC])
 			->one();
 		if ($run === null)
-			throw new yii\web\BadRequestHttpException;
+			throw new \yii\web\BadRequestHttpException;
 
 		$userEpisode = UserEpisode::find()
 			->where(['run_id' => $run->id])
 			->andWhere(['episode_id' => $this->id])
 			->one();
 		if ($userEpisode === null)
-			throw new yii\web\BadRequestHttpException;
+			throw new \yii\web\BadRequestHttpException;
 
 		return $userEpisode->delete();
 	}

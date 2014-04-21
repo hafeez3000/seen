@@ -15,7 +15,7 @@ class SiteController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['login', 'logout', 'signup'],
+				'only' => ['login', 'logout', 'signUp'],
 				'rules' => [
 					[
 						'actions' => ['logout'],
@@ -98,10 +98,10 @@ class SiteController extends Controller
 	{
 		$path = $this->viewPath . '/imprint/' . Yii::$app->language . '.php';
 
-		/*if (file_exists($path))
-			$this->render('imprint/' . Yii::$app->language);
-		else*/
-			$this->render('imprint/en');
+		if (file_exists($path))
+			return $this->render('imprint/' . Yii::$app->language);
+		else
+			return $this->render('imprint/en');
 	}
 
 	public function actionPrivacy()

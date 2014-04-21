@@ -71,6 +71,7 @@ AppAsset::register($this);
 						'options' => ['class' => 'navbar-nav navbar-right'],
 						'items' => [
 								['label' => Yii::t('Site/Navigation', 'Login'), 'url' => ['site/login']],
+								['label' => Yii::t('Site/Navigation', 'Sign Up'), 'url' => ['site/sign-up']],
 						],
 					]);
 				} else {
@@ -82,7 +83,6 @@ AppAsset::register($this);
 							['label' => Yii::$app->user->identity->email,
 								'items' => [
 									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
-									['label' => Yii::t('Site/Navigation', 'Calendar'), 'url' => ['user/calendar']],
 									['label' => '', 'options' => ['class' => 'divider']],
 									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout'], 'linkOptions' => ['data-method' => 'post']],
 								]
@@ -95,27 +95,25 @@ AppAsset::register($this);
 			?>
 		</header>
 
-		<div id="content">
+		<div id="content" class="container">
 			<div id="flash-messages">
-				<div class="container">
-					<?php
-						$flashMessages = Yii::$app->session->getAllFlashes();
+				<?php
+					$flashMessages = Yii::$app->session->getAllFlashes();
 
-						if (is_array($flashMessages)) {
-							foreach ($flashMessages as $key => $message) {
-								if ($key == 'error')
-									$key = 'danger';
+					if (is_array($flashMessages)) {
+						foreach ($flashMessages as $key => $message) {
+							if ($key == 'error')
+								$key = 'danger';
 
-								echo Alert::widget([
-									'options' => [
-										'class' => 'alert-' . $key
-									],
-									'body' => $message,
-								]);
-							}
+							echo Alert::widget([
+								'options' => [
+									'class' => 'alert-' . $key
+								],
+								'body' => $message,
+							]);
 						}
-					?>
-				</div>
+					}
+				?>
 			</div>
 
 			<div id="ajax-loading"></div>

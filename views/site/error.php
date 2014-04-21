@@ -10,7 +10,7 @@ use yii\helpers\Html;
 
 $this->title[] = Yii::t('Error', 'Error {code}', ['code' => $exception->statusCode]);
 ?>
-<div id="error" class="container">
+<div id="error">
 	<h1><?php echo Html::encode(Yii::t('Error', 'Error {code}', ['code' => $exception->statusCode])); ?></h1>
 
 	<div class="alert alert-danger">
