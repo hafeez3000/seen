@@ -4,6 +4,7 @@ use \Yii;
 use \yii\base\Model;
 
 use \app\models\User;
+use \app\models\Language;
 
 /**
  * SignupForm is the model behind the sign up form.
@@ -12,6 +13,7 @@ class AccountForm extends Model
 {
 	public $email;
 	public $password;
+	public $language;
 
 	/**
 	 *	Define validation rules.
@@ -23,6 +25,7 @@ class AccountForm extends Model
 		return [
 			[['email'], 'required'],
 			[['email'], 'email'],
+			[['language'], 'exist', 'targetClass' => Language::className(), 'targetAttribute' => 'id'],
 			[['password'], 'string', 'min' => 6],
 			[['email'], 'unique', 'targetClass' => User::className(), 'targetAttribute' => 'email'],
 		];
@@ -39,6 +42,19 @@ class AccountForm extends Model
 	public function __construct(User $user)
 	{
 		$this->email = $user->email;
+		$this->language = $user->language_id;
+	}
+
+	public function getLanguages()
+	{
+		$languages = Language::find()->asArray()->all();
+		$items = [];
+
+		foreach ($languages as $language) {
+			$items += [$language['id'] => $language['name']];
+		}
+
+		return $items;
 	}
 
 	/**
@@ -52,7 +68,8 @@ class AccountForm extends Model
 		$user->scenario = 'account';
 
 		$user->attributes = [
-			'email' => $this->email
+			'email' => $this->email,
+			'language_id' => $this->language,
 		];
 
 		if (!empty($this->password))

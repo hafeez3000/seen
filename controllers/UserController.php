@@ -30,8 +30,10 @@ class UserController extends Controller
 	{
 		$model = new AccountForm(Yii::$app->user->identity);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save())
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			Yii::$app->session->setFlash('success', Yii::t('User/Account', 'Settings saved.'));
+			return $this->redirect(['account']);
+		}
 
 		$model->password = '';
 

@@ -91,7 +91,7 @@ class User extends ActiveRecord implements IdentityInterface
 	{
 		return [
 			'register' => ['email', 'password'],
-			'account' => ['email', 'password'],
+			'account' => ['email', 'language_id', 'password'],
 		];
 	}
 
