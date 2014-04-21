@@ -6,6 +6,7 @@ use \yii\web\Controller;
 use \yii\filters\VerbFilter;
 
 use \app\models\forms\LoginForm;
+use \app\models\forms\SignupForm;
 use \app\models\forms\ContactForm;
 
 class SiteController extends Controller
@@ -58,14 +59,16 @@ class SiteController extends Controller
 
 	public function actionLogin()
 	{
+		$this->layout = 'login';
+
 		$model = new LoginForm();
-		if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+		if ($model->load(Yii::$app->request->post()) && $model->login())
 			return $this->goBack();
-		} else {
+		else
 			return $this->render('login', [
 				'model' => $model,
 			]);
-		}
 	}
 
 	public function actionLogout()
@@ -73,6 +76,21 @@ class SiteController extends Controller
 		Yii::$app->user->logout();
 
 		return $this->goHome();
+	}
+
+	public function actionSignUp()
+	{
+		$this->layout = 'login';
+
+		$model = new SignupForm();
+
+		if ($model->load(Yii::$app->request->post()) && $model->register()) {
+			Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN!'));
+			return $this->redirect(['tv/index']);
+		} else
+			return $this->render('sign-up', [
+				'model' => $model,
+			]);
 	}
 
 	public function actionContact()

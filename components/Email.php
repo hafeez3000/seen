@@ -111,7 +111,7 @@ class Email {
 
 						$success = $success and true;
 
-						Yii::log(
+						Yii::info(
 							Yii::t(
 								'Email',
 								'Email `{subject}` sent to `{email}`.',
@@ -124,7 +124,7 @@ class Email {
 						);
 						break;
 					case 'queued':
-						Yii::log(
+						Yii::info(
 							Yii::t(
 								'Email',
 								'Queued email `{subject}` to `{email}`.',
@@ -137,7 +137,7 @@ class Email {
 						);
 						break;
 					case 'rejected':
-						Yii::log(
+						Yii::error(
 							Yii::t(
 								'Email',
 								'Rejected email `{subject}` to `{email}`.',
@@ -150,7 +150,7 @@ class Email {
 						);
 						break;
 					case 'invalid':
-						Yii::log(
+						Yii::error(
 							Yii::t(
 								'Email',
 								'Invalid email `{subject}` to `{email}`.',
@@ -163,7 +163,7 @@ class Email {
 						);
 						break;
 					default:
-						Yii::log(
+						Yii::error(
 							Yii::t(
 								'Email',
 								'Unknown email status `{status}` for email `{subject}` to `{email}`.',
@@ -179,7 +179,7 @@ class Email {
 				}
 			}
 		} catch (Exception $e) {
-			Yii::log(
+			Yii::error(
 				Yii::t(
 					'Email',
 					'API Error while sending email `{subject}` to `{email}`: {message}',
@@ -196,7 +196,7 @@ class Email {
 		}
 
 		if (!$success) {
-			Yii::log(
+			Yii::error(
 				Yii::t(
 					'Email',
 					'Error while sending email `{subject}` to `{email}`',

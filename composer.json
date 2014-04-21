@@ -12,7 +12,8 @@
 		"yiisoft/yii2-bootstrap": "*",
 		"educoder/pest": "1.0.*",
 		"zelenin/yii2-slug-behavior": "0.0.*",
-		"nesbot/Carbon": "1.8.*"
+		"nesbot/Carbon": "1.8.*",
+		"mailchimp/mailchimp": "2.0.*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",

@@ -27,6 +27,8 @@ use \app\components\Email;
 class User extends ActiveRecord implements IdentityInterface
 {
 
+	const EVENT_AFTER_REGISTER = 'afterRegister';
+
 	/**
 	 * @inheritdoc
 	 */
@@ -42,6 +44,7 @@ class User extends ActiveRecord implements IdentityInterface
 	{
 		return [
 			[['email', 'password'], 'required'],
+			[['email'], 'email'],
 			[['email'], 'string', 'max' => 100],
 			[['language_id', 'level'], 'integer'],
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
@@ -80,6 +83,13 @@ class User extends ActiveRecord implements IdentityInterface
 					ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
 				],
 			],
+		];
+	}
+
+	public function scenarios()
+	{
+		return [
+			'register' => ['email', 'password'],
 		];
 	}
 
@@ -144,45 +154,18 @@ class User extends ActiveRecord implements IdentityInterface
 	 *
 	 * Sends welcome email and register user at mailchimp.
 	 *
+	 * @param boolean $insert
+	 *
 	 * @access public
 	 * @return void
 	 */
-	public function afterSave()
+	public function afterSave($insert)
 	{
-		if ($this->scenario == 'register') {
-			//Send welcome email
-			$email = new Email;
-			$email->to = $this->email;
-			$email->subject = Yii::t('Email/Register', 'Welcome to SEEN');
-
-			$html = Yii::t('Email/Register', '<h1 class="h1">Welcome to <span class="highlight">SEEN</span></h1>');
-			$html .= Yii::t(
-				'Email/Register',
-				'<p>You successfully registered at <a href="{url}">seenapp.com</a>! Start now by subscribing to your <a href="{url}">favorite tv shows</a>.</p>',
-				array(
-					'{url}' => Yii::app()->createAbsoluteUrl('/'),
-				)
-			);
-
-			$email->send(
-				'Default',
-				array(
-					array(
-						'name' => 'content',
-						'content' => $html,
-					)
-				),
-				array(
-					'register',
-				)
-			);
-
-			//Register user to mailchimp
-			$mc = new Mailchimp();
-			$mc->subscribe($this->email);
+		if ($insert && $this->scenario == 'register') {
+			$this->trigger(self::EVENT_AFTER_REGISTER);
 		}
 
-		return parent::afterSave();
+		return parent::afterSave($insert);
 	}
 
 		/**
