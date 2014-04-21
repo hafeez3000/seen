@@ -45,7 +45,7 @@ $(function() {
 
 	App.init();
 
-	if (("#tv-view").data("subscribed") == "1") {
+	if ($("#tv-view").data("subscribed") == "1") {
 		// Mark episodes as seen/unseen
 		$(".tv-view-episodes li").on("click", function() {
 			var $listItem = $(this);
