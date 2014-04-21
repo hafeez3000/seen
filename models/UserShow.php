@@ -33,7 +33,7 @@ class UserShow extends ActiveRecord
 		return [
 			[['show_id', 'user_id'], 'required'],
 			[['show_id', 'user_id'], 'integer'],
-			[['created_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['created_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
 		];
 	}
 

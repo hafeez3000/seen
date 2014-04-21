@@ -45,59 +45,61 @@ $(function() {
 
 	App.init();
 
-	// Mark episodes as seen/unseen
-	$(".tv-view-episodes li").on("click", function() {
-		var $listItem = $(this);
-		var urlCheck = $(this).closest("#tv-view-seasons").data("check-url");
-		var urlUnCheck = $(this).closest("#tv-view-seasons").data("uncheck-url");
-		var id = $(this).data("id");
-
-		if ($listItem.attr("data-seen") == "0") {
-			$.post(urlCheck, {id: id}, function(data) {
-				if (data && data.success) {
-					$listItem.addClass("has-seen");
-					$listItem.attr("data-seen", "1");
-					highlightEpisodes();
-				}
-			}, 'json');
-		} else {
-			$.post(urlUnCheck, {id: id}, function(data) {
-				if (data && data.success) {
-					$listItem.removeClass("has-seen");
-					$listItem.attr("data-seen", "0");
-					highlightEpisodes();
-				}
-			}, 'json');
-		}
-	});
-
-	// Mark all episodes from one season as seen
-	$(".mark-season-seen").on("click", function(e) {
-		e.preventDefault();
-
-		var urlCheck = $(this).closest("#tv-view-seasons").data("check-url");
-		var seasonId = $(this).data("id");
-		var $season = $("#tv-view-season-" + seasonId);
-
-		$season.find("li").each(function() {
+	if (("#tv-view").data("subscribed") == "1") {
+		// Mark episodes as seen/unseen
+		$(".tv-view-episodes li").on("click", function() {
 			var $listItem = $(this);
+			var urlCheck = $(this).closest("#tv-view-seasons").data("check-url");
+			var urlUnCheck = $(this).closest("#tv-view-seasons").data("uncheck-url");
 			var id = $(this).data("id");
 
-			$.post(urlCheck, {id: id}, function(data) {
-				if (data && data.success) {
-					$listItem.addClass("has-seen");
-					$listItem.data("seen", 1);
-					highlightEpisodes();
-				}
-			}, 'json');
+			if ($listItem.attr("data-seen") == "0") {
+				$.post(urlCheck, {id: id}, function(data) {
+					if (data && data.success) {
+						$listItem.addClass("has-seen");
+						$listItem.attr("data-seen", "1");
+						highlightEpisodes();
+					}
+				}, 'json');
+			} else {
+				$.post(urlUnCheck, {id: id}, function(data) {
+					if (data && data.success) {
+						$listItem.removeClass("has-seen");
+						$listItem.attr("data-seen", "0");
+						highlightEpisodes();
+					}
+				}, 'json');
+			}
 		});
 
-		return false;
-	});
+		// Mark all episodes from one season as seen
+		$(".mark-season-seen").on("click", function(e) {
+			e.preventDefault();
 
-	// Hightlight first unseen episode
-	if ($(".tv-view-episodes").length)
-		highlightEpisodes();
+			var urlCheck = $(this).closest("#tv-view-seasons").data("check-url");
+			var seasonId = $(this).data("id");
+			var $season = $("#tv-view-season-" + seasonId);
+
+			$season.find("li").each(function() {
+				var $listItem = $(this);
+				var id = $(this).data("id");
+
+				$.post(urlCheck, {id: id}, function(data) {
+					if (data && data.success) {
+						$listItem.addClass("has-seen");
+						$listItem.data("seen", 1);
+						highlightEpisodes();
+					}
+				}, 'json');
+			});
+
+			return false;
+		});
+
+		// Hightlight first unseen episode
+		if ($(".tv-view-episodes").length)
+			highlightEpisodes();
+	}
 
 	// Search tv show
 	$("#tv-search").select2({
@@ -113,7 +115,8 @@ $(function() {
 					api_key: App.themoviedb.key,
 					query: term,
 					page: page,
-					language: App.language
+					language: App.language,
+					search_type: "ngram"
 				};
 			},
 			results: function (data, page) {

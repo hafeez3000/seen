@@ -201,10 +201,19 @@ class TvController extends Controller
 			return $this->redirect(['view', 'slug' => $show->slug]);
 		}
 
-		$userShow = new UserShow;
-		$userShow->show_id = $show->id;
-		$userShow->user_id = Yii::$app->user->id;
-		$userShow->save();
+		$userShow = $show->getUserShow()
+			->where(['user_id' => Yii::$app->user->id])
+			->one();
+
+		if ($userShow !== null) {
+			$userShow->deleted_at = null;
+			$userShow->save();
+		} else {
+			$userShow = new UserShow;
+			$userShow->show_id = $show->id;
+			$userShow->user_id = Yii::$app->user->id;
+			$userShow->save();
+		}
 
 		return $this->redirect(['view', 'slug' => $show->slug]);
 	}

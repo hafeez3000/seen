@@ -62,5 +62,13 @@ class Application extends \yii\web\Application
 			$mc = new Mailchimp();
 			$mc->subscribe($user->email);
 		});
+
+		// Do not delete user show subscribptions, only set deleted timestamp
+		Event::on(UserShow::className(), UserShow::EVENT_BEFORE_DELETE, function($event) {
+			$event->sender->deleted_at = date('Y-m-d H:i:s');
+			$event->sender->save();
+
+			$event->isValid = false;
+		});
 	}
 }

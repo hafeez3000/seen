@@ -7,7 +7,7 @@ use \yii\helpers\Html;
 use \yii\helpers\Url;
 ?>
 
-<div id="tv-view">
+<div id="tv-view" data-subscribed="<?php echo $show->isUserSubscribed ? 1 : 0; ?>">
 	<div class="clearfix">
 		<div class="pull-left">
 			<h1>
@@ -79,7 +79,9 @@ use \yii\helpers\Url;
 							</div>
 
 							<div class="pull-right">
-								<a href="#" class="mark-season-seen" data-id="<?php echo $season->id; ?>" title="<?php echo Yii::t('Show/View', 'Mark complete season as seen'); ?>"><span class="glyphicon glyphicon-ok"></span></a>&nbsp;
+								<?php if ($show->isUserSubscribed): ?>
+									<a href="#" class="mark-season-seen" data-id="<?php echo $season->id; ?>" title="<?php echo Yii::t('Show/View', 'Mark complete season as seen'); ?>"><span class="glyphicon glyphicon-ok"></span></a>&nbsp;
+								<?php endif; ?>
 								<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>/season/<?php echo $season->number; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank" title="<?php echo Yii::t('Show/View', 'Edit missing information on The Movie Database'); ?>"><span class="glyphicon glyphicon-pencil"></span></a>
 							</div>
 						</div>
@@ -90,7 +92,7 @@ use \yii\helpers\Url;
 					<div class="panel-body">
 						<ul class="tv-view-episodes list-unstyled list-inline">
 							<?php foreach ($season->episodes as $episode): ?>
-								<li class="<?php if (isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>" data-id="<?php echo $episode->id; ?>" data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>" title="<?php echo Yii::t('Show/View', 'Mark `{name}` as seen', ['name' => $episode->fullName]); ?>">
+								<li class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>" data-id="<?php echo $episode->id; ?>" data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>" title="<?php echo Yii::t('Show/View', 'Mark `{name}` as seen', ['name' => $episode->fullName]); ?>">
 									<?php echo Html::encode($episode->fullName); ?>
 								</li>
 							<?php endforeach; ?>

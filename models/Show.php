@@ -41,6 +41,8 @@ use \app\components\TimestampBehavior;
  */
 class Show extends ActiveRecord
 {
+	private $isUserSubscribedCache = [];
+
 	/**
 	 * @inheritdoc
 	 */
@@ -214,7 +216,16 @@ class Show extends ActiveRecord
 		if (Yii::$app->user->isGuest)
 			return false;
 
-		return $this->getUserShow()->where(['user_id' => Yii::$app->user->id])->exists();
+		if (!isset($this->isUserSubscribedCache[Yii::$app->user->id])) {
+			$isSubscribed = $this->getUserShow()
+				->where(['user_id' => Yii::$app->user->id])
+				->andWhere(['deleted_at' => null])
+				->exists();
+
+			$this->isUserSubscribedCache[Yii::$app->user->id] = $isSubscribed;
+		}
+
+		return $this->isUserSubscribedCache[Yii::$app->user->id];
 	}
 
 	/**
