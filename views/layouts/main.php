@@ -79,7 +79,7 @@ AppAsset::register($this);
 						'options' => ['class' => 'navbar-nav navbar-right'],
 						'items' => [
 							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index']],
-							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index']],
+							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => '#'],
 							['label' => Yii::$app->user->identity->email,
 								'items' => [
 									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
