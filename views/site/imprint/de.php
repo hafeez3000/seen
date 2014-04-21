@@ -14,7 +14,6 @@ $this->title[] = Yii::t('Site/Imprint', 'Imprint');
 	<br>
 	Klippe 109<br>
 	42555 Velbert<br>
-	Germany<br>
 	<br>
 	Phone: 020529285977<br>
 	Email: tim@visualappeal.de<br>

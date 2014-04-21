@@ -106,6 +106,11 @@ class SiteController extends Controller
 
 	public function actionPrivacy()
 	{
+		$path = $this->viewPath . '/privacy/' . Yii::$app->language . '.php';
 
+		if (file_exists($path))
+			return $this->render('privacy/' . Yii::$app->language);
+		else
+			return $this->render('privacy/en');
 	}
 }
