@@ -144,11 +144,6 @@ class SiteController extends Controller
 		}
 	}
 
-	public function actionAbout()
-	{
-		return $this->render('about');
-	}
-
 	public function actionImprint()
 	{
 		$path = $this->viewPath . '/imprint/' . Yii::$app->language . '.php';

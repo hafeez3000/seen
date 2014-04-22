@@ -25,9 +25,7 @@ $this->title[] = Yii::t('Site/Contact', 'Contact');
 				<p>
 					<?php echo Yii::t('Site/Contact', 'If you have any questions about this site, feature requests or found a bug, please feel free to contact us.'); ?>
 				</p>
-			</div>
 
-			<div class="col-md-6">
 				<?php $form = ActiveForm::begin([
 					'id' => 'contact-form',
 				]); ?>

@@ -60,8 +60,6 @@ AppAsset::register($this);
 				echo Nav::widget([
 					'options' => ['class' => 'navbar-nav'],
 					'items' => [
-						['label' => Yii::t('Site/Navigation', 'Home'), 'url' => ['site/index']],
-						['label' => Yii::t('Site/Navigation', 'About'), 'url' => ['site/about']],
 						['label' => Yii::t('Site/Navigation', 'Contact'), 'url' => ['site/contact']],
 					],
 				]);

@@ -24,37 +24,27 @@ use \yii\helpers\Url;
 		</div>
 	</div>
 
-
 	<div class="row">
-		<div class="col-lg-4">
-			<h2><?php echo Yii::t('Site/Index', 'Lots of data'); ?></h2>
+		<div class="col-md-4">
+			<h2><?php echo Yii::t('Site/Index', 'Always Up To Date'); ?></h2>
 
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-				dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-				ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-				fugiat nulla pariatur.</p>
+			<p>We work with the API from <a href="https://www.themoviedb.org/">The Movie Database</a> so wen can provide information for almost every tv show and movie. If something is missing you can register on their platform and provide the missing information.</p>
 
-			<p><a class="btn btn-default" href="#"><?php echo Yii::t('Site/Index', 'Browse'); ?></a></p>
+			<p><a class="btn btn-default" href="<?php echo Url::toRoute(['tv']); ?>"><?php echo Yii::t('Site/Index', 'Browse TV Shows'); ?></a></p>
 		</div>
-		<div class="col-lg-4">
+		<div class="col-md-4">
 			<h2><?php echo Yii::t('Site/Index', 'Easy to use'); ?></h2>
 
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-				dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-				ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-				fugiat nulla pariatur.</p>
+			<p>All you have to do is <code>subscribe</code> to a TV show and check the episodes you've already seen, movies you do not even need to subscribe. You can also watch a episode or movie multiple times.</p>
 
-			<p><a class="btn btn-default" href="#"><?php echo Yii::t('Site/Index', 'Help'); ?></a></p>
+			<p><a class="btn btn-default disabled" href="<?php echo Url::toRoute(['movie']); ?>"><?php echo Yii::t('Site/Index', 'Browse Movies'); ?></a></p>
 		</div>
-		<div class="col-lg-4">
+		<div class="col-md-4">
 			<h2><?php echo Yii::t('Site/Index', 'API'); ?></h2>
 
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-				dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-				ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-				fugiat nulla pariatur.</p>
+			<p>In the near future we will provide an API so you can create great apps to enhance the system or provide native clients. With the methods you can access and modify all of the data we have access to, too.</p>
 
-			<p><a class="btn btn-default" href="#"><?php echo Yii::t('Site/Index', 'Developer Docs'); ?></a></p>
+			<p><a class="btn btn-default disabled"><?php echo Yii::t('Site/Index', 'Developer Docs'); ?></a></p>
 		</div>
 	</div>
 </div>
