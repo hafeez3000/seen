@@ -164,10 +164,17 @@ class MovieDb
 		]);
 	}
 
-	public function getMovie($movie)
+	public function getMovie($movie, $language = null)
 	{
-		return $this->get(sprintf('/movie/%s', $movie->themoviedb_id), [
-			'language' => $movie->language->iso,
+		if (get_class($movie) == Movie::className()) {
+			$themoviedbId = $movie->themoviedb_id;
+			$language = $movie->language->iso;
+		} else {
+			$themoviedbId = $movie->similar_to_themoviedb_id;
+		}
+
+		return $this->get(sprintf('/movie/%s', $themoviedbId), [
+			'language' => $language,
 			'append_to_response' => 'credits,similar_movies',
 		]);
 	}
@@ -408,16 +415,31 @@ class MovieDb
 		}
 	}
 
-	public function syncMovie($movie)
+	public function syncMovie($movie, $language = null)
 	{
-		Yii::info("Syncing movie #{$movie->id}...", 'application\sync');
+		if (get_class($movie) == Movie::className()) {
+			$isSimilarMovie = false;
+			Yii::info("Syncing movie #{$movie->id}...", 'application\sync');
+		} else {
+			$isSimilarMovie = true;
+			Yii::info("Syncing similar movie #{$movie->id}...", 'application\sync');
+		}
 
-		$attributes = $this->getMovie($movie);
+		$attributes = $this->getMovie($movie, $language);
 
 		if ($attributes == false) {
 			Yii::error("Could not get attributes from api for movie #{$movie->id}...", 'application\sync');
 
 			return false;
+		}
+
+		if ($isSimilarMovie) {
+			$similarMovie = $movie;
+
+			$movie = new Movie;
+			$movie->themoviedb_id = $similarMovie->similar_to_themoviedb_id;
+			$movie->language_id = Language::find(['iso' => $language])->one()->id;
+			$movie->save();
 		}
 
 		$movie->attributes = (array) $attributes;
@@ -426,16 +448,20 @@ class MovieDb
 			foreach ($attributes->similar_movies->results as $similarMovieAttributes) {
 				$similarMovie = MovieSimilar::findOne([
 					'movie_id' => $movie->id,
-					'similar_to_movie_id' => $similarMovieAttributes->id,
+					'similar_to_themoviedb_id' => $similarMovieAttributes->id,
 				]);
 
 				if ($similarMovie === null) {
+					$similarMovieModel = Movie::find()
+						->where(['themoviedb_id' => $similarMovieAttributes->id])
+						->andWhere(['language_id' => $movie->language_id])
+						->one();
+
 					$similarMovie = new MovieSimilar;
 					$similarMovie->movie_id = $movie->id;
-					$similarMovie->similar_to_movie_id = $similarMovieAttributes->id;
+					$similarMovie->similar_to_movie_id = ($similarMovieModel !== null) ? $similarMovieModel->id : null;
+					$similarMovie->similar_to_themoviedb_id = $similarMovieAttributes->id;
 					$similarMovie->save();
-
-					$movie->link('similarMovies', $similarMovie);
 				}
 			}
 		}
@@ -557,10 +583,16 @@ class MovieDb
 			}
 		}
 
+		if ($isSimilarMovie)
+			$movie->slug = '';
+
 		if (!$movie->save()) {
 			Yii::warning("Could update movie #{$movie->id} '" . $movie->errors . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
+
+		if ($isSimilarMovie)
+			return $movie;
 
 		return true;
 	}

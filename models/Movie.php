@@ -192,7 +192,7 @@ class Movie extends ActiveRecord
 		if (!empty($this->poster_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w92/' . $this->poster_path;
 		else
-			return 'http://placehold.it/175x272/fff/555&' . http_build_query(['text' => $this->title]);
+			return 'http://placehold.it/92x138/fff/555&' . http_build_query(['text' => $this->title]);
 	}
 
 	public function getPosterUrlLarge()

@@ -73,7 +73,9 @@ use \yii\helpers\Url;
 					<ul id="movie-view-similar" class="list-unstyled list-inline">
 						<?php foreach ($movie->similarMovies as $similarMovie): ?>
 							<li>
-								<img src="<?php echo $similarMovie->posterUrlSmall; ?>" alt="<?php echo Html::encode($similarMovie->title); ?>" title="<?php echo Html::encode($crew->title); ?>">
+								<a href="<?php echo Url::toRoute(['view', 'slug' => $similarMovie->slug]); ?>" title="<?php echo Html::encode($similarMovie->title); ?>">
+									<img src="<?php echo $similarMovie->posterUrlSmall; ?>" alt="<?php echo Html::encode($similarMovie->title); ?>">
+								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>

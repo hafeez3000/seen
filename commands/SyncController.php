@@ -6,6 +6,9 @@ use \yii\console\Controller;
 use \app\components\MovieDb;
 use \app\models\Show;
 use \app\models\Episode;
+use \app\models\Season;
+use \app\models\Movie;
+use \app\models\MovieSimilar;
 
 /**
  * Sync data with TheMovieDB.
@@ -28,7 +31,8 @@ class SyncController extends Controller
 	{
 		$movieDb = new MovieDb;
 
-		$shows = Show::find();
+		$shows = Show::find()
+			->with('language');
 
 		if (!$this->force)
 			$shows = $shows->where(['updated_at' => null]);
@@ -100,6 +104,58 @@ class SyncController extends Controller
 			}
 
 			$movieDb->syncEpisode($episode);
+		}
+
+		return 0;
+	}
+
+	public function actionMovies()
+	{
+		$movieDb = new MovieDb;
+
+		// Sync similar movies
+		$similarMovies = MovieSimilar::find()
+			->where(['similar_to_movie_id' => null])
+			->all();
+
+		if ($this->debug) {
+			$movieCount = count($similarMovies);
+			$i = 1;
+		}
+
+		// Save similar movies as own movie
+		foreach ($similarMovies as $similarMovie) {
+			if ($this->debug) {
+				echo "Similar Movie {$i}/{$movieCount}\n";
+				$i++;
+			}
+
+			$newMovie = $movieDb->syncMovie($similarMovie);
+
+			if ($newMovie !== false) {
+				$similarMovie->similar_to_movie_id = $newMovie->id;
+				$similarMovie->save();
+			}
+		}
+
+		$movies = Movie::find()
+			->with('language');
+
+		if (!$this->force)
+			$movies = $movies->where(['updated_at' => null]);
+
+		if ($this->debug) {
+			$movieCount = $movies->count();
+			$i = 1;
+		}
+
+		foreach ($movies->each() as $movie) {
+			if ($this->debug) {
+				echo "Movie {$i}/{$movieCount}\n";
+				$i++;
+			}
+
+			$movieDb->syncMovie($movie);
 		}
 
 		return 0;
