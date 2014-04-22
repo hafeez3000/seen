@@ -28,6 +28,9 @@ $config['components']['urlManager'] = [
 		'logout' => 'site/logout',
 		'account' => 'user/account',
 
+		'reset-password' => 'site/reset',
+		'reset-password/<token:.*?>' => 'site/reset-password',
+
 		'movies' => 'movies/index',
 		'movies/<slug:.*?>' => 'movies/view',
 

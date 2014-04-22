@@ -89,10 +89,12 @@ class User extends ActiveRecord implements IdentityInterface
 
 	public function scenarios()
 	{
-		return [
-			'register' => ['email', 'password'],
-			'account' => ['email', 'language_id', 'password'],
-		];
+		$scenarios = parent::scenarios();
+
+		$scenarios['register'] = ['email', 'password'];
+		$scenarios['account'] = ['email', 'language_id', 'password'];
+
+		return $scenarios;
 	}
 
 	/**
@@ -124,6 +126,20 @@ class User extends ActiveRecord implements IdentityInterface
 	{
 		return self::findOne([
 			'email' => $email,
+		]);
+	}
+
+	/**
+	 * Finds user by reset key.
+	 *
+	 * @param string $token Reset key
+	 *
+	 * @return User|null
+	 */
+	public static function findByResetKey($token)
+	{
+		return self::findOne([
+			'reset_key' => $token,
 		]);
 	}
 
@@ -235,6 +251,11 @@ class User extends ActiveRecord implements IdentityInterface
 	public function validatePassword($password)
 	{
 		return (crypt(crypt($password, self::SALT), $this->decryptSalt($this->password)) == $this->password);
+	}
+
+	public function generateResetKey()
+	{
+		$this->reset_key = md5($this->id . time() . $this->generateSalt());
 	}
 
 	/**

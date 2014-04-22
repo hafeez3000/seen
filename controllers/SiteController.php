@@ -8,6 +8,8 @@ use \yii\filters\VerbFilter;
 use \app\models\forms\LoginForm;
 use \app\models\forms\SignupForm;
 use \app\models\forms\ContactForm;
+use \app\models\forms\PasswordResetSendForm;
+use \app\models\forms\PasswordResetForm;
 
 class SiteController extends Controller
 {
@@ -24,7 +26,7 @@ class SiteController extends Controller
 						'roles' => ['@'],
 					],
 					[
-						'actions' => ['login', 'signup'],
+						'actions' => ['login', 'signup', 'reset', 'resetPassword'],
 						'allow' => true,
 						'roles' => ['?']
 					]
@@ -61,7 +63,7 @@ class SiteController extends Controller
 	{
 		$this->layout = 'login';
 
-		$model = new LoginForm();
+		$model = new LoginForm;
 
 		if ($model->load(Yii::$app->request->post()) && $model->login())
 			return $this->goBack();
@@ -82,7 +84,7 @@ class SiteController extends Controller
 	{
 		$this->layout = 'login';
 
-		$model = new SignupForm();
+		$model = new SignupForm;
 
 		if ($model->load(Yii::$app->request->post()) && $model->register()) {
 			Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN!'));
@@ -93,9 +95,40 @@ class SiteController extends Controller
 			]);
 	}
 
+	public function actionReset()
+	{
+		$this->layout = 'login';
+
+		$model = new PasswordResetSendForm;
+
+		if ($model->load(Yii::$app->request->post()) && $model->send()) {
+			Yii::$app->session->setFlash('info', Yii::t('User/Reset', 'Please check your emails to reset your password!'));
+			return $this->redirect(['login']);
+		} else
+			return $this->render('reset-send', [
+				'model' => $model,
+			]);
+	}
+
+	public function actionResetPassword($token)
+	{
+		$this->layout = 'login';
+
+		$model = new PasswordResetForm($token);
+
+		if ($model->load(Yii::$app->request->post()) && $model->reset()) {
+			Yii::$app->session->setFlash('info', Yii::t('User/Reset', 'Password changed! You can now login with your new password.'));
+			return $this->redirect(['login']);
+		} else {
+			return $this->render('reset', [
+				'model' => $model,
+			]);
+		}
+	}
+
 	public function actionContact()
 	{
-		$model = new ContactForm();
+		$model = new ContactForm;
 		if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
 			Yii::$app->session->setFlash('contactFormSubmitted');
 
