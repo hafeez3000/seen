@@ -5,6 +5,7 @@ use \yii\filters\AccessControl;
 use \yii\web\Controller;
 use \yii\filters\VerbFilter;
 
+use app\models\User;
 use \app\models\forms\LoginForm;
 use \app\models\forms\SignupForm;
 use \app\models\forms\ContactForm;
@@ -115,6 +116,9 @@ class SiteController extends Controller
 		$this->layout = 'login';
 
 		$model = new PasswordResetForm($token);
+
+		if (User::findByResetKey($token) === null)
+			throw new \yii\web\NotFoundHttpException(Yii::t('User/Reset', 'Your password was already reset!'));
 
 		if ($model->load(Yii::$app->request->post()) && $model->reset()) {
 			Yii::$app->session->setFlash('info', Yii::t('User/Reset', 'Password changed! You can now login with your new password.'));
