@@ -38,7 +38,8 @@ AppAsset::register($this);
 				image_url: "<?php echo Yii::$app->params['themoviedb']['image_url']; ?>"
 			},
 			translation: {
-				noPosterImage: "<?php echo Yii::t('Show', 'No image available'); ?>"
+				first_aired: "<?php echo Yii::t('Show', 'First aired'); ?>",
+				votes: "<?php echo Yii::t('Show', 'Votes'); ?>"
 			}
 		}
 	</script>

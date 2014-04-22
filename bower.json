@@ -21,6 +21,7 @@
   "dependencies": {
     "bootswatch": "~3.1.1",
     "select2": "~3.4.6",
-    "spin.js": "~2.0.0"
+    "spin.js": "~2.0.0",
+    "moment": "~2.6.0"
   }
 }

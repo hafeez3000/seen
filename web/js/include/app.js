@@ -164,10 +164,19 @@ $(function() {
 			if (result.poster_path && result.poster_path.length)
 				posterUrl = App.themoviedb.image_url + "w92" + result.poster_path;
 			else
-				posterUrl = "http://placehold.it/92x135/fff/555&text=" + encodeURIComponent(App.translation.noPosterImage);
+				posterUrl = "http://placehold.it/92x135/fff/555&text=" + encodeURIComponent(result.name);
 
 			markup += "<td class='tv-search-image'><img src='" + posterUrl + "'/></td>";
-			markup += "<td class='tv-search-info'><h4>" + result.name + "</h4></div>";
+			markup += "<td class='tv-search-info'>" +
+				"<h4>" + result.name + "</h4>";
+
+			if (result.first_air_date && result.first_air_date.length)
+				markup += "<p>" + App.translation.first_aired + ": " + moment(result.first_air_date).format("LL") + "</p>";
+
+			if (result.vote_average && result.vote_average > 0)
+				markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
+
+			markup += "</div>";
 			markup += "</td></tr></table>";
 
 			return markup;
