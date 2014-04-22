@@ -2,6 +2,7 @@
 Thumbs.db
 
 *.sublime-*
+npm-debug.log
 
 /node_modules
 /vendor

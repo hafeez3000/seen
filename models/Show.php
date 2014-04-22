@@ -265,7 +265,7 @@ class Show extends ActiveRecord
 		if (!empty($this->backdrop_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w1280/' . $this->backdrop_path;
 		else
-			return 'http://placehold.it/1280x300/fff/555&' . http_build_query(['text' => Yii::t('Show', 'No image available')]);
+			return 'http://placehold.it/1280x300/fff/555&' . http_build_query(['text' => $this->name]);
 	}
 
 	public function getPosterUrl()
@@ -273,7 +273,7 @@ class Show extends ActiveRecord
 		if (!empty($this->poster_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w185/' . $this->poster_path;
 		else
-			return 'http://placehold.it/175x272/fff/555&' . http_build_query(['text' => Yii::t('Show', 'No image available')]);
+			return 'http://placehold.it/175x272/fff/555&' . http_build_query(['text' => $this->name]);
 	}
 
 	public function getPosterLargeUrl()
@@ -281,6 +281,6 @@ class Show extends ActiveRecord
 		if (!empty($this->poster_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path;
 		else
-			return 'http://placehold.it/300x169/fff/555&' . http_build_query(['text' => Yii::t('Show', 'No image available')]);
+			return 'http://placehold.it/300x169/fff/555&' . http_build_query(['text' => $this->name]);
 	}
 }
