@@ -274,6 +274,15 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
+	public function getMovies()
+	{
+		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])
+			->viaTable('{{%user_movie}}', ['user_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getLanguage()
 	{
 		return $this->hasOne(Language::className(), ['id' => 'language_id']);

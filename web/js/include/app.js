@@ -213,4 +213,91 @@ $(function() {
 			}
 		});
 	});
+
+	// Search movie
+	$("#movie-search").select2({
+		placeholder: "Search for movie",
+		minimumInputLength: 3,
+		ajax: {
+			url: App.themoviedb.url + "/search/movie",
+			dataType: 'jsonp',
+			quietMillis: 100,
+			cache: true,
+			data: function (term, page) {
+				return {
+					api_key: App.themoviedb.key,
+					query: term,
+					page: page,
+					language: App.language,
+					search_type: "ngram"
+				};
+			},
+			results: function (data, page) {
+				var more = page < data.total_pages;
+
+				return {
+					results: data.results,
+					more: more
+				};
+			}
+		},
+		formatResult: function(result) {
+			var markup = "<table class='movie-search-result'><tr>";
+			var posterUrl = "";
+
+			if (result.poster_path && result.poster_path.length)
+				posterUrl = App.themoviedb.image_url + "w92" + result.poster_path;
+			else
+				posterUrl = "http://placehold.it/92x135/fff/555&text=" + encodeURIComponent(result.title);
+
+			markup += "<td class='movie-search-image'><img src='" + posterUrl + "'/></td>";
+			markup += "<td class='movie-search-info'>" +
+				"<h4>" + result.title + "</h4>";
+
+			if (result.release_date && result.release_date.length)
+				markup += "<p>" + App.translation.released + ": " + moment(result.release_date).format("LL") + "</p>";
+
+			if (result.vote_average && result.vote_average > 0)
+				markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
+
+			markup += "</div>";
+			markup += "</td></tr></table>";
+
+			return markup;
+		},
+		formatSelection: function(result) {
+			return result.title;
+		},
+		escapeMarkup: function(m) {
+			return m;
+		},
+	}).on("change", function(e) {
+		var url = $(this).closest("form").attr("action");
+		var id = e.val;
+
+		$.ajax({
+			type: "post",
+			url: url,
+			data: {
+				id: id
+			},
+			success: function(data) {
+				if (data && data.success && data.url) {
+					window.location.href = data.url;
+				} else if (data && !data.success && data.message) {
+					App.error(data.message);
+				}
+			},
+			error: function(data) {
+				App.error(App.translation.unknown_error);
+			},
+			dataType: "json",
+			beforeSend: function(){
+				$("#ajax-loading").show();
+			},
+			complete: function(){
+				$("#ajax-loading").hide();
+			}
+		});
+	});
 });

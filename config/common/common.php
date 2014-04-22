@@ -24,15 +24,18 @@ $config['components']['urlManager'] = [
 		'tv/unarchive/<slug:.*?>' => 'tv/unarchive-show',
 		'tv/<slug:.*?>' => 'tv/view',
 
+		'movies' => 'movie/index',
+		'movie/load' => 'movie/load',
+		'movie/watch/<slug:.*?>' => 'movie/watch',
+		'movie/unwatch/<id:\d+>' => 'movie/unwatch',
+		'movie/<slug:.*?>' => 'movie/view',
+
 		'login' => 'site/login',
 		'logout' => 'site/logout',
 		'account' => 'user/account',
 
 		'reset-password' => 'site/reset',
 		'reset-password/<token:.*?>' => 'site/reset-password',
-
-		'movies' => 'movies/index',
-		'movies/<slug:.*?>' => 'movies/view',
 
 		'<controller:\w+>/<id:\d+>' => '<controller>/view',
 		'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

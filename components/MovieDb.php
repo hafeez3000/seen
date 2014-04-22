@@ -19,6 +19,16 @@ use \app\models\ShowCountry;
 use \app\models\Episode;
 use \app\models\ShowCast;
 use \app\models\ShowCrew;
+use \app\models\Movie;
+use \app\models\MovieSimilar;
+use \app\models\MovieCast;
+use \app\models\MovieCrew;
+use \app\models\MovieGenre;
+use \app\models\MovieCompany;
+use \app\models\MovieCountry;
+use \app\models\MovieLanguage;
+use \app\models\Company;
+use \app\models\Language;
 
 class MovieDb
 {
@@ -60,8 +70,8 @@ class MovieDb
 
 		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		if ($status >= 400) {
-			Yii::error("Error while requesting {$url}, code #{$status}: " . $response);
-			$this->errors[] = "Error while requesting {$path}, code #{$status}: " . $response;
+			Yii::error("Error while requesting {$url}, code {$status}: " . $response);
+			$this->errors[] = "Error while requesting {$path}, code {$status}: " . $response;
 			return false;
 		}
 
@@ -154,14 +164,22 @@ class MovieDb
 		]);
 	}
 
+	public function getMovie($movie)
+	{
+		return $this->get(sprintf('/movie/%s', $movie->themoviedb_id), [
+			'language' => $movie->language->iso,
+			'append_to_response' => 'credits,similar_movies',
+		]);
+	}
+
 	public function syncShow($show)
 	{
-		Yii::info("Syncing tv show {$show->id}...", 'application\sync');
+		Yii::info("Syncing tv show #{$show->id}...", 'application\sync');
 
 		$attributes = $this->getShow($show);
 
 		if ($attributes == false) {
-			Yii::error("Could not get attributes from api for show {$show->id}...", 'application\sync');
+			Yii::error("Could not get attributes from api for show #{$show->id}...", 'application\sync');
 
 			return false;
 		}
@@ -291,9 +309,9 @@ class MovieDb
 				if ($cast === null) {
 					$cast = new ShowCast;
 					$cast->attributes = (array) $castAttributes;
+					$cast->show_id = $show->id;
 					$cast->save();
 
-					$show->link('cast', $cast);
 					continue;
 				}
 
@@ -309,6 +327,7 @@ class MovieDb
 				if ($crew === null) {
 					$crew = new ShowCrew;
 					$crew->attributes = (array) $crewAttributes;
+					$crew->show_id = $show->id;
 					$crew->save();
 
 					$show->link('crew', $crew);
@@ -321,7 +340,7 @@ class MovieDb
 		}
 
 		if (!$show->save()) {
-			Yii::warning("Could update tv show {$show->id} '" . $show->errors . "': " . serialize($attributes), 'application\sync');
+			Yii::warning("Could update tv show #{$show->id} '" . $show->errors . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
 
@@ -330,12 +349,12 @@ class MovieDb
 
 	public function syncSeason($season)
 	{
-		Yii::info("Syncing tv show season {$season->id}...", 'application\sync');
+		Yii::info("Syncing tv show season #{$season->id}...", 'application\sync');
 
 		$attributes = $this->getSeason($season);
 
 		if ($attributes == false) {
-			Yii::error("Could not get attributes from api for season {$season->id}...", 'application\sync');
+			Yii::error("Could not get attributes from api for season #{$season->id}...", 'application\sync');
 
 			return false;
 		}
@@ -366,7 +385,164 @@ class MovieDb
 		$season->themoviedb_id = $attributes->id;
 
 		if (!$season->save()) {
-			Yii::warning("Could update tv show season {$season->id} '" . $season->errors . "': " . serialize($attributes), 'application\sync');
+			Yii::warning("Could update tv show season #{$season->id} '" . $season->errors . "': " . serialize($attributes), 'application\sync');
+			return false;
+		}
+
+		return true;
+	}
+
+	public function syncMovie($movie)
+	{
+		Yii::info("Syncing movie #{$movie->id}...", 'application\sync');
+
+		$attributes = $this->getMovie($movie);
+
+		if ($attributes == false) {
+			Yii::error("Could not get attributes from api for movie #{$movie->id}...", 'application\sync');
+
+			return false;
+		}
+
+		$movie->attributes = (array) $attributes;
+
+		if (isset($attributes->similar_movies->results) && is_array($attributes->similar_movies->results)) {
+			foreach ($attributes->similar_movies->results as $similarMovieAttributes) {
+				$similarMovie = MovieSimilar::findOne([
+					'movie_id' => $movie->id,
+					'similar_to_movie_id' => $similarMovieAttributes->id,
+				]);
+
+				if ($similarMovie === null) {
+					$similarMovie = new MovieSimilar;
+					$similarMovie->movie_id = $movie->id;
+					$similarMovie->similar_to_movie_id = $similarMovieAttributes->id;
+					$similarMovie->save();
+
+					$movie->link('similarMovies', $similarMovie);
+				}
+			}
+		}
+
+		if (is_array($attributes->genres)) {
+			foreach ($attributes->genres as $genreAttributes) {
+				$genre = Genre::findOne($genreAttributes->id);
+
+				if ($genre === null) {
+					$genre = new Genre;
+					$genre->id = $genreAttributes->id;
+					$genre->attributes = (array) $genreAttributes;
+					$genre->save();
+
+					$movie->link('genres', $genre);
+					continue;
+				}
+
+				if (!MovieGenre::find()->where(['genre_id' => $genre->id, 'movie_id' => $movie->id])->exists())
+					$movie->link('genres', $genre);
+			}
+		}
+
+		if (is_array($attributes->production_companies)) {
+			foreach ($attributes->production_companies as $companyAttributes) {
+				$company = Company::findOne($companyAttributes->id);
+
+				if ($company === null) {
+					$company = new Company;
+					$company->attributes = (array) $companyAttributes;
+					$company->id = $companyAttributes->id;
+					$company->save();
+
+					$movie->link('companies', $company);
+					continue;
+				}
+
+				if (!MovieCompany::find()->where(['company_id' => $company->id, 'movie_id' => $movie->id])->exists())
+					$movie->link('companies', $company);
+			}
+		}
+
+		if (is_array($attributes->production_countries)) {
+			foreach ($attributes->production_countries as $countryAttributes) {
+				$country = Country::findOne([
+					'name' => $countryAttributes->name,
+				]);
+
+				if ($country === null) {
+					$country = new Country;
+					$country->name = $countryAttributes->name;
+					$country->save();
+
+					$movie->link('countries', $country);
+					continue;
+				}
+
+				if (!MovieCountry::find()->where(['country_id' => $country->id, 'movie_id' => $movie->id])->exists())
+					$movie->link('countries', $country);
+			}
+		}
+
+		if (is_array($attributes->spoken_languages)) {
+			foreach ($attributes->spoken_languages as $languageAttributes) {
+				$language = Language::findOne([
+					'iso' => $languageAttributes->iso_639_1,
+				]);
+
+				if ($language === null) {
+					$language = new Language;
+					$language->iso = $languageAttributes->iso_639_1;
+					$language->name = $languageAttributes->iso_639_1;
+					$language->save();
+
+					$movie->link('languages', $language);
+					continue;
+				}
+
+				if (!MovieLanguage::find()->where(['language_id' => $language->id, 'movie_id' => $movie->id])->exists())
+					$movie->link('languages', $language);
+			}
+		}
+
+		if (isset($attributes->credits->cast) && is_array($attributes->credits->cast)) {
+			foreach ($attributes->credits->cast as $castAttributes) {
+				$cast = MovieCast::findOne($castAttributes->id);
+
+				if ($cast === null) {
+					$cast = new MovieCast;
+					$cast->attributes = (array) $castAttributes;
+					$cast->movie_id = $movie->id;
+					$cast->save();
+
+					$movie->link('cast', $cast);
+					continue;
+				}
+
+				if (!MovieCast::find()->where(['id' => $cast->id])->exists())
+					$movie->link('cast', $cast);
+			}
+		}
+
+		if (isset($attributes->credits->crew) && is_array($attributes->credits->crew)) {
+			foreach ($attributes->credits->crew as $crewAttributes) {
+				$crew = MovieCrew::findOne($crewAttributes->id);
+
+				if ($crew === null) {
+					$crew = new MovieCrew;
+					$crew->attributes = (array) $crewAttributes;
+					$crew->movie_id = $movie->id;
+					$crew->save();
+
+					$movie->link('crew', $crew);
+					continue;
+				}
+
+				if (!MovieCrew::find()->where(['id' => $crew->id])->exists())
+					$movie->link('crew', $crew);
+			}
+		}
+
+		if (!$movie->save()) {
+			Yii::warning("Could update movie #{$movie->id} '" . $movie->errors . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
 

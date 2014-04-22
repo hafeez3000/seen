@@ -113,7 +113,7 @@ class Show extends ActiveRecord
 				'source_attribute' => ['name', 'language.iso'],
 				'slug_attribute' => 'slug',
 				'replacement' => '-',
-				'unique' => true
+				'unique' => true,
 			],
 		];
 	}

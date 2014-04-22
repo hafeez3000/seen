@@ -38,7 +38,9 @@ AppAsset::register($this);
 				image_url: "<?php echo Yii::$app->params['themoviedb']['image_url']; ?>"
 			},
 			translation: {
+				unknown_error: "<?php echo Yii::t('Error', 'An unknown error occured! Please try again later.'); ?>",
 				first_aired: "<?php echo Yii::t('Show', 'First aired'); ?>",
+				released: "<?php echo Yii::t('Movie', 'Released'); ?>",
 				votes: "<?php echo Yii::t('Show', 'Votes'); ?>"
 			}
 		}
@@ -77,9 +79,10 @@ AppAsset::register($this);
 					echo Nav::widget([
 						'options' => ['class' => 'navbar-nav navbar-right'],
 						'items' => [
-							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index']],
-							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => '#'],
+							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index'], 'active' => Yii::$app->controller->id == 'tv'],
+							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index'], 'active' => Yii::$app->controller->id == 'movie'],
 							['label' => Yii::$app->user->identity->email,
+								'active' => Yii::$app->controller->id == 'user',
 								'items' => [
 									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
 									['label' => '', 'options' => ['class' => 'divider']],
