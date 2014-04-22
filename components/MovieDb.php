@@ -392,6 +392,22 @@ class MovieDb
 		return true;
 	}
 
+	public function syncEpisode($episode)
+	{
+		$attributes = $this->getEpisode($episode);
+
+		if ($attributes == false)
+			return false;
+
+		$episode->attributes = (array) $attributes;
+		$episode->themoviedb_id = $attributes->id;
+
+		if (!$episode->save()) {
+			Yii::warning('Could update tv show episode {$episode->id} "' . $episode->errors . '": ' . serialize($attributes), 'application\sync');
+			return false;
+		}
+	}
+
 	public function syncMovie($movie)
 	{
 		Yii::info("Syncing movie #{$movie->id}...", 'application\sync');

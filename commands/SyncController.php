@@ -88,19 +88,18 @@ class SyncController extends Controller
 		if (!$this->force)
 			$episodes = $episodes->where(['updated_at' => null]);
 
+		if ($this->debug) {
+			$episodeCount = $episodes->count();
+			$i = 1;
+		}
+
 		foreach ($episodes->each() as $episode) {
-			$attributes = $movieDb->getEpisode($episode);
-
-			if ($attributes == false)
-				continue;
-
-			$episode->attributes = (array) $attributes;
-			$episode->themoviedb_id = $attributes->id;
-
-			if (!$episode->save()) {
-				Yii::warning('Could update tv show episode {$episode->id} "' . $episode->errors . '": ' . serialize($attributes), 'application\sync');
-				continue;
+			if ($this->debug) {
+				echo "Episode {$i}/{$episodeCount}\n";
+				$i++;
 			}
+
+			$movieDb->syncEpisode($episode);
 		}
 
 		return 0;
