@@ -31,7 +31,7 @@ use \yii\widgets\ActiveForm;
 	<?php if (count($shows)): ?>
 		<ul id="tv-dashboard-showlist" class="list-unstyled list-inline">
 			<?php foreach ($shows as $show): ?>
-				<li id="show-<?php echo $show->id; ?>">
+				<li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>">
 					<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>">
 						<img src="<?php echo $show->posterUrl; ?>">
 					</a>
@@ -49,9 +49,9 @@ use \yii\widgets\ActiveForm;
 
 						<div class="pull-right tv-dashboard-showlist-actions">
 							<?php if (!$archive): ?>
-								<a class="text-muted" href="<?php echo Url::toRoute(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-lock"></span></a>
+								<a class="text-muted archive-show" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-lock"></span></a>
 							<?php else: ?>
-								<a class="text-muted" href="<?php echo Url::toRoute(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Unarchive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
+								<a class="text-muted archive-show" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Unarchive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
 							<?php endif; ?>
 						</div>
 					</div>

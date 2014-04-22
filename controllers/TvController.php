@@ -265,15 +265,26 @@ class TvController extends Controller
 
 		$userShow->archived = true;
 		if ($userShow->save()) {
-			Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully archived `{name}`. Move on to the <a href="{archive}">Archive</a> to see your archived shows.', [
-				'name' => $show->name,
-				'archive' => Yii::$app->urlManager->createAbsoluteUrl(['tv/archive']),
-			]));
+			if (Yii::$app->request->isAjax)
+				return json_encode([
+					'success' => true,
+				]);
+			else
+				Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully archived `{name}`. Move on to the <a href="{archive}">Archive</a> to see your archived shows.', [
+					'name' => $show->name,
+					'archive' => Yii::$app->urlManager->createAbsoluteUrl(['tv/archive']),
+				]));
 		} else {
 			Yii::error("User #{Yii::$app->user->id} could not archive show #{$show->id}");
-		}
 
-		return $this->redirect(['index']);
+			if (Yii::$app->request->isAjax)
+				return json_encode([
+					'success' => false,
+					'message' => Yii::t('Show', 'The show could not be archived!'),
+				]);
+			else
+				return $this->redirect(['index']);
+		}
 	}
 
 	public function actionUnarchiveShow($slug)
@@ -300,13 +311,24 @@ class TvController extends Controller
 
 		$userShow->archived = false;
 		if ($userShow->save()) {
-			Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully unarchived `{name}`.', [
-				'name' => $show->name,
-			]));
+			if (Yii::$app->request->isAjax)
+				return json_encode([
+					'success' => true,
+				]);
+			else
+				Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully unarchived `{name}`.', [
+					'name' => $show->name,
+				]));
 		} else {
 			Yii::error("User #{Yii::$app->user->id} could not unarchive show #{$show->id}");
-		}
 
-		return $this->redirect(['index']);
+			if (Yii::$app->request->isAjax)
+				return json_encode([
+					'success' => false,
+					'message' => Yii::t('Show', 'The show could not be unarchived!'),
+				]);
+			else
+				return $this->redirect(['index']);
+		}
 	}
 }

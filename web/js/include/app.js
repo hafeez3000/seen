@@ -101,6 +101,35 @@ $(function() {
 			highlightEpisodes();
 	}
 
+	// Archive/Unarchive tv shows
+	$(".archive-show").on("click", function(e) {
+		e.preventDefault();
+
+		var $item = $(this).closest(".tv-dashboard-show");
+
+		var url = $(this).attr("href");
+		$.ajax({
+			type: "get",
+			url: url,
+			success: function(data) {
+				if (data && data.success) {
+					$item.hide("fast");
+				} else if (data && !data.success && data.message) {
+					App.error(data.message);
+				}
+			},
+			dataType: "json",
+			beforeSend: function(){
+				$("#ajax-loading").show();
+			},
+			complete: function(){
+				$("#ajax-loading").hide();
+			}
+		});
+
+		return false;
+	});
+
 	// Search tv show
 	$("#tv-search").select2({
 		placeholder: "Search all TV Shows",
