@@ -18,7 +18,7 @@ $this->title[] = Yii::t('Site/Reset', 'Change your password');
 		'id' => 'reset-form',
 	]); ?>
 
-	<?php echo $form->field($model, 'password') ?>
+	<?php echo $form->field($model, 'password')->passwordInput(); ?>
 
 	<div class="form-group">
 		<?php echo Html::submitButton(Yii::t('Site/Reset', 'Reset Password'), ['class' => 'btn btn-primary', 'name' => 'reset-button']) ?>
