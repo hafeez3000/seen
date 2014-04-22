@@ -244,7 +244,9 @@ class User extends ActiveRecord implements IdentityInterface
 	{
 		return $this->hasMany(Show::className(), ['id' => 'show_id'])
 			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
-				$query->where(['{{%user_show}}.[[archived]]' => 0]);
+				$query
+					->where(['{{%user_show}}.[[archived]]' => 0])
+					->andWhere(['{{%user_show}}.[[deleted_at]]' => null]);
 			});
 	}
 
