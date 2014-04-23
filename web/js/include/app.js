@@ -308,6 +308,9 @@ $(function() {
 		var $movies =  $('#import-foundd .import-movie');
 		var length = $movies.length;
 		var index = 0;
+		var currentMovie = 1;
+
+		$("#import-progress").find(".import-max").html(length);
 
 		function syncImportMovie() {
 			var $currentMovie = $movies.eq(index);
@@ -321,6 +324,12 @@ $(function() {
 				e.preventDefault();
 
 				$(this).closest(".import-movie").hide();
+				currentMovie++;
+
+				$("#import-progress").find(".import-current").html(currentMovie);
+				$("#import-progress").find(".progress-bar").css({
+					width: Math.round(currentMovie / length * 100) + "%"
+				});
 
 				return false;
 			});
@@ -371,7 +380,13 @@ $(function() {
 											url: App.baseUrl + "/movie/watch/" + data.slug,
 											success: function(data) {
 												if (data && data.success)
-													$item.hide();
+													$item.remove();
+
+												currentMovie++;
+												$("#import-progress").find(".import-current").html(currentMovie);
+												$("#import-progress").find(".progress-bar").css({
+													width: Math.round(currentMovie / length * 100) + "%"
+												});
 											},
 											dataType: "json",
 											beforeSend: function(){
