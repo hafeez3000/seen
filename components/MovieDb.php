@@ -33,7 +33,6 @@ use \app\models\Language;
 class MovieDb
 {
 	private $key = '';
-	private $cache = 0;
 
 	protected $errors = [];
 
@@ -42,14 +41,36 @@ class MovieDb
 		$this->key = Yii::$app->params['themoviedb']['key'];
 	}
 
+	private function getCurrentRate()
+	{
+		$rateQuery = Yii::$app->db->createCommand('SELECT COUNT([[id]]) as [[count]] FROM {{%themoviedb_rate}} WHERE [[created_at]] > :created_at');
+		$rateQuery->bindValue(':created_at', date('Y-m-d H:i:s', time() - 10));
+		$rate = $rateQuery->queryOne();
+
+		return $rate['count'];
+	}
+
+	private function raiseRate()
+	{
+		return (Yii::$app->db->createCommand('INSERT INTO {{%themoviedb_rate}} VALUES()')->execute() > 0);
+	}
+
+	private function throttle()
+	{
+		sleep(1);
+	}
+
 	protected function get($path, $parameters = [])
 	{
-		$this->cache++;
+		$rate = $this->getCurrentRate();
 
-		if ($this->cache == 30) {
-			sleep(10);
-			$this->cache = 1;
+		while ($rate >= 30) {
+			$this->throttle();
+
+			$rate = $this->getCurrentRate();
 		}
+
+		$this->raiseRate();
 
 		$parameters = array_merge_recursive($parameters, [
 			'api_key' => $this->key,

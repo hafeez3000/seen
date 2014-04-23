@@ -5,9 +5,9 @@ use \yii\db\Migration;
 
 class m140423_154844_create_popular_tables extends Migration
 {
-    public function up()
-    {
-    	$this->createTable('{{%show_popular}}', [
+	public function up()
+	{
+		$this->createTable('{{%show_popular}}', [
 			'id' => 'int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT "ID"',
 			'show_id' => 'int(10) unsigned NOT NULL COMMENT "Show"',
 			'order' => 'tinyint(4) unsigned NOT NULL COMMENT "Order"',
@@ -26,13 +26,13 @@ class m140423_154844_create_popular_tables extends Migration
 			'KEY movie_id ([[movie_id]])',
 		]);
 		$this->addForeignKey('movie_popular_movie_id', '{{%movie_popular}}', 'movie_id', '{{%movie}}', 'id', 'CASCADE', 'CASCADE');
-    }
+	}
 
-    public function down()
-    {
-        $this->dropTable('{{%show_popular}}');
-        $this->dropTable('{{%movie_popular}}');
+	public function down()
+	{
+		$this->dropTable('{{%show_popular}}');
+		$this->dropTable('{{%movie_popular}}');
 
-        return true;
-    }
+		return true;
+	}
 }
