@@ -3,6 +3,7 @@
 use \Yii;
 use \yii\filters\AccessControl;
 use \yii\web\Controller;
+use \yii\data\Pagination;
 
 use \app\models\Movie;
 use \app\models\Language;
@@ -33,9 +34,22 @@ class MovieController extends Controller
 		if (Yii::$app->user->isGuest) {
 			return $this->render('index');
 		} else {
-			$movies = Yii::$app->user->identity
-				->getMovies()
-				->all();
+			$countQuery = Yii::$app->db->createCommand('
+				SELECT
+					COUNT(DISTINCT {{%movie}}.[[id]]) AS [[row_count]]
+				FROM
+					{{%movie}},
+					{{%user_movie}}
+				WHERE
+					{{%user_movie}}.[[user_id]] = :user_id AND
+					{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
+			');
+			$countQuery->bindValue(':user_id', Yii::$app->user->id);
+			$countQuery = $countQuery->queryOne();
+
+			$pages = new Pagination([
+				'totalCount' => $countQuery['row_count'],
+			]);
 
 			$movies = Movie::findBySql('
 				SELECT DISTINCT
@@ -48,10 +62,17 @@ class MovieController extends Controller
 					{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
 				ORDER BY
 					{{%user_movie}}.[[created_at]] DESC
-			', ['user_id' => Yii::$app->user->id])->all();
+				LIMIT
+					:offset, :limit
+			', [
+				':user_id' => Yii::$app->user->id,
+				':offset' => $pages->offset,
+				':limit' => $pages->limit,
+			])->all();
 
 			return $this->render('dashboard', [
 				'movies' => $movies,
+				'pages' => $pages,
 			]);
 		}
 	}

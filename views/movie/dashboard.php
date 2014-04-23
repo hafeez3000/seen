@@ -6,6 +6,7 @@
 use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
+use \yii\widgets\LinkPager;
 ?>
 
 <div id="movie-dashboard">
@@ -46,6 +47,10 @@ use \yii\widgets\ActiveForm;
 				</li>
 			<?php endforeach; ?>
 		</div>
+
+		<?php echo LinkPager::widget([
+			'pagination' => $pages,
+		]); ?>
 	<?php else: ?>
 		<div class="alert alert-info">
 			<?php echo Yii::t('Movie/Dashboard', 'You have not watched a movie yet! Start with searching for your favorite ones'); ?>
