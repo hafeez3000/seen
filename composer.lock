@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9a5c1eca5a4d042f6fa03fd22555b0db",
+    "hash": "b0e3156ab1f9500422229e222b9f3547",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -549,16 +549,16 @@
         },
         {
             "name": "zelenin/yii2-slug-behavior",
-            "version": "0.0.3",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zelenin/yii2-slug-behavior.git",
-                "reference": "d695242ccdad7a051eb65b42825daf7dd4513ba8"
+                "reference": "b33db63b9e2b22f93878be66457c4cb3ad1af403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zelenin/yii2-slug-behavior/zipball/d695242ccdad7a051eb65b42825daf7dd4513ba8",
-                "reference": "d695242ccdad7a051eb65b42825daf7dd4513ba8",
+                "url": "https://api.github.com/repos/zelenin/yii2-slug-behavior/zipball/b33db63b9e2b22f93878be66457c4cb3ad1af403",
+                "reference": "b33db63b9e2b22f93878be66457c4cb3ad1af403",
                 "shasum": ""
             },
             "require": {
@@ -592,7 +592,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2014-03-30 00:00:00"
+            "time": "2014-04-20 00:00:00"
         }
     ],
     "packages-dev": [
