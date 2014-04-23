@@ -179,6 +179,22 @@ class MovieDb
 		]);
 	}
 
+	public function getPopularMovies($language)
+	{
+		return $this->get('/movie/popular', [
+			'language' => $language,
+			'page' => '1',
+		]);
+	}
+
+	public function getPopularShows($language)
+	{
+		return $this->get('/tv/popular', [
+			'language' => $language,
+			'page' => '1',
+		]);
+	}
+
 	public function syncShow($show)
 	{
 		Yii::info("Syncing tv show #{$show->id}...", 'application\sync');

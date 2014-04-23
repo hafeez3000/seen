@@ -10,6 +10,10 @@ use \app\components\TimestampBehavior;
  *
  * @property integer $id
  * @property string $iso
+ * @property string $name
+ * @property boolean $rtl
+ * @property string $en_name
+ * @property boolean $hide
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -37,6 +41,8 @@ class Language extends \yii\db\ActiveRecord
 		return [
 			[['iso'], 'required'],
 			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['rtl', 'hide'], 'boolean'],
+			[['en_name'], 'string', 'max' => 50],
 			[['iso'], 'string', 'max' => 10]
 		];
 	}

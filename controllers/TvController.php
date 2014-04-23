@@ -31,7 +31,30 @@ class TvController extends Controller
 	public function actionIndex()
 	{
 		if (Yii::$app->user->isGuest) {
-			return $this->render('index');
+			$language = Language::find()
+				->where(['iso' => Yii::$app->language])
+				->one();
+
+			$shows = Show::findBySql('
+				SELECT DISTINCT
+					{{%show}}.*
+				FROM
+					{{%show}},
+					{{%show_popular}}
+				WHERE
+					{{%show}}.[[language_id]] = :language_id AND
+					{{%show}}.[[id]] = {{%show_popular}}.[[show_id]] AND
+					{{%show}}.[[name]] != ""
+				ORDER BY
+					{{%show_popular}}.[[order]] ASC
+			', [
+				':language_id' => $language->id,
+			])
+				->all();
+
+			return $this->render('index', [
+				'shows' => $shows,
+			]);
 		} else {
 			$shows = Yii::$app->user->identity
 				->getShows()

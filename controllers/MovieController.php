@@ -8,6 +8,7 @@ use \yii\data\Pagination;
 use \app\models\Movie;
 use \app\models\Language;
 use \app\models\UserMovie;
+use \app\models\MoviePopular;
 use \app\components\MovieDb;
 
 class MovieController extends Controller
@@ -32,7 +33,30 @@ class MovieController extends Controller
 	public function actionIndex()
 	{
 		if (Yii::$app->user->isGuest) {
-			return $this->render('index');
+			$language = Language::find()
+				->where(['iso' => Yii::$app->language])
+				->one();
+
+			$movies = Movie::findBySql('
+				SELECT DISTINCT
+					{{%movie}}.*
+				FROM
+					{{%movie}},
+					{{%movie_popular}}
+				WHERE
+					{{%movie}}.[[language_id]] = :language_id AND
+					{{%movie}}.[[id]] = {{%movie_popular}}.[[movie_id]] AND
+					{{%movie}}.[[title]] != ""
+				ORDER BY
+					{{%movie_popular}}.[[order]] ASC
+			', [
+				':language_id' => $language->id,
+			])
+				->all();
+
+			return $this->render('index', [
+				'movies' => $movies,
+			]);
 		} else {
 			$countQuery = Yii::$app->db->createCommand('
 				SELECT

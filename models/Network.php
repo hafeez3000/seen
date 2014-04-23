@@ -23,7 +23,7 @@ class Network extends ActiveRecord
 	 */
 	public static function tableName()
 	{
-		return 'prod_network';
+		return '{{%network}}';
 	}
 
 	/**

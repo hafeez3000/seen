@@ -38,6 +38,7 @@ use \app\components\TimestampBehavior;
  * @property User[] $users
  * @property ShowCast[] $cast
  * @property ShowCrew[] $crew
+ * @property Show $popularShows
  */
 class Show extends ActiveRecord
 {
@@ -207,6 +208,14 @@ class Show extends ActiveRecord
 	}
 
 	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getPopularShows()
+	{
+		return $this->hasMany(Show::className(), ['id' => 'show_id'])->viaTable('{{%show_popular}}', ['show_id' => 'id']);
+	}
+
+	/**
 	 * Check if the current user is subscribed to the show.
 	 *
 	 * @return boolean
@@ -265,7 +274,7 @@ class Show extends ActiveRecord
 		if (!empty($this->backdrop_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w1280/' . $this->backdrop_path;
 		else
-			return 'http://placehold.it/1280x300/fff/555&' . http_build_query(['text' => $this->name]);
+			return 'http://placehold.it/1280x300/eee/555&' . http_build_query(['text' => $this->name]);
 	}
 
 	public function getPosterUrl()
@@ -273,14 +282,14 @@ class Show extends ActiveRecord
 		if (!empty($this->poster_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w185/' . $this->poster_path;
 		else
-			return 'http://placehold.it/175x272/fff/555&' . http_build_query(['text' => $this->name]);
+			return 'http://placehold.it/175x272/eee/555&' . http_build_query(['text' => $this->name]);
 	}
 
-	public function getPosterLargeUrl()
+	public function getPosterUrlLarge()
 	{
 		if (!empty($this->poster_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path;
 		else
-			return 'http://placehold.it/300x169/fff/555&' . http_build_query(['text' => $this->name]);
+			return 'http://placehold.it/500x735/eee/555&' . http_build_query(['text' => $this->name]);
 	}
 }

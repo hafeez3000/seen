@@ -72,8 +72,10 @@ AppAsset::register($this);
 					echo Nav::widget([
 						'options' => ['class' => 'navbar-nav navbar-right'],
 						'items' => [
-								['label' => Yii::t('Site/Navigation', 'Login'), 'url' => ['site/login']],
-								['label' => Yii::t('Site/Navigation', 'Sign Up'), 'url' => ['site/sign-up']],
+							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index'], 'active' => Yii::$app->controller->id == 'tv'],
+							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index'], 'active' => Yii::$app->controller->id == 'movie'],
+							['label' => Yii::t('Site/Navigation', 'Login'), 'url' => ['site/login']],
+							['label' => Yii::t('Site/Navigation', 'Sign Up'), 'url' => ['site/sign-up']],
 						],
 					]);
 				} else {

@@ -40,6 +40,9 @@ use \app\components\TimestampBehavior;
  * @property Language[] $languages
  * @property MovieCast[] $cast
  * @property MovieCrew[] $crew
+ * @property Movie[] $popularMovies
+ * @property User $userWatched
+ * @property User[] $users
  */
 class Movie extends ActiveRecord
 {
@@ -187,12 +190,38 @@ class Movie extends ActiveRecord
 		return $this->hasMany(Movie::className(), ['id' => 'similar_to_movie_id'])->viaTable('{{%movie_similar}}', ['movie_id' => 'id']);
 	}
 
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUsers()
+	{
+		return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('{{%user_movie}}', ['movie_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUserWatched()
+	{
+		return $this->hasMany(User::className(), ['id' => 'user_id'])
+			->onCondition(['user_id' => Yii::$app->user->id])
+			->viaTable('{{%user_movie}}', ['movie_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getPopularMovies()
+	{
+		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])->viaTable('{{%movie_popular}}', ['movie_id' => 'id']);
+	}
+
 	public function getPosterUrlSmall()
 	{
 		if (!empty($this->poster_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w92/' . $this->poster_path;
 		else
-			return 'http://placehold.it/92x138/fff/555&' . http_build_query(['text' => $this->title]);
+			return 'http://placehold.it/92x138/eee/555&' . http_build_query(['text' => $this->title]);
 	}
 
 	public function getPosterUrlLarge()
@@ -200,6 +229,6 @@ class Movie extends ActiveRecord
 		if (!empty($this->poster_path))
 			return Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path;
 		else
-			return 'http://placehold.it/300x169/fff/555&' . http_build_query(['text' => $this->title]);
+			return 'http://placehold.it/500x750/eee/555&' . http_build_query(['text' => $this->title]);
 	}
 }

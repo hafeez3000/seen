@@ -9,6 +9,9 @@ use \app\models\Episode;
 use \app\models\Season;
 use \app\models\Movie;
 use \app\models\MovieSimilar;
+use \app\models\MoviePopular;
+use \app\models\ShowPopular;
+use \app\models\Language;
 
 /**
  * Sync data with TheMovieDB.
@@ -159,5 +162,116 @@ class SyncController extends Controller
 		}
 
 		return 0;
+	}
+
+	public function actionPopularMovies()
+	{
+		$movieDb = new MovieDb;
+
+		$languages = Language::find();
+
+		if ($this->debug) {
+			$languageCount = $languages->count();
+			$i = 1;
+		}
+
+		MoviePopular::deleteAll();
+
+		foreach ($languages->each() as $language) {
+			if ($this->debug) {
+				echo "Get popular movies for language {$language->iso} {$i}/{$languageCount}\n";
+				$i++;
+			}
+
+			$popularMoviesAttribute = $movieDb->getPopularMovies($language->iso);
+			$order = 0;
+
+			foreach ($popularMoviesAttribute->results as $movieAttribute) {
+				$order++;
+
+				if ($this->debug) {
+					echo "Save popular movie {$order}/20\n";
+				}
+
+				$movie = Movie::find()
+					->where(['themoviedb_id' => $movieAttribute->id])
+					->andWhere(['language_id' => $language->id])
+					->one();
+
+				if ($movie === null) {
+					$movie = new Movie;
+					$movie->themoviedb_id = $movieAttribute->id;
+					$movie->language_id = $language->id;
+					if (!$movie->save())
+						Yii::error("Could not save movie: " . serialize($movie->errors) . "!", 'application\sync');
+
+					$movie->slug = '';
+					$movieDb->syncMovie($movie);
+				}
+
+				$popularMovie = new MoviePopular;
+				$popularMovie->movie_id = $movie->id;
+				$popularMovie->order = $order;
+				if (!$popularMovie->save())
+					Yii::error("Could not save popular movie: " . serialize($popularMovie->errors) . "!", 'application\sync');
+			}
+		}
+	}
+
+	public function actionPopularShows()
+	{
+		$movieDb = new MovieDb;
+
+		$languages = Language::find();
+
+		if ($this->debug) {
+			$languageCount = $languages->count();
+			$i = 1;
+		}
+
+		ShowPopular::deleteAll();
+
+		foreach ($languages->each() as $language) {
+			if ($this->debug) {
+				echo "Get popular tv shows for language {$language->iso} {$i}/{$languageCount}\n";
+				$i++;
+			}
+
+			$popularShowsAttribute = $movieDb->getPopularShows($language->iso);
+			$order = 0;
+
+			foreach ($popularShowsAttribute->results as $showAttribute) {
+				$order++;
+
+				if ($this->debug) {
+					echo "Save popular tv show {$order}/20\n";
+				}
+
+				$show = Show::find()
+					->where(['themoviedb_id' => $showAttribute->id])
+					->andWhere(['language_id' => $language->id])
+					->one();
+
+				if ($show === null) {
+					$show = new Show;
+					$show->themoviedb_id = $showAttribute->id;
+					$show->language_id = $language->id;
+					if (!$show->save())
+						Yii::error("Could not save tv show: " . serialize($show->errors) . "!", 'application\sync');
+
+					$show->slug = '';
+					$movieDb->syncShow($show);
+				}
+
+				$this->actionSeasons();
+				$this->actionEpisodes();
+
+				$popularShow = new ShowPopular;
+				$popularShow->show_id = $show->id;
+				$popularShow->order = $order;
+				if (!$popularShow->save())
+					Yii::error("Could not save popular tv show: " . serialize($popularShow->errors) . "!", 'application\sync');
+			}
+		}
 	}
 }
