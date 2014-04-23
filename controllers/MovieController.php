@@ -100,6 +100,7 @@ class MovieController extends Controller
 		if ($movie !== null)
 			return json_encode([
 				'success' => true,
+				'slug' => $movie->slug,
 				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/movie/view', 'slug' => $movie->slug])
 			]);
 
@@ -118,6 +119,7 @@ class MovieController extends Controller
 		if ($movieDb->syncMovie($movie)) {
 			return json_encode([
 				'success' => true,
+				'slug' => $movie->slug,
 				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/movie/view', 'slug' => $movie->slug])
 			]);
 		} else {
@@ -141,7 +143,12 @@ class MovieController extends Controller
 		$userMovie->movie_id = $movie->id;
 		$userMovie->save();
 
-		return $this->redirect(['view', 'slug' => $movie->slug]);
+		if (Yii::$app->request->isAjax)
+			return json_encode([
+				'success' => true,
+			]);
+		else
+			return $this->redirect(['view', 'slug' => $movie->slug]);
 	}
 
 	public function actionUnwatch($id)

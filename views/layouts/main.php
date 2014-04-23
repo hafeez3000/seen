@@ -31,6 +31,7 @@ AppAsset::register($this);
 
 	<script type="text/javascript">
 		var App = {
+			baseUrl: "<?php echo Yii::$app->request->baseUrl; ?>",
 			language: "<?php echo Yii::$app->language; ?>",
 			themoviedb: {
 				key: "<?php echo Yii::$app->params['themoviedb']['key']; ?>",
@@ -85,6 +86,7 @@ AppAsset::register($this);
 								'active' => Yii::$app->controller->id == 'user',
 								'items' => [
 									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
+									['label' => Yii::t('Site/Navigation', 'Import'), 'url' => ['user/import']],
 									['label' => '', 'options' => ['class' => 'divider']],
 									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout'], 'linkOptions' => ['data-method' => 'post']],
 								]

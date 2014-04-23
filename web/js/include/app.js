@@ -164,7 +164,7 @@ $(function() {
 			if (result.poster_path && result.poster_path.length)
 				posterUrl = App.themoviedb.image_url + "w92" + result.poster_path;
 			else
-				posterUrl = "http://placehold.it/92x135/fff/555&text=" + encodeURIComponent(result.name);
+				posterUrl = "http://placehold.it/92x135/eee/555&text=" + encodeURIComponent(result.name);
 
 			markup += "<td class='tv-search-image'><img src='" + posterUrl + "'/></td>";
 			markup += "<td class='tv-search-info'>" +
@@ -248,7 +248,7 @@ $(function() {
 			if (result.poster_path && result.poster_path.length)
 				posterUrl = App.themoviedb.image_url + "w92" + result.poster_path;
 			else
-				posterUrl = "http://placehold.it/92x135/fff/555&text=" + encodeURIComponent(result.title);
+				posterUrl = "http://placehold.it/92x135/eee/555&text=" + encodeURIComponent(result.title);
 
 			markup += "<td class='movie-search-image'><img src='" + posterUrl + "'/></td>";
 			markup += "<td class='movie-search-info'>" +
@@ -300,4 +300,120 @@ $(function() {
 			}
 		});
 	});
+
+	// Import data
+	if ($("#import-foundd").length) {
+		var speed = 1000;
+		var timer = setInterval(syncImportMovie, speed);
+		var $movies =  $('#import-foundd .import-movie');
+		var length = $movies.length;
+		var index = 0;
+
+		function syncImportMovie() {
+			var $currentMovie = $movies.eq(index);
+			var title = $currentMovie.data("title");
+
+			$currentMovie.css({
+				display: "block"
+			});
+
+			$currentMovie.find("h2 a").on("click", function(e) {
+				e.preventDefault();
+
+				$(this).closest(".import-movie").hide();
+
+				return false;
+			});
+
+			$currentMovie.addClass("loading");
+
+			$.ajax({
+				url: App.themoviedb.url + "/search/movie",
+				dataType: 'jsonp',
+				cache: true,
+				data: {
+					api_key: App.themoviedb.key,
+					query: title,
+					language: App.language
+				},
+				success: function(data) {
+					if (!data || !data.total_results || data.total_results === 0) {
+						$currentMovie.removeClass("loading");
+						$currentMovie.addClass("empty");
+					}
+
+					for (var i = 0; i < data.total_results; i++) {
+						var result = data.results[i];
+						if (!result)
+							continue;
+
+						var imagePath = (result.poster_path && result.poster_path.length) ?
+							App.themoviedb.image_url + "w185" + result.poster_path :
+							"http://placehold.it/185x260/eee/555&text=" + encodeURIComponent(result.title);
+
+						$link = $("<a data-id='" + result.id + "' title='" + result.title + "'><img src='" + imagePath + "'></a>");
+						$link.on("click", function(e) {
+							e.preventDefault();
+
+							var id = $(this).data("id");
+							var $item = $(this).closest(".import-movie");
+
+							$.ajax({
+								type: "post",
+								url: App.baseUrl + "/movie/load",
+								data: {
+									id: id
+								},
+								success: function(data) {
+									if (data && data.success && data.slug) {
+										$.ajax({
+											type: "get",
+											url: App.baseUrl + "/movie/watch/" + data.slug,
+											success: function(data) {
+												if (data && data.success)
+													$item.hide();
+											},
+											dataType: "json",
+											beforeSend: function(){
+												$("#ajax-loading").show();
+											},
+											complete: function(){
+												$("#ajax-loading").hide();
+											}
+										});
+									} else if (data && !data.success && data.message) {
+										App.error(data.message);
+										$("#ajax-loading").hide();
+									} else {
+										$("#ajax-loading").hide();
+									}
+								},
+								dataType: "json",
+								beforeSend: function(){
+									$("#ajax-loading").show();
+								},
+								error: function(){
+									$("#ajax-loading").hide();
+								}
+							});
+
+							return false;
+						});
+						$currentMovie.append($link);
+					}
+
+					$currentMovie.removeClass("loading");
+				},
+				error: function() {
+					index = length;
+					App.error(App.translation.unknown_error);
+				}
+			});
+
+			index++;
+			if (index >= length) {
+				clearInterval(timer);
+			}
+		}
+	}
 });
