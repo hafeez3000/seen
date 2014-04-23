@@ -42,7 +42,7 @@ class MovieDb
 		$this->key = Yii::$app->params['themoviedb']['key'];
 	}
 
-	protected function get($path, $parameters)
+	protected function get($path, $parameters = [])
 	{
 		$this->cache++;
 
@@ -61,6 +61,8 @@ class MovieDb
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 
+		Yii::trace("Execute request to {$path} with parameters: " . serialize($parameters), 'application\sync');
+
 		$response = curl_exec($curl);
 		if ($response === false) {
 			Yii::error("Error while requesting {$path}");
@@ -75,10 +77,33 @@ class MovieDb
 			return false;
 		}
 
+		Yii::trace("Executed request successfully to {$path} with parameters: " . serialize($parameters), 'application\sync');
+
 		$result = json_decode($response);
 		curl_close($curl);
 
 		return $result;
+	}
+
+	protected function paginate($path, $parameters = [])
+	{
+		$page = 1;
+		$results = $this->get($path, array_merge($parameters, ['page' => $page]));
+		$output = [];
+
+		if (isset($results->results)) {
+			$output = array_merge($results->results, $output);
+
+			while ($results->total_pages >= $page) {
+				$page++;
+				$results = $this->get($path, array_merge($parameters, ['page' => $page]));
+
+				if (isset($results->results))
+					$output = array_merge($results->results, $output);
+			}
+		}
+
+		return $output;
 	}
 
 	public function lastError()
@@ -193,6 +218,18 @@ class MovieDb
 			'language' => $language,
 			'page' => '1',
 		]);
+	}
+
+	public function getMovieChanges($startDate = null, $endDate = null)
+	{
+		$results = $this->paginate('/movie/changes', [
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+		]);
+
+		return array_map(function($arr) {
+			return $arr->id;
+		}, $results);
 	}
 
 	public function syncShow($show)

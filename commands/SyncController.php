@@ -22,12 +22,19 @@ class SyncController extends Controller
 
 	public $debug = false;
 
+	public $skipsimilar = false;
+
 	public function options($actionId)
 	{
-		return [
+		$options = [
 			'force',
 			'debug',
 		];
+
+		if ($actionId == 'movies')
+			$options[] = "skipsimilar";
+
+		return $options;
 	}
 
 	public function actionShows()
@@ -116,28 +123,30 @@ class SyncController extends Controller
 	{
 		$movieDb = new MovieDb;
 
-		// Sync similar movies
-		$similarMovies = MovieSimilar::find()
-			->where(['similar_to_movie_id' => null])
-			->all();
+		if (!$this->skipsimilar) {
+			// Sync similar movies
+			$similarMovies = MovieSimilar::find()
+				->where(['similar_to_movie_id' => null])
+				->all();
 
-		if ($this->debug) {
-			$movieCount = count($similarMovies);
-			$i = 1;
-		}
-
-		// Save similar movies as own movie
-		foreach ($similarMovies as $similarMovie) {
 			if ($this->debug) {
-				echo "Similar Movie {$i}/{$movieCount}\n";
-				$i++;
+				$movieCount = count($similarMovies);
+				$i = 1;
 			}
 
-			$newMovie = $movieDb->syncMovie($similarMovie);
+			// Save similar movies as own movie
+			foreach ($similarMovies as $similarMovie) {
+				if ($this->debug) {
+					echo "Similar Movie {$i}/{$movieCount}\n";
+					$i++;
+				}
 
-			if ($newMovie !== false) {
-				$similarMovie->similar_to_movie_id = $newMovie->id;
-				$similarMovie->save();
+				$newMovie = $movieDb->syncMovie($similarMovie);
+
+				if ($newMovie !== false) {
+					$similarMovie->similar_to_movie_id = $newMovie->id;
+					$similarMovie->save();
+				}
 			}
 		}
 
@@ -155,6 +164,26 @@ class SyncController extends Controller
 		foreach ($movies->each() as $movie) {
 			if ($this->debug) {
 				echo "Movie {$i}/{$movieCount}\n";
+				$i++;
+			}
+
+			$movieDb->syncMovie($movie);
+		}
+
+		$movieChanges = $movieDb->getMovieChanges();
+
+		$languages = Language::find()->all();
+		$movies = Movie::find()
+			->where(['themoviedb_id' => $movieChanges]);
+
+		if ($this->debug) {
+			$changesCount = $movies->count();
+			$i = 1;
+		}
+
+		foreach ($movies->each() as $movie) {
+			if ($this->debug) {
+				echo "Update movie {$i}/{$changesCount}\n";
 				$i++;
 			}
 
