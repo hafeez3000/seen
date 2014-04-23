@@ -308,7 +308,7 @@ $(function() {
 		var $movies =  $('#import-foundd .import-movie');
 		var length = $movies.length;
 		var index = 0;
-		var currentMovie = 1;
+		var currentMovie = 0;
 
 		$("#import-progress").find(".import-max").html(length);
 
