@@ -156,10 +156,12 @@ class MovieController extends Controller
 		$userMovie = UserMovie::find()
 			->where(['id' => $id])
 			->andWhere(['user_id' => Yii::$app->user->id])
+			->with('movie')
 			->one();
 		if ($userMovie === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Movie', 'You\'ve never seen the movie before!'));
 
+		$movie = $userMovie->movie;
 		$userMovie->delete();
 
 		return $this->redirect(['view', 'slug' => $movie->slug]);

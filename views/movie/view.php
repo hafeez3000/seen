@@ -32,7 +32,10 @@ use \yii\helpers\Url;
 
 					<ul id="movie-view-watched-list" class="list-unstyled list-inline">
 						<?php foreach ($userMovies as $userMovie): ?>
-							<li title="<?php echo date(Yii::$app->params['lang'][Yii::$app->language]['datetime'], strtotime($userMovie->created_at)); ?>"><?php echo date(Yii::$app->params['lang'][Yii::$app->language]['date'], strtotime($userMovie->created_at)); ?></li>
+							<li title="<?php echo date(Yii::$app->params['lang'][Yii::$app->language]['datetime'], strtotime($userMovie->created_at)); ?>">
+								<?php echo date(Yii::$app->params['lang'][Yii::$app->language]['date'], strtotime($userMovie->created_at)); ?>&nbsp;
+								<a href="<?php echo Url::toRoute(['unwatch', 'id' => $userMovie->id]); ?>"><span class="glyphicon glyphicon-trash"></span></a>
+							</li>
 						<?php endforeach; ?>
 					</ul>
 				</div>

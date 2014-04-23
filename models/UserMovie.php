@@ -12,6 +12,8 @@ use \app\components\TimestampBehavior;
  * @property integer $user_id
  * @property integer $movie_id
  * @property string $created_at
+ *
+ * @property Movie $movie
  */
 class UserMovie extends ActiveRecord
 {
@@ -58,5 +60,13 @@ class UserMovie extends ActiveRecord
 			'movie_id' => Yii::t('User/Movie', 'Movie'),
 			'created_at' => Yii::t('User/Movie', 'Created at'),
 		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getMovie()
+	{
+		return $this->hasOne(Movie::className(), ['id' => 'movie_id']);
 	}
 }
