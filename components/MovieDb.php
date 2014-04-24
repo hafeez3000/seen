@@ -487,6 +487,8 @@ class MovieDb
 			Yii::warning('Could update tv show episode {$episode->id} "' . $episode->errors . '": ' . serialize($attributes), 'application\sync');
 			return false;
 		}
+
+		return true;
 	}
 
 	public function syncMovie($movie, $language = null)
