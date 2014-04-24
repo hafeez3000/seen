@@ -235,4 +235,14 @@ class TvMigrateController extends Controller
 			}
 		}
 	}
+
+	public function actionFixSlugs()
+	{
+		$shows = Show::find()->where(['like', 'slug', 'slug']);
+
+		foreach ($shows->each() as $show) {
+			$show->slug = '';
+			$show->save();
+		}
+	}
 }
