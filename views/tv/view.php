@@ -31,7 +31,7 @@ use \yii\helpers\Url;
 		<div id="tv-view-information" class="col-sm-6 col-md-5 col-lg-4">
 			<?php if (!empty($show->backdrop_path)): ?>
 				<div id="tv-view-backdrop">
-					<img src="<?php echo $show->backdropUrl; ?>">
+					<img src="<?php echo $show->backdropUrl; ?>" alt="<?php echo Html::encode($show->name); ?>" title="<?php echo Html::encode($show->name); ?>">
 				</div>
 			<?php endif; ?>
 

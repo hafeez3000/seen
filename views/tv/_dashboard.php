@@ -3,6 +3,7 @@
  * @var yii\web\View $this
  */
 
+use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
 ?>
@@ -33,7 +34,7 @@ use \yii\widgets\ActiveForm;
 			<?php foreach ($shows as $show): ?>
 				<li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>">
 					<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>">
-						<img src="<?php echo $show->posterUrl; ?>">
+						<img src="<?php echo $show->posterUrl; ?>" alt="<?php echo Html::encode($show->name); ?>" title="<?php echo Html::encode($show->name); ?>">
 					</a>
 
 					<div class="last-seen clearfix">

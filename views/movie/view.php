@@ -16,7 +16,7 @@ use \yii\helpers\Url;
 <div id="movie-view">
 	<div class="row">
 		<div class="col-sm-4">
-			<img src="<?php echo $movie->posterUrlLarge; ?>">
+			<img src="<?php echo $movie->posterUrlLarge; ?>" alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
 		</div>
 
 		<div class="col-sm-8">
