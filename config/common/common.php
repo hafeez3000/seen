@@ -46,20 +46,20 @@ $config['components']['urlManager'] = [
 $config['components']['log'] = [
 	'traceLevel' => YII_DEBUG ? 3 : 0,
 	'targets' => [
-		'file' => [
+		'file' => [ // Log errors to file as a fallback
 			'class' => 'yii\log\FileTarget',
-			'levels' => ['error', 'warning'],
+			'levels' => ['error'],
 		],
-		'db' => [
+		'db' => [ // Log important messages to database
 			'class' => 'yii\log\DbTarget',
 			'levels' => ['error', 'warning'],
 		],
-		'mail' => [
+		'mail' => [ // Log emails to database
 			'class' => 'yii\log\DbTarget',
 			'levels' => ['error', 'warning', 'info'],
 			'categories' => ['application\mail'],
 		],
-		'sync' => [
+		'sync' => [ // Log sync messages to database
 			'class' => 'yii\log\DbTarget',
 			'levels' => ['error', 'warning', 'info'],
 			'categories' => ['application\sync'],

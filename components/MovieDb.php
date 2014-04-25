@@ -82,7 +82,7 @@ class MovieDb
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 
-		Yii::trace("Execute request to {$path} with parameters: " . serialize($parameters), 'application\sync');
+		Yii::trace("Execute request to {$url} with parameters...", 'application\sync');
 
 		$response = curl_exec($curl);
 		if ($response === false) {
@@ -98,10 +98,13 @@ class MovieDb
 			return false;
 		}
 
-		Yii::trace("Executed request successfully ({$status}) to {$path} with parameters: " . serialize($parameters), 'application\sync');
+		Yii::trace("Executed request successfully ({$status}) to {$url} with parameters.", 'application\sync');
 
 		$result = json_decode($response);
 		curl_close($curl);
+
+		if ($result === false)
+			Yii::warning("Could not decode json response from {url}!");
 
 		return $result;
 	}
@@ -484,7 +487,7 @@ class MovieDb
 		$episode->themoviedb_id = $attributes->id;
 
 		if (!$episode->save()) {
-			Yii::warning('Could update tv show episode {$episode->id} "' . $episode->errors . '": ' . serialize($attributes), 'application\sync');
+			Yii::warning("Could update tv show episode {$episode->id} '" . $episode->errors . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
 
