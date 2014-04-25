@@ -47,7 +47,10 @@ class AccountForm extends Model
 
 	public function getLanguages()
 	{
-		$languages = Language::find()->asArray()->all();
+		$languages = Language::find()
+			->orderBy(['name' => SORT_ASC])
+			->asArray()
+			->all();
 		$items = [];
 
 		foreach ($languages as $language) {
