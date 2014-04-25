@@ -93,7 +93,7 @@
                     "name": "Carsten Brandt",
                     "email": "mail@cebe.cc",
                     "homepage": "http://cebe.cc/",
-                    "role": "Creator"
+                    "role": "Core framework development"
                 }
             ],
             "description": "A super fast highly extensible markdown parser for PHP",
@@ -1294,7 +1294,7 @@
                 {
                     "name": "Anthon Pang",
                     "email": "apang@softwaredevelopment.ca",
-                    "role": "Fork Maintainer"
+                    "role": "developer"
                 }
             ],
             "description": "PHP WebDriver for Selenium 2",
@@ -2398,12 +2398,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thelfensdrfer/yii2sshconsole.git",
-                "reference": "15a58b7cde57dd326d65f8ff5a1bb2799eff99aa"
+                "reference": "d3ea2c9c8a236b1828976bfeb729e07e80857c89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thelfensdrfer/yii2sshconsole/zipball/15a58b7cde57dd326d65f8ff5a1bb2799eff99aa",
-                "reference": "15a58b7cde57dd326d65f8ff5a1bb2799eff99aa",
+                "url": "https://api.github.com/repos/thelfensdrfer/yii2sshconsole/zipball/d3ea2c9c8a236b1828976bfeb729e07e80857c89",
+                "reference": "d3ea2c9c8a236b1828976bfeb729e07e80857c89",
                 "shasum": ""
             },
             "require": {
@@ -2431,7 +2431,7 @@
                 }
             ],
             "description": "SSH library for yii2 console commands",
-            "time": "2014-04-24 19:02:01"
+            "time": "2014-04-25 10:34:37"
         },
         {
             "name": "yiisoft/yii2-codeception",

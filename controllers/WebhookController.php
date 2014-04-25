@@ -130,16 +130,6 @@ class WebhookController extends Controller
 							throw new \yii\web\HttpException(500, "Could not save attachment for email '{$email->ts}'!");
 						}
 					}
-				} else {
-					Yii::error('No attachments: ' . isset($event->msg->attachments));
-					if (isset($event->msg->attachments)) {
-						Yii::error('Type: ' . gettype($event->msg->attachments));
-						Yii::error('Attachments: ' . serialize($event->msg->attachments));
-					} else {
-						Yii::error('Msg: ' . serialize($event->msg));
-					}
-
-					Yii::warning('Json: ' . Yii::$app->request->post('mandrill_events'));
 				}
 
 				if (isset($event->msg->images)) {
@@ -158,17 +148,10 @@ class WebhookController extends Controller
 							throw new \yii\web\HttpException(500, "Could not save image attachment for email '{$email->ts}'!");
 						}
 					}
-				} else {
-					Yii::error('No image attachments: ' . isset($event->msg->images));
-					if (isset($event->msg->images)) {
-						Yii::error('Type: ' . gettype($event->msg->images));
-						Yii::error('Attachments: ' . serialize($event->msg->images));
-					} else {
-						Yii::error('Msg: ' . serialize($event->msg));
-					}
-
-					Yii::warning('Json: ' . Yii::$app->request->post('mandrill_events'));
 				}
+
+				$email->success = true;
+				$email->save();
 			} else {
 				Yii::warning("Unknown event '{$event->event}': " . serialize($event), 'webhook\mandrill');
 			}
