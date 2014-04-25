@@ -28,7 +28,7 @@ class WebhookController extends Controller
 							$url .= $_SERVER['REQUEST_URI'];
 
 							if (!isset($_SERVER['HTTP_X_MANDRILL_SIGNATURE'])) {
-								Yii::warning("Unauthorized request to {url}! Signature missing.", 'webhook\mandrill');
+								Yii::warning("Unauthorized request to {$url}! Signature missing.", 'webhook\mandrill');
 							}
 
 							$params = Yii::$app->request->post();
