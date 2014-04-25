@@ -52,7 +52,10 @@ class MovieDb
 
 	private function raiseRate()
 	{
-		return (Yii::$app->db->createCommand('INSERT INTO {{%themoviedb_rate}} VALUES()')->execute() > 0);
+		$command = Yii::$app->db->createCommand('INSERT INTO {{%themoviedb_rate}}([[created_at]]) VALUES(:created_at)');
+		$command->bindValue(':created_at', date('Y-m-d H:i:s'));
+
+		return ($command->execute() > 0);
 	}
 
 	private function throttle()

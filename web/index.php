@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('UTC');
 
 $env = isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'development';
 
