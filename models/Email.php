@@ -15,6 +15,7 @@ use \yii\db\ActiveRecord;
  * @property string $from_name
  * @property string $subject
  * @property double $spam_score
+ * @property boolean $success
  *
  * @property EmailAttachment[] $attachments
  */
@@ -39,6 +40,7 @@ class Email extends ActiveRecord
 			[['spam_score'], 'number'],
 			[['event'], 'string', 'max' => 100],
 			[['from_email', 'from_name', 'subject'], 'string', 'max' => 255]
+			[['success'], 'boolean'],
 		];
 	}
 
