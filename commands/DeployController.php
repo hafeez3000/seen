@@ -6,6 +6,8 @@ use \yii2sshconsole\Controller;
 
 class DeployController extends Controller
 {
+	public $defaultAction = 'exec';
+
 	public function actionExec()
 	{
 		$this->connect(Yii::$app->params['remote']['host'], [
@@ -17,7 +19,7 @@ class DeployController extends Controller
 			'cd /var/www/seenapp.com/main',
 			'git pull -f',
 			'composer install',
-			'./yii migrate',
+			'./yii migrate --interactive=0',
 			'grunt build_production',
 		], function($line) {
 			echo $line;
