@@ -56,7 +56,7 @@ class WebhookController extends Controller
 							if ($signature == $compare) {
 								return true;
 							} else {
-								Yii::warning("Unauthorized request to {url}! {$signature} != {$compare}.", 'webhook\mandrill');
+								Yii::warning("Unauthorized request to {$url}! {$signature} != {$compare}.", 'webhook\mandrill');
 								throw new \yii\web\HttpException(200, 'Coud not verify signature!');
 							}
 						}
@@ -152,7 +152,7 @@ class WebhookController extends Controller
 						$emailAttachment->type = $attachment->type;
 
 						if ($emailAttachment->save()) {
-							$emailAttachment->saveAttachment($attachment->content, $attachment->base64);
+							$emailAttachment->saveAttachment($attachment->content, true);
 						} else {
 							Yii::error("Could not save image attachment '{$attachment->name}': " . serialize($emailAttachment->errors), 'webhook\mandrill');
 							throw new \yii\web\HttpException(500, "Could not save image attachment for email '{$email->ts}'!");
