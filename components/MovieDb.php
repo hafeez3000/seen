@@ -91,14 +91,14 @@ class MovieDb
 			return false;
 		}
 
-		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		if ($status >= 400) {
+		$status = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		if ($status < 200 || $status >= 400) {
 			Yii::error("Error while requesting {$url}, code {$status}: " . $response);
 			$this->errors[] = "Error while requesting {$path}, code {$status}: " . $response;
 			return false;
 		}
 
-		Yii::trace("Executed request successfully to {$path} with parameters: " . serialize($parameters), 'application\sync');
+		Yii::trace("Executed request successfully ({$status}) to {$path} with parameters: " . serialize($parameters), 'application\sync');
 
 		$result = json_decode($response);
 		curl_close($curl);
