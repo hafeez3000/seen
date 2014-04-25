@@ -61,6 +61,8 @@ class WebhookController extends Controller
 
 	public function actionMandrill()
 	{
+		Yii::$app->request->enableCsrfValidation = false;
+
 		$events = json_decode(Yii::$app->request->post('mandrill_events'));
 
 		if ($events === false) {
