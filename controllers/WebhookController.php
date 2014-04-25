@@ -57,6 +57,7 @@ class WebhookController extends Controller
 								return true;
 							} else {
 								Yii::warning("Unauthorized request to {url}! {$signature} != {$compare}.", 'webhook\mandrill');
+								throw new \yii\web\HttpException(200, 'Coud not verify signature!');
 							}
 						}
 					],

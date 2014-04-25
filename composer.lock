@@ -386,12 +386,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "4caf106a9b06bfde42c8036d343f4f2beaf3a926"
+                "reference": "047b87249985afec29d949db0e8ca050bb6673be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/4caf106a9b06bfde42c8036d343f4f2beaf3a926",
-                "reference": "4caf106a9b06bfde42c8036d343f4f2beaf3a926",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/047b87249985afec29d949db0e8ca050bb6673be",
+                "reference": "047b87249985afec29d949db0e8ca050bb6673be",
                 "shasum": ""
             },
             "require": {
@@ -456,7 +456,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-04-25 02:06:07"
+            "time": "2014-04-25 14:10:51"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2394,7 +2394,7 @@
         },
         {
             "name": "thelfensdrfer/yii2-ssh-console",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thelfensdrfer/yii2sshconsole.git",
