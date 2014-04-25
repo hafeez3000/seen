@@ -3,6 +3,8 @@
 use \Yii;
 use \yii\base\Model;
 
+use \app\components\Email;
+
 /**
  * ContactForm is the model behind the contact form.
  */

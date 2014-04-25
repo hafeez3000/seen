@@ -134,9 +134,9 @@ class SiteController extends Controller
 	{
 		$model = new ContactForm;
 		if ($model->load(Yii::$app->request->post()) && $model->contact()) {
-			Yii::$app->session->setFlash('contactFormSubmitted');
+			Yii::$app->session->setFlash('success', Yii::t('Site/Contact', 'Thanks for your message! We will answer your request as soon as possible.'));
 
-			return $this->refresh();
+			return $this->redirect(['/site/contact']);
 		} else {
 			return $this->render('contact', [
 				'model' => $model,
