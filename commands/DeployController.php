@@ -21,6 +21,7 @@ class DeployController extends Controller
 			'composer install',
 			'./yii migrate --interactive=0',
 			'grunt build_production',
+			'./yii cache/flush'
 		], function($line) {
 			echo $line;
 		});
