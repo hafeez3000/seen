@@ -10,6 +10,13 @@ use \app\models\EmailAttachment;
 
 class WebhookController extends Controller
 {
+	public function beforeAction($action)
+	{
+		$this->enableCsrfValidation = false;
+
+		return parent::beforeAction($action);
+	}
+
 	public function behaviors()
 	{
 		return [
@@ -21,8 +28,6 @@ class WebhookController extends Controller
 						'actions' => ['mandrill'],
 						'allow' => true,
 						'matchCallback' => function($rule, $action) {
-							Yii::$app->request->enableCsrfValidation = false;
-
 							$url = Yii::$app->request->isSecureConnection ? 'https://' : 'http://';
 							$url .= $_SERVER['HTTP_HOST'];
 							$url .= $_SERVER['REQUEST_URI'];
@@ -47,10 +52,11 @@ class WebhookController extends Controller
 								true
 							));
 
-							if ($signature == $_SERVER['HTTP_X_MANDRILL_SIGNATURE']) {
+							$compare = isset($_SERVER['HTTP_X_MANDRILL_SIGNATURE']) ? $_SERVER['HTTP_X_MANDRILL_SIGNATURE'] : '';
+							if ($signature == $compare) {
 								return true;
 							} else {
-								Yii::warning("Unauthorized request to {url}! {$signature} != {$_SERVER['HTTP_X_MANDRILL_SIGNATURE']}.", 'webhook\mandrill');
+								Yii::warning("Unauthorized request to {url}! {$signature} != {$compare}.", 'webhook\mandrill');
 							}
 						}
 					],
@@ -61,8 +67,6 @@ class WebhookController extends Controller
 
 	public function actionMandrill()
 	{
-		Yii::$app->request->enableCsrfValidation = false;
-
 		$events = json_decode(Yii::$app->request->post('mandrill_events'));
 
 		if ($events === false) {
