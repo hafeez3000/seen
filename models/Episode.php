@@ -116,7 +116,7 @@ class Episode extends ActiveRecord
 	{
 		$run = UserShowRun::find()
 			->where(['user_id' => Yii::$app->user->id])
-			->where(['show_id' => $this->season->show_id])
+			->andWhere(['show_id' => $this->season->show_id])
 			->orderBy(['created_at' => SORT_DESC])
 			->one();
 		if ($run === null)
@@ -132,7 +132,7 @@ class Episode extends ActiveRecord
 	{
 		$run = UserShowRun::find()
 			->where(['user_id' => Yii::$app->user->id])
-			->where(['show_id' => $this->season->show_id])
+			->andWhere(['show_id' => $this->season->show_id])
 			->orderBy(['created_at' => SORT_DESC])
 			->one();
 		if ($run === null)
