@@ -24,7 +24,9 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 
 			<?php echo $form->field($model, 'language')->dropDownList($model->languages); ?>
 
-			<?php echo $form->field($model, 'password')->passwordInput(); ?>
+			<?php echo $form->field($model, 'password')->passwordInput([
+				'autocomplete' => 'off',
+			]); ?>
 
 			<div class="form-group">
 				<?php echo Html::submitButton(Yii::t('User/Account', 'Save Settings'), ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
