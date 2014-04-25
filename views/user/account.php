@@ -18,6 +18,9 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 		<div class="col-md-6">
 			<?php $form = ActiveForm::begin([
 				'id' => 'account-form',
+				'options' => [
+					'autocomplete' => 'off',
+				],
 			]); ?>
 
 			<?php echo $form->field($model, 'email') ?>
