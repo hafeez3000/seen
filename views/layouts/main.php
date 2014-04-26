@@ -136,7 +136,7 @@ AppAsset::register($this);
 
 		<?php $this->endBody() ?>
 
-		<?php $this->render('/layouts/social.php'); ?>
+		<?php echo $this->render('/layouts/social.php'); ?>
 	</body>
 </html>
 <?php $this->endPage() ?>

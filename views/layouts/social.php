@@ -1,4 +1,4 @@
-<?php if (!defined(YII_DEBUG) || YII_DEBUG == false): ?>
+<?php if (!defined('YII_DEBUG') || YII_DEBUG == false): ?>
 <script type="text/javascript">
 	var _paq = _paq || [];
 	_paq.push(["setCookieDomain", "*.seenapp.com"]);
