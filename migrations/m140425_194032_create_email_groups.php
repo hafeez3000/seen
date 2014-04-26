@@ -37,7 +37,7 @@ class m140425_194032_create_email_groups extends Migration
 
 		$this->createIndex('to_email', '{{%email_to}}', 'to_email');
 
-		$this->addColumn('{{%user}}', 'name', 'VARCHAR(100) NOT NULL AFTER [[email]] COMMENT "Name"');
+		$this->addColumn('{{%user}}', 'name', 'VARCHAR(100) NOT NULL COMMENT "Name" AFTER [[email]]');
 	}
 
 	public function down()
