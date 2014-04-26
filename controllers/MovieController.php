@@ -4,6 +4,7 @@ use \Yii;
 use \yii\filters\AccessControl;
 use \yii\web\Controller;
 use \yii\data\Pagination;
+use \yii\web\Response;
 
 use \app\models\Movie;
 use \app\models\Language;
@@ -13,6 +14,14 @@ use \app\components\MovieDb;
 
 class MovieController extends Controller
 {
+	public function beforeAction($action)
+	{
+		if (Yii::$app->request->isAjax)
+			$this->enableCsrfValidation = false;
+
+		return parent::beforeAction($action);
+	}
+
 	public function behaviors()
 	{
 		return [
@@ -125,6 +134,8 @@ class MovieController extends Controller
 
 	public function actionLoad()
 	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+
 		if (!Yii::$app->request->isPost || Yii::$app->request->post('id') === null)
 			throw new yii\web\BadRequestHttpException;
 
@@ -143,35 +154,35 @@ class MovieController extends Controller
 			->one();
 
 		if ($movie !== null)
-			return json_encode([
+			return [
 				'success' => true,
 				'slug' => $movie->slug,
 				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/movie/view', 'slug' => $movie->slug])
-			]);
+			];
 
 		$movie = new Movie;
 		$movie->themoviedb_id = Yii::$app->request->post('id');
 		$movie->language_id = $language->id;
 		if (!$movie->save())
-			return json_encode([
+			return [
 				'success' => false,
 				'message' => Yii::t('Movie', 'Could not load movie! Please try again later.'),
-			]);
+			];
 
 		$movieDb = new MovieDb;
 
 		$movie->slug = ''; // Rewrite slug with title
 		if ($movieDb->syncMovie($movie)) {
-			return json_encode([
+			return [
 				'success' => true,
 				'slug' => $movie->slug,
 				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/movie/view', 'slug' => $movie->slug])
-			]);
+			];
 		} else {
-			return json_encode([
+			return [
 				'success' => false,
 				'message' => Yii::t('Movie', 'The movie could not be loaded at the moment! Please try again later.'),
-			]);
+			];
 		}
 	}
 
@@ -188,12 +199,15 @@ class MovieController extends Controller
 		$userMovie->movie_id = $movie->id;
 		$userMovie->save();
 
-		if (Yii::$app->request->isAjax)
-			return json_encode([
+		if (Yii::$app->request->isAjax) {
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			return [
 				'success' => true,
-			]);
-		else
+			];
+		} else {
 			return $this->redirect(['view', 'slug' => $movie->slug]);
+		}
 	}
 
 	public function actionUnwatch($id)

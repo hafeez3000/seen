@@ -60,7 +60,7 @@ $(function() {
 						$listItem.attr("data-seen", "1");
 						highlightEpisodes();
 					}
-				}, 'json');
+				});
 			} else {
 				$.post(urlUnCheck, {id: id}, function(data) {
 					if (data && data.success) {
@@ -68,7 +68,7 @@ $(function() {
 						$listItem.attr("data-seen", "0");
 						highlightEpisodes();
 					}
-				}, 'json');
+				});
 			}
 		});
 
@@ -90,7 +90,7 @@ $(function() {
 						$listItem.data("seen", 1);
 						highlightEpisodes();
 					}
-				}, 'json');
+				});
 			});
 
 			return false;
@@ -118,7 +118,6 @@ $(function() {
 					App.error(data.message);
 				}
 			},
-			dataType: "json",
 			beforeSend: function(){
 				$("#ajax-loading").show();
 			},
@@ -204,7 +203,6 @@ $(function() {
 					App.error(data.message);
 				}
 			},
-			dataType: "json",
 			beforeSend: function(){
 				$("#ajax-loading").show();
 			},
@@ -291,7 +289,6 @@ $(function() {
 			error: function(data) {
 				App.error(App.translation.unknown_error);
 			},
-			dataType: "json",
 			beforeSend: function(){
 				$("#ajax-loading").show();
 			},
@@ -388,7 +385,6 @@ $(function() {
 													width: Math.round(currentMovie / length * 100) + "%"
 												});
 											},
-											dataType: "json",
 											beforeSend: function(){
 												$("#ajax-loading").show();
 											},
@@ -403,7 +399,6 @@ $(function() {
 										$("#ajax-loading").hide();
 									}
 								},
-								dataType: "json",
 								beforeSend: function(){
 									$("#ajax-loading").show();
 								},

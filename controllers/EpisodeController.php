@@ -3,11 +3,20 @@
 use \Yii;
 use \yii\web\Controller;
 use \yii\filters\AccessControl;
+use \yii\web\Response;
 
 use \app\models\Episode;
 
 class EpisodeController extends Controller
 {
+	public function beforeAction($action)
+	{
+		if (Yii::$app->request->isAjax)
+			$this->enableCsrfValidation = false;
+
+		return parent::beforeAction($action);
+	}
+
 	public function behaviors()
 	{
 		return [
@@ -27,6 +36,8 @@ class EpisodeController extends Controller
 
 	public function actionSeen()
 	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+
 		if (!Yii::$app->request->isPost || Yii::$app->request->post('id') === null)
 			throw new yii\web\BadRequestHttpException;
 
@@ -38,17 +49,19 @@ class EpisodeController extends Controller
 			throw new yii\web\NotFoundHttpException;
 
 		if ($episode->markSeen())
-			return json_encode([
+			return [
 				'success' => true
-			]);
+			];
 		else
-			return json_encode([
+			return [
 				'success' => false,
-			]);
+			];
 	}
 
 	public function actionUnseen()
 	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+
 		if (!Yii::$app->request->isPost || Yii::$app->request->post('id') === null)
 			throw new yii\web\BadRequestHttpException;
 
@@ -60,12 +73,12 @@ class EpisodeController extends Controller
 			throw new yii\web\NotFoundHttpException;
 
 		if ($episode->markUnseen())
-			return json_encode([
+			return [
 				'success' => true
-			]);
+			];
 		else
-			return json_encode([
+			return [
 				'success' => false,
-			]);
+			];
 	}
 }

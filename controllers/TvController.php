@@ -3,6 +3,7 @@
 use \Yii;
 use \yii\filters\AccessControl;
 use \yii\web\Controller;
+use \yii\web\Response;
 
 use \app\models\Show;
 use \app\models\Language;
@@ -11,6 +12,14 @@ use \app\components\MovieDb;
 
 class TvController extends Controller
 {
+	public function beforeAction($action)
+	{
+		if (Yii::$app->request->isAjax)
+			$this->enableCsrfValidation = false;
+
+		return parent::beforeAction($action);
+	}
+
 	public function behaviors()
 	{
 		return [
@@ -144,6 +153,8 @@ class TvController extends Controller
 
 	public function actionLoad()
 	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+
 		if (!Yii::$app->request->isPost || Yii::$app->request->post('id') === null)
 			throw new yii\web\BadRequestHttpException;
 
@@ -162,10 +173,10 @@ class TvController extends Controller
 			->one();
 
 		if ($show !== null)
-			return json_encode([
+			return [
 				'success' => true,
 				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/tv/view', 'slug' => $show->slug])
-			]);
+			];
 
 		$show = new Show;
 		$show->themoviedb_id = Yii::$app->request->post('id');
@@ -179,27 +190,18 @@ class TvController extends Controller
 			$successCount = 0;
 			$errorCount = 0;
 			foreach ($show->seasons as $season) {
-				if ($movieDb->syncSeason($season))
-					$successCount++;
-				else
-					$errorCount++;
+				$movieDb->syncSeason($season);
 			}
 
-			if ($successCount === 0)
-				return json_encode([
-					'success' => false,
-					'message' => Yii::t('Show', 'Error while getting season information!'),
-				]);
-
-			return json_encode([
+			return [
 				'success' => true,
 				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/tv/view', 'slug' => $show->slug])
-			]);
+			];
 		} else {
-			return json_encode([
+			return [
 				'success' => false,
 				'message' => Yii::t('Show', 'The TV Show could not be loaded at the moment! Please try again later.'),
-			]);
+			];
 		}
 	}
 
@@ -281,25 +283,31 @@ class TvController extends Controller
 
 		$userShow->archived = true;
 		if ($userShow->save()) {
-			if (Yii::$app->request->isAjax)
-				return json_encode([
+			if (Yii::$app->request->isAjax) {
+				Yii::$app->response->format = Response::FORMAT_JSON;
+
+				return [
 					'success' => true,
-				]);
-			else
+				];
+			} else {
 				Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully archived `{name}`. Move on to the <a href="{archive}">Archive</a> to see your archived shows.', [
 					'name' => $show->name,
 					'archive' => Yii::$app->urlManager->createAbsoluteUrl(['tv/archive']),
 				]));
+			}
 		} else {
 			Yii::error("User #{Yii::$app->user->id} could not archive show #{$show->id}");
 
-			if (Yii::$app->request->isAjax)
-				return json_encode([
+			if (Yii::$app->request->isAjax) {
+				Yii::$app->response->format = Response::FORMAT_JSON;
+
+				return [
 					'success' => false,
 					'message' => Yii::t('Show', 'The show could not be archived!'),
-				]);
-			else
+				];
+			} else {
 				return $this->redirect(['index']);
+			}
 		}
 	}
 
@@ -327,24 +335,30 @@ class TvController extends Controller
 
 		$userShow->archived = false;
 		if ($userShow->save()) {
-			if (Yii::$app->request->isAjax)
-				return json_encode([
+			if (Yii::$app->request->isAjax) {
+				Yii::$app->response->format = Response::FORMAT_JSON;
+
+				return [
 					'success' => true,
-				]);
-			else
+				];
+			} else {
 				Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully unarchived `{name}`.', [
 					'name' => $show->name,
 				]));
+			}
 		} else {
 			Yii::error("User #{Yii::$app->user->id} could not unarchive show #{$show->id}");
 
-			if (Yii::$app->request->isAjax)
-				return json_encode([
+			if (Yii::$app->request->isAjax) {
+				Yii::$app->response->format = Response::FORMAT_JSON;
+
+				return [
 					'success' => false,
 					'message' => Yii::t('Show', 'The show could not be unarchived!'),
-				]);
-			else
+				];
+			} else {
 				return $this->redirect(['index']);
+			}
 		}
 	}
 }
