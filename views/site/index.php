@@ -37,7 +37,7 @@ use \yii\helpers\Url;
 
 			<p>All you have to do is <code>subscribe</code> to a TV show and check the episodes you've already seen, movies you do not even need to subscribe. You can also watch a episode or movie multiple times.</p>
 
-			<p><a class="btn btn-default disabled" href="<?php echo Url::toRoute(['movie']); ?>"><?php echo Yii::t('Site/Index', 'Browse Movies'); ?></a></p>
+			<p><a class="btn btn-default" href="<?php echo Url::toRoute(['movie/index']); ?>"><?php echo Yii::t('Site/Index', 'Browse Movies'); ?></a></p>
 		</div>
 		<div class="col-md-4">
 			<h2><?php echo Yii::t('Site/Index', 'API'); ?></h2>
