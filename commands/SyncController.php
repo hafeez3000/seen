@@ -22,19 +22,12 @@ class SyncController extends Controller
 
 	public $debug = false;
 
-	public $skipsimilar = false;
-
 	public function options($actionId)
 	{
-		$options = [
+		return [
 			'force',
 			'debug',
 		];
-
-		if ($actionId == 'movies')
-			$options[] = "skipsimilar";
-
-		return $options;
 	}
 
 	public function actionShows()
@@ -46,6 +39,10 @@ class SyncController extends Controller
 
 		if (!$this->force)
 			$shows = $shows->where(['updated_at' => null]);
+		else
+			$shows = $shows
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$showCount = $shows->count();
@@ -73,6 +70,10 @@ class SyncController extends Controller
 
 		if (!$this->force)
 			$seasons = $seasons->where(['updated_at' => null]);
+		else
+			$seasons = $seasons
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$seasonCount = $seasons->count();
@@ -101,6 +102,10 @@ class SyncController extends Controller
 
 		if (!$this->force)
 			$episodes = $episodes->where(['updated_at' => null]);
+		else
+			$episodes = $episodes
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$episodeCount = $episodes->count();
@@ -119,37 +124,37 @@ class SyncController extends Controller
 		return 0;
 	}
 
-	public function actionMovies()
+	public function actionMoviesSimilar()
 	{
 		$movieDb = new MovieDb;
 
-		if (!$this->skipsimilar) {
-			// Sync similar movies
-			$similarMovies = MovieSimilar::find()
-				->where(['similar_to_movie_id' => null])
-				->all();
+		$similarMovies = MovieSimilar::find()
+			->where(['similar_to_movie_id' => null])
+			->all();
 
-			if ($this->debug) {
-				$movieCount = count($similarMovies);
-				$i = 1;
-			}
-
-			// Save similar movies as own movie
-			foreach ($similarMovies as $similarMovie) {
-				if ($this->debug) {
-					echo "Similar Movie {$i}/{$movieCount}\n";
-					$i++;
-				}
-
-				$newMovie = $movieDb->syncMovie($similarMovie);
-
-				if ($newMovie !== false) {
-					$similarMovie->similar_to_movie_id = $newMovie->id;
-					$similarMovie->save();
-				}
-			}
+		if ($this->debug) {
+			$movieCount = count($similarMovies);
+			$i = 1;
 		}
 
+		// Save similar movies as own movie
+		foreach ($similarMovies as $similarMovie) {
+			if ($this->debug) {
+				echo "Similar Movie {$i}/{$movieCount}\n";
+				$i++;
+			}
+
+			$newMovie = $movieDb->syncMovie($similarMovie);
+
+			if ($newMovie !== false) {
+				$similarMovie->similar_to_movie_id = $newMovie->id;
+				$similarMovie->save();
+			}
+		}
+	}
+
+	public function actionMovies()
+	{
 		$movies = Movie::find()
 			->with('language');
 
@@ -169,7 +174,10 @@ class SyncController extends Controller
 
 			$movieDb->syncMovie($movie);
 		}
+	}
 
+	public function actionMoviesChanges()
+	{
 		$movieChanges = $movieDb->getMovieChanges();
 
 		$languages = Language::find()->all();
@@ -293,7 +301,6 @@ class SyncController extends Controller
 				}
 
 				$this->actionSeasons();
-				$this->actionEpisodes();
 
 				$popularShow = new ShowPopular;
 				$popularShow->show_id = $show->id;
