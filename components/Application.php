@@ -104,6 +104,13 @@ class Application extends \yii\web\Application
 			$event->isValid = false;
 		});
 
+		// Add google webmaster tools verification
+		Event::on(\yii\base\View::className(), \yii\base\View::EVENT_BEGIN_PAGE, function($event) {
+			Yii::$app->view->registerMetaTag([
+				'google-site-verification' => 'BOv-OEbvo3gTTioeF7p14z3AnuANL5TMRHMLtgq_qjo',
+			]);
+		});
+
 		// Set language
 		$language = 'en';
 
