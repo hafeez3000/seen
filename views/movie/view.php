@@ -18,7 +18,7 @@ use \app\components\LanguageHelper;
 <div id="movie-view">
 	<div class="row">
 		<div class="col-sm-4">
-			<img src="<?php echo $movie->posterUrlLarge; ?>" alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+			<img <?php echo $movie->posterUrlLarge; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
 		</div>
 
 		<div class="col-sm-8">
@@ -50,7 +50,7 @@ use \app\components\LanguageHelper;
 					<ul id="movie-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($movie->cast as $cast): ?>
 							<li>
-								<img src="<?php echo $cast->profileUrl; ?>" alt="<?php echo Html::encode($cast->name); ?>" title="<?php echo Html::encode($cast->name); ?>">
+								<img <?php echo $cast->profileUrl; ?> alt="<?php echo Html::encode($cast->name); ?>" title="<?php echo Html::encode($cast->name); ?>">
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -64,7 +64,7 @@ use \app\components\LanguageHelper;
 					<ul id="movie-view-crew" class="list-unstyled list-inline">
 						<?php foreach ($movie->crew as $crew): ?>
 							<li>
-								<img src="<?php echo $crew->profileUrl; ?>" alt="<?php echo Html::encode($crew->name); ?>" title="<?php echo Html::encode($crew->name); ?>">
+								<img <?php echo $crew->profileUrl; ?> alt="<?php echo Html::encode($crew->name); ?>" title="<?php echo Html::encode($crew->name); ?>">
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -79,7 +79,7 @@ use \app\components\LanguageHelper;
 						<?php foreach ($movie->similarMovies as $similarMovie): ?>
 							<li>
 								<a href="<?php echo Url::toRoute(['view', 'slug' => $similarMovie->slug]); ?>" title="<?php echo Html::encode($similarMovie->title); ?>">
-									<img src="<?php echo $similarMovie->posterUrlSmall; ?>" alt="<?php echo Html::encode($similarMovie->title); ?>">
+									<img <?php echo $similarMovie->posterUrlSmall; ?> alt="<?php echo Html::encode($similarMovie->title); ?>">
 								</a>
 							</li>
 						<?php endforeach; ?>

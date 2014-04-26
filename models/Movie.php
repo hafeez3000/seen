@@ -219,16 +219,16 @@ class Movie extends ActiveRecord
 	public function getPosterUrlSmall()
 	{
 		if (!empty($this->poster_path))
-			return Yii::$app->params['themoviedb']['image_url'] . 'w92/' . $this->poster_path;
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w92/' . $this->poster_path . '"';
 		else
-			return 'http://placehold.it/92x138/eee/555&' . http_build_query(['text' => $this->title]);
+			return 'data-src="holder.js/92x138/#eee:#555/text:' . $this->title . '"';
 	}
 
 	public function getPosterUrlLarge()
 	{
 		if (!empty($this->poster_path))
-			return Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path;
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path . '"';
 		else
-			return 'http://placehold.it/500x750/eee/555&' . http_build_query(['text' => $this->title]);
+			return 'data-src="holder.js/500x750/#eee:#555/text:' . $this->title . '"';
 	}
 }

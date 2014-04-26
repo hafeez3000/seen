@@ -30,7 +30,7 @@ use \yii\widgets\LinkPager;
 				<div class="movie-dashboard-movie media" id="movie-<?php echo $movie->id; ?>">
 					<div class="pull-left">
 						<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
-							<img src="<?php echo $movie->posterUrlSmall; ?>" alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+							<img <?php echo $movie->posterUrlSmall; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
 						</a>
 					</div>
 

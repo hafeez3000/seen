@@ -14,7 +14,7 @@ use \yii\helpers\Url;
 		<?php foreach ($movies as $movie): ?>
 			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 movie-index">
 				<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->title); ?>">
-					<img src="<?php echo $movie->posterUrlLarge; ?>">
+					<img <?php echo $movie->posterUrlLarge; ?>>
 				</a>
 			</div>
 		<?php endforeach; ?>

@@ -29,11 +29,9 @@ use \yii\helpers\Url;
 
 	<div id="tv-view-content" class="row">
 		<div id="tv-view-information" class="col-sm-6 col-md-5 col-lg-4">
-			<?php if (!empty($show->backdrop_path)): ?>
-				<div id="tv-view-backdrop">
-					<img src="<?php echo $show->backdropUrl; ?>" alt="<?php echo Html::encode($show->name); ?>" title="<?php echo Html::encode($show->name); ?>">
-				</div>
-			<?php endif; ?>
+			<div id="tv-view-backdrop">
+				<img <?php echo $show->backdropUrl; ?> alt="<?php echo Html::encode($show->name); ?>" title="<?php echo Html::encode($show->name); ?>">
+			</div>
 
 			<?php if (!empty($show->overview)): ?>
 				<div id="tv-view-overview">
@@ -48,7 +46,7 @@ use \yii\helpers\Url;
 					<ul id="tv-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($show->cast as $cast): ?>
 							<li>
-								<img src="<?php echo $cast->profileUrl; ?>" alt="<?php echo Html::encode($cast->name); ?>" title="<?php echo Html::encode($cast->name); ?>">
+								<img <?php echo $cast->profileUrl; ?> alt="<?php echo Html::encode($cast->name); ?>" title="<?php echo Html::encode($cast->name); ?>">
 							</li>
 						<?php endforeach; ?>
 					</ul>
