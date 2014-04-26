@@ -29,6 +29,8 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 
 			<?php echo $form->field($model, 'language')->dropDownList($model->languages); ?>
 
+			<?php echo $form->field($model, 'timezone')->dropDownList($model->timezones); ?>
+
 			<?php echo $form->field($model, 'password')->passwordInput([
 				'autocomplete' => 'off',
 			]); ?>

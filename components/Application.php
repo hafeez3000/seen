@@ -115,7 +115,10 @@ class Application extends \yii\web\Application
 				$language = Yii::$app->session->get('language');
 			}
 		} else {
-			$language = Yii::$app->user->identity->language->iso;
+			if (isset(Yii::$app->user->identity->language->iso))
+				$language = Yii::$app->user->identity->language->iso;
+			else
+				$language = Yii::$app->params['lang']['default'];
 		}
 
 		Yii::$app->language = $language;

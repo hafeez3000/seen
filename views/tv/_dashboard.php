@@ -6,6 +6,8 @@
 use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
+
+use \app\components\LanguageHelper;
 ?>
 
 <div id="tv-dashboard<?php if($archive): ?>-archive<?php endif; ?>" class="tv-dashboard">
@@ -40,7 +42,7 @@ use \yii\widgets\ActiveForm;
 					<div class="last-seen clearfix">
 						<div class="pull-left">
 							<?php if ($show->lastEpisode !== null): ?>
-								<span title="<?php echo date(Yii::$app->params['lang'][Yii::$app->language]['datetime'], strtotime($show->lastEpisode->created_at)); ?>">
+								<span title="<?php echo LanguageHelper::dateTime(strtotime($show->lastEpisode->created_at)); ?>">
 									<?php echo $show->lastEpisode->createdAtAgo; ?>
 								</span>
 							<?php else: ?>

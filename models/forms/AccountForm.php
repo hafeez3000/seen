@@ -13,8 +13,9 @@ class AccountForm extends Model
 {
 	public $email;
 	public $name;
-	public $password;
 	public $language;
+	public $timezone;
+	public $password;
 
 	/**
 	 *	Define validation rules.
@@ -27,6 +28,7 @@ class AccountForm extends Model
 			[['email'], 'required'],
 			[['email'], 'email'],
 			[['email', 'name'], 'string', 'max' => 100],
+			[['timezone'], 'timezoneExists'],
 			[['language'], 'exist', 'targetClass' => Language::className(), 'targetAttribute' => 'id'],
 			[['password'], 'string', 'min' => 6],
 			[['email'], 'unique', 'targetClass' => User::className(), 'targetAttribute' => 'email'],
@@ -47,6 +49,17 @@ class AccountForm extends Model
 		$this->email = $user->email;
 		$this->name = $user->name;
 		$this->language = $user->language_id;
+
+		$timezones = $this->timezones;
+		$this->timezone = array_search($user->timezone, $timezones);
+	}
+
+	public function timezoneExists($attribute)
+	{
+		$timezones = $this->timezones;
+
+		if (!isset($timezones[$attribute]))
+			$this->addError($attribute, Yii::t('User/Account', 'The timezone does not exist!'));
 	}
 
 	public function getLanguages()
@@ -64,6 +77,21 @@ class AccountForm extends Model
 		return $items;
 	}
 
+	public function getTimezones()
+	{
+		$tza = \DateTimeZone::listAbbreviations();
+		$tzlist = [];
+		foreach ($tza as $zone)
+			foreach ($zone as $item)
+				if (is_string($item['timezone_id']) && $item['timezone_id'] != '')
+					$tzlist[] = $item['timezone_id'];
+
+		$tzlist = array_unique($tzlist);
+		asort($tzlist);
+
+		return array_values($tzlist);
+	}
+
 	/**
 	 * Logs in a user using the provided email and password.
 	 *
@@ -74,10 +102,13 @@ class AccountForm extends Model
 		$user = Yii::$app->user->identity;
 		$user->scenario = 'account';
 
+		$timezones = $this->timezones;
+
 		$user->attributes = [
 			'email' => $this->email,
 			'name' => $this->name,
 			'language_id' => $this->language,
+			'timezone' => $timezones[$this->timezone],
 		];
 
 		if (!empty($this->password))

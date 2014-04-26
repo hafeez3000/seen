@@ -15,6 +15,7 @@ use \app\components\Email;
  * @property string $name
  * @property string $password
  * @property integer $language_id
+ * @property string $timezone
  * @property integer $level
  * @property string $reset_key
  * @property string $validation_key
@@ -47,7 +48,7 @@ class User extends ActiveRecord implements IdentityInterface
 		return [
 			[['email', 'password'], 'required'],
 			[['email'], 'email'],
-			[['email', 'name'], 'string', 'max' => 100],
+			[['email', 'name', 'timezone'], 'string', 'max' => 100],
 			[['language_id', 'level'], 'integer'],
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
 			[['api_key'], 'string', 'max' => 32],
@@ -66,6 +67,7 @@ class User extends ActiveRecord implements IdentityInterface
 			'name' => Yii::t('User', 'Name'),
 			'password' => Yii::t('User', 'Password'),
 			'language_id' => Yii::t('User', 'Language'),
+			'timezone' => Yii::t('User', 'Timezone'),
 			'level' => Yii::t('User', 'Level'),
 			'reset_key' => Yii::t('User', 'Reset key'),
 			'validation_key' => Yii::t('User', 'Validation key'),
@@ -94,7 +96,7 @@ class User extends ActiveRecord implements IdentityInterface
 		$scenarios = parent::scenarios();
 
 		$scenarios['register'] = ['email', 'password'];
-		$scenarios['account'] = ['email', 'name', 'language_id', 'password'];
+		$scenarios['account'] = ['email', 'name', 'language_id', 'timezone', 'password'];
 
 		return $scenarios;
 	}

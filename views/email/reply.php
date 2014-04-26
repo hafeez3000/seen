@@ -6,6 +6,8 @@
 use \yii\helpers\Url;
 use \yii\helpers\Html;
 use \yii\widgets\ActiveForm;
+
+use \app\components\LanguageHelper;
 ?>
 
 <div id="email-reply">
@@ -52,7 +54,7 @@ use \yii\widgets\ActiveForm;
 							</div>
 
 							<div class="pull-right text-muted">
-								<?php echo date(Yii::$app->params['lang'][Yii::$app->language]['datetime'], strtotime($email->ts)); ?>
+								<?php echo LanguageHelper::dateTime(strtotime($email->ts)); ?>
 							</div>
 						</div>
 					</h4>
@@ -73,7 +75,7 @@ use \yii\widgets\ActiveForm;
 								</div>
 
 								<div class="pull-right text-muted">
-									<?php echo date(Yii::$app->params['lang'][Yii::$app->language]['datetime'], strtotime($email->ts)); ?>
+									<?php echo LanguageHelper::dateTime(strtotime($email->ts)); ?>
 								</div>
 							</div>
 						</h4>

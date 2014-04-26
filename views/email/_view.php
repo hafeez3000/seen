@@ -5,6 +5,8 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
+
+use \app\components\LanguageHelper;
 ?>
 
 <div class="panel panel-default email-view<?php if ($email->responded !== null): ?> email-view-responded<?php endif; ?>" id="email-view-<?php echo $email->id ?>">
@@ -19,7 +21,7 @@ use \yii\helpers\Url;
 			</div>
 
 			<div class="pull-right text-muted">
-				<?php echo date(Yii::$app->params['lang'][Yii::$app->language]['datetime'], strtotime($email->ts)); ?>
+				<?php echo LanguageHelper::dateTime(strtotime($email->ts)); ?>
 			</div>
 		</div>
 	</h4>
