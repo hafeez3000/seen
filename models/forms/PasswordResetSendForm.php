@@ -59,7 +59,7 @@ class PasswordResetSendForm extends Model
 				)
 			),
 			array(
-				'register',
+				'password-reset',
 			)
 		);
 	}
