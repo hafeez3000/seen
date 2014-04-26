@@ -65,6 +65,12 @@ AppAsset::register($this);
 					'options' => ['class' => 'navbar-nav'],
 					'items' => [
 						['label' => Yii::t('Site/Navigation', 'Contact'), 'url' => ['site/contact']],
+						[
+							'label' => Yii::t('Site/Navigation', 'Email'),
+							'url' => ['email/index'],
+							'visible' => Yii::$app->user->can('viewEmails'),
+							'active' => Yii::$app->controller->id == 'email',
+						]
 					],
 				]);
 

@@ -6,8 +6,8 @@ use \yii\db\ActiveRecord;
 /**
  * This is the model class for Email receivers.
  *
- * @property string $id
- * @property string $email_id
+ * @property integer $id
+ * @property integer $email_id
  * @property string $to_email
  * @property string $to_name
  *
@@ -43,8 +43,8 @@ class EmailTo extends ActiveRecord
 		return [
 			'id' => Yii::t('app', 'ID'),
 			'email_id' => Yii::t('app', 'Email'),
-			'to_email' => Yii::t('app', 'Email'),
-			'to_name' => Yii::t('app', 'Name'),
+			'to_email' => Yii::t('app', 'To (Email)'),
+			'to_name' => Yii::t('app', 'To (Name)'),
 		];
 	}
 

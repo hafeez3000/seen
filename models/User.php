@@ -12,6 +12,7 @@ use \app\components\Email;
  *
  * @property integer $id
  * @property string $email
+ * @property string $name
  * @property string $password
  * @property integer $language_id
  * @property integer $level
@@ -46,7 +47,7 @@ class User extends ActiveRecord implements IdentityInterface
 		return [
 			[['email', 'password'], 'required'],
 			[['email'], 'email'],
-			[['email'], 'string', 'max' => 100],
+			[['email', 'name'], 'string', 'max' => 100],
 			[['language_id', 'level'], 'integer'],
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
 			[['api_key'], 'string', 'max' => 32],
@@ -62,6 +63,7 @@ class User extends ActiveRecord implements IdentityInterface
 		return [
 			'id' => Yii::t('User', 'ID'),
 			'email' => Yii::t('User', 'Email'),
+			'name' => Yii::t('User', 'Name'),
 			'password' => Yii::t('User', 'Password'),
 			'language_id' => Yii::t('User', 'Language'),
 			'level' => Yii::t('User', 'Level'),
@@ -92,7 +94,7 @@ class User extends ActiveRecord implements IdentityInterface
 		$scenarios = parent::scenarios();
 
 		$scenarios['register'] = ['email', 'password'];
-		$scenarios['account'] = ['email', 'language_id', 'password'];
+		$scenarios['account'] = ['email', 'name', 'language_id', 'password'];
 
 		return $scenarios;
 	}

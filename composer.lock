@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "eeb7b9a04479bab12e8a8d32e3dba9e6",
+    "hash": "2f440e5fb97ac1ac3bd70eca05534c29",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -108,48 +108,6 @@
             "time": "2014-03-05 16:30:51"
         },
         {
-            "name": "educoder/pest",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/educoder/pest.git",
-                "reference": "7c4d24d6aafc4ebac711c73cc8797d9b1779525b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/educoder/pest/zipball/7c4d24d6aafc4ebac711c73cc8797d9b1779525b",
-                "reference": "7c4d24d6aafc4ebac711c73cc8797d9b1779525b",
-                "shasum": ""
-            },
-            "require": {
-                "lib-curl": "*",
-                "php": ">=5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matt Zukowski",
-                    "email": "matt@zukowski.ca"
-                },
-                {
-                    "name": "Donald Sipe",
-                    "email": "donald.sipe@gmail.com"
-                }
-            ],
-            "description": "A proper REST client for PHP.",
-            "homepage": "https://github.com/educoder/pest",
-            "time": "2013-11-17 12:58:01"
-        },
-        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.6.0",
             "source": {
@@ -236,6 +194,49 @@
                 "email"
             ],
             "time": "2013-10-17 12:16:33"
+        },
+        {
+            "name": "mandrill/mandrill",
+            "version": "1.0.52",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/mailchimp/mandrill-api-php.git",
+                "reference": "e1eda7352f24f87908e4fc2d63ca79255479cbb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/mailchimp/mandrill-api-php/get/e1eda7352f24f87908e4fc2d63ca79255479cbb2.zip",
+                "reference": "e1eda7352f24f87908e4fc2d63ca79255479cbb2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mandrill": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mandrill Devs",
+                    "email": "community@mandrill.com",
+                    "homepage": "http://mandrill.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API client library for the Mandrill email as a service platform",
+            "homepage": "https://bitbucket.org/mailchimp/mandrill-api-php",
+            "keywords": [
+                "api",
+                "email"
+            ],
+            "time": "2014-02-07 21:15:24"
         },
         {
             "name": "nesbot/carbon",
@@ -386,12 +387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "047b87249985afec29d949db0e8ca050bb6673be"
+                "reference": "f52dab25cef675b7d24a73889689914aec4f1b55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/047b87249985afec29d949db0e8ca050bb6673be",
-                "reference": "047b87249985afec29d949db0e8ca050bb6673be",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f52dab25cef675b7d24a73889689914aec4f1b55",
+                "reference": "f52dab25cef675b7d24a73889689914aec4f1b55",
                 "shasum": ""
             },
             "require": {
@@ -456,7 +457,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-04-25 14:10:51"
+            "time": "2014-04-26 02:22:03"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1797,16 +1798,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ce2099fad55c1374c192d7587ee5cb4ee63c8740"
+                "reference": "a702318e713e482a746bc15cea01b61403d7dcdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ce2099fad55c1374c192d7587ee5cb4ee63c8740",
-                "reference": "ce2099fad55c1374c192d7587ee5cb4ee63c8740",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a702318e713e482a746bc15cea01b61403d7dcdb",
+                "reference": "a702318e713e482a746bc15cea01b61403d7dcdb",
                 "shasum": ""
             },
             "require": {
+                "ext-ctype": "*",
                 "ext-dom": "*",
+                "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-reflection": "*",
                 "ext-spl": "*",
@@ -1822,9 +1825,6 @@
                 "pear-pear.php.net/pear": "1.9.4"
             },
             "suggest": {
-                "ext-json": "*",
-                "ext-simplexml": "*",
-                "ext-tokenizer": "*",
                 "phpunit/php-invoker": "~1.1"
             },
             "bin": [
@@ -1863,7 +1863,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-04-24 08:24:57"
+            "time": "2014-04-26 05:26:20"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2479,12 +2479,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "29c647914b3f2d55a6a754c1ee3310248650080c"
+                "reference": "1d0d2a02d9651978285013a9449cb54fc5842fa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/29c647914b3f2d55a6a754c1ee3310248650080c",
-                "reference": "29c647914b3f2d55a6a754c1ee3310248650080c",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/1d0d2a02d9651978285013a9449cb54fc5842fa1",
+                "reference": "1d0d2a02d9651978285013a9449cb54fc5842fa1",
                 "shasum": ""
             },
             "require": {
@@ -2515,7 +2515,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2014-04-23 01:25:11"
+            "time": "2014-04-25 19:04:39"
         },
         {
             "name": "yiisoft/yii2-gii",

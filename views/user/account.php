@@ -23,7 +23,9 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 				],
 			]); ?>
 
-			<?php echo $form->field($model, 'email') ?>
+			<?php echo $form->field($model, 'email'); ?>
+
+			<?php echo $form->field($model, 'name'); ?>
 
 			<?php echo $form->field($model, 'language')->dropDownList($model->languages); ?>
 

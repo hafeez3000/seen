@@ -75,6 +75,10 @@ $config['components']['i18n'] = [
 	],
 ];
 
+$config['components']['authManager'] = [
+	'class' => 'yii\rbac\DbManager',
+];
+
 if (YII_ENV_DEV) {
 	$config['bootstrap'][] = 'debug';
 	$config['modules']['debug'] = 'yii\debug\Module';

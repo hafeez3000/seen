@@ -12,6 +12,7 @@ use \app\models\Language;
 class AccountForm extends Model
 {
 	public $email;
+	public $name;
 	public $password;
 	public $language;
 
@@ -25,6 +26,7 @@ class AccountForm extends Model
 		return [
 			[['email'], 'required'],
 			[['email'], 'email'],
+			[['email', 'name'], 'string', 'max' => 100],
 			[['language'], 'exist', 'targetClass' => Language::className(), 'targetAttribute' => 'id'],
 			[['password'], 'string', 'min' => 6],
 			[['email'], 'unique', 'targetClass' => User::className(), 'targetAttribute' => 'email'],
@@ -35,6 +37,7 @@ class AccountForm extends Model
 	{
 		return [
 			'email' => Yii::t('User/Account', 'Email'),
+			'name' => Yii::t('User/Account', 'Name'),
 			'password' => Yii::t('User/Account', 'Password (only change to set a new one)'),
 		];
 	}
@@ -42,6 +45,7 @@ class AccountForm extends Model
 	public function __construct(User $user)
 	{
 		$this->email = $user->email;
+		$this->name = $user->name;
 		$this->language = $user->language_id;
 	}
 
@@ -72,6 +76,7 @@ class AccountForm extends Model
 
 		$user->attributes = [
 			'email' => $this->email,
+			'name' => $this->name,
 			'language_id' => $this->language,
 		];
 

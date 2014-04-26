@@ -16,8 +16,14 @@ use \yii\db\ActiveRecord;
  * @property string $subject
  * @property double $spam_score
  * @property boolean $success
+ * @property integer $respond_user_id
+ * @property string $respond_at
+ * @property integer $assigned_user_id
  *
  * @property EmailAttachment[] $attachments
+ * @property User $responded
+ * @property User $assigned
+ * @property EmailTo $to
  */
 class Email extends ActiveRecord
 {
@@ -39,8 +45,10 @@ class Email extends ActiveRecord
 			[['text', 'html'], 'string'],
 			[['spam_score'], 'number'],
 			[['event'], 'string', 'max' => 100],
-			[['from_email', 'from_name', 'subject'], 'string', 'max' => 255]
+			[['from_email', 'from_name', 'subject'], 'string', 'max' => 255],
 			[['success'], 'boolean'],
+			[['respond_user_id', 'assigned_user_id'], 'integer'],
+			[['respond_at'], 'date', 'format' => 'Y-m-d H:i:s'],
 		];
 	}
 
@@ -59,6 +67,10 @@ class Email extends ActiveRecord
 			'from_name' => Yii::t('Email', 'From (Name)'),
 			'subject' => Yii::t('Email', 'Subject'),
 			'spam_score' => Yii::t('Email', 'Spam score'),
+			'success' => Yii::t('Email', 'Success'),
+			'respond_user_id' => Yii::t('Email', 'Responded by'),
+			'respond_at' => Yii::t('Email', 'Responded at'),
+			'assigned_user_id' => Yii::t('Email', 'Assigned user'),
 		];
 	}
 
@@ -68,5 +80,52 @@ class Email extends ActiveRecord
 	public function getAttachments()
 	{
 		return $this->hasMany(EmailAttachment::className(), ['email_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getGroups()
+	{
+		return EmailGroup::findBySql('
+			SELECT
+				{{%email_group}}.*
+			FROM
+				{{%email}},
+				{{%email_group}},
+				{{%email_to}}
+			WHERE
+				{{%email}}.[[id]] = :email_id AND
+				{{%email_to}}.[[email_id]] = {{%email}}.[[id]] AND
+				{{%email_group}}.[[receiver]] = {{%email_to}}.[[to_email]]
+
+		', [
+			':email_id' => $this->id,
+		])
+			->all();
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getTo()
+	{
+		return $this->hasMany(EmailTo::className(), ['email_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getResponded()
+	{
+		return $this->hasOne(User::className(), ['id' => 'respond_user_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getAssigned()
+	{
+		return $this->hasOne(User::className(), ['id' => 'assigned_user_id']);
 	}
 }

@@ -3,7 +3,6 @@ module.exports = function(grunt) {
 		"web/components/select2/select2.min.js",
 		"web/components/spin.js/spin.js",
 		"web/components/moment/min/moment-with-langs.min.js",
-		"web/components/bootstrap/js/tab.js",
 		"web/js/include/app.js"
 	];
 

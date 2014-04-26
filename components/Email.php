@@ -7,15 +7,17 @@ use \Yii;
  */
 class Email {
 	/**
-	 * Receiver
+	 * Receiver email.
 	 *
 	 * @access public
 	 * @var string
 	 */
 	public $to;
 
+	public $to_name = '';
+
 	/**
-	 * Subject
+	 * Subject.
 	 *
 	 * @access public
 	 * @var string
@@ -28,15 +30,11 @@ class Email {
 	 * @access private
 	 * @var Pest
 	 */
-	private $_pest;
+	private $_mandrill;
 
-	/**
-	 * Mandrill API Key
-	 *
-	 * @access private
-	 * @var string
-	 */
-	private $_key;
+	private $_fromName;
+
+	private $_fromEmail;
 
 	/**
 	 * Construct a new mail object
@@ -44,10 +42,12 @@ class Email {
 	 * @access public
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($fromName = null, $fromEmail = null)
 	{
-		$this->_pest = new \PestJSON(Yii::$app->params['email']['mandrill']['baseUrl']);
-		$this->_key = Yii::$app->params['email']['mandrill']['apikey'];
+		$this->_mandrill = new \Mandrill(Yii::$app->params['email']['mandrill']['apikey']);
+
+		$this->_fromName = ($fromName === null) ? Yii::$app->name : $fromName;
+		$this->_fromEmail = ($fromEmail === null) ? Yii::$app->params['email']['system'] : $fromEmail;
 	}
 
 	/**
@@ -77,138 +77,57 @@ class Email {
 		);
 
 		try {
-			$status = $this->_pest->post(
-				'/messages/send-template.json',
-				array(
-					'key' => $this->_key,
-					'template_name' => $template,
-					'template_content' => $vars,
-					'message' => array(
-						'subject' => $this->subject,
-						'from_email' => Yii::$app->params['email']['system'],
-						'from_name' => Yii::$app->name,
-						'to' => array(
-							array(
-								'email' => $this->to,
-							)
-						),
-						'track_opens' => true,
-						'track_clicks' => true,
-						'url_strip_qs' => true,
-						'preserve_recipients' => true,
-						'global_merge_vars' => Yii::$app->params['email']['mandrill']['globalMergeVars'],
-						'merge_vars' => $mergeVars,
-						'tags' => $tags,
-					),
-				)
-			);
-
-			foreach ($status as $emailStatus) {
-				switch ($emailStatus['status']) {
-					case 'sent':
-						if (!isset($success))
-							$success = true;
-
-						$success = $success and true;
-
-						Yii::info(
-							Yii::t(
-								'Email',
-								'Email `{subject}` sent to `{email}`.',
-								array(
-									'{subject}' => $this->subject,
-									'{email}' => $this->to,
-								)
-							),
-							'application\email'
-						);
-						break;
-					case 'queued':
-						Yii::info(
-							Yii::t(
-								'Email',
-								'Queued email `{subject}` to `{email}`.',
-								array(
-									'{subject}' => $this->subject,
-									'{email}' => $this->to,
-								)
-							),
-							'application\email'
-						);
-						break;
-					case 'rejected':
-						Yii::error(
-							Yii::t(
-								'Email',
-								'Rejected email `{subject}` to `{email}`.',
-								array(
-									'{subject}' => $this->subject,
-									'{email}' => $this->to,
-								)
-							),
-							'application\email'
-						);
-						break;
-					case 'invalid':
-						Yii::error(
-							Yii::t(
-								'Email',
-								'Invalid email `{subject}` to `{email}`.',
-								array(
-									'{subject}' => $this->subject,
-									'{email}' => $this->to,
-								)
-							),
-							'application\email'
-						);
-						break;
-					default:
-						Yii::error(
-							Yii::t(
-								'Email',
-								'Unknown email status `{status}` for email `{subject}` to `{email}`.',
-								array(
-									'{status}' => $emailStatus['status'],
-									'{subject}' => $this->subject,
-									'{email}' => $this->to,
-								)
-							),
-							'application\email'
-						);
-						break;
-				}
-			}
-		} catch (Exception $e) {
-			Yii::error(
-				Yii::t(
-					'Email',
-					'API Error while sending email `{subject}` to `{email}`: {message}',
-					array(
-						'{subject}' => $this->subject,
-						'{email}' => $this->to,
-						'{message}' => $e->getMessage(),
-					)
-				),
-				'application\email'
-			);
-
-			$success = false;
+			$response = $this->_mandrill->messages->sendTemplate($template, $vars, [
+				'subject' => $this->subject,
+				'from_email' => $this->_fromEmail,
+				'from_name' => $this->_fromName,
+				'to' => [
+					[
+						'email' => $this->to,
+						'name' => $this->to_name,
+					]
+				],
+				'track_opens' => true,
+				'track_clicks' => true,
+				'url_strip_qs' => true,
+				'preserve_recipients' => true,
+				'global_merge_vars' => Yii::$app->params['email']['mandrill']['globalMergeVars'],
+				'merge_vars' => $mergeVars,
+				'tags' => $tags,
+			], true);
+		} catch (\Mandrill_Error $e) {
+			Yii::error("Could not send email: {$e->getMessage()}", 'application\email');
+			return false;
 		}
 
-		if (!$success) {
-			Yii::error(
-				Yii::t(
-					'Email',
-					'Error while sending email `{subject}` to `{email}`',
-					array(
-						'{subject}' => $this->subject,
-						'{email}' => $this->to,
-					)
-				),
-				'application\email'
-			);
+		return (isset($response[0]['status']) && $response[0]['status'] == 'sent');
+	}
+
+	public function sendRaw($text, $tags = array())
+	{
+		try {
+			$response = $this->_mandrill->messages->send([
+				'text' => $text,
+				'subject' => $this->subject,
+				'from_email' => $this->_fromEmail,
+				'from_name' => $this->_fromName,
+				'to' => [
+					[
+						'email' => $this->to,
+						'name' => $this->to_name,
+					]
+				],
+				'track_opens' => false,
+				'track_clicks' => false,
+				'url_strip_qs' => true,
+				'preserve_recipients' => true,
+				'tags' => $tags,
+			], true);
+		} catch (\Mandrill_Error $e) {
+			Yii::error("Could not send email: {$e->getMessage()}", 'application\email');
+			return false;
 		}
 
-		return $success;
+		return (isset($response[0]['status']) && $response[0]['status'] == 'sent');
 	}
 }

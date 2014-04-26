@@ -431,4 +431,15 @@ $(function() {
 			}
 		}
 	}
+
+	if ($("#email-reply-form-affix").length) {
+		var $emailReplyAffix = $("#email-reply-form-affix");
+		var top = $emailReplyAffix.offset().top;
+
+		$emailReplyAffix.affix({
+			offset: {
+				top: top
+			}
+		});
+	}
 });
