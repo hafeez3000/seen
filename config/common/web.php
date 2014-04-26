@@ -1,6 +1,8 @@
 <?php
 
 $baseUrl = dirname($_SERVER['SCRIPT_NAME']);
+if ($baseUrl == '/')
+	$baseUrl = '';
 
 $config['components']['user'] = [
 	'identityClass' => 'app\models\User',
