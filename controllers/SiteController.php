@@ -55,6 +55,30 @@ class SiteController extends Controller
 		];
 	}
 
+	public function randomImage()
+	{
+		$data = Yii::$app->db
+			->createCommand('
+				SELECT
+					{{%show}}.*
+				FROM
+					{{%show}},
+					{{%language}}
+				WHERE
+					{{%language}}.id = {{%show}}.[[language_id]] AND
+				 	{{%language}}.[[iso]] = :language
+				 ORDER BY
+				 	RAND()
+				 LIMIT 1')
+			->bindValue(':language', Yii::$app->language)
+			->queryOne();
+
+		if (isset($data['backdrop_path']))
+			return '<a href="' . Yii::$app->urlManager->createUrl(['tv/view', 'slug' => $data['slug']]) . '" title="' . $data['name'] . '"><img src="https://image.tmdb.org/t/p/w780' . $data['backdrop_path'] . '" alt="' . $data['name'] . '"></a>';
+		else
+			return '<img src="http://placehold.it/524x245&text=' . urlencode(Yii::$app->name) . '">';
+	}
+
 	public function actionIndex()
 	{
 		return $this->render('index');
