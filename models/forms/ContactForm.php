@@ -54,31 +54,17 @@ class ContactForm extends Model
 			$email->to = Yii::$app->params['email']['admin'];
 			$email->subject = Yii::t('Email/Contact', '[seen] {subject}', ['subject' => $this->subject]);
 
-			$html = Yii::t('Email/Contact', '<h1 class="h1">{subject}</h1>', ['name' => $this->name]);
-			$html .= Yii::t(
+			$text = Yii::t(
 				'Email/Contact',
-				'<p>Name: {name} (<a href="mailto:{email}">{email}</a>)</p><p>{body}</p>',
-				array(
+				"Name: {name} ({email})\n\n{body}",
+				[
 					'name' => $this->name,
 					'email' => $this->email,
 					'body' => $this->body,
-				)
+				]
 			);
 
-			$email->send(
-				'Default',
-				array(
-					array(
-						'name' => 'content',
-						'content' => $html,
-					)
-				),
-				array(
-					'contact',
-				)
-			);
-
-			return true;
+			return $email->sendRaw($text, ['contact']);
 		} else {
 			return false;
 		}
