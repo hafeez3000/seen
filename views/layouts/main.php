@@ -96,7 +96,7 @@ AppAsset::register($this);
 									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
 									['label' => Yii::t('Site/Navigation', 'Import'), 'url' => ['user/import']],
 									['label' => '', 'options' => ['class' => 'divider']],
-									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout'], 'linkOptions' => ['data-method' => 'post']],
+									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout']],
 								]
 							]
 						],

@@ -29,7 +29,6 @@ use \app\components\Email;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-
 	const EVENT_AFTER_REGISTER = 'afterRegister';
 
 	/**
@@ -99,6 +98,11 @@ class User extends ActiveRecord implements IdentityInterface
 		$scenarios['account'] = ['email', 'name', 'language_id', 'timezone', 'password'];
 
 		return $scenarios;
+	}
+
+	public static function salt()
+	{
+		return Yii::$app->params['salt'];
 	}
 
 	/**
@@ -219,7 +223,7 @@ class User extends ActiveRecord implements IdentityInterface
 	 * @return string Encrypted password
 	 */
 	private function encryptPassword($password) {
-		return crypt(crypt($password, self::SALT), $this->generateSalt());
+		return crypt(crypt($password, self::salt()), $this->generateSalt());
 	}
 
 	/**
@@ -254,7 +258,7 @@ class User extends ActiveRecord implements IdentityInterface
 	 */
 	public function validatePassword($password)
 	{
-		return (crypt(crypt($password, self::SALT), $this->decryptSalt($this->password)) == $this->password);
+		return (crypt(crypt($password, self::salt()), $this->decryptSalt($this->password)) == $this->password);
 	}
 
 	public function generateResetKey()
