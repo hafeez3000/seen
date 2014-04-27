@@ -290,12 +290,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "e0d1e406d361ac0ed8b9df60f52e14d39fceb084"
+                "reference": "d66a15154efbe3ee239846f93c60189bac5808e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/e0d1e406d361ac0ed8b9df60f52e14d39fceb084",
-                "reference": "e0d1e406d361ac0ed8b9df60f52e14d39fceb084",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/d66a15154efbe3ee239846f93c60189bac5808e3",
+                "reference": "d66a15154efbe3ee239846f93c60189bac5808e3",
                 "shasum": ""
             },
             "type": "library",
@@ -330,7 +330,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-04-25 02:16:09"
+            "time": "2014-04-27 01:41:25"
         },
         {
             "name": "yiisoft/jquery",
@@ -387,12 +387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "f52dab25cef675b7d24a73889689914aec4f1b55"
+                "reference": "ecc6524a5320185ddc3cebd8ec4024fcdc39afc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f52dab25cef675b7d24a73889689914aec4f1b55",
-                "reference": "f52dab25cef675b7d24a73889689914aec4f1b55",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ecc6524a5320185ddc3cebd8ec4024fcdc39afc8",
+                "reference": "ecc6524a5320185ddc3cebd8ec4024fcdc39afc8",
                 "shasum": ""
             },
             "require": {
@@ -457,7 +457,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-04-26 02:22:03"
+            "time": "2014-04-27 16:14:30"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -658,12 +658,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/MinkBrowserKitDriver.git",
-                "reference": "95d2789de8d8340e7cd816c8c08f32c40968cffd"
+                "reference": "249e145d2a795ea2a667857c3a338616237264e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkBrowserKitDriver/zipball/95d2789de8d8340e7cd816c8c08f32c40968cffd",
-                "reference": "95d2789de8d8340e7cd816c8c08f32c40968cffd",
+                "url": "https://api.github.com/repos/Behat/MinkBrowserKitDriver/zipball/249e145d2a795ea2a667857c3a338616237264e8",
+                "reference": "249e145d2a795ea2a667857c3a338616237264e8",
                 "shasum": ""
             },
             "require": {
@@ -705,7 +705,7 @@
                 "browser",
                 "testing"
             ],
-            "time": "2014-02-05 14:51:09"
+            "time": "2014-04-27 17:34:22"
         },
         {
             "name": "behat/mink-goutte-driver",
@@ -713,18 +713,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/MinkGoutteDriver.git",
-                "reference": "e08594d9849592a13dacc6ab21b9801e459e2a19"
+                "reference": "3d4c078537d903a987d69a15f4dc9a71fa59673e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkGoutteDriver/zipball/e08594d9849592a13dacc6ab21b9801e459e2a19",
-                "reference": "e08594d9849592a13dacc6ab21b9801e459e2a19",
+                "url": "https://api.github.com/repos/Behat/MinkGoutteDriver/zipball/3d4c078537d903a987d69a15f4dc9a71fa59673e",
+                "reference": "3d4c078537d903a987d69a15f4dc9a71fa59673e",
                 "shasum": ""
             },
             "require": {
                 "behat/mink": "~1.5@dev",
                 "behat/mink-browserkit-driver": "~1.1@dev",
-                "fabpot/goutte": "~1.0",
+                "fabpot/goutte": "~1.0,>=1.0.4",
                 "php": ">=5.3.1"
             },
             "type": "mink-driver",
@@ -757,7 +757,7 @@
                 "headless",
                 "testing"
             ],
-            "time": "2014-02-05 01:38:15"
+            "time": "2014-04-27 16:49:03"
         },
         {
             "name": "behat/mink-selenium2-driver",

@@ -70,7 +70,13 @@ AppAsset::register($this);
 							'url' => ['email/index'],
 							'visible' => Yii::$app->user->can('viewEmails'),
 							'active' => Yii::$app->controller->id == 'email',
-						]
+						],
+						[
+							'label' => Yii::t('Site/Navigation', 'Log'),
+							'url' => ['log/index'],
+							'visible' => Yii::$app->user->can('viewLogs'),
+							'active' => Yii::$app->controller->id == 'log',
+						],
 					],
 				]);
 
