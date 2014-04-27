@@ -155,6 +155,8 @@ class SyncController extends Controller
 
 	public function actionMovies()
 	{
+		$movieDb = new MovieDb;
+
 		$movies = Movie::find()
 			->with('language');
 
@@ -178,6 +180,8 @@ class SyncController extends Controller
 
 	public function actionMoviesChanges()
 	{
+		$movieDb = new MovieDb;
+
 		$movieChanges = $movieDb->getMovieChanges();
 
 		$languages = Language::find()->all();
