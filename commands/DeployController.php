@@ -17,7 +17,8 @@ class DeployController extends Controller
 
 		$output = $this->run([
 			'cd /var/www/seenapp.com/main',
-			'git pull -f',
+			'git fetch -all',
+			'git reset --hard origin/master',
 			'composer install',
 			'./yii migrate --interactive=0',
 			'grunt build_production',
