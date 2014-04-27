@@ -7,7 +7,7 @@ $this->title[] = Yii::t('Site/Privacy', 'Privacy');
 
 <h1>Privacy</h1>
 
-<p>This Privacy Policy governs the manner in which Tim Helfensdörfer collects, uses, maintains and discloses information collected from users (each, a "User") of the http://quptime.computersciencegenius.com/ website ("Site"). This privacy policy applies to the Site and all products and services offered by Tim Helfensdörfer.</p>
+<p>This Privacy Policy governs the manner in which <strong>SEEN</strong> collects, uses, maintains and discloses information collected from users (each, a "User") of the http://quptime.computersciencegenius.com/ website ("Site"). This privacy policy applies to the Site and all products and services offered by <strong>SEEN</strong>.</p>
 
 <h2>Personal identification information</h2>
 
@@ -23,7 +23,7 @@ $this->title[] = Yii::t('Site/Privacy', 'Privacy');
 
 <h2>How we use collected information</h2>
 
-<p>Tim Helfensdörfer may collect and use Users personal information for the following purposes:</p>
+<p><strong>SEEN</strong> may collect and use Users personal information for the following purposes:</p>
 
 <ul>
 	<li>To improve customer service<br>
@@ -50,12 +50,12 @@ $this->title[] = Yii::t('Site/Privacy', 'Privacy');
 
 <h2>Changes to this privacy policy</h2>
 
-<p>Tim Helfensdörfer has the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this privacy policy periodically and become aware of modifications.</p>
+<p><strong>SEEN</strong> has the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this privacy policy periodically and become aware of modifications.</p>
 
 <h2>Your acceptance of these terms</h2>
 
 <p>By using this Site, you signify your acceptance of this policy. If you do not agree to this policy, please do not use our Site. Your continued use of the Site following the posting of changes to this policy will be deemed your acceptance of those changes.</p>
 
-<p>This document was last updated on March 24, 2014</p>
+<p>This document was last updated on April 27, 2014</p>
 
 <p class="text-muted">Privacy policy created by http://www.generateprivacypolicy.com</p>
