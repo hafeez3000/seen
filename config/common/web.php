@@ -4,6 +4,7 @@ $baseUrl = dirname($_SERVER['SCRIPT_NAME']);
 if ($baseUrl == '/')
 	$baseUrl = '';
 
+$config['bootstrap'][] = 'app\components\bootstrap\MaintenanceBootstrap';
 $config['bootstrap'][] = 'log';
 $config['bootstrap'][] = 'app\components\bootstrap\BugsnagBootstrap';
 $config['bootstrap'][] = 'app\components\bootstrap\EventBootstrap';

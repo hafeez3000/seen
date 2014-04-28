@@ -17,12 +17,14 @@ class DeployController extends Controller
 
 		$output = $this->run([
 			'cd /var/www/seenapp.com/main',
+			'touch .maintenance',
 			'git fetch --all',
 			'git reset --hard origin/master',
 			'composer install',
 			'./yii migrate --interactive=0',
 			'grunt build_production',
-			'./yii cache/flush'
+			'./yii cache/flush',
+			'rm -f .maintenance',
 		], function($line) {
 			echo $line;
 		});
