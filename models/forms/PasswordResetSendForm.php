@@ -22,18 +22,25 @@ class PasswordResetSendForm extends Model
 	{
 		return [
 			[['email'], 'required'],
-			[['email'], 'exist', 'targetClass' => User::className(), 'targetAttribute' => 'email'],
+			[['email'], 'email'],
 		];
 	}
 
 	/**
 	 * Generate a reset token and send the token to the user.
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function send()
 	{
 		$user = User::findByEmail($this->email);
+		if ($user === null) {
+			// Pretend sending email
+			sleep(1);
+
+			return true;
+		}
+
 		$user->generateResetKey();
 		$user->save();
 
