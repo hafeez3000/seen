@@ -5,6 +5,9 @@ if ($baseUrl == '/')
 	$baseUrl = '';
 
 $config['bootstrap'] = [
+	'log',
+	'app\components\bootstrap\BugsnagBootstrap',
+	'app\components\bootstrap\EventBootstrap',
 	'app\components\bootstrap\LanguageBootstrap',
 ];
 
@@ -12,8 +15,6 @@ $config['components']['user'] = [
 	'identityClass' => 'app\models\User',
 	'enableAutoLogin' => true,
 ];
-
-$config['components']['log']['targets']['bugsnag']['enabled'] = false;
 
 $config['components']['errorHandler'] = [
 	'errorAction' => 'site/error',

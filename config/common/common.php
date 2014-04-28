@@ -2,11 +2,6 @@
 
 $config['name'] = 'SEEN';
 $config['basePath'] = dirname(dirname(__DIR__));
-$config['bootstrap'] = [
-	'log',
-	'app\components\bootstrap\BugsnagBootstrap',
-	'app\components\bootstrap\EventBootstrap',
-];
 $config['language'] = 'de';
 
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');

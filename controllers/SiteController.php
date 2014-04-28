@@ -49,14 +49,6 @@ class SiteController extends Controller
 		];
 	}
 
-	public function afterAction($action, $result)
-	{
-		if ($action->id == 'error')
-			Yii::$app->bugsnag->notifyException(Yii::$app->errorHandler->exception);
-
-		return parent::afterAction($action, $result);;
-	}
-
 	public function randomImage()
 	{
 		$data = Yii::$app->db
