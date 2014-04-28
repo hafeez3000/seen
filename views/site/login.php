@@ -28,7 +28,7 @@ $this->title[] = Yii::t('Site/Login', 'Login');
 		<?php echo Html::submitButton(Yii::t('Site/Login', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 
 		<div class="form-toolbar">
-			<a href="<?php echo Url::toRoute(['reset']) ?>"><?php echo Yii::t('Site/SignupLogin', 'Forget your password?') ?></a>
+			<a href="<?php echo Url::toRoute(['reset']) ?>"><?php echo Yii::t('Site/Login', 'Forget your password?') ?></a>
 			&nbsp;|&nbsp;
 			<a href="<?php echo Url::toRoute(['sign-up']) ?>"><?php echo Yii::t('Site/Login', 'Don\'t have an account yet?') ?></a>
 		</div>
