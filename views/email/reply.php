@@ -8,6 +8,9 @@ use \yii\helpers\Html;
 use \yii\widgets\ActiveForm;
 
 use \app\components\LanguageHelper;
+
+$this->title[] = $email->subject;
+$this->title[] = Yii::t('Email', 'Emails');
 ?>
 
 <div id="email-reply">

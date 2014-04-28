@@ -4,6 +4,8 @@
  */
 
 use \yii\widgets\LinkPager;
+
+$this->title[] = Yii::t('Email', 'Emails');
 ?>
 
 <div id="email-index">

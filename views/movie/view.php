@@ -7,6 +7,9 @@ use \yii\helpers\Html;
 use \yii\helpers\Url;
 
 use \app\components\LanguageHelper;
+
+$this->title[] = $movie->title;
+$this->title[] = Yii::t('Movie/View', 'Movies');
 ?>
 
 <h1>

@@ -2,6 +2,8 @@
 /**
  * @var yii\web\View $this
  */
+
+$this->title[] = Yii::t('Log/Index', 'Log messages');
 ?>
 
 <div id="log-index">

@@ -2,6 +2,7 @@
 /**
  * @var yii\web\View $this
  */
+$this->title[] = Yii::t('Show/Archive', 'TV Show Archive');
 
 echo $this->render('_dashboard', [
 	'archive' => true,

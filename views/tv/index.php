@@ -5,6 +5,8 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
+
+$this->title[] = Yii::t('Show/Index', 'TV Shows');
 ?>
 
 <div id="tv-index">

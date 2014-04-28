@@ -5,6 +5,9 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
+
+$this->title[] = $show->name;
+$this->title[] = Yii::t('Show/View', 'TV Shows');
 ?>
 
 <div id="tv-view" data-subscribed="<?php echo $show->isUserSubscribed ? 1 : 0; ?>">
