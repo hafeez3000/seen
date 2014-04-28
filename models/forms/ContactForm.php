@@ -50,7 +50,7 @@ class ContactForm extends Model
 	public function contact()
 	{
 		if ($this->validate()) {
-			$email = new Email;
+			$email = new Email($this->name, $this->email);
 			$email->to = Yii::$app->params['email']['admin'];
 			$email->subject = Yii::t('Email/Contact', '[seen] {subject}', ['subject' => $this->subject]);
 
