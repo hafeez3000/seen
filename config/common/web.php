@@ -4,6 +4,10 @@ $baseUrl = dirname($_SERVER['SCRIPT_NAME']);
 if ($baseUrl == '/')
 	$baseUrl = '';
 
+$config['bootstrap'] = [
+	'app\components\bootstrap\LanguageBootstrap',
+];
+
 $config['components']['user'] = [
 	'identityClass' => 'app\models\User',
 	'enableAutoLogin' => true,

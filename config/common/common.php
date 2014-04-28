@@ -6,7 +6,6 @@ $config['bootstrap'] = [
 	'log',
 	'app\components\bootstrap\BugsnagBootstrap',
 	'app\components\bootstrap\EventBootstrap',
-	'app\components\bootstrap\LanguageBootstrap',
 ];
 $config['language'] = 'de';
 
