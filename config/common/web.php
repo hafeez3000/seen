@@ -4,12 +4,10 @@ $baseUrl = dirname($_SERVER['SCRIPT_NAME']);
 if ($baseUrl == '/')
 	$baseUrl = '';
 
-$config['bootstrap'] = [
-	'log',
-	'app\components\bootstrap\BugsnagBootstrap',
-	'app\components\bootstrap\EventBootstrap',
-	'app\components\bootstrap\LanguageBootstrap',
-];
+$config['bootstrap'][] = 'log';
+$config['bootstrap'][] = 'app\components\bootstrap\BugsnagBootstrap';
+$config['bootstrap'][] = 'app\components\bootstrap\EventBootstrap';
+$config['bootstrap'][] = 'app\components\bootstrap\LanguageBootstrap';
 
 $config['components']['user'] = [
 	'identityClass' => 'app\models\User',

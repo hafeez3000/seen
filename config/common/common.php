@@ -3,6 +3,7 @@
 $config['name'] = 'SEEN';
 $config['basePath'] = dirname(dirname(__DIR__));
 $config['language'] = 'de';
+$config['bootstrap'] = [];
 
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');
 
