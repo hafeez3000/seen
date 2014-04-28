@@ -1,5 +1,6 @@
 <?php namespace app\components;
 
+use \Yii;
 use \yii\log\Logger;
 use \yii\log\Target;
 
