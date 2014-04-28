@@ -24,6 +24,7 @@ class BugsnagBootstrap implements BootstrapInterface
 			]);
 
 		$bugsnag->setReleaseStage(YII_ENV_TEST ? 'development' : 'production');
+		$bugsnag->setNotifyReleaseStages(['production']);
 
 		if (php_sapi_name() == 'CLI')
 			$bugsnag->setType('console');
