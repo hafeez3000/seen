@@ -13,7 +13,8 @@
 		"zelenin/yii2-slug-behavior": "0.1.*",
 		"nesbot/Carbon": "1.8.*",
 		"mailchimp/mailchimp": "2.0.*",
-		"mandrill/mandrill": "1.0.*"
+		"mandrill/mandrill": "1.0.*",
+		"bugsnag/bugsnag": "2.*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",

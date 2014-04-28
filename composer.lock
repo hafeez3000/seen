@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2f440e5fb97ac1ac3bd70eca05534c29",
+    "hash": "6137597eb94260ab1ed903ebf71f9a7a",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -47,6 +47,55 @@
                 "yii"
             ],
             "time": "2014-01-17 15:55:42"
+        },
+        {
+            "name": "bugsnag/bugsnag",
+            "version": "v2.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bugsnag/bugsnag-php.git",
+                "reference": "b35116acf3a5d760afafe11ec3214ec3983dedfa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/b35116acf3a5d760afafe11ec3214ec3983dedfa",
+                "reference": "b35116acf3a5d760afafe11ec3214ec3983dedfa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "kherge/box": "~2.0",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Bugsnag_": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "James Smith",
+                    "email": "notifiers@bugsnag.com",
+                    "homepage": "https://bugsnag.com"
+                }
+            ],
+            "description": "Official Bugsnag notifier for PHP applications.",
+            "homepage": "https://github.com/bugsnag/bugsnag-php",
+            "keywords": [
+                "bugsnag",
+                "errors",
+                "exceptions",
+                "logging",
+                "tracking"
+            ],
+            "time": "2014-04-18 23:50:43"
         },
         {
             "name": "cebe/markdown",
@@ -93,7 +142,7 @@
                     "name": "Carsten Brandt",
                     "email": "mail@cebe.cc",
                     "homepage": "http://cebe.cc/",
-                    "role": "Core framework development"
+                    "role": "Creator"
                 }
             ],
             "description": "A super fast highly extensible markdown parser for PHP",
@@ -290,12 +339,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "d66a15154efbe3ee239846f93c60189bac5808e3"
+                "reference": "bde5f1fe9f837cce036821be5aaf6c40e19a8097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/d66a15154efbe3ee239846f93c60189bac5808e3",
-                "reference": "d66a15154efbe3ee239846f93c60189bac5808e3",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/bde5f1fe9f837cce036821be5aaf6c40e19a8097",
+                "reference": "bde5f1fe9f837cce036821be5aaf6c40e19a8097",
                 "shasum": ""
             },
             "type": "library",
@@ -330,7 +379,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-04-27 01:41:25"
+            "time": "2014-04-28 05:29:14"
         },
         {
             "name": "yiisoft/jquery",
@@ -387,12 +436,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "ecc6524a5320185ddc3cebd8ec4024fcdc39afc8"
+                "reference": "0e6ba5ba6cde17b385737a09370dd9b8e9cfda8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ecc6524a5320185ddc3cebd8ec4024fcdc39afc8",
-                "reference": "ecc6524a5320185ddc3cebd8ec4024fcdc39afc8",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/0e6ba5ba6cde17b385737a09370dd9b8e9cfda8d",
+                "reference": "0e6ba5ba6cde17b385737a09370dd9b8e9cfda8d",
                 "shasum": ""
             },
             "require": {
@@ -457,7 +506,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-04-27 16:14:30"
+            "time": "2014-04-27 21:22:07"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -658,12 +707,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/MinkBrowserKitDriver.git",
-                "reference": "249e145d2a795ea2a667857c3a338616237264e8"
+                "reference": "2f33c28e4b8e5b026e87303cca52048f303b289e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkBrowserKitDriver/zipball/249e145d2a795ea2a667857c3a338616237264e8",
-                "reference": "249e145d2a795ea2a667857c3a338616237264e8",
+                "url": "https://api.github.com/repos/Behat/MinkBrowserKitDriver/zipball/2f33c28e4b8e5b026e87303cca52048f303b289e",
+                "reference": "2f33c28e4b8e5b026e87303cca52048f303b289e",
                 "shasum": ""
             },
             "require": {
@@ -705,7 +754,7 @@
                 "browser",
                 "testing"
             ],
-            "time": "2014-04-27 17:34:22"
+            "time": "2014-04-27 22:16:38"
         },
         {
             "name": "behat/mink-goutte-driver",
@@ -1295,7 +1344,7 @@
                 {
                     "name": "Anthon Pang",
                     "email": "apang@softwaredevelopment.ca",
-                    "role": "developer"
+                    "role": "Fork Maintainer"
                 }
             ],
             "description": "PHP WebDriver for Selenium 2",
@@ -2301,12 +2350,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "bb25c2766e5e4c85f9498d1aa44a9d2158a7a302"
+                "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/bb25c2766e5e4c85f9498d1aa44a9d2158a7a302",
-                "reference": "bb25c2766e5e4c85f9498d1aa44a9d2158a7a302",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/8a3edace8e8aabed8992b993bfc13df3b1e836f2",
+                "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
                 "shasum": ""
             },
             "require": {
@@ -2341,7 +2390,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-04-23 14:08:54"
+            "time": "2014-04-28 05:15:04"
         },
         {
             "name": "symfony/yaml",

@@ -2,7 +2,12 @@
 
 $config['name'] = 'SEEN';
 $config['basePath'] = dirname(dirname(__DIR__));
-$config['bootstrap'] = ['log'];
+$config['bootstrap'] = [
+	'log',
+	'app\components\bootstrap\BugsnagBootstrap',
+	'app\components\bootstrap\EventBootstrap',
+	'app\components\bootstrap\LanguageBootstrap',
+];
 $config['language'] = 'de';
 
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');
@@ -63,6 +68,10 @@ $config['components']['log'] = [
 			'class' => 'yii\log\DbTarget',
 			'levels' => ['error', 'warning', 'info'],
 			'categories' => ['application\sync'],
+		],
+		'bugsnag' => [ // Log errors to bugsnag
+			'class' => 'app\components\BugsnagLogger',
+			'levels' => ['error', 'warning'],
 		]
 	],
 ];

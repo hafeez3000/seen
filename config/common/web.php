@@ -9,6 +9,8 @@ $config['components']['user'] = [
 	'enableAutoLogin' => true,
 ];
 
+$config['components']['log']['targets']['bugsnag']['enabled'] = false;
+
 $config['components']['errorHandler'] = [
 	'errorAction' => 'site/error',
 ];
