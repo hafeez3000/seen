@@ -17,7 +17,7 @@ use \app\components\LanguageHelper;
 				<?php echo $title; ?>
 
 				<?php if (!$archive): ?>
-					<small><a href="<?php echo Url::toRoute(['archive']); ?>"><?php echo Yii::t('User/Dashboard', 'Archive'); ?></a></small>
+					<small><a href="<?php echo Url::toRoute(['archive']); ?>"><?php echo Yii::t('Show/Dashboard', 'Archive'); ?></a></small>
 				<?php endif; ?>
 			</h1>
 		</div>

@@ -21,7 +21,7 @@ use \yii\helpers\Url;
 		</div>
 
 		<div class="pull-right" id="missing-information">
-			<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank"  title="<?php echo Yii::t('Season/View', 'Update information on The Movie Database') ?>">
+			<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank"  title="<?php echo Yii::t('Show/View', 'Update information on The Movie Database') ?>">
 				<?php echo Yii::t('Show/View', 'Missing information?') ?>
 			</a>
 		</div>

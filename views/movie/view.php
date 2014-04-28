@@ -30,7 +30,7 @@ use \app\components\LanguageHelper;
 
 			<?php if (count($userMovies)): ?>
 				<div id="movie-view-watched">
-					<h2><?php echo Yii::t('User', 'Watched {count} times', ['count' => count($userMovies)]); ?></h2>
+					<h2><?php echo Yii::t('Movie/View', 'Watched {count} times', ['count' => count($userMovies)]); ?></h2>
 
 					<ul id="movie-view-watched-list" class="list-unstyled list-inline">
 						<?php foreach ($userMovies as $userMovie): ?>
