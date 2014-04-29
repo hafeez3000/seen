@@ -11,6 +11,9 @@ class BugsnagBootstrap implements BootstrapInterface
 	 */
 	public function bootstrap($app)
 	{
+		if (!isset(Yii::$app->params['bugsnag']['key']))
+			return;
+
 		$bugsnag = new \Bugsnag_Client(Yii::$app->params['bugsnag']['key']);
 
 		if (!isset(Yii::$app->user) || Yii::$app->user->isGuest)

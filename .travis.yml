@@ -1,0 +1,11 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+
+install: composer install --dev --no-progress
+
+before_script: mysql -e 'create database testing;'
+
+script: ./vendor/bin/codecept run unit

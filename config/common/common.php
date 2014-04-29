@@ -43,34 +43,6 @@ $config['components']['urlManager'] = [
 	],
 ];
 
-$config['components']['log'] = [
-	'traceLevel' => YII_DEBUG ? 3 : 0,
-	'targets' => [
-		'file' => [ // Log errors to file as a fallback
-			'class' => 'yii\log\FileTarget',
-			'levels' => ['error'],
-		],
-		'db' => [ // Log important messages to database
-			'class' => 'yii\log\DbTarget',
-			'levels' => ['error', 'warning'],
-		],
-		'mail' => [ // Log emails to database
-			'class' => 'yii\log\DbTarget',
-			'levels' => ['error', 'warning', 'info'],
-			'categories' => ['application\mail'],
-		],
-		'sync' => [ // Log sync messages to database
-			'class' => 'yii\log\DbTarget',
-			'levels' => ['error', 'warning', 'info'],
-			'categories' => ['application\sync'],
-		],
-		'bugsnag' => [ // Log errors to bugsnag
-			'class' => 'app\components\BugsnagLogger',
-			'levels' => ['error', 'warning'],
-		]
-	],
-];
-
 $config['components']['i18n'] = [
 	'translations' => [
 		'*' => [
@@ -82,6 +54,36 @@ $config['components']['i18n'] = [
 $config['components']['authManager'] = [
 	'class' => 'yii\rbac\DbManager',
 ];
+
+if (!YII_ENV_TEST) {
+	$config['components']['log'] = [
+		'traceLevel' => YII_DEBUG ? 3 : 0,
+		'targets' => [
+			'file' => [ // Log errors to file as a fallback
+				'class' => 'yii\log\FileTarget',
+				'levels' => ['error'],
+			],
+			'db' => [ // Log important messages to database
+				'class' => 'yii\log\DbTarget',
+				'levels' => ['error', 'warning'],
+			],
+			'mail' => [ // Log emails to database
+				'class' => 'yii\log\DbTarget',
+				'levels' => ['error', 'warning', 'info'],
+				'categories' => ['application\mail'],
+			],
+			'sync' => [ // Log sync messages to database
+				'class' => 'yii\log\DbTarget',
+				'levels' => ['error', 'warning', 'info'],
+				'categories' => ['application\sync'],
+			],
+			'bugsnag' => [ // Log errors to bugsnag
+				'class' => 'app\components\BugsnagLogger',
+				'levels' => ['error', 'warning'],
+			]
+		],
+	];
+}
 
 if (YII_ENV_DEV) {
 	$config['bootstrap'][] = 'debug';

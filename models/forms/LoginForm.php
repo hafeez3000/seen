@@ -14,7 +14,7 @@ class LoginForm extends Model
 	public $password;
 	public $rememberMe = true;
 
-	private $_user = false;
+	private $_user = null;
 
 	/**
 	 *	Define validation rules.
@@ -41,7 +41,7 @@ class LoginForm extends Model
 		if (!$this->hasErrors()) {
 			$user = $this->getUser();
 
-			if (!$user || !$user->validatePassword($this->password)) {
+			if ($user === null || !$user->validatePassword($this->password)) {
 				$this->addError('password', Yii::t('User/LoginForm', 'Incorrect email or password.'));
 			}
 		}
@@ -68,9 +68,8 @@ class LoginForm extends Model
 	 */
 	public function getUser()
 	{
-		if ($this->_user === false) {
+		if ($this->_user === null)
 			$this->_user = User::findByEmail($this->email);
-		}
 
 		return $this->_user;
 	}

@@ -219,10 +219,10 @@ class User extends ActiveRecord implements IdentityInterface
 	 *
 	 * @param string $password
 	 *
-	 * @access private
+	 * @access public
 	 * @return string Encrypted password
 	 */
-	private function encryptPassword($password) {
+	public function encryptPassword($password) {
 		return crypt(crypt($password, self::salt()), $this->generateSalt());
 	}
 
