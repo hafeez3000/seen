@@ -4,7 +4,10 @@ php:
   - 5.4
   - 5.5
 
-install: composer install --dev --no-progress
+install:
+  - composer self-update
+  - composer install --dev --no-progress
+  - npm install -g bower
 
 before_script: mysql -e 'create database testing;'
 
