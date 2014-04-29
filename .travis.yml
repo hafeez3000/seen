@@ -6,8 +6,8 @@ php:
 
 install:
   - composer self-update
-  - composer install --dev --no-progress
   - npm install -g bower
+  - composer install --dev --no-progress
 
 before_script: mysql -e 'create database testing;'
 
