@@ -20,7 +20,7 @@ class DeployController extends Controller
 			'touch .maintenance',
 			'git fetch --all',
 			'git reset --hard origin/master',
-			'composer install',
+			'composer install --optimize-autoloader --no-dev',
 			'./yii migrate --interactive=0',
 			'grunt build_production',
 			'./yii cache/flush',
