@@ -42,6 +42,16 @@ class ContactForm extends Model
 		];
 	}
 
+	public function init()
+	{
+		if (!Yii::$app->user->isGuest) {
+			$this->name = Yii::$app->user->identity->name;
+			$this->email = Yii::$app->user->identity->email;
+		}
+
+		return parent::init();
+	}
+
 	/**
 	 * Sends an email to the specified email address using the information collected by this model.
 	 *
