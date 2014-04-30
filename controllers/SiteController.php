@@ -5,7 +5,8 @@ use \yii\filters\AccessControl;
 use \yii\web\Controller;
 use \yii\filters\VerbFilter;
 
-use app\models\User;
+use \app\models\User;
+use \app\models\Language;
 use \app\models\forms\LoginForm;
 use \app\models\forms\SignupForm;
 use \app\models\forms\ContactForm;
@@ -180,5 +181,29 @@ class SiteController extends Controller
 			return $this->render('privacy/' . Yii::$app->language);
 		else
 			return $this->render('privacy/en');
+	}
+
+	public function actionLanguage($iso)
+	{
+		$language = Language::find()
+			->select(['id', 'iso'])
+			->where(['iso' => $iso])
+			->asArray()
+			->one();
+
+		if ($language === null)
+			throw new \yii\web\NotFoundHttpException(Yii::t('Site', 'The language does not exist!'));
+
+		if (Yii::$app->user->isGuest) {
+			Yii::$app->session->set('language', $language['iso']);
+		} else {
+			$user = Yii::$app->user->identity;
+			$user->language_id = $language['id'];
+
+			if (!$user->save())
+				Yii::error("Could not save language #{$language['id']} for user #{$user->id}!");
+		}
+
+		return $this->goBack();
 	}
 }
