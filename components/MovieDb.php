@@ -211,7 +211,9 @@ class MovieDb
 
 	public function getEpisode($episode)
 	{
-		return $this->get(sprintf('/tv/%s/season/%s/episode/%s', $episode->season->show->themoviedb_id, $episode->season->number, $episode->number), [
+		$episodeNumber = !empty($episode->number) ? $episode->number : '0';
+
+		return $this->get(sprintf('/tv/%s/season/%s/episode/%s', $episode->season->show->themoviedb_id, $episode->season->number, $episodeNumber), [
 			'language' => $episode->season->show->language->iso,
 		]);
 	}
