@@ -63,6 +63,6 @@ class LanguageBootstrap implements BootstrapInterface
 				$language = Yii::$app->params['lang']['default'];
 		}
 
-		$app->set('language', $language);
+		$app->language = $language;
 	}
 }
