@@ -32,6 +32,8 @@ class SyncController extends Controller
 
 	public function actionShows()
 	{
+		Yii::info('Sync shows...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$shows = Show::find()
@@ -63,6 +65,8 @@ class SyncController extends Controller
 
 	public function actionSeasons()
 	{
+		Yii::info('Sync seasons...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$seasons = Season::find()
@@ -94,6 +98,8 @@ class SyncController extends Controller
 
 	public function actionEpisodes()
 	{
+		Yii::info('Sync episodes...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$episodes = Episode::find()
@@ -126,6 +132,8 @@ class SyncController extends Controller
 
 	public function actionMoviesSimilar()
 	{
+		Yii::info('Sync similar movies...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$similarMovies = MovieSimilar::find()
@@ -155,6 +163,8 @@ class SyncController extends Controller
 
 	public function actionMovies()
 	{
+		Yii::info('Sync movies...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$movies = Movie::find()
@@ -180,6 +190,8 @@ class SyncController extends Controller
 
 	public function actionMoviesChanges()
 	{
+		Yii::info('Sync movie changes...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$movieChanges = $movieDb->getMovieChanges();
@@ -207,6 +219,8 @@ class SyncController extends Controller
 
 	public function actionPopularMovies()
 	{
+		Yii::info('Sync popular movies...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$languages = Language::find();
@@ -261,6 +275,8 @@ class SyncController extends Controller
 
 	public function actionPopularShows()
 	{
+		Yii::info('Sync popular shows...', 'application\sync');
+
 		$movieDb = new MovieDb;
 
 		$languages = Language::find();
