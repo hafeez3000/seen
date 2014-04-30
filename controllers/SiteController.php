@@ -204,6 +204,6 @@ class SiteController extends Controller
 				Yii::error("Could not save language #{$language['id']} for user #{$user->id}!");
 		}
 
-		return $this->goBack();
+		return $this->redirect(Yii::$app->request->referrer);
 	}
 }

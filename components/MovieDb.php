@@ -481,6 +481,8 @@ class MovieDb
 
 	public function syncEpisode($episode)
 	{
+		Yii::info("Syncing episode #{$episode->id}...", 'application\sync');
+
 		$attributes = $this->getEpisode($episode);
 
 		if ($attributes == false)
@@ -669,7 +671,7 @@ class MovieDb
 			$movie->slug = '';
 
 		if (!$movie->save()) {
-			Yii::warning("Could update movie #{$movie->id} '" . $movie->errors . "': " . serialize($attributes), 'application\sync');
+			Yii::warning("Could update movie #{$movie->id} '" . serialize($movie->errors) . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
 

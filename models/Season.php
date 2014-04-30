@@ -85,7 +85,8 @@ class Season extends ActiveRecord
 	 */
 	public function getEpisodes()
 	{
-		return $this->hasMany(Episode::className(), ['season_id' => 'id']);
+		return $this->hasMany(Episode::className(), ['season_id' => 'id'])
+			->orderBy(['{{%episode}}.[[number]]' => SORT_ASC]);
 	}
 
 	/**
