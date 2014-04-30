@@ -39,6 +39,11 @@ $config['components']['urlManager'] = [
 		'reset-password' => 'site/reset',
 		'reset-password/<token:.*?>' => 'site/reset-password',
 
+		'dev' => 'developer/index',
+
+		'dev/consumer' => 'oauth-application/index',
+		'dev/consumer/create' => 'oauth-application/create',
+
 		'<controller:\w+>/<id:\d+>' => '<controller>/view',
 		'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 		'<controller:\w+>/<action:\d+>' => '<controller>/<action>',
