@@ -64,12 +64,25 @@
 			}
 		}
 
+		> a {
+			display: block;
+			height: 100%;
+			width: 100%;
+		}
+
 		img {
 			width: 100%;
-			height: auto;
 
 			.grayscale(60%);
 			.transition(all .3s ease);
+
+			@media (min-width: @screen-sm-min) {
+				height: 250px!important;
+			}
+
+			@media (min-width: @screen-md-min) {
+				height: 257px!important;
+			}
 
 			&:hover {
 				.grayscale-disable();
@@ -88,6 +101,20 @@
 #tv-index {
 	.tv-index {
 		margin-bottom: 20px;
+
+		img {
+			@media (min-width: @screen-sm-min) {
+				height: 323px!important;
+			}
+
+			@media (min-width: @screen-md-min) {
+				height: 312px!important;
+			}
+
+			@media (min-width: @screen-lg-min) {
+				height: 243px!important;
+			}
+		}
 	}
 }
 

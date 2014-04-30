@@ -26,5 +26,25 @@
 #movie-index {
 	.movie-index {
 		margin-bottom: 20px;
+
+		a {
+			display: block;
+			height: 100%;
+			width: 100%;
+		}
+
+		img {
+			@media (min-width: @screen-sm-min) {
+				height: 330px!important;
+			}
+
+			@media (min-width: @screen-md-min) {
+				height: 319px!important;
+			}
+
+			@media (min-width: @screen-lg-min) {
+				height: 248px!important;
+			}
+		}
 	}
 }
