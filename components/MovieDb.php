@@ -481,6 +481,8 @@ class MovieDb
 
 	public function syncEpisode($episode)
 	{
+		Yii::info("Syncing episode #{$episode->id}...", 'application\sync');
+
 		$attributes = $this->getEpisode($episode);
 
 		if ($attributes == false)
