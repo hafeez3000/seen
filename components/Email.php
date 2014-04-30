@@ -77,24 +77,28 @@ class Email {
 		);
 
 		try {
-			$response = $this->_mandrill->messages->sendTemplate($template, $vars, [
-				'subject' => $this->subject,
-				'from_email' => $this->_fromEmail,
-				'from_name' => $this->_fromName,
-				'to' => [
-					[
-						'email' => $this->to,
-						'name' => $this->to_name,
-					]
-				],
-				'track_opens' => true,
-				'track_clicks' => true,
-				'url_strip_qs' => true,
-				'preserve_recipients' => true,
-				'global_merge_vars' => Yii::$app->params['email']['mandrill']['globalMergeVars'],
-				'merge_vars' => $mergeVars,
-				'tags' => $tags,
-			], true);
+			if (!YII_ENV_TEST) {
+				$response = $this->_mandrill->messages->sendTemplate($template, $vars, [
+					'subject' => $this->subject,
+					'from_email' => $this->_fromEmail,
+					'from_name' => $this->_fromName,
+					'to' => [
+						[
+							'email' => $this->to,
+							'name' => $this->to_name,
+						]
+					],
+					'track_opens' => true,
+					'track_clicks' => true,
+					'url_strip_qs' => true,
+					'preserve_recipients' => true,
+					'global_merge_vars' => Yii::$app->params['email']['mandrill']['globalMergeVars'],
+					'merge_vars' => $mergeVars,
+					'tags' => $tags,
+				], true);
+			} else {
+				return true;
+			}
 		} catch (\Mandrill_Error $e) {
 			Yii::error("Could not send email: {$e->getMessage()}", 'application\email');
 			return false;
@@ -106,23 +110,27 @@ class Email {
 	public function sendRaw($text, $tags = array())
 	{
 		try {
-			$response = $this->_mandrill->messages->send([
-				'text' => $text,
-				'subject' => $this->subject,
-				'from_email' => $this->_fromEmail,
-				'from_name' => $this->_fromName,
-				'to' => [
-					[
-						'email' => $this->to,
-						'name' => $this->to_name,
-					]
-				],
-				'track_opens' => false,
-				'track_clicks' => false,
-				'url_strip_qs' => true,
-				'preserve_recipients' => true,
-				'tags' => $tags,
-			], true);
+			if (!YII_ENV_TEST) {
+				$response = $this->_mandrill->messages->send([
+					'text' => $text,
+					'subject' => $this->subject,
+					'from_email' => $this->_fromEmail,
+					'from_name' => $this->_fromName,
+					'to' => [
+						[
+							'email' => $this->to,
+							'name' => $this->to_name,
+						]
+					],
+					'track_opens' => false,
+					'track_clicks' => false,
+					'url_strip_qs' => true,
+					'preserve_recipients' => true,
+					'tags' => $tags,
+				], true);
+			} else {
+				return true;
+			}
 		} catch (\Mandrill_Error $e) {
 			Yii::error("Could not send email: {$e->getMessage()}", 'application\email');
 			return false;

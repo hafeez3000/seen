@@ -2,7 +2,6 @@
 
 use \Yii;
 use \yii\codeception\DbTestCase;
-use \Codeception\Util\Debug;
 
 use \app\models\forms\LoginForm;
 use \app\tests\unit\fixtures\UserFixture;

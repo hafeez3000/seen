@@ -2,7 +2,7 @@
 
 $config['name'] = 'SEEN';
 $config['basePath'] = dirname(dirname(__DIR__));
-$config['language'] = 'de';
+$config['language'] = 'en';
 $config['bootstrap'] = [];
 
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');
@@ -33,6 +33,8 @@ $config['components']['urlManager'] = [
 		'login' => 'site/login',
 		'logout' => 'site/logout',
 		'account' => 'user/account',
+
+		'language/<iso:.*?>' => 'site/language',
 
 		'reset-password' => 'site/reset',
 		'reset-password/<token:.*?>' => 'site/reset-password',

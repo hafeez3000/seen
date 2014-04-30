@@ -9,7 +9,7 @@ return [
 		'admin' => 'admin@seenapp.com',
 		'mandrill' => [
 			'baseUrl' => '',
-			'apikey' => '',
+			'apikey' => 'test',
 			'globalMergeVars' => [
 			],
 		],

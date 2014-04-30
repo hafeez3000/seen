@@ -4,12 +4,13 @@
  * @var string $content
  */
 
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\bootstrap\Alert;
+use \yii\helpers\Html;
+use \yii\bootstrap\Nav;
+use \yii\bootstrap\NavBar;
+use \yii\bootstrap\Alert;
 
-use app\assets\AppAsset;
+use \app\assets\AppAsset;
+use \app\components\LanguageHelper;
 
 AppAsset::register($this);
 ?>
@@ -88,6 +89,7 @@ AppAsset::register($this);
 							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index'], 'active' => Yii::$app->controller->id == 'movie'],
 							['label' => Yii::t('Site/Navigation', 'Login'), 'url' => ['site/login']],
 							['label' => Yii::t('Site/Navigation', 'Sign Up'), 'url' => ['site/sign-up']],
+							LanguageHelper::navigation(),
 						],
 					]);
 				} else {
@@ -96,6 +98,7 @@ AppAsset::register($this);
 						'items' => [
 							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index'], 'active' => Yii::$app->controller->id == 'tv'],
 							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index'], 'active' => Yii::$app->controller->id == 'movie'],
+							LanguageHelper::navigation(),
 							['label' => Yii::$app->user->identity->email,
 								'active' => Yii::$app->controller->id == 'user',
 								'items' => [
@@ -104,7 +107,7 @@ AppAsset::register($this);
 									['label' => '', 'options' => ['class' => 'divider']],
 									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout']],
 								]
-							]
+							],
 						],
 					]);
 				}

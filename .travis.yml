@@ -6,8 +6,11 @@ php:
 
 install:
   - composer self-update
-  - composer install --dev --no-progress
   - npm install -g bower
+  - composer install --dev --no-progress
+  - touch ./tests/_localurl.php
+  - echo "<?php return '/web/index-test.php';" >> ./tests/_localurl.php
+  - ./vendor/bin/codecept build
 
 before_script: mysql -e 'create database testing;'
 
