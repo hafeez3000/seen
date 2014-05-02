@@ -17,7 +17,7 @@ $this->title[] = Yii::t('Developer', 'Developer');
 
 <h1><?php echo Html::encode($model->name); ?></h1>
 
-<div id="oauth-consumer-<?php echo $model->id; ?>" class="oauth-consumer-view">
+<div id="oauth-consumer-view">
 	<table class="table table-striped">
 		<tbody>
 			<tr>

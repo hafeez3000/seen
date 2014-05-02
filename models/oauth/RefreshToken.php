@@ -2,6 +2,7 @@
 
 use \Yii;
 use \yii\db\ActiveRecord;
+use \yii\helpers\Security;
 
 use \app\components\TimestampBehavior;
 use \app\models\User;
@@ -69,6 +70,21 @@ class RefreshToken extends ActiveRecord
 				],
 			],
 		];
+	}
+
+	public function beforeValidate()
+	{
+		if ($this->isNewRecord) {
+			$double = true;
+			while ($double) {
+				$this->refresh_token = strtolower(Security::generateRandomKey(32));
+				$double = RefreshToken::find()
+					->where(['refresh_token' => $this->refresh_token])
+					->exists();
+			}
+		}
+
+		return parent::beforeValidate();
 	}
 
 	/**

@@ -18,7 +18,7 @@ $this->title[] = Yii::t('Developer', 'Developer');
 
 <h1><?php echo Html::encode($model->name); ?></h1>
 
-<div id="oauth-consumer-delete-<?php echo $model->id; ?>" class="oauth-consumer-delete">
+<div id="oauth-consumer-delete">
 	<?php $form = ActiveForm::begin([
 		'id' => 'oauth-application-delete',
 	]); ?>

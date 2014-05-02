@@ -18,7 +18,7 @@ $this->title[] = Yii::t('Developer', 'Developer');
 
 <h1><?php echo Html::encode($model->name); ?></h1>
 
-<div id="oauth-consumer-regenerate-<?php echo $model->id; ?>" class="oauth-consumer-regenerate">
+<div id="oauth-consumer-regenerate">
 	<?php $form = ActiveForm::begin([
 		'id' => 'oauth-application-regenerate',
 	]); ?>

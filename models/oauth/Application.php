@@ -29,6 +29,26 @@ use \app\models\User;
 class Application extends ActiveRecord
 {
 	/**
+	 * Read access to watched movies and tv shows.
+	 */
+	const SCOPE_READONLY = 'read';
+
+	/**
+	 * Update account settings like the language (not the email and password).
+	 */
+	const SCOPE_ACCOUNT = 'account';
+
+	/**
+	 * Write access to movies.
+	 */
+	const SCOPE_MOVIES = 'movies';
+
+	/**
+	 * Write access to tv shows.
+	 */
+	const SCOPE_TV_SHOWS = 'tv_shows';
+
+	/**
 	 * @inheritdoc
 	 */
 	public static function tableName()
@@ -90,7 +110,7 @@ class Application extends ActiveRecord
 			'name' => Yii::t('Oauth/Application', 'Name'),
 			'description' => Yii::t('Oauth/Application', 'Description'),
 			'website' => Yii::t('Oauth/Application', 'Website'),
-			'key' => Yii::t('Oauth/Application', 'Key'),
+			'key' => Yii::t('Oauth/Application', 'Client ID'),
 			'secret' => Yii::t('Oauth/Application', 'Secret'),
 			'callback' => Yii::t('Oauth/Application', 'Callback URL'),
 			'created_at' => Yii::t('Oauth/Application', 'Created at'),
@@ -128,6 +148,28 @@ class Application extends ActiveRecord
 		}
 
 		return true;
+	}
+
+	public static function scopes()
+	{
+		return [
+			self::SCOPE_READONLY => [
+				'name' => Yii::t('Scope', 'Readonly'),
+				'description' => Yii::t('Scope', 'Read your account data like email, language and your watched tv shows and movies.'),
+			],
+			self::SCOPE_ACCOUNT => [
+				'name' => Yii::t('Scope', 'Account'),
+				'description' => Yii::t('Scope', 'Update your account settings like your language.'),
+			],
+			self::SCOPE_TV_SHOWS => [
+				'name' => Yii::t('Scope', 'TV Shows'),
+				'description' => Yii::t('Scope', 'Mark episodes as seen and subscribe to tv shows.'),
+			],
+			self::SCOPE_MOVIES => [
+				'name' => Yii::t('Scope', 'Movies'),
+				'description' => Yii::t('Scope', 'Mark movies as seen.'),
+			],
+		];
 	}
 
 	/**

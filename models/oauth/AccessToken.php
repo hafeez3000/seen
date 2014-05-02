@@ -2,6 +2,7 @@
 
 use \Yii;
 use \yii\db\ActiveRecord;
+use \yii\helpers\Security;
 
 use \app\components\TimestampBehavior;
 use \app\models\User;
@@ -22,6 +23,8 @@ use \app\models\User;
  */
 class AccessToken extends ActiveRecord
 {
+	const EXPIRES_IN = 86400;
+
 	/**
 	 * @inheritdoc
 	 */
@@ -71,6 +74,21 @@ class AccessToken extends ActiveRecord
 				],
 			],
 		];
+	}
+
+	public function beforeValidate()
+	{
+		if ($this->isNewRecord) {
+			$double = true;
+			while ($double) {
+				$this->access_token = strtolower(Security::generateRandomKey(32));
+				$double = AccessToken::find()
+					->where(['access_token' => $this->access_token])
+					->exists();
+			}
+		}
+
+		return parent::beforeValidate();
 	}
 
 	/**

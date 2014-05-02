@@ -15,6 +15,7 @@ $config['components']['urlManager'] = [
 	'enablePrettyUrl' => true,
 	'showScriptName' => false,
 	'rules' => [
+		// TV
 		'tv' => 'tv/index',
 		'tv/load' => 'tv/load',
 		'tv/subscribe/<slug:.*?>' => 'tv/subscribe',
@@ -24,12 +25,18 @@ $config['components']['urlManager'] = [
 		'tv/unarchive/<slug:.*?>' => 'tv/unarchive-show',
 		'tv/<slug:.*?>' => 'tv/view',
 
+		// Movies
 		'movies' => 'movie/index',
 		'movie/load' => 'movie/load',
 		'movie/watch/<slug:.*?>' => 'movie/watch',
 		'movie/unwatch/<id:\d+>' => 'movie/unwatch',
 		'movie/<slug:.*?>' => 'movie/view',
 
+		// Oauth
+		'login/oauth/authorize' => 'oauth/authorize',
+		'POST login/oauth/access_token' => 'oauth/access-token',
+
+		// Site
 		'login' => 'site/login',
 		'logout' => 'site/logout',
 		'account' => 'user/account',
@@ -39,6 +46,7 @@ $config['components']['urlManager'] = [
 		'reset-password' => 'site/reset',
 		'reset-password/<token:.*?>' => 'site/reset-password',
 
+		// Developer resources
 		'dev' => 'developer/index',
 
 		'dev/consumer' => 'oauth-application/index',
@@ -57,6 +65,7 @@ $config['components']['i18n'] = [
 	'translations' => [
 		'*' => [
 			'class' => 'yii\i18n\PhpMessageSource',
+			'forceTranslation' => true,
 		],
 	],
 ];
