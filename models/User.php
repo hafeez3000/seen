@@ -70,13 +70,15 @@ class User extends ActiveRecord implements IdentityInterface
 			'level' => Yii::t('User', 'Level'),
 			'reset_key' => Yii::t('User', 'Reset key'),
 			'validation_key' => Yii::t('User', 'Validation key'),
-			'api_key' => Yii::t('User', 'API key'),
 			'created_at' => Yii::t('User', 'Created at'),
 			'updated_at' => Yii::t('User', 'Updated at'),
 			'deleted_at' => Yii::t('User', 'Deleted at'),
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function behaviors()
 	{
 		return [
@@ -90,6 +92,9 @@ class User extends ActiveRecord implements IdentityInterface
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function scenarios()
 	{
 		$scenarios = parent::scenarios();
@@ -98,6 +103,22 @@ class User extends ActiveRecord implements IdentityInterface
 		$scenarios['account'] = ['email', 'name', 'language_id', 'timezone', 'password'];
 
 		return $scenarios;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fields()
+	{
+		return [
+			'id',
+			'email',
+			'name',
+			'language' => function() {
+				return $this->language->iso;
+			},
+			'timezone',
+		];
 	}
 
 	public static function salt()

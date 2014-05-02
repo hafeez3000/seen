@@ -55,6 +55,14 @@ $config['components']['urlManager'] = [
 		'dev/consumer/<id:\d+>/regenerate' => 'oauth-application/regenerate',
 		'dev/consumer/create' => 'oauth-application/create',
 
+		// API version 1
+		'GET api/v1/user' => 'api-v1/user',
+		'GET api/v1/permissions' => 'api-v1/permissions',
+		'GET api/v1/movies' => 'api-v1/movies',
+		'GET api/v1/shows' => 'api-v1/shows',
+		'GET api/v1/shows/<id:\d+>/<iso:\w+>/watched-episodes' => 'api-v1/watched-episodes',
+
+		// Base routes
 		'<controller:\w+>/<id:\d+>' => '<controller>/view',
 		'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 		'<controller:\w+>/<action:\d+>' => '<controller>/<action>',

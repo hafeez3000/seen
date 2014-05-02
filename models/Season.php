@@ -67,6 +67,9 @@ class Season extends ActiveRecord
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function behaviors()
 	{
 		return [
@@ -77,6 +80,23 @@ class Season extends ActiveRecord
 					ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
 				],
 			],
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fields()
+	{
+		return [
+			'id' => 'themoviedb_id',
+			'number',
+			'name',
+			'overview',
+			'poster_path',
+			'air_date',
+			'last_update' => 'updated_at',
+			'episodes',
 		];
 	}
 

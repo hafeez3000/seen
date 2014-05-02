@@ -105,6 +105,9 @@ class Movie extends ActiveRecord
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function behaviors()
 	{
 		return [
@@ -122,6 +125,37 @@ class Movie extends ActiveRecord
 				'replacement' => '-',
 				'unique' => true,
 			],
+		];
+	}
+	/**
+	 * @inheritdoc
+	 */
+	public function fields()
+	{
+		return [
+			'id' => 'themoviedb_id',
+			'language' => function() {
+				return $this->language->iso;
+			},
+			'title',
+			'original_title',
+			'tagline',
+			'overview',
+			'backdrop_path',
+			'poster_path',
+			'release_date',
+			'budget',
+			'revenue',
+			'runtime',
+			'status',
+			'adult' => function() {
+				return (boolean) $this->adult;
+			},
+			'homepage',
+			'popularity',
+			'vote_average',
+			'vote_count',
+			'last_update' => 'updated_at',
 		];
 	}
 
