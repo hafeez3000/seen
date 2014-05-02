@@ -3,6 +3,9 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
+use \app\components\TimestampBehavior;
+use \app\models\User;
+
 /**
  * This is the model class for Oauth refresh tokens.
  *
@@ -36,7 +39,7 @@ class RefreshToken extends ActiveRecord
 			[['user_id', 'oauth_application_id'], 'integer'],
 			[['scopes'], 'string'],
 			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
-			[['refresh_token'], 'string', 'max' => 64]
+			[['refresh_token'], 'string', 'max' => 32]
 		];
 	}
 
@@ -52,6 +55,19 @@ class RefreshToken extends ActiveRecord
 			'scopes' => Yii::t('Oauth/RefreshToken', 'Scopes'),
 			'created_at' => Yii::t('Oauth/RefreshToken', 'Created at'),
 			'updated_at' => Yii::t('Oauth/RefreshToken', 'Updated at'),
+		];
+	}
+
+	public function behaviors()
+	{
+		return [
+			'timestamp' => [
+				'class' => TimestampBehavior::className(),
+				'attributes' => [
+					ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+					ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+				],
+			],
 		];
 	}
 

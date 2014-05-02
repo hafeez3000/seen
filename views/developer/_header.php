@@ -18,16 +18,19 @@ use \yii\bootstrap\Nav;
 							'active' => ($active == 'developer/index'),
 						],
 						[
-							'label' => Yii::t('Oauth/Application', 'Consumer'),
-							'url' => ['oauthApplication/index'],
-							'active' => (strpos('oauthApplication', $active) >= 0),
-							'items' => [
-								[
-									'label' => Yii::t('Oauth/Application', 'Create'),
-									'url' => ['oauthApplication/index'],
-									'active' => ($active == 'oauthApplication/create'),
-								]
-							]
+							'label' => Yii::t('Oauth/Application', 'Applications'),
+							'url' => ['oauth-application/index'],
+							'active' => (strpos($active, 'oauth-application') !== false),
+						],
+						[
+							'label' => Yii::t('Developer', 'API Reference'),
+							'url' => ['developer/api-reference'],
+							'active' => ($active == 'developer/reference'),
+						],
+						[
+							'label' => Yii::t('Developer', 'Examples'),
+							'url' => ['developer/examples'],
+							'active' => ($active == 'developer/examples'),
 						],
 					],
 					'options' => [

@@ -2,7 +2,9 @@
 
 use \Yii;
 use \yii\db\ActiveRecord;
+use \yii\helpers\Security;
 
+use \app\components\TimestampBehavior;
 use \app\models\User;
 
 /**
@@ -40,13 +42,41 @@ class Application extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['user_id'], 'required'],
+			[['user_id', 'name', 'callback'], 'required'],
 			[['user_id'], 'integer'],
 			[['description'], 'string'],
 			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
-			[['name', 'website', 'callback'], 'string', 'max' => 255],
-			[['key', 'secret'], 'string', 'max' => 64]
+			[['name'], 'string', 'max' => 100],
+			[['description', 'website', 'callback'], 'string', 'max' => 255],
+			[['key', 'secret'], 'string', 'max' => 64],
+			[['key', 'secret'], 'unique'],
 		];
+	}
+
+	public function behaviors()
+	{
+		return [
+			'timestamp' => [
+				'class' => TimestampBehavior::className(),
+				'attributes' => [
+					ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+					ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function scenarios()
+	{
+		$scenarios = parent::scenarios();
+
+		$scenarios['create'] = ['name', 'description', 'website', 'callback',];
+		$scenarios['update'] = ['name', 'description', 'website', 'callback',];
+
+		return $scenarios;
 	}
 
 	/**
@@ -62,10 +92,42 @@ class Application extends ActiveRecord
 			'website' => Yii::t('Oauth/Application', 'Website'),
 			'key' => Yii::t('Oauth/Application', 'Key'),
 			'secret' => Yii::t('Oauth/Application', 'Secret'),
-			'callback' => Yii::t('Oauth/Application', 'Callback url'),
+			'callback' => Yii::t('Oauth/Application', 'Callback URL'),
 			'created_at' => Yii::t('Oauth/Application', 'Created at'),
 			'updated_at' => Yii::t('Oauth/Application', 'Updated at'),
 		];
+	}
+
+	public function beforeValidate()
+	{
+		if ($this->scenario == 'create') {
+			$this->user_id = Yii::$app->user->id;
+
+			$this->regenerate();
+		}
+
+		return parent::beforeValidate();
+	}
+
+	public function regenerate()
+	{
+		$double = true;
+		while ($double) {
+			$this->key = strtolower(Security::generateRandomKey(32));
+			$double = Application::find()
+				->where(['key' => $this->key])
+				->exists();
+		}
+
+		$double = true;
+		while ($double) {
+			$this->secret = strtolower(Security::generateRandomKey(32));
+			$double = Application::find()
+				->where(['secret' => $this->secret])
+				->exists();
+		}
+
+		return true;
 	}
 
 	/**

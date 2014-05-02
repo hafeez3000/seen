@@ -3,6 +3,7 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
+use \app\components\TimestampBehavior;
 use \app\models\User;
 
 /**
@@ -39,7 +40,7 @@ class RequestToken extends ActiveRecord
 			[['user_id', 'oauth_application_id'], 'integer'],
 			[['scopes'], 'string'],
 			[['expires_at', 'created_at', 'updated_at'], 'safe'],
-			[['request_token'], 'string', 'max' => 64]
+			[['request_token'], 'string', 'max' => 32]
 		];
 	}
 
@@ -56,6 +57,19 @@ class RequestToken extends ActiveRecord
 			'expires_at' => Yii::t('Oauth/RequestToken', 'Expires at'),
 			'created_at' => Yii::t('Oauth/RequestToken', 'Created at'),
 			'updated_at' => Yii::t('Oauth/RequestToken', 'Updated at'),
+		];
+	}
+
+	public function behaviors()
+	{
+		return [
+			'timestamp' => [
+				'class' => TimestampBehavior::className(),
+				'attributes' => [
+					ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+					ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+				],
+			],
 		];
 	}
 

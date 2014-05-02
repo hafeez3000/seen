@@ -42,6 +42,9 @@ $config['components']['urlManager'] = [
 		'dev' => 'developer/index',
 
 		'dev/consumer' => 'oauth-application/index',
+		'dev/consumer/<id:\d+>' => 'oauth-application/view',
+		'dev/consumer/<id:\d+>/<action:\w+>' => 'oauth-application/<action>',
+		'dev/consumer/<id:\d+>/regenerate' => 'oauth-application/regenerate',
 		'dev/consumer/create' => 'oauth-application/create',
 
 		'<controller:\w+>/<id:\d+>' => '<controller>/view',
