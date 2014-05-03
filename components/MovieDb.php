@@ -211,7 +211,9 @@ class MovieDb
 
 	public function getEpisode($episode)
 	{
-		return $this->get(sprintf('/tv/%s/season/%s/episode/%s', $episode->season->show->themoviedb_id, $episode->season->number, $episode->number), [
+		$episodeNumber = !empty($episode->number) ? $episode->number : '0';
+
+		return $this->get(sprintf('/tv/%s/season/%s/episode/%s', $episode->season->show->themoviedb_id, $episode->season->number, $episodeNumber), [
 			'language' => $episode->season->show->language->iso,
 		]);
 	}
@@ -499,7 +501,7 @@ class MovieDb
 		return true;
 	}
 
-	public function syncMovie($movie, $language = null)
+	public function syncMovie(&$movie, $language = null)
 	{
 		if (get_class($movie) == Movie::className()) {
 			$isSimilarMovie = false;
@@ -516,6 +518,9 @@ class MovieDb
 
 			return false;
 		}
+
+		if ($movie->isNewRecord)
+			$movie->save();
 
 		if ($isSimilarMovie) {
 			$similarMovie = $movie;

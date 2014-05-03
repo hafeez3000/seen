@@ -48,6 +48,9 @@ class UserShow extends ActiveRecord
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function behaviors()
 	{
 		return [

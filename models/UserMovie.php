@@ -37,6 +37,9 @@ class UserMovie extends ActiveRecord
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function behaviors()
 	{
 		return [
