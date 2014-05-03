@@ -7,7 +7,7 @@ use \app\models\Language;
 
 class LanguageController extends Controller
 {
-	public $defaultAction = 'createMissing';
+	public $defaultAction = 'create-missing';
 
 	protected function flatten(array $array) {
 		$return = array();
@@ -24,7 +24,7 @@ class LanguageController extends Controller
 				return false;
 
 			if (is_dir($path . '/'  . $file))
-				return $this->getLanguageFiles($path . '/' . $file, $file);
+				return $this->getLanguageFiles($path . '/' . $file, $basePath . '/' . $file);
 			else {
 				if (empty($basePath))
 					return $file;
@@ -48,7 +48,12 @@ class LanguageController extends Controller
 
 		$languageFiles = $this->getLanguageFiles(Yii::$app->basePath . '/messages/' . $default);
 
-		$languages = Language::find()->all();
+		$languages = Language::find()
+			->where('[[iso]] != :iso')
+			->params([
+				':iso' => $baseLanguage->iso
+			])
+			->all();
 
 		foreach ($languages as $language) {
 			$languageBasePath = Yii::$app->basePath . '/messages/' . $language->iso . '/';
