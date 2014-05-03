@@ -310,7 +310,7 @@ class Show extends ActiveRecord
 	public function getLastEpisodes($id = null)
 	{
 		return UserEpisode::findBySql('
-			SELECT
+			SELECT DISTINCT
 				{{%user_episode}}.*
 			FROM
 				{{%user_episode}},
@@ -333,6 +333,53 @@ class Show extends ActiveRecord
 				':id' => $this->id,
 				':user_id' => ($id === null) ? Yii::$app->user->id : $id,
 			]);
+	}
+
+	public function getLatestUserEpisodes()
+	{
+		return UserEpisode::findBySql('
+			SELECT DISTINCT
+				{{%user_episode}}.*
+			FROM
+				{{%episode}},
+				{{%user_episode}}
+			WHERE
+				{{%user_episode}}.[[run_id]] = (
+					SELECT
+						{{%user_show_run}}.[[id]]
+					FROM
+						{{%user_show_run}}
+					WHERE
+						{{%user_show_run}}.[[user_id]] = :user_id AND
+						{{%user_show_run}}.[[show_id]] = :show_id
+					ORDER BY
+						{{%user_show_run}}.[[created_at]] DESC
+					LIMIT 1
+				) AND
+				{{%user_episode}}.[[episode_id]] IN (
+					SELECT
+						{{episode}}.[[id]]
+					FROM
+						{{%episode}} AS {{episode}},
+						{{%season}} AS {{season}}
+					WHERE
+						{{season}}.[[show_id]] = :show_id AND
+						{{episode}}.season_id = {{season}}.[[id]]
+				)
+		')
+			->addParams([
+				':user_id' => Yii::$app->user->id,
+				':show_id' => $this->id,
+			]);
+	}
+
+	public function getUserEpisodesSeen()
+	{
+		return $this
+			->getLatestUserEpisodes()
+			->indexBy('episode_id')
+			->asArray()
+			->all();
 	}
 
 	public function getBackdropUrl()

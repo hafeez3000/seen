@@ -155,52 +155,6 @@ class Season extends ActiveRecord
 		return $result['count'];
 	}
 
-	public function getLatestUserEpisodes()
-	{
-		return UserEpisode::findBySql('
-			SELECT DISTINCT
-				{{%user_episode}}.*
-			FROM
-				{{%episode}},
-				{{%user_episode}}
-			WHERE
-				{{%user_episode}}.[[run_id]] = (
-					SELECT
-						{{%user_show_run}}.[[id]]
-					FROM
-						{{%user_show_run}}
-					WHERE
-						{{%user_show_run}}.[[user_id]] = :user_id AND
-						{{%user_show_run}}.[[show_id]] = :show_id
-					ORDER BY
-						{{%user_show_run}}.[[created_at]] DESC
-					LIMIT 1
-				) AND
-				{{%user_episode}}.[[episode_id]] IN (
-					SELECT
-						{{episode}}.[[id]]
-					FROM
-						{{%episode}} AS {{episode}}
-					WHERE
-						{{episode}}.season_id = :season_id
-				)
-		')
-			->addParams([
-				':user_id' => Yii::$app->user->id,
-				':show_id' => $this->show_id,
-				':season_id' => $this->id,
-			]);
-	}
-
-	public function getUserEpisodesSeen()
-	{
-		return $this
-			->getLatestUserEpisodes()
-			->indexBy('episode_id')
-			->asArray()
-			->all();
-	}
-
 	public function getFullName()
 	{
 		if (!empty($this->name))

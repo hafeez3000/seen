@@ -71,6 +71,8 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 
 		<div id="tv-view-seasons" class="col-sm-6 col-md-7 col-lg-8" data-check-url="<?php echo Yii::$app->urlManager->createAbsoluteUrl('episode/seen'); ?>" data-uncheck-url="<?php echo Yii::$app->urlManager->createAbsoluteUrl('episode/unseen'); ?>">
 
+			<?php $episodesSeen = $show->userEpisodesSeen; ?>
+
 			<?php foreach ($show->seasons as $season): ?>
 				<div id="tv-view-season-<?php echo $season->id; ?>" class="tv-view-season panel panel-default" data-number="<?php echo $season->number; ?>">
 					<div class="panel-heading">
@@ -87,8 +89,6 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 							</div>
 						</div>
 					</div>
-
-					<?php $episodesSeen = $season->userEpisodesSeen; ?>
 
 					<div class="panel-body">
 						<ul class="tv-view-episodes list-unstyled list-inline">
