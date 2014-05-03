@@ -263,7 +263,7 @@ class MovieDb
 
 	public function syncShow($show)
 	{
-		Yii::info("Syncing tv show #{$show->id}...", 'application\sync');
+		Yii::info("Syncing tv show #{$show->id} '{$show->name}'...", 'application\sync');
 
 		$attributes = $this->getShow($show);
 
@@ -505,7 +505,7 @@ class MovieDb
 	{
 		if (get_class($movie) == Movie::className()) {
 			$isSimilarMovie = false;
-			Yii::info("Syncing movie #{$movie->id}...", 'application\sync');
+			Yii::info("Syncing movie #{$movie->id} '{$movie->title}'...", 'application\sync');
 		} else {
 			$isSimilarMovie = true;
 			Yii::info("Syncing similar movie #{$movie->id}...", 'application\sync');
