@@ -35,14 +35,14 @@ use \yii\helpers\Url;
 		<div class="col-md-4">
 			<h2><?php echo Yii::t('Site/Index', 'Easy to use'); ?></h2>
 
-			<p>All you have to do is <code>subscribe</code> to a TV show and check the episodes you've already seen, movies you do not even need to subscribe. You can also watch a episode or movie multiple times.</p>
+			<p>All you have to do is <code>subscribe</code> to a TV show and check the episodes you've already seen, the movies you do not even need to subscribe. You can also watch an episode or a movie multiple times.</p>
 
 			<p><a class="btn btn-default" href="<?php echo Url::toRoute(['movie/index']); ?>"><?php echo Yii::t('Site/Index', 'Browse Movies'); ?></a></p>
 		</div>
 		<div class="col-md-4">
 			<h2><?php echo Yii::t('Site/Index', 'API'); ?></h2>
 
-			<p>In the near future we will provide an API so you can create great apps to enhance the system or provide native clients. With the methods you can access and modify all of the data we have access to, too.</p>
+			<p>We provide an API so you can create great apps to enhance the system or create native clients for mobile devices. With the methods you can access and modify all of the data we have access to, too.</p>
 
 			<p><a class="btn btn-default" href="<?php echo Url::toRoute(['developer/index']); ?>"><?php echo Yii::t('Site/Index', 'Developer Docs'); ?></a></p>
 		</div>
