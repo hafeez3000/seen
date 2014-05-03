@@ -437,4 +437,8 @@ $(function() {
 			}
 		});
 	}
+
+	$(".autoselect").on("click", function() {
+		this.select();
+	});
 });

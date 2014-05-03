@@ -99,6 +99,9 @@ class Show extends ActiveRecord
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function behaviors()
 	{
 		return [
@@ -116,6 +119,34 @@ class Show extends ActiveRecord
 				'replacement' => '-',
 				'unique' => true,
 			],
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fields()
+	{
+		return [
+			'id' => 'themoviedb_id',
+			'language' => function() {
+				return $this->language->iso;
+			},
+			'name',
+			'original_name',
+			'overview',
+			'homepage',
+			'first_air_date',
+			'last_air_date',
+			'in_production',
+			'popularity',
+			'backdrop_path',
+			'poster_path',
+			'status',
+			'vote_average',
+			'vote_count',
+			'last_update' => 'updated_at',
+			'seasons',
 		];
 	}
 
@@ -266,6 +297,41 @@ class Show extends ActiveRecord
 			->addParams([
 				':id' => $this->id,
 				':user_id' => Yii::$app->user->id,
+			]);
+	}
+
+	/**
+	 * Get all seen episodes for the current run.
+	 *
+	 * @param integer $id User ID. If null, the current user is used
+	 *
+	 * @return UserEpisode[]
+	 */
+	public function getLastEpisodes($id = null)
+	{
+		return UserEpisode::findBySql('
+			SELECT
+				{{%user_episode}}.*
+			FROM
+				{{%user_episode}},
+				{{%user_show_run}},
+				{{%episode}},
+				{{%season}},
+				{{%show}}
+			WHERE
+				{{%user_show_run}}.[[user_id]] = :user_id AND
+				{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]] AND
+				{{%user_episode}}.[[episode_id]] = {{%episode}}.[[id]] AND
+				{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
+				{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
+				{{%show}}.[[id]] = :id
+			ORDER BY
+				{{%season}}.[[number]] DESC,
+				{{%episode}}.[[number]] DESC
+		')
+			->addParams([
+				':id' => $this->id,
+				':user_id' => ($id === null) ? Yii::$app->user->id : $id,
 			]);
 	}
 

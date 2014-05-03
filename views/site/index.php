@@ -44,7 +44,7 @@ use \yii\helpers\Url;
 
 			<p>In the near future we will provide an API so you can create great apps to enhance the system or provide native clients. With the methods you can access and modify all of the data we have access to, too.</p>
 
-			<p><a class="btn btn-default disabled"><?php echo Yii::t('Site/Index', 'Developer Docs'); ?></a></p>
+			<p><a class="btn btn-default" href="<?php echo Url::toRoute(['developer/index']); ?>"><?php echo Yii::t('Site/Index', 'Developer Docs'); ?></a></p>
 		</div>
 	</div>
 </div>

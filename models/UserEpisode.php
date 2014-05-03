@@ -54,6 +54,9 @@ class UserEpisode extends ActiveRecord
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function behaviors()
 	{
 		return [
@@ -63,6 +66,27 @@ class UserEpisode extends ActiveRecord
 					ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
 				],
 			],
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fields()
+	{
+		if (Yii::$app->id == 'api') {
+			return [
+				'id' => 'episode_id',
+				'run' => 'run_id',
+				'watched' => 'created_at',
+			];
+		}
+
+		return [
+			'id',
+			'run_id',
+			'episode_id',
+			'created_at',
 		];
 	}
 
