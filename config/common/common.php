@@ -7,10 +7,6 @@ $config['bootstrap'] = [];
 
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');
 
-$config['components']['cache'] = [
-	'class' => 'yii\caching\DummyCache',
-];
-
 $config['components']['urlManager'] = [
 	'enablePrettyUrl' => true,
 	'showScriptName' => false,
