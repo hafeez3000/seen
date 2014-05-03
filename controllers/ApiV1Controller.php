@@ -19,7 +19,7 @@ use \app\components\MovieDb;
 
 class ApiV1Controller extends Controller
 {
-	const PAGE_SIZE = 5;
+	const PAGE_SIZE = 100;
 
 	public $serializer = [
 		'class' => 'yii\rest\Serializer',
@@ -79,11 +79,14 @@ class ApiV1Controller extends Controller
 								if ($action->id == 'episodes-watch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the episode as seen!');
 
-								if ($action->id == 'shows-subscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+								if ($action->id == 'show-subscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to subscribe to the show!');
 
-								if ($action->id == 'shows-unsubscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+								if ($action->id == 'show-unsubscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to unsubscribe from the show!');
+
+								// Update timestamp
+								$accessToken->save();
 
 								return true;
 							} else {
@@ -99,7 +102,7 @@ class ApiV1Controller extends Controller
 	/**
 	 * Returns information about the current user.
 	 *
-	 * @return array
+	 * @return User
 	 */
 	public function actionUser()
 	{
@@ -109,7 +112,7 @@ class ApiV1Controller extends Controller
 	/**
 	 * Updates the current user and returns the complete user model.
 	 *
-	 * @return array
+	 * @return User
 	 */
 	public function actionUpdateUser()
 	{
@@ -139,8 +142,11 @@ class ApiV1Controller extends Controller
 			}
 		}
 
-		if ($updated)
-			$user->save();
+		if ($updated) {
+			if (!$user->save()) {
+				Yii::error("Could not update user #{%user->id}: " . serialize($user->errors), 'application\api\v1');
+			}
+		}
 
 		return $user;
 	}
@@ -158,7 +164,7 @@ class ApiV1Controller extends Controller
 	/**
 	 * Returns a list of watched movies.
 	 *
-	 * @return array
+	 * @return ActiveDataProvider
 	 */
 	public function actionMovies()
 	{
@@ -174,6 +180,14 @@ class ApiV1Controller extends Controller
 		]);
 	}
 
+	/**
+	 * Mark movie as seen.
+	 *
+	 * @param integer $id
+	 * @param string $iso
+	 *
+	 * @return Movie
+	 */
 	public function actionMovieWatch($id, $iso)
 	{
 		$language = Language::find()
@@ -205,7 +219,10 @@ class ApiV1Controller extends Controller
 		$watched = new UserMovie;
 		$watched->user_id = Yii::$app->user->id;
 		$watched->movie_id = $movie->id;
-		$watched->save();
+
+		if (!$watched->save()) {
+			Yii::error("Could not save watched movie #{$watched->movie_id} for user #{$watched->user_id}: " . serialize($watched->errors), 'application\api\v1');
+		}
 
 		return $movie;
 	}
@@ -213,7 +230,7 @@ class ApiV1Controller extends Controller
 	/**
 	 * Returns a list of subscribed shows.
 	 *
-	 * @return array
+	 * @return ActiveDataProvider
 	 */
 	public function actionShows()
 	{
@@ -235,7 +252,7 @@ class ApiV1Controller extends Controller
 	 * @param integer $id TheMovieDatabase ID
 	 * @param string $iso Language
 	 *
-	 * @return array
+	 * @return array|UserEpisode[]
 	 */
 	public function actionWatchedEpisodes($id, $iso)
 	{
@@ -255,8 +272,106 @@ class ApiV1Controller extends Controller
 			->one();
 
 		if ($show !== null)
-			return $show->getLastEpisodes(1)->all();
+			return $show->getLastEpisodes(Yii::$app->user->id)->all();
 		else
 			return [];
+	}
+
+	/**
+	 * Subscribe to tv show.
+	 *
+	 * @param integer $id
+	 * @param string $iso
+	 *
+	 * @return Show
+	 */
+	public function actionShowSubscribe($id, $iso)
+	{
+		$language = Language::find()
+			->select(['id'])
+			->where(['iso' => $iso])
+			->asArray()
+			->one();
+		if (empty($language))
+			throw new \yii\web\NotFoundHttpException("The language {$iso} does not exist!");
+
+		$show = Show::find()
+			->where([
+				'themoviedb_id' => $id,
+				'language_id' => $language['id'],
+			])
+			->one();
+
+		$userShow = UserShow::find()
+			->where([
+				'show_id' => $show->id,
+				'user_id' => Yii::$app->user->id,
+			])
+			->one();
+
+		if ($userShow !== null) {
+			if ($userShow->deleted_at !== null) {
+				$userShow->deleted_at = null;
+				$userShow->save();
+			}
+
+			return [
+				'success' => true,
+			];
+		}
+
+		$userShow = new UserShow;
+		$userShow->show_id = $show->id;
+		$userShow->user_id = Yii::$app->user->id;
+		if ($userShow->save()) {
+			return [
+				'success' => true,
+			];
+		} else {
+			Yii::error('Could not save user show for user #{$userShow->user_id} and show #{$userShow->show_id}: ' . serialize($userShow->errors), 'application\api\v1');
+			return [
+				'success' => false,
+			];
+		}
+	}
+
+	/**
+	 * Unsubscribe from a tv show.
+	 *
+	 * @param integer $id
+	 * @param string $iso
+	 *
+	 * @return Show
+	 */
+	public function actionShowUnsubscribe($id, $iso)
+	{
+		$language = Language::find()
+			->select(['id'])
+			->where(['iso' => $iso])
+			->asArray()
+			->one();
+		if (empty($language))
+			throw new \yii\web\NotFoundHttpException("The language {$iso} does not exist!");
+
+		$show = Show::find()
+			->where([
+				'themoviedb_id' => $id,
+				'language_id' => $language['id'],
+			])
+			->one();
+
+		$userShow = UserShow::find()
+			->where([
+				'show_id' => $show->id,
+				'user_id' => Yii::$app->user->id,
+			])
+			->one();
+
+		if ($userShow !== null)
+			$userShow->delete();
+
+		return [
+			'success' => true,
+		];
 	}
 }

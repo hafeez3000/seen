@@ -60,9 +60,11 @@ $config['components']['urlManager'] = [
 		'PATCH api/v1/user' => 'api-v1/update-user',
 		'GET api/v1/user/permissions' => 'api-v1/permissions',
 		'GET api/v1/movies' => 'api-v1/movies',
-		'POST api/v1/movies/<id:\d+>/<iso:\w+>/watch' => 'api-v1/movie-watch',
+		'POST api/v1/movies/<id:\d+>/<iso:\w+>' => 'api-v1/movie-watch',
 		'GET api/v1/shows' => 'api-v1/shows',
-		'GET api/v1/shows/<id:\d+>/<iso:\w+>/watched-episodes' => 'api-v1/watched-episodes',
+		'GET api/v1/shows/<id:\d+>/<iso:\w+>' => 'api-v1/watched-episodes',
+		'POST api/v1/shows/<id:\d+>/<iso:\w+>' => 'api-v1/show-subscribe',
+		'DELETE api/v1/shows/<id:\d+>/<iso:\w+>' => 'api-v1/show-unsubscribe',
 
 		// Base routes
 		'<controller:\w+>/<id:\d+>' => '<controller>/view',
