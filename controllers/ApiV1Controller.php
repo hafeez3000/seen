@@ -14,6 +14,7 @@ use \app\models\UserMovie;
 use \app\models\Show;
 use \app\models\UserShow;
 use \app\models\UserEpisode;
+use \app\models\forms\AccountForm;
 
 class ApiV1Controller extends Controller
 {
@@ -101,6 +102,45 @@ class ApiV1Controller extends Controller
 	public function actionUser()
 	{
 		return $this->user;
+	}
+
+	/**
+	 * Updates the current user and returns the complete user model.
+	 *
+	 * @return array
+	 */
+	public function actionUpdateUser()
+	{
+		$attributes = json_decode(Yii::$app->request->rawBody);
+
+		$user = $this->user;
+		$updated = false;
+
+		if (isset($attributes->language)) {
+			$language = Language::find()
+				->where(['iso' => $attributes->language])
+				->one();
+
+			if ($language !== null) {
+				$updated = true;
+				$user->language_id = $language->id;
+			}
+		}
+
+		if (isset($attributes->timezone)) {
+			$form = new AccountForm;
+			$timezones = $form->timezones();
+
+			if (isset($timezones[$attributes->timezone])) {
+				$updated = true;
+				$user->timezone = $attributes->timezone;
+			}
+		}
+
+		if ($updated)
+			$user->save();
+
+		return $user;
 	}
 
 	/**

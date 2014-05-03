@@ -57,6 +57,7 @@ $config['components']['urlManager'] = [
 
 		// API version 1
 		'GET api/v1/user' => 'api-v1/user',
+		'PATCH api/v1/user' => 'api-v1/update-user',
 		'GET api/v1/permissions' => 'api-v1/permissions',
 		'GET api/v1/movies' => 'api-v1/movies',
 		'GET api/v1/shows' => 'api-v1/shows',
