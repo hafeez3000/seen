@@ -150,6 +150,25 @@ class Show extends ActiveRecord
 		];
 	}
 
+	public static function popular($languageId)
+	{
+		return self::findBySql('
+			SELECT DISTINCT
+				{{%show}}.*
+			FROM
+				{{%show}},
+				{{%show_popular}}
+			WHERE
+				{{%show}}.[[language_id]] = :language_id AND
+				{{%show}}.[[id]] = {{%show_popular}}.[[show_id]] AND
+				{{%show}}.[[name]] != ""
+			ORDER BY
+				{{%show_popular}}.[[order]] ASC
+		', [
+			':language_id' => $languageId,
+		]);
+	}
+
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
