@@ -14,6 +14,8 @@ use \app\models\UserMovie;
 use \app\models\Show;
 use \app\models\UserShow;
 use \app\models\UserEpisode;
+use \app\models\UserShowRun;
+use \app\models\Episode;
 use \app\models\forms\AccountForm;
 use \app\components\MovieDb;
 
@@ -76,14 +78,17 @@ class ApiV1Controller extends Controller
 								if ($action->id == 'movie-unwatch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the movie as unseen!');
 
-								if ($action->id == 'episodes-watch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the episode as seen!');
-
 								if ($action->id == 'show-subscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to subscribe to the show!');
 
 								if ($action->id == 'show-unsubscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to unsubscribe from the show!');
+
+								if ($action->id == 'episode-watch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the episode as seen!');
+
+								if ($action->id == 'episode-unwatch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the episode as unseen!');
 
 								// Update timestamp
 								$accessToken->save();
@@ -329,6 +334,7 @@ class ApiV1Controller extends Controller
 			];
 		} else {
 			Yii::error('Could not save user show for user #{$userShow->user_id} and show #{$userShow->show_id}: ' . serialize($userShow->errors), 'application\api\v1');
+
 			return [
 				'success' => false,
 			];
@@ -369,6 +375,142 @@ class ApiV1Controller extends Controller
 
 		if ($userShow !== null)
 			$userShow->delete();
+
+		return [
+			'success' => true,
+		];
+	}
+
+	public function actionEpisodeWatch($id, $iso, $season, $episode)
+	{
+		$episode = Episode::findBySql('
+			SELECT
+				{{%episode}}.*
+			FROM
+				{{%episode}},
+				{{%season}},
+				{{%show}},
+				{{%language}}
+			WHERE
+				{{%show}}.[[themoviedb_id]] = :id AND
+				{{%language}}.[[iso]] = :iso AND
+				{{%show}}.[[language_id]] = {{%language}}.[[id]] AND
+				{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
+				{{%episode}}.{{season_id}} = {{%season}}.[[id]] AND
+				{{%season}}.[[number]] = :season AND
+				{{%episode}}.[[number]] = :episode
+		', [
+			':id' => $id,
+			':iso' => $iso,
+			':season' => $season,
+			':episode' => $episode,
+		])
+			->one();
+
+		if ($episode === null)
+			throw new \yii\web\NotFoundHttpException("The episode could not be found!");
+
+		$run = UserShowRun::find()
+			->where([
+				'show_id' => $episode->season->show_id,
+				'user_id' => Yii::$app->user->id
+			])
+			->one();
+		if ($run === null) {
+			$run = new UserShowRun;
+			$run->show_id = $episode->season->show_id;
+			$run->user_id = Yii::$app->user->id;
+
+			if (!$run->save()) {
+				Yii::error('Could not save new user show run for user #{$run->user_id} and show #{$run->show_id}: ' . serialize($run->errors), 'application\api\v1');
+
+				return [
+					'success' => false,
+				];
+			}
+		}
+
+		$userEpisode = UserEpisode::find()
+			->where([
+				'episode_id' => $episode->id,
+				'run_id' => $run->id,
+			])
+			->one();
+		if ($userEpisode !== null)
+			return [
+				'success' => true,
+			];
+
+		$userEpisode = new UserEpisode;
+		$userEpisode->episode_id = $episode->id;
+		$userEpisode->run_id = $run->id;
+
+		if ($userEpisode->save()) {
+			return [
+				'success' => true,
+			];
+		} else {
+			Yii::error('Could not save user episode for episode #{$userEpisode->episode_id} and run #{$userEpisode->run_id}: ' . serialize($userEpisode->errors), 'application\api\v1');
+
+			return [
+				'success' => false,
+			];
+		}
+	}
+
+	public function actionEpisodeUnwatch($id, $iso, $season, $episode)
+	{
+		$episode = Episode::findBySql('
+			SELECT
+				{{%episode}}.*
+			FROM
+				{{%episode}},
+				{{%season}},
+				{{%show}},
+				{{%language}}
+			WHERE
+				{{%show}}.[[themoviedb_id]] = :id AND
+				{{%language}}.[[iso]] = :iso AND
+				{{%show}}.[[language_id]] = {{%language}}.[[id]] AND
+				{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
+				{{%episode}}.{{season_id}} = {{%season}}.[[id]] AND
+				{{%season}}.[[number]] = :season AND
+				{{%episode}}.[[number]] = :episode
+		', [
+			':id' => $id,
+			':iso' => $iso,
+			':season' => $season,
+			':episode' => $episode,
+		])
+			->one();
+
+		if ($episode === null)
+			throw new \yii\web\NotFoundHttpException("The episode could not be found!");
+
+		$run = UserShowRun::find()
+			->where([
+				'show_id' => $episode->season->show_id,
+				'user_id' => Yii::$app->user->id
+			])
+			->one();
+		if ($run === null) {
+			return [
+				'success' => true,
+			];
+		}
+
+		$userEpisode = UserEpisode::find()
+			->where([
+				'episode_id' => $episode->id,
+				'run_id' => $run->id,
+			])
+			->one();
+		if ($userEpisode === null)
+			return [
+				'success' => true,
+			];
+
+		$userEpisode->delete();
 
 		return [
 			'success' => true,

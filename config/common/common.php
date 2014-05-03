@@ -65,6 +65,8 @@ $config['components']['urlManager'] = [
 		'GET api/v1/shows/<id:\d+>/<iso:\w+>' => 'api-v1/watched-episodes',
 		'POST api/v1/shows/<id:\d+>/<iso:\w+>' => 'api-v1/show-subscribe',
 		'DELETE api/v1/shows/<id:\d+>/<iso:\w+>' => 'api-v1/show-unsubscribe',
+		'POST api/v1/shows/<id:\d+>/<iso:\w+>/<season:\d+>/<episode:\d+>' => 'api-v1/episode-watch',
+		'DELETE api/v1/shows/<id:\d+>/<iso:\w+>/<season:\d+>/<episode:\d+>' => 'api-v1/episode-unwatch',
 
 		// Base routes
 		'<controller:\w+>/<id:\d+>' => '<controller>/view',
