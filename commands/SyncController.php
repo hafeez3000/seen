@@ -137,27 +137,21 @@ class SyncController extends Controller
 		$movieDb = new MovieDb;
 
 		$similarMovies = MovieSimilar::find()
-			->where(['similar_to_movie_id' => null])
-			->all();
+			->where(['similar_to_movie_id' => null]);
 
 		if ($this->debug) {
-			$movieCount = count($similarMovies);
+			$movieCount = $similarMovies->count();
 			$i = 1;
 		}
 
 		// Save similar movies as own movie
-		foreach ($similarMovies as $similarMovie) {
+		foreach ($similarMovies->each() as $similarMovie) {
 			if ($this->debug) {
 				echo "Similar Movie {$i}/{$movieCount}\n";
 				$i++;
 			}
 
-			$newMovie = $movieDb->syncMovie($similarMovie);
-
-			if ($newMovie !== false) {
-				$similarMovie->similar_to_movie_id = $newMovie->id;
-				$similarMovie->save();
-			}
+			$movieDb->syncMovie($similarMovie);
 		}
 	}
 

@@ -680,8 +680,10 @@ class MovieDb
 			return false;
 		}
 
-		if ($isSimilarMovie)
-			return $movie;
+		if ($isSimilarMovie) {
+			$similarMovie->similar_to_movie_id = $movie->id;
+			$similarMovie->save();
+		}
 
 		return true;
 	}
