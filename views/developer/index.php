@@ -18,7 +18,7 @@ $this->title[] = Yii::t('Developer', 'Developer');
 <p>
 	<?php echo Yii::t('Developer/Overview', 'SEEN uses <a href="{oauthUrl}">OAuth2</a> to authorize the client. Therefore you have to <a href="{consumerUrl}">register an application</a> to obtain your key and secret.', [
 		'oauthUrl' => 'http://oauth.net/2/',
-		'consumerUrl' => Url::toRoute(['oauthApplication/create']),
+		'consumerUrl' => Url::toRoute(['oauth-application/create']),
 	]); ?>
 </p>
 
