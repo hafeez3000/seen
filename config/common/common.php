@@ -58,8 +58,9 @@ $config['components']['urlManager'] = [
 		// API version 1
 		'GET api/v1/user' => 'api-v1/user',
 		'PATCH api/v1/user' => 'api-v1/update-user',
-		'GET api/v1/permissions' => 'api-v1/permissions',
+		'GET api/v1/user/permissions' => 'api-v1/permissions',
 		'GET api/v1/movies' => 'api-v1/movies',
+		'POST api/v1/movies/<id:\d+>/<iso:\w+>/watch' => 'api-v1/movie-watch',
 		'GET api/v1/shows' => 'api-v1/shows',
 		'GET api/v1/shows/<id:\d+>/<iso:\w+>/watched-episodes' => 'api-v1/watched-episodes',
 

@@ -15,17 +15,16 @@ use \app\models\Show;
 use \app\models\UserShow;
 use \app\models\UserEpisode;
 use \app\models\forms\AccountForm;
+use \app\components\MovieDb;
 
 class ApiV1Controller extends Controller
 {
-	const PAGE_SIZE = 100;
+	const PAGE_SIZE = 5;
 
 	public $serializer = [
 		'class' => 'yii\rest\Serializer',
 		'collectionEnvelope' => 'items',
 	];
-
-	protected $user;
 
 	protected $scopes = array();
 
@@ -65,13 +64,16 @@ class ApiV1Controller extends Controller
 								->one();
 
 							if ($accessToken !== null) {
-								$this->user = $accessToken->user;
+								Yii::$app->user->setIdentity($accessToken->user);
 								$this->scopes = explode(',', $accessToken->scopes);
 
-								if ($action->id == 'movies-watch' && !in_array(Application::SCOPE_MOVIE, $this->scopes))
+								if ($action->id == 'update-user' && !in_array(Application::SCOPE_ACCOUNT, $this->scopes))
+									throw new \yii\web\HttpException(401, 'You do not have the permission to update the user account!');
+
+								if ($action->id == 'movie-watch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the movie as seen!');
 
-								if ($action->id == 'movies-unwatch' && !in_array(Application::SCOPE_MOVIE, $this->scopes))
+								if ($action->id == 'movie-unwatch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the movie as unseen!');
 
 								if ($action->id == 'episodes-watch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
@@ -101,7 +103,7 @@ class ApiV1Controller extends Controller
 	 */
 	public function actionUser()
 	{
-		return $this->user;
+		return Yii::$app->user;
 	}
 
 	/**
@@ -113,7 +115,7 @@ class ApiV1Controller extends Controller
 	{
 		$attributes = json_decode(Yii::$app->request->rawBody);
 
-		$user = $this->user;
+		$user = Yii::$app->user;
 		$updated = false;
 
 		if (isset($attributes->language)) {
@@ -163,13 +165,49 @@ class ApiV1Controller extends Controller
 		return new ActiveDataProvider([
 			'query' => Movie::find()
 				->distinct()
-				->with(['language'])
+				->with(['language', 'userWatches'])
 				->leftJoin(UserMovie::tableName(), UserMovie::tableName() . '.[[movie_id]] = ' . Movie::tableName() . '.[[id]]')
-				->where([UserMovie::tableName() . '.[[user_id]]' => $this->user->id]),
+				->where([UserMovie::tableName() . '.[[user_id]]' => Yii::$app->user->id]),
 			'pagination' => [
 				'pageSize' => self::PAGE_SIZE,
 			],
 		]);
+	}
+
+	public function actionMovieWatch($id, $iso)
+	{
+		$language = Language::find()
+			->select(['id'])
+			->where(['iso' => $iso])
+			->asArray()
+			->one();
+		if (empty($language))
+			throw new \yii\web\NotFoundHttpException("The language {$iso} does not exist!");
+
+		$movie = Movie::find()
+			->where([
+				'themoviedb_id' => $id,
+				'language_id' => $language['id'],
+			])
+			->one();
+		if ($movie === null) {
+			$themoviedb = new MovieDb;
+			$movie = new Movie;
+			$movie->themoviedb_id = $id;
+			$movie->language_id = $language['id'];
+
+			$found = $themoviedb->syncMovie($movie);
+
+			if ($found === false)
+				throw new \yii\web\NotFoundHttpException("The movie #{$id} does not exist!");
+		}
+
+		$watched = new UserMovie;
+		$watched->user_id = Yii::$app->user->id;
+		$watched->movie_id = $movie->id;
+		$watched->save();
+
+		return $movie;
 	}
 
 	/**
@@ -184,7 +222,7 @@ class ApiV1Controller extends Controller
 				->distinct()
 				->with(['language', 'seasons', 'seasons.episodes'])
 				->leftJoin(UserShow::tableName(), UserShow::tableName() . '.[[show_id]] = ' . Show::tableName() . '.[[id]]')
-				->where([UserShow::tableName() . '.[[user_id]]' => $this->user->id]),
+				->where([UserShow::tableName() . '.[[user_id]]' => Yii::$app->user->id]),
 			'pagination' => [
 				'pageSize' => self::PAGE_SIZE,
 			],
@@ -206,7 +244,6 @@ class ApiV1Controller extends Controller
 			->where(['iso' => $iso])
 			->asArray()
 			->one();
-
 		if (empty($language))
 			throw new \yii\web\NotFoundHttpException("The language {$iso} does not exist!");
 
@@ -217,9 +254,9 @@ class ApiV1Controller extends Controller
 			])
 			->one();
 
-		if ($show === null)
-			throw new \yii\web\NotFoundHttpException("The show {$id} does not exist!");
-
-		return $show->getLastEpisodes(1)->all();
+		if ($show !== null)
+			return $show->getLastEpisodes(1)->all();
+		else
+			return [];
 	}
 }

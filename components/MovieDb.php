@@ -501,7 +501,7 @@ class MovieDb
 		return true;
 	}
 
-	public function syncMovie($movie, $language = null)
+	public function syncMovie(&$movie, $language = null)
 	{
 		if (get_class($movie) == Movie::className()) {
 			$isSimilarMovie = false;
@@ -518,6 +518,9 @@ class MovieDb
 
 			return false;
 		}
+
+		if ($movie->isNewRecord)
+			$movie->save();
 
 		if ($isSimilarMovie) {
 			$similarMovie = $movie;

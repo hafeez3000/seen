@@ -41,6 +41,7 @@ use \app\components\TimestampBehavior;
  * @property MovieCast[] $cast
  * @property MovieCrew[] $crew
  * @property Movie[] $popularMovies
+ * @property UserMovie[] $userWatches
  * @property User $userWatched
  * @property User[] $users
  */
@@ -155,6 +156,11 @@ class Movie extends ActiveRecord
 			'popularity',
 			'vote_average',
 			'vote_count',
+			'watched' => function() {
+				return array_map(function($item) {
+					return $item->created_at;
+				}, $this->userWatches);
+			},
 			'last_update' => 'updated_at',
 		];
 	}
@@ -230,6 +236,15 @@ class Movie extends ActiveRecord
 	public function getUsers()
 	{
 		return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('{{%user_movie}}', ['movie_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUserWatches($id = null)
+	{
+		return $this->hasMany(UserMovie::className(), ['movie_id' => 'id'])
+			->where(['user_id' => ($id === null) ? Yii::$app->user->id : $id]);
 	}
 
 	/**
