@@ -56,7 +56,11 @@ class ApiV1Controller extends Controller
 
 							$accessToken = AccessToken::find()
 								->where(['access_token' => trim($accessTokenMatch[1])])
+								->andWhere('[[expires_at]] >= :now')
 								->with(['user'])
+								->params([
+									':now' => date('Y-m-d H:i:s')
+								])
 								->one();
 
 							if ($accessToken !== null) {

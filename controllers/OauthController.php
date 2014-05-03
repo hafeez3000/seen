@@ -52,7 +52,10 @@ class OauthController extends Controller
 			$state = Yii::$app->request->get('state');
 
 			if ($key === false)
-				throw new yii\web\UnauthorizedHttpException('Missing client_id parameter!');
+				throw new yii\web\BadRequestHttpException('Missing client_id parameter!');
+
+			if ($type != 'web_server')
+				throw new yii\web\BadRequestHttpException('Only "web_server" supported for the type parameter!');
 
 			$application = Application::find()
 				->where(['key' => $key])
@@ -81,6 +84,35 @@ class OauthController extends Controller
 			$scopes = array_filter($scopes, function($scope) use($validScopes) {
 				return isset($validScopes[$scope]);
 			});
+
+			// Check if user alreay authenticated the application with the same scopes
+			$accessToken = AccessToken::find()
+				->where([
+					'user_id' => Yii::$app->user->id,
+					'oauth_application_id' => $application->id,
+					'scopes' => implode(',', $scopes),
+				])
+				->one();
+			if ($accessToken !== null) {
+				// User alreay authenticated the application
+				$token = new RequestToken;
+				$token->user_id = Yii::$app->user->id;
+				$token->oauth_application_id = $application->id;
+				$token->scopes = implode(',', $scopes);
+				$token->expires_at = date('Y-m-d H:i:s', time() + 3600);
+
+				if (!$token->save()) {
+					Yii::error('Request token could not be saved: ' . serialize($token->errors));
+					throw new \yii\web\HttpException(Yii::t('Oauth', 'Could not create token! Please try again later.'));
+				}
+
+				return $this->redirect($redirectUri . '?' . http_build_query([
+					'success' => 'true',
+					'code' => $token->request_token,
+					'state' => $state,
+				]));
+			}
+
 			$scopes = array_map(function($scope) use($validScopes) {
 				return $validScopes[$scope];
 			}, $scopes);
