@@ -289,15 +289,30 @@ class SyncController extends Controller
 
 		$languages = Language::find();
 
+		if (!$this->force)
+			$languages = $languages
+				->where(['popular_shows_updated_at' => null])
+				->orWhere('[[popular_shows_updated_at]] <= :time')
+				->addParams([
+					':time' => date('Y-m-d H:i:s', time() - (3600 * 24 * 7))
+				]);
+
 		if ($this->debug) {
 			$languageCount = $languages->count();
 			$i = 1;
 		}
 
-		ShowPopular::deleteAll();
-
 		foreach ($languages->each() as $language) {
 			Yii::getLogger()->flush();
+
+			$oldPopularShows = ShowPopular::find()
+				->leftJoin(Show::tableName(), '{{%show_popular}}.[[show_id]] = {{%show}}.[[id]]')
+				->where(['{{%show}}.[[language_id]]' => $language->id])
+				->all();
+
+			foreach ($oldPopularShows as $show) {
+				$show->delete();
+			}
 
 			if ($this->debug) {
 				echo "Get popular tv shows for language {$language->iso} {$i}/{$languageCount}\n";
@@ -338,6 +353,9 @@ class SyncController extends Controller
 				if (!$popularShow->save())
 					Yii::error("Could not save popular tv show: " . serialize($popularShow->errors) . "!", 'application\sync');
 			}
+
+			$language->popular_shows_updated_at = date('Y-m-d H:i:s');
+			$language->save();
 		}
 	}
 }

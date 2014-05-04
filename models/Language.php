@@ -14,6 +14,8 @@ use \app\components\TimestampBehavior;
  * @property boolean $rtl
  * @property string $en_name
  * @property boolean $hide
+ * @property string $popular_shows_updated_at
+ * @property string $popular_movies_updated_at
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -40,7 +42,7 @@ class Language extends \yii\db\ActiveRecord
 	{
 		return [
 			[['iso'], 'required'],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['popular_shows_updated_at', 'popular_movies_updated_at', 'created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
 			[['rtl', 'hide'], 'boolean'],
 			[['en_name'], 'string', 'max' => 50],
 			[['iso'], 'string', 'max' => 10]
@@ -55,6 +57,12 @@ class Language extends \yii\db\ActiveRecord
 		return [
 			'id' => Yii::t('Language', 'ID'),
 			'iso' => Yii::t('Language', 'ISO 639-1'),
+			'name' => Yii::t('Language', 'Name'),
+			'rtl' => Yii::t('Language', 'RTL'),
+			'en_name' => Yii::t('Language', 'English name'),
+			'hide' => Yii::t('Language', 'Hide'),
+			'popular_shows_updated_at' => Yii::t('Language', 'Popular shows updated at'),
+			'popular_movies_updated_at' => Yii::t('Language', 'Popular movies updated at'),
 			'created_at' => Yii::t('Language', 'Created at'),
 			'updated_at' => Yii::t('Language', 'Updated at'),
 			'deleted_at' => Yii::t('Language', 'Deleted at'),
