@@ -87,7 +87,6 @@ $config['components']['authManager'] = [
 if (!YII_ENV_TEST) {
 	$config['components']['log'] = [
 		'traceLevel' => YII_DEBUG ? 3 : 0,
-		'flushInterval' => 100,
 		'targets' => [
 			'file' => [ // Log errors to file as a fallback
 				'class' => 'yii\log\FileTarget',

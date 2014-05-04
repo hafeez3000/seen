@@ -52,6 +52,8 @@ class SyncController extends Controller
 		}
 
 		foreach ($shows->each() as $show) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Show {$i}/{$showCount}\n";
 				$i++;
@@ -85,6 +87,8 @@ class SyncController extends Controller
 		}
 
 		foreach ($seasons->each() as $season) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Season {$i}/{$seasonCount}\n";
 				$i++;
@@ -119,6 +123,8 @@ class SyncController extends Controller
 		}
 
 		foreach ($episodes->each() as $episode) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Episode {$i}/{$episodeCount}\n";
 				$i++;
@@ -146,6 +152,8 @@ class SyncController extends Controller
 
 		// Save similar movies as own movie
 		foreach ($similarMovies->each() as $similarMovie) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Similar Movie {$i}/{$movieCount}\n";
 				$i++;
@@ -173,6 +181,8 @@ class SyncController extends Controller
 		}
 
 		foreach ($movies->each() as $movie) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Movie {$i}/{$movieCount}\n";
 				$i++;
@@ -200,6 +210,8 @@ class SyncController extends Controller
 		}
 
 		foreach ($movies->each() as $movie) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Update movie {$i}/{$changesCount}\n";
 				$i++;
@@ -227,6 +239,8 @@ class SyncController extends Controller
 		MoviePopular::deleteAll();
 
 		foreach ($languages->each() as $language) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Get popular movies for language {$language->iso} {$i}/{$languageCount}\n";
 				$i++;
@@ -283,6 +297,8 @@ class SyncController extends Controller
 		ShowPopular::deleteAll();
 
 		foreach ($languages->each() as $language) {
+			Yii::getLogger()->flush();
+
 			if ($this->debug) {
 				echo "Get popular tv shows for language {$language->iso} {$i}/{$languageCount}\n";
 				$i++;
