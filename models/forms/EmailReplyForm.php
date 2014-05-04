@@ -43,13 +43,13 @@ class EmailReplyForm extends Model
 	}
 
 	/**
-	 * Create form with $email
+	 * Create form with $email.
 	 *
 	 * @param \app\models\Email $email
 	 *
 	 * @return void
 	 */
-	public function __construct($email)
+	public function __construct(\app\models\Email $email)
 	{
 		$this->email = $email;
 		$this->receiver = !empty($email->from_name) ?
@@ -59,13 +59,15 @@ class EmailReplyForm extends Model
 	}
 
 	/**
-	 * Reply to the email with form data
-	 *
+	 * Reply to the email with form data.
 	 *
 	 * @return boolean
 	 */
 	public function reply()
 	{
+		if (Yii::$app->user->isGuest)
+			return false;
+
 		$email = new Email(Yii::$app->user->identity->name, Yii::$app->user->identity->email);
 		$email->to = $this->email->from_email;
 		$email->to_name = $this->email->from_name;
