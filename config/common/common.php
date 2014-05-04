@@ -87,6 +87,7 @@ $config['components']['authManager'] = [
 if (!YII_ENV_TEST) {
 	$config['components']['log'] = [
 		'traceLevel' => YII_DEBUG ? 3 : 0,
+		'flushInterval' => 100,
 		'targets' => [
 			'file' => [ // Log errors to file as a fallback
 				'class' => 'yii\log\FileTarget',
@@ -96,15 +97,13 @@ if (!YII_ENV_TEST) {
 				'class' => 'yii\log\DbTarget',
 				'levels' => ['error', 'warning'],
 			],
-			'mail' => [ // Log emails to database
+			'app' => [ // Log mail/sync info messages to database
 				'class' => 'yii\log\DbTarget',
-				'levels' => ['error', 'warning', 'info'],
-				'categories' => ['application\mail'],
-			],
-			'sync' => [ // Log sync messages to database
-				'class' => 'yii\log\DbTarget',
-				'levels' => ['error', 'warning', 'info'],
-				'categories' => ['application\sync'],
+				'levels' => ['info'],
+				'categories' => [
+					'application\sync',
+					'application\mail',
+				],
 			],
 			'bugsnag' => [ // Log errors to bugsnag
 				'class' => 'app\components\BugsnagLogger',
