@@ -9,11 +9,11 @@ use yii\helpers\Html;
 use app\components\ActiveForm;
 
 $this->title[] = Yii::t('Language', 'Update');
-$this->title[] = $model->en_name;
+$this->title[] = !empty($model->en_name) ? $model->en_name : $model->iso;
 $this->title[] = Yii::t('Language', 'Languages');
 ?>
 <div id="account">
-	<h1><?php echo $model->en_name; ?></h1>
+	<h1><?php echo Yii::t('Language', 'Update {name}', ['name' => !empty($model->en_name) ? $model->en_name : $model->iso]); ?></h1>
 
 	<div class="row">
 		<div class="col-md-6">

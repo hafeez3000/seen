@@ -6,8 +6,8 @@ $this->title[] = $model->en_name;
 $this->title[] = Yii::t('Language', 'Languages');
 ?>
 
-<h2><?php echo Yii::t('Language', 'Language {en_name}', [
-	'en_name' => $model->en_name,
+<h2><?php echo Yii::t('Language', 'Language {name}', [
+	'name' => !empty($model->en_name) ? $model->en_name : $model->iso,
 ]); ?> <a class="btn btn-default" href="<?php echo Url::toRoute(['/language/update', 'id' => $model->id]); ?>"><span class="glyphicon glyphicon-pencil"></span></a></h2>
 
 <p>
