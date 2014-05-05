@@ -62,6 +62,7 @@ module.exports = function(grunt) {
 				src: [
 					"web/components/bootswatch/lumen/bootstrap.min.css",
 					"web/components/select2/select2.css",
+					"web/components/select2-bootstrap-css/select2-bootstrap.css",
 					"web/css/app.min.css"
 				],
 				dest: "web/css/app.min.css"

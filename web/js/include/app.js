@@ -129,6 +129,9 @@ $(function() {
 		return false;
 	});
 
+	// Language selector
+	$("#language-selector").select2();
+
 	// Search tv show
 	$("#tv-search").select2({
 		placeholder: "Search all TV Shows",
