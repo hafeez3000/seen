@@ -78,6 +78,12 @@ AppAsset::register($this);
 							'visible' => Yii::$app->user->can('viewLogs'),
 							'active' => Yii::$app->controller->id == 'log',
 						],
+						[
+							'label' => Yii::t('Site/Navigation', 'Language'),
+							'url' => ['language/admin'],
+							'visible' => Yii::$app->user->can('manageLanguages'),
+							'active' => Yii::$app->controller->id == 'language',
+						],
 					],
 				]);
 

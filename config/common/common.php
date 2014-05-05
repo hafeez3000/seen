@@ -37,6 +37,10 @@ $config['components']['urlManager'] = [
 		'logout' => 'site/logout',
 		'account' => 'user/account',
 
+		// Languages
+		'language/admin' => 'language/admin',
+		'language/<id:\d+>' => 'language/view',
+		'language/update/<id:\d+>' => 'language/update',
 		'language/<iso:.*?>' => 'site/language',
 
 		'reset-password' => 'site/reset',
