@@ -14,7 +14,8 @@
 		"nesbot/Carbon": "1.8.*",
 		"mailchimp/mailchimp": "2.0.*",
 		"mandrill/mandrill": "1.0.*",
-		"bugsnag/bugsnag": "2.*"
+		"bugsnag/bugsnag": "2.*",
+		"kartik-v/yii2-grid": "dev-master"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",

@@ -2,6 +2,7 @@
 
 use \Yii;
 use \yii\helpers\Url;
+use \yii\helpers\Html;
 
 use \app\models\Language;
 
@@ -41,27 +42,25 @@ class LanguageHelper
 	{
 		$currentLanguage = Language::find()
 			->where(['iso' => Yii::$app->language])
-			->select(['name'])
+			->select('iso')
 			->asArray()
 			->one();
 
-		$return  = [
-			'label' => $currentLanguage['name'],
-			'items' => [],
-		];
 		$languages = Language::find()
 			->select(['iso', 'name'])
 			->asArray()
 			->orderBy(['name' => SORT_ASC])
 			->all();
 
+		$items = [];
 		foreach ($languages as $language) {
-			$return['items'][] = [
-				'label' => $language['name'],
-				'url' => Url::toRoute(['site/language', 'iso' => $language['iso']])
+			$items += [
+				$language['iso'] => $language['name']
 			];
 		}
 
-		return $return;
+		return '<li id="language-selector-wrapper">' . Html::dropDownList('language', $currentLanguage['iso'], $items, [
+			'id' => 'language-selector',
+		]) . '</li>';
 	}
 }

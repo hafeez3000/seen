@@ -19,6 +19,10 @@ $config['components']['errorHandler'] = [
 	'errorAction' => 'site/error',
 ];
 
+$config['modules']['gridview'] = [
+	'class' => '\kartik\grid\Module'
+];
+
 $config['components']['assetManager'] = [
 	'bundles' => [
 		'yii\bootstrap\BootstrapAsset' => [

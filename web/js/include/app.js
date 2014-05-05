@@ -129,6 +129,11 @@ $(function() {
 		return false;
 	});
 
+	// Language selector
+	$("#language-selector").select2().on("change", function(e) {
+		window.location.href = App.baseUrl + "/language/" + e.val;
+	});
+
 	// Search tv show
 	$("#tv-search").select2({
 		placeholder: "Search all TV Shows",
