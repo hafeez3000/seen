@@ -48,6 +48,10 @@ AppAsset::register($this);
 		}
 	</script>
 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+	<link type="image/x-icon" href="/favicon.ico" />
+
 	<?php $this->head() ?>
 </head>
 	<body>
