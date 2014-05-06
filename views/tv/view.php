@@ -49,13 +49,15 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 					<ul id="tv-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($show->cast as $cast): ?>
 							<li>
-								<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Show/View', '{name} as {character}', [
-									'name' => $cast->person->name,
-									'character' => $cast->character,
-								])); ?>" title="<?php echo Html::encode(Yii::t('Show/View', '{name} as {character}', [
+								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $cast->person->id]); ?>" title="<?php echo Html::encode(Yii::t('Show/View', '{name} as {character}', [
 									'name' => $cast->person->name,
 									'character' => $cast->character,
 								])); ?>">
+									<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Show/View', '{name} as {character}', [
+										'name' => $cast->person->name,
+										'character' => $cast->character,
+									])); ?>">
+								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -68,7 +70,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 
 					<div id="tv-view-crew" class="list-unstyled">
 						<?php foreach ($show->crew as $crew): ?>
-							<?php echo Html::encode($crew->person->name); ?>,&nbsp;
+							<a href="<?php echo Url::toRoute(['/person/view', 'id' => $crew->person->id]); ?>"><?php echo Html::encode($crew->person->name); ?></a>,&nbsp;
 						<?php endforeach; ?>
 					</div>
 				</div>

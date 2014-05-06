@@ -53,13 +53,15 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($movie->cast as $cast): ?>
 							<li>
-								<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
-									'name' => $cast->person->name,
-									'character' => $cast->character,
-								])); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
+								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $cast->person->id]); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
 									'name' => $cast->person->name,
 									'character' => $cast->character,
 								])); ?>">
+									<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
+										'name' => $cast->person->name,
+										'character' => $cast->character,
+									])); ?>">
+								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -73,13 +75,15 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-crew" class="list-unstyled list-inline">
 						<?php foreach ($movie->crew as $crew): ?>
 							<li>
-								<img <?php echo $crew->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
-									'name' => $crew->person->name,
-									'job' => $crew->job,
-								])); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $crew->person->id]); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
 									'name' => $crew->person->name,
 									'job' => $crew->job,
 								])); ?>">
+									<img <?php echo $crew->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+										'name' => $crew->person->name,
+										'job' => $crew->job,
+									])); ?>">
+								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
