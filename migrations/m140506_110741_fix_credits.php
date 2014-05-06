@@ -14,7 +14,7 @@ class m140506_110741_fix_credits extends Migration
 		$this->truncateTable('{{%show_crew}}');
 		$this->truncateTable('{{%show_creator}}');
 
-		Yii::$app->db->createCommand('DELETE FROM {{%person_alias}}')->execute();
+		Yii::$app->db->createCommand('DELETE FROM {{%person_alias}} WHERE 1 = 1')->execute();
 		$this->truncateTable('{{%person}}');
 
 
