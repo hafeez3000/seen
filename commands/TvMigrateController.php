@@ -5,6 +5,7 @@ use \yii\console\Controller;
 
 use \app\components\MovieDb;
 use \app\models\Show;
+use \app\models\Movie;
 use \app\models\Language;
 
 /**
@@ -244,5 +245,40 @@ class TvMigrateController extends Controller
 			$show->slug = '';
 			$show->save();
 		}
+
+		$movies = Movie::find()->where(['like', 'slug', 'slug']);
+
+		foreach ($movies->each() as $movie) {
+			$movie->slug = '';
+			$movie->save();
+		}
+	}
+
+	public function actionDeleteDuplicates()
+	{
+		$shows = Yii::$app->db->createCommand('
+			DELETE
+				{{n1}}
+			FROM
+				{{%show}} {{n1}},
+				{{%show}} {{n2}}
+			WHERE
+				{{n1}}.[[id]] < {{n2}}.[[id]] AND
+				{{n1}}.[[themoviedb_id]] = {{n2}}.[[themoviedb_id]] AND
+				{{n1}}.[[language_id]] = {{n2}}.[[language_id]]'
+			)->execute();
+		$movies = Yii::$app->db->createCommand('
+			DELETE
+				{{n1}}
+			FROM
+				{{%movie}} {{n1}},
+				{{%movie}} {{n2}}
+			WHERE
+				{{n1}}.[[id]] < {{n2}}.[[id]] AND
+				{{n1}}.[[themoviedb_id]] = {{n2}}.[[themoviedb_id]] AND
+				{{n1}}.[[language_id]] = {{n2}}.[[language_id]]'
+			)->execute();
+
+		echo "Deleted {$shows} shows and {$movies} movies\n";
 	}
 }
