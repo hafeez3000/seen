@@ -30,7 +30,7 @@ class SyncController extends Controller
 		];
 	}
 
-	public function actionShows()
+	public function actionShows($id = null)
 	{
 		Yii::info('Sync shows...', 'application\sync');
 
@@ -39,8 +39,13 @@ class SyncController extends Controller
 		$shows = Show::find()
 			->with('language');
 
+		if ($id !== null) {
+			echo "Sync show #{$id}\n";
+			$shows = $shows->andWhere(['id' => $id]);
+		}
+
 		if (!$this->force)
-			$shows = $shows->where(['updated_at' => null]);
+			$shows = $shows->andWhere(['updated_at' => null]);
 		else
 			$shows = $shows
 				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
@@ -163,7 +168,7 @@ class SyncController extends Controller
 		}
 	}
 
-	public function actionMovies()
+	public function actionMovies($id = null)
 	{
 		Yii::info('Sync movies...', 'application\sync');
 
@@ -172,8 +177,13 @@ class SyncController extends Controller
 		$movies = Movie::find()
 			->with('language');
 
+		if ($id !== null) {
+			echo "Sync movie {$id}...\n";
+			$movies = $movies->andWhere(['id' => $id]);
+		}
+
 		if (!$this->force)
-			$movies = $movies->where(['updated_at' => null]);
+			$movies = $movies->andWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$movieCount = $movies->count();

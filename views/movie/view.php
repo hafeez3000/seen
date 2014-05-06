@@ -53,7 +53,13 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($movie->cast as $cast): ?>
 							<li>
-								<img <?php echo $cast->profileUrl; ?> alt="<?php echo Html::encode($cast->name); ?>" title="<?php echo Html::encode($cast->name); ?>">
+								<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
+									'name' => $cast->person->name,
+									'character' => $cast->character,
+								])); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
+									'name' => $cast->person->name,
+									'character' => $cast->character,
+								])); ?>">
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -67,7 +73,13 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-crew" class="list-unstyled list-inline">
 						<?php foreach ($movie->crew as $crew): ?>
 							<li>
-								<img <?php echo $crew->profileUrl; ?> alt="<?php echo Html::encode($crew->name); ?>" title="<?php echo Html::encode($crew->name); ?>">
+								<img <?php echo $crew->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+									'name' => $crew->person->name,
+									'job' => $crew->job,
+								])); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+									'name' => $crew->person->name,
+									'job' => $crew->job,
+								])); ?>">
 							</li>
 						<?php endforeach; ?>
 					</ul>

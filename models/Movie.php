@@ -38,7 +38,9 @@ use \app\components\TimestampBehavior;
  * @property Country[] $countries
  * @property Genre[] $genres
  * @property Language[] $languages
+ * @property Person[] $castPersons
  * @property MovieCast[] $cast
+ * @property Person[] $crewPersons
  * @property MovieCrew[] $crew
  * @property Movie[] $popularMovies
  * @property UserMovie[] $userWatches
@@ -208,10 +210,28 @@ class Movie extends ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
+	public function getCastPersons()
+	{
+		return $this->hasMany(Person::className(), ['id' => 'person_id'])
+			->viaTable('{{%movie_cast}}', ['movie_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getCast()
 	{
 		return $this->hasMany(MovieCast::className(), ['movie_id' => 'id'])
 			->orderBy(['{{%movie_cast}}.[[order]]' => SORT_ASC]);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCrewPersons()
+	{
+		return $this->hasMany(Person::className(), ['id' => 'person_id'])
+			->viaTable('{{%movie_crew}}', ['movie_id' => 'id']);
 	}
 
 	/**

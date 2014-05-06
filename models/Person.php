@@ -27,8 +27,6 @@ use \app\components\PersonTrait;
  */
 class Person extends \yii\db\ActiveRecord
 {
-	use PersonTrait;
-
 	/**
 	 * @inheritdoc
 	 */
@@ -43,6 +41,8 @@ class Person extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
+			[['id'], 'required'],
+			[['id'], 'integer'],
 			[['biography'], 'string'],
 			[['birthday', 'deathday'], 'date', 'format' => 'Y-m-d'],
 			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
@@ -83,6 +83,19 @@ class Person extends \yii\db\ActiveRecord
 				],
 			],
 		];
+	}
+
+	/**
+	 * Get the absolute url to the profile image.
+	 *
+	 * @return string
+	 */
+	public function getProfileUrl()
+	{
+		if (!empty($this->profile_path))
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w45' . $this->profile_path . '"';
+		else
+			return 'data-src="holder.js/45x68/#eee:#555/text:' . $this->name . '"';
 	}
 
 	/**

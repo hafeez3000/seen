@@ -393,38 +393,59 @@ class MovieDb
 
 		if (isset($attributes->credits->cast) && is_array($attributes->credits->cast)) {
 			foreach ($attributes->credits->cast as $castAttributes) {
-				$cast = ShowCast::findOne($castAttributes->id);
+				$person = Person::findOne($castAttributes->id);
+
+				if ($person === null) {
+					$person = new Person;
+					$person->attributes = (array) $castAttributes;
+					$person->save();
+				}
+
+				$cast = ShowCast::find()
+					->where([
+						'show_id' => $show->id,
+						'person_id' => $person->id,
+					])
+					->one();
 
 				if ($cast === null) {
 					$cast = new ShowCast;
 					$cast->attributes = (array) $castAttributes;
+					$cast->id = null;
 					$cast->show_id = $show->id;
-					$cast->save();
+					$cast->person_id = $castAttributes->id;
 
-					continue;
+					if (!$cast->save())
+						var_dump($cast->errors);
 				}
-
-				if (!ShowCast::find()->where(['id' => $cast->id])->exists())
-					$show->link('cast', $cast);
 			}
 		}
 
 		if (isset($attributes->credits->crew) && is_array($attributes->credits->crew)) {
 			foreach ($attributes->credits->crew as $crewAttributes) {
-				$crew = ShowCrew::findOne($crewAttributes->id);
+				$person = Person::findOne($crewAttributes->id);
+
+				if ($person === null) {
+					$person = new Person;
+					$person->attributes = (array) $crewAttributes;
+					$person->save();
+				}
+
+				$crew = ShowCrew::find()
+					->where([
+						'show_id' => $show->id,
+						'person_id' => $person->id,
+					])
+					->one();
 
 				if ($crew === null) {
 					$crew = new ShowCrew;
 					$crew->attributes = (array) $crewAttributes;
+					$crew->id = null;
 					$crew->show_id = $show->id;
+					$crew->person_id = $crewAttributes->id;
 					$crew->save();
-
-					$show->link('crew', $crew);
-					continue;
 				}
-
-				if (!ShowCrew::find()->where(['id' => $crew->id])->exists())
-					$show->link('crew', $crew);
 			}
 		}
 
@@ -636,39 +657,57 @@ class MovieDb
 
 		if (isset($attributes->credits->cast) && is_array($attributes->credits->cast)) {
 			foreach ($attributes->credits->cast as $castAttributes) {
-				$cast = MovieCast::findOne($castAttributes->id);
+				$person = Person::findOne($castAttributes->id);
+
+				if ($person === null) {
+					$person = new Person;
+					$person->attributes = (array) $castAttributes;
+					$person->save();
+				}
+
+				$cast = MovieCast::find()
+					->where([
+						'movie_id' => $movie->id,
+						'person_id' => $person->id,
+					])
+					->one();
 
 				if ($cast === null) {
 					$cast = new MovieCast;
 					$cast->attributes = (array) $castAttributes;
+					$cast->id = null;
 					$cast->movie_id = $movie->id;
+					$cast->person_id = $castAttributes->id;
 					$cast->save();
-
-					$movie->link('cast', $cast);
-					continue;
 				}
-
-				if (!MovieCast::find()->where(['id' => $cast->id])->exists())
-					$movie->link('cast', $cast);
 			}
 		}
 
 		if (isset($attributes->credits->crew) && is_array($attributes->credits->crew)) {
 			foreach ($attributes->credits->crew as $crewAttributes) {
-				$crew = MovieCrew::findOne($crewAttributes->id);
+				$person = Person::findOne($crewAttributes->id);
+
+				if ($person === null) {
+					$person = new Person;
+					$person->attributes = (array) $crewAttributes;
+					$person->save();
+				}
+
+				$crew = MovieCrew::find()
+					->where([
+						'movie_id' => $movie->id,
+						'person_id' => $person->id,
+					])
+					->one();
 
 				if ($crew === null) {
 					$crew = new MovieCrew;
 					$crew->attributes = (array) $crewAttributes;
+					$crew->id = null;
 					$crew->movie_id = $movie->id;
+					$crew->person_id = $crewAttributes->id;
 					$crew->save();
-
-					$movie->link('crew', $crew);
-					continue;
 				}
-
-				if (!MovieCrew::find()->where(['id' => $crew->id])->exists())
-					$movie->link('crew', $crew);
 			}
 		}
 

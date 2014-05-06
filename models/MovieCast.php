@@ -11,20 +11,18 @@ use \app\components\PersonTrait;
  *
  * @property integer $id
  * @property integer $movie_id
+ * @property integer $person_id
  * @property string $credit_id
- * @property string $name
  * @property string $character
- * @property string $profile_path
  * @property integer $order
  * @property string $created_at
  * @property string $updated_at
  *
  * @property Movie $movie
+ * @property Person $person
  */
 class MovieCast extends ActiveRecord
 {
-	use PersonTrait;
-
 	/**
 	 * @inheritdoc
 	 */
@@ -39,10 +37,10 @@ class MovieCast extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id', 'movie_id'], 'required'],
-			[['id', 'movie_id', 'order'], 'integer'],
+			[['movie_id', 'person_id'], 'required'],
+			[['id', 'movie_id', 'person_id', 'order'], 'integer'],
 			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
-			[['name', 'character', 'profile_path'], 'string', 'max' => 255],
+			[['character'], 'string', 'max' => 255],
 			[['credit_id'], 'string', 'max' => 50],
 		];
 	}
@@ -54,11 +52,10 @@ class MovieCast extends ActiveRecord
 	{
 		return [
 			'id' => Yii::t('Movie/Cast', 'ID'),
-			'movie_id' => Yii::t('Movie/Cast', 'Movie ID'),
+			'movie_id' => Yii::t('Movie/Cast', 'Movie'),
+			'person_id' => Yii::t('Movie/Cast', 'Person'),
 			'credit_id' => Yii::t('Movie/Cast', 'Credit ID'),
-			'name' => Yii::t('Movie/Cast', 'Name'),
 			'character' => Yii::t('Movie/Cast', 'Character'),
-			'profile_path' => Yii::t('Movie/Cast', 'Profile path'),
 			'order' => Yii::t('Movie/Cast', 'Order'),
 			'created_at' => Yii::t('Movie/Cast', 'Created at'),
 			'updated_at' => Yii::t('Movie/Cast', 'Updated at'),
@@ -83,5 +80,13 @@ class MovieCast extends ActiveRecord
 	public function getMovie()
 	{
 		return $this->hasOne(Movie::className(), ['id' => 'movie_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getPerson()
+	{
+		return $this->hasOne(Person::className(), ['id' => 'person_id']);
 	}
 }

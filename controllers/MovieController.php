@@ -114,9 +114,13 @@ class MovieController extends Controller
 	{
 		$movie = Movie::find()
 			->where(['slug' => $slug])
-			->with('crew')
-			->with('cast')
-			->with('similarMovies')
+			->with([
+				'crew',
+				'crew.person',
+				'cast',
+				'cast.person',
+				'similarMovies'
+			])
 			->one();
 		if ($movie === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Movie', 'The movie could not be found!'));
