@@ -184,6 +184,10 @@ class SyncController extends Controller
 
 		if (!$this->force)
 			$movies = $movies->andWhere(['updated_at' => null]);
+		else
+			$movies = $movies
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$movieCount = $movies->count();
