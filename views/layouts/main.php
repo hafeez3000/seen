@@ -48,6 +48,10 @@ AppAsset::register($this);
 		}
 	</script>
 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+	<link type="image/x-icon" href="/favicon.ico" />
+
 	<?php $this->head() ?>
 </head>
 	<body>
@@ -78,6 +82,12 @@ AppAsset::register($this);
 							'visible' => Yii::$app->user->can('viewLogs'),
 							'active' => Yii::$app->controller->id == 'log',
 						],
+						[
+							'label' => Yii::t('Site/Navigation', 'Language'),
+							'url' => ['language/admin'],
+							'visible' => Yii::$app->user->can('manageLanguages'),
+							'active' => Yii::$app->controller->id == 'language',
+						],
 					],
 				]);
 
@@ -98,7 +108,6 @@ AppAsset::register($this);
 						'items' => [
 							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index'], 'active' => Yii::$app->controller->id == 'tv'],
 							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index'], 'active' => Yii::$app->controller->id == 'movie'],
-							LanguageHelper::navigation(),
 							['label' => Yii::$app->user->identity->email,
 								'active' => Yii::$app->controller->id == 'user',
 								'items' => [
@@ -108,6 +117,7 @@ AppAsset::register($this);
 									['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout']],
 								]
 							],
+							LanguageHelper::navigation(),
 						],
 					]);
 				}
