@@ -532,17 +532,6 @@ class MovieDb
 			Yii::info("Syncing similar movie #{$movie->id}...", 'application\sync');
 		}
 
-		$attributes = $this->getMovie($movie, $language);
-
-		if ($attributes == false) {
-			Yii::error("Could not get attributes from api for movie #{$movie->id}...", 'application\sync');
-
-			return false;
-		}
-
-		if ($movie->isNewRecord)
-			$movie->save();
-
 		if ($isSimilarMovie) {
 			$similarMovie = $movie;
 			$language = Language::find(['iso' => $language])->one();
@@ -559,10 +548,26 @@ class MovieDb
 				$movie->themoviedb_id = $similarMovie->similar_to_themoviedb_id;
 				$movie->language_id = $language->id;
 				$movie->save();
+			} else {
+				$similarMovie->similar_to_movie_id = $movie->id;
+				$similarMovie->save();
+
+				return true;
 			}
 		}
 
+		$attributes = $this->getMovie($movie, $language);
+
+		if ($attributes == false) {
+			Yii::error("Could not get attributes from api for movie #{$movie->id}...", 'application\sync');
+
+			return false;
+		}
+
 		$movie->attributes = (array) $attributes;
+
+		if ($movie->isNewRecord)
+			$movie->save();
 
 		if (isset($attributes->similar_movies->results) && is_array($attributes->similar_movies->results)) {
 			foreach ($attributes->similar_movies->results as $similarMovieAttributes) {
