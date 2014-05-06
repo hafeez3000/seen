@@ -545,11 +545,21 @@ class MovieDb
 
 		if ($isSimilarMovie) {
 			$similarMovie = $movie;
+			$language = Language::find(['iso' => $language])->one();
 
-			$movie = new Movie;
-			$movie->themoviedb_id = $similarMovie->similar_to_themoviedb_id;
-			$movie->language_id = Language::find(['iso' => $language])->one()->id;
-			$movie->save();
+			$movie = Movie::find()
+				->where([
+					'themoviedb_id' => $similarMovie->similar_to_themoviedb_id,
+					'language_id' => $language->id,
+				])
+				->one();
+
+			if ($movie === null) {
+				$movie = new Movie;
+				$movie->themoviedb_id = $similarMovie->similar_to_themoviedb_id;
+				$movie->language_id = $language->id;
+				$movie->save();
+			}
 		}
 
 		$movie->attributes = (array) $attributes;
