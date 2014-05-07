@@ -214,7 +214,6 @@ class SyncController extends Controller
 
 		$movieChanges = $movieDb->getMovieChanges();
 
-		$languages = Language::find()->all();
 		$movies = Movie::find()
 			->where(['themoviedb_id' => $movieChanges]);
 
@@ -307,6 +306,9 @@ class SyncController extends Controller
 				if (!$popularMovie->save())
 					Yii::error("Could not save popular movie: " . serialize($popularMovie->errors) . "!", 'application\sync');
 			}
+
+			$language->popular_movies_updated_at = date('Y-m-d H:i:s');
+			$language->save();
 		}
 	}
 
