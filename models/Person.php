@@ -131,29 +131,31 @@ class Person extends \yii\db\ActiveRecord
 				{{%show}}
 			WHERE
 				{{%show}}.[[language_id]] = :language_id AND
-				{{%show}}.[[id]] IN (
-					SELECT DISTINCT
-						{{show_cast}}.[[show_id]]
-					FROM
-						{{%show_cast}} as {{show_cast}}
-					WHERE
-						{{show_cast}}.[[person_id]] = :person_id
-				) OR
-				{{%show}}.[[id]] IN (
-					SELECT DISTINCT
-						{{show_creator}}.[[show_id]]
-					FROM
-						{{%show_creator}} as {{show_creator}}
-					WHERE
-						{{show_creator}}.[[person_id]] = :person_id
-				) OR
-				{{%show}}.[[id]] IN (
-					SELECT DISTINCT
-						{{show_crew}}.[[show_id]]
-					FROM
-						{{%show_crew}} as {{show_crew}}
-					WHERE
-						{{show_crew}}.[[person_id]] = :person_id
+				(
+					{{%show}}.[[id]] IN (
+						SELECT DISTINCT
+							{{show_cast}}.[[show_id]]
+						FROM
+							{{%show_cast}} as {{show_cast}}
+						WHERE
+							{{show_cast}}.[[person_id]] = :person_id
+					) OR
+					{{%show}}.[[id]] IN (
+						SELECT DISTINCT
+							{{show_creator}}.[[show_id]]
+						FROM
+							{{%show_creator}} as {{show_creator}}
+						WHERE
+							{{show_creator}}.[[person_id]] = :person_id
+					) OR
+					{{%show}}.[[id]] IN (
+						SELECT DISTINCT
+							{{show_crew}}.[[show_id]]
+						FROM
+							{{%show_crew}} as {{show_crew}}
+						WHERE
+							{{show_crew}}.[[person_id]] = :person_id
+					)
 				)
 			ORDER BY
 				{{%show}}.[[popularity]] DESC
@@ -176,21 +178,23 @@ class Person extends \yii\db\ActiveRecord
 				{{%movie}}
 			WHERE
 				{{%movie}}.[[language_id]] = :language_id AND
-				{{%movie}}.[[id]] IN (
-					SELECT DISTINCT
-						{{movie_cast}}.[[movie_id]]
-					FROM
-						{{%movie_cast}} as {{movie_cast}}
-					WHERE
-						{{movie_cast}}.[[person_id]] = :person_id
-				) OR
-				{{%movie}}.[[id]] IN (
-					SELECT DISTINCT
-						{{movie_crew}}.[[movie_id]]
-					FROM
-						{{%movie_crew}} as {{movie_crew}}
-					WHERE
-						{{movie_crew}}.[[person_id]] = :person_id
+				(
+					{{%movie}}.[[id]] IN (
+						SELECT DISTINCT
+							{{movie_cast}}.[[movie_id]]
+						FROM
+							{{%movie_cast}} as {{movie_cast}}
+						WHERE
+							{{movie_cast}}.[[person_id]] = :person_id
+					) OR
+					{{%movie}}.[[id]] IN (
+						SELECT DISTINCT
+							{{movie_crew}}.[[movie_id]]
+						FROM
+							{{%movie_crew}} as {{movie_crew}}
+						WHERE
+							{{movie_crew}}.[[person_id]] = :person_id
+					)
 				)
 			ORDER BY
 				{{%movie}}.[[popularity]] DESC
