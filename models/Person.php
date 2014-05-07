@@ -107,7 +107,7 @@ class Person extends \yii\db\ActiveRecord
 		if (!empty($this->profile_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w185' . $this->profile_path . '"';
 		else
-			return 'data-src="holder.js/45x68/#eee:#555/text:' . $this->name . '"';
+			return 'data-src="holder.js/165x248/#eee:#555/text:' . $this->name . '"';
 	}
 
 	/**
