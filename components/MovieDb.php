@@ -762,7 +762,6 @@ class MovieDb
 	public function syncPerson($person)
 	{
 		Yii::info("Syncing person #{$person->id}...", 'application\sync');
-		echo "Sync person #{$person->id}\n";
 
 		$attributes = $this->getPerson($person);
 
@@ -772,12 +771,8 @@ class MovieDb
 		$person->attributes = (array) $attributes;
 
 		if (!$person->save()) {
-			var_dump($person->errors);
-			exit;
 			Yii::warning("Could update person {$person->id} '" . serialize($person->errors) . "': " . serialize($attributes), 'application\sync');
 			return false;
-		} else {
-			echo "Saved!\n";
 		}
 
 		return true;
