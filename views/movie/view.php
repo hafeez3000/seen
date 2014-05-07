@@ -92,11 +92,11 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 
 			<?php if (count($movie->similarMovies)): ?>
 				<div id="movie-view-similar-wrapper" class="persons">
-					<h2><?php echo Yii::t('Movie/View', 'similar'); ?></h2>
+					<h2><?php echo Yii::t('Movie/View', 'Similar Movies'); ?></h2>
 
 					<ul id="movie-view-similar" class="list-unstyled list-inline">
 						<?php foreach ($movie->similarMovies as $similarMovie): ?>
-							<li>
+							<li class="<?php if (count($similarMovie->userWatches) > 0): ?>movie-view-similar-watched<?php endif; ?>">
 								<a href="<?php echo Url::toRoute(['view', 'slug' => $similarMovie->slug]); ?>" title="<?php echo Html::encode($similarMovie->title); ?>">
 									<img <?php echo $similarMovie->posterUrlSmall; ?> alt="<?php echo Html::encode($similarMovie->title); ?>">
 								</a>
