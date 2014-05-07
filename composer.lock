@@ -207,12 +207,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "5db03b87c380b99cc2381d8ad872ca1bbbf505f8"
+                "reference": "63c88cd06d358b31b09716d68f79730c1cd1d022"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/5db03b87c380b99cc2381d8ad872ca1bbbf505f8",
-                "reference": "5db03b87c380b99cc2381d8ad872ca1bbbf505f8",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/63c88cd06d358b31b09716d68f79730c1cd1d022",
+                "reference": "63c88cd06d358b31b09716d68f79730c1cd1d022",
                 "shasum": ""
             },
             "type": "library",
@@ -243,7 +243,7 @@
                 "preview",
                 "upload"
             ],
-            "time": "2014-04-05 10:53:57"
+            "time": "2014-05-07 07:34:53"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -604,16 +604,16 @@
         },
         {
             "name": "yiisoft/jquery",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/jquery.git",
-                "reference": "a585ca4d6a2a129897a95575d229496a3486390b"
+                "reference": "bc09bbbc8b40cf89812036188b6f94ae7627c73c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery/zipball/a585ca4d6a2a129897a95575d229496a3486390b",
-                "reference": "a585ca4d6a2a129897a95575d229496a3486390b",
+                "url": "https://api.github.com/repos/yiisoft/jquery/zipball/bc09bbbc8b40cf89812036188b6f94ae7627c73c",
+                "reference": "bc09bbbc8b40cf89812036188b6f94ae7627c73c",
                 "shasum": ""
             },
             "type": "library",
@@ -623,7 +623,7 @@
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2014-01-24 06:00:08"
+            "time": "2014-05-07 05:00:09"
         },
         {
             "name": "yiisoft/jquery-pjax",
@@ -657,12 +657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "c5c83d35ac2fae2a391d2cb10635611165cfed0f"
+                "reference": "3ad278deb59a7d0a02a0b951e60facfaab897d3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/c5c83d35ac2fae2a391d2cb10635611165cfed0f",
-                "reference": "c5c83d35ac2fae2a391d2cb10635611165cfed0f",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/3ad278deb59a7d0a02a0b951e60facfaab897d3b",
+                "reference": "3ad278deb59a7d0a02a0b951e60facfaab897d3b",
                 "shasum": ""
             },
             "require": {
@@ -727,7 +727,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-05-06 14:00:45"
+            "time": "2014-05-06 23:55:52"
         },
         {
             "name": "yiisoft/yii2-bootstrap",

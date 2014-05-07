@@ -245,15 +245,30 @@ class SyncController extends Controller
 
 		$languages = Language::find();
 
+		if (!$this->force)
+			$languages = $languages
+				->where(['popular_movies_updated_at' => null])
+				->orWhere('[[popular_movies_updated_at]] <= :time')
+				->addParams([
+					':time' => date('Y-m-d H:i:s', time() - (3600 * 24 * 7))
+				]);
+
 		if ($this->debug) {
 			$languageCount = $languages->count();
 			$i = 1;
 		}
 
-		MoviePopular::deleteAll();
-
 		foreach ($languages->each() as $language) {
 			Yii::getLogger()->flush();
+
+			$oldPopularMovies = MoviePopular::find()
+				->leftJoin(Movie::tableName(), '{{%movie_popular}}.[[movie_id]] = {{%movie}}.[[id]]')
+				->where(['{{%movie}}.[[language_id]]' => $language->id])
+				->all();
+
+			foreach ($oldPopularMovies as $movie) {
+				$movie->delete();
+			}
 
 			if ($this->debug) {
 				echo "Get popular movies for language {$language->iso} {$i}/{$languageCount}\n";
