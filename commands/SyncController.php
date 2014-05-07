@@ -49,7 +49,7 @@ class SyncController extends Controller
 			$shows = $shows->andWhere(['updated_at' => null]);
 		else
 			$shows = $shows
-				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
 				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
@@ -84,7 +84,7 @@ class SyncController extends Controller
 			$seasons = $seasons->where(['updated_at' => null]);
 		else
 			$seasons = $seasons
-				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
 				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
@@ -120,7 +120,7 @@ class SyncController extends Controller
 			$episodes = $episodes->where(['updated_at' => null]);
 		else
 			$episodes = $episodes
-				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
 				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
