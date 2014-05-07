@@ -120,12 +120,17 @@ class Person extends \yii\db\ActiveRecord
 
 	public function getShows()
 	{
+		$language = Language::find()
+			->where(['iso' => Yii::$app->language])
+			->one();
+
 		return Show::findBySql('
 			SELECT DISTINCT
 				{{%show}}.*
 			FROM
 				{{%show}}
 			WHERE
+				{{%show}}.[[language_id]] = :language_id AND
 				{{%show}}.[[id]] IN (
 					SELECT DISTINCT
 						{{show_cast}}.[[show_id]]
@@ -154,17 +159,23 @@ class Person extends \yii\db\ActiveRecord
 				{{%show}}.[[popularity]] DESC
 		', [
 			':person_id' => $this->id,
+			':language_id' => $language->id,
 		]);
 	}
 
 	public function getMovies()
 	{
+		$language = Language::find()
+			->where(['iso' => Yii::$app->language])
+			->one();
+
 		return Movie::findBySql('
 			SELECT DISTINCT
 				{{%movie}}.*
 			FROM
 				{{%movie}}
 			WHERE
+				{{%movie}}.[[language_id]] = :language_id AND
 				{{%movie}}.[[id]] IN (
 					SELECT DISTINCT
 						{{movie_cast}}.[[movie_id]]
@@ -185,6 +196,7 @@ class Person extends \yii\db\ActiveRecord
 				{{%movie}}.[[popularity]] DESC
 		', [
 			':person_id' => $this->id,
+			':language_id' => $language->id,
 		]);
 	}
 }
