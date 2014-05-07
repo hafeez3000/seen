@@ -12,6 +12,7 @@ use \app\models\MovieSimilar;
 use \app\models\MoviePopular;
 use \app\models\ShowPopular;
 use \app\models\Language;
+use \app\models\Person;
 
 /**
  * Sync data with TheMovieDB.
@@ -387,6 +388,42 @@ class SyncController extends Controller
 
 			$language->popular_shows_updated_at = date('Y-m-d H:i:s');
 			$language->save();
+		}
+	}
+
+	public function actionPersons()
+	{
+		Yii::info('Sync popular shows...', 'application\sync');
+
+		$movieDb = new MovieDb;
+		$personChanges = $movieDb->getPersonChanges();
+
+		$persons = Person::find();
+
+		if (!$this->force)
+			$persons = $persons
+				->where(['id' => $personChanges])
+				->orWhere(['updated_at' => null]);
+		else
+			$persons = $persons
+				->where(['updated_at' => null])
+				->orWhere('[[updated_at]] <= :time')
+				->addParams([':time' => date('Y-m-d H:i:s', time() - 3600 * 24)]);
+
+		if ($this->debug) {
+			$personCount = $persons->count();
+			$i = 1;
+		}
+
+		foreach ($persons->each() as $person) {
+			Yii::getLogger()->flush();
+
+			if ($this->debug) {
+				echo "Update person {$i}/{$personCount}\n";
+				$i++;
+			}
+
+			$movieDb->syncPerson($person);
 		}
 	}
 }

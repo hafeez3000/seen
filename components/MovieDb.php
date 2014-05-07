@@ -233,6 +233,11 @@ class MovieDb
 		]);
 	}
 
+	public function getPerson($person)
+	{
+		return $this->get(sprintf('/person/%s', $person->id));
+	}
+
 	public function getPopularMovies($language)
 	{
 		return $this->get('/movie/popular', [
@@ -252,6 +257,18 @@ class MovieDb
 	public function getMovieChanges($startDate = null, $endDate = null)
 	{
 		$results = $this->paginate('/movie/changes', [
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+		]);
+
+		return array_map(function($arr) {
+			return $arr->id;
+		}, $results);
+	}
+
+	public function getPersonChanges($startDate = null, $endDate = null)
+	{
+		$results = $this->paginate('/person/changes', [
 			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
 			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
 		]);
@@ -450,7 +467,7 @@ class MovieDb
 		}
 
 		if (!$show->save()) {
-			Yii::warning("Could update tv show #{$show->id} '" . $show->errors . "': " . serialize($attributes), 'application\sync');
+			Yii::warning("Could update tv show #{$show->id} '" . serialize($show->errors) . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
 
@@ -495,7 +512,7 @@ class MovieDb
 		$season->themoviedb_id = $attributes->id;
 
 		if (!$season->save()) {
-			Yii::warning("Could update tv show season #{$season->id} '" . $season->errors . "': " . serialize($attributes), 'application\sync');
+			Yii::warning("Could update tv show season #{$season->id} '" . serialize($season->errors) . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
 
@@ -515,7 +532,7 @@ class MovieDb
 		$episode->themoviedb_id = $attributes->id;
 
 		if (!$episode->save()) {
-			Yii::warning("Could update tv show episode {$episode->id} '" . $episode->errors . "': " . serialize($attributes), 'application\sync');
+			Yii::warning("Could update tv show episode {$episode->id} '" . serialize($episode->errors) . "': " . serialize($attributes), 'application\sync');
 			return false;
 		}
 
@@ -737,6 +754,30 @@ class MovieDb
 		if ($isSimilarMovie) {
 			$similarMovie->similar_to_movie_id = $movie->id;
 			$similarMovie->save();
+		}
+
+		return true;
+	}
+
+	public function syncPerson($person)
+	{
+		Yii::info("Syncing person #{$person->id}...", 'application\sync');
+		echo "Sync person #{$person->id}\n";
+
+		$attributes = $this->getPerson($person);
+
+		if ($attributes == false)
+			return false;
+
+		$person->attributes = (array) $attributes;
+
+		if (!$person->save()) {
+			var_dump($person->errors);
+			exit;
+			Yii::warning("Could update person {$person->id} '" . serialize($person->errors) . "': " . serialize($attributes), 'application\sync');
+			return false;
+		} else {
+			echo "Saved!\n";
 		}
 
 		return true;
