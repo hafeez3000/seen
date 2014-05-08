@@ -27,10 +27,10 @@ class MovieController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['watch', 'unwatch'],
+				'only' => ['watch', 'unwatch', 'recommend'],
 				'rules' => [
 					[
-						'actions' => ['watch', 'unwatch'],
+						'actions' => ['watch', 'unwatch', 'recommend'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -229,5 +229,14 @@ class MovieController extends Controller
 		$userMovie->delete();
 
 		return $this->redirect(['view', 'slug' => $movie->slug]);
+	}
+
+	public function actionRecommend()
+	{
+		$movies = Movie::getRecommend()->limit(20)->all();
+
+		return $this->render('recommend', [
+			'movies' => $movies,
+		]);
 	}
 }
