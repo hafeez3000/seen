@@ -272,9 +272,15 @@ class Movie extends ActiveRecord
 	 */
 	public function getUserWatched()
 	{
+		$movie = $this;
+
 		return $this->hasMany(User::className(), ['id' => 'user_id'])
-			->onCondition(['user_id' => Yii::$app->user->id])
-			->viaTable('{{%user_movie}}', ['movie_id' => 'id']);
+			->viaTable('{{%user_movie}}', ['movie_id' => 'id'], function($query) use($movie) {
+				$query->where([
+					'user_id' => Yii::$app->user->id,
+					'movie_id' => $movie->id,
+				]);
+			});
 	}
 
 	/**
@@ -283,6 +289,35 @@ class Movie extends ActiveRecord
 	public function getPopularMovies()
 	{
 		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])->viaTable('{{%movie_popular}}', ['movie_id' => 'id']);
+	}
+
+	public static function getRecommend()
+	{
+		return Movie::find()
+			->distinct()
+			->select('{{%movie}}.*')
+			->from([
+				'{{%movie}}',
+				'{{%user_movie}}',
+				'{{%movie_similar}}',
+				'{{%language}}',
+			])
+			->where(['{{%user_movie}}.[[user_id]]' => Yii::$app->user->id])
+			->andWhere('{{%movie}}.[[id]] NOT IN (
+				SELECT {{user_movie}}.[[movie_id]]
+				FROM {{%user_movie}} AS {{user_movie}}
+				WHERE {{user_movie}}.[[user_id]] = :user_id
+			)')
+			->andWhere('{{%movie_similar}}.[[movie_id]] = {{%user_movie}}.[[movie_id]]')
+			->andWhere('{{%movie}}.[[id]] = {{%movie_similar}}.[[similar_to_movie_id]]')
+			->andWhere('{{%movie}}.[[release_date]] <= NOW()')
+			->andWhere('{{%movie}}.[[language_id]] = {{%language}}.[[id]]')
+			->andWhere('{{%language}}.[[iso]] = :language')
+			->orderBy(['{{%movie}}.[[popularity]]' => SORT_DESC])
+			->params([
+				':user_id' => Yii::$app->user->id,
+				':language' => Yii::$app->language,
+			]);
 	}
 
 	public function getPosterUrlSmall()

@@ -121,7 +121,8 @@ class SyncController extends Controller
 		else
 			$episodes = $episodes
 				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
-				->orWhere(['updated_at' => null]);
+				->orWhere(['updated_at' => null])
+                ->orderBy(['updated_at' => SORT_ASC]);
 
 		if ($this->debug) {
 			$episodeCount = $episodes->count();

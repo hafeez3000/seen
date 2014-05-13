@@ -13,6 +13,18 @@ use \app\models\Language;
  */
 class TvMigrateController extends Controller
 {
+    public $force = false;
+
+    public $debug = false;
+
+    public function options($actionId)
+    {
+        return [
+            'force',
+            'debug',
+        ];
+    }
+
 	protected function chooseShow($name, $shows)
 	{
 		if (count($shows) == 1)
@@ -239,14 +251,28 @@ class TvMigrateController extends Controller
 
 	public function actionFixSlugs()
 	{
-		$shows = Show::find()->where(['like', 'slug', 'slug']);
+		$shows = Show::find();
+
+        if (!$this->force)
+            $shows = $shows->where(['like', 'slug', 'slug']);
+
+        if ($this->debug)
+            echo "Fixing {$shows->count()} show slugs...\n";
 
 		foreach ($shows->each() as $show) {
 			$show->slug = '';
 			$show->save();
 		}
 
-		$movies = Movie::find()->where(['like', 'slug', 'slug']);
+		$movies = Movie::find();
+
+        if (!$this->force)
+            $movies = $movies
+                ->where(['like', 'slug', 'slug'])
+                ->orWhere('[[slug]] REGEXP "\\-[0-9]$"');
+
+        if ($this->debug)
+            echo "Fixing {$movies->count()} movie slugs...\n";
 
 		foreach ($movies->each() as $movie) {
 			$movie->slug = '';
