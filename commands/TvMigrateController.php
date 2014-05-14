@@ -5,6 +5,7 @@ use \yii\console\Controller;
 
 use \app\components\MovieDb;
 use \app\models\Show;
+use \app\models\Movie;
 use \app\models\Language;
 
 /**
@@ -12,6 +13,18 @@ use \app\models\Language;
  */
 class TvMigrateController extends Controller
 {
+    public $force = false;
+
+    public $debug = false;
+
+    public function options($actionId)
+    {
+        return [
+            'force',
+            'debug',
+        ];
+    }
+
 	protected function chooseShow($name, $shows)
 	{
 		if (count($shows) == 1)
@@ -238,11 +251,60 @@ class TvMigrateController extends Controller
 
 	public function actionFixSlugs()
 	{
-		$shows = Show::find()->where(['like', 'slug', 'slug']);
+		$shows = Show::find();
+
+        if (!$this->force)
+            $shows = $shows->where(['like', 'slug', 'slug']);
+
+        if ($this->debug)
+            echo "Fixing {$shows->count()} show slugs...\n";
 
 		foreach ($shows->each() as $show) {
 			$show->slug = '';
 			$show->save();
 		}
+
+		$movies = Movie::find();
+
+        if (!$this->force)
+            $movies = $movies
+                ->where(['like', 'slug', 'slug'])
+                ->orWhere('[[slug]] REGEXP "\\-[0-9]$"');
+
+        if ($this->debug)
+            echo "Fixing {$movies->count()} movie slugs...\n";
+
+		foreach ($movies->each() as $movie) {
+			$movie->slug = '';
+			$movie->save();
+		}
+	}
+
+	public function actionDeleteDuplicates()
+	{
+		$shows = Yii::$app->db->createCommand('
+			DELETE
+				{{n1}}
+			FROM
+				{{%show}} {{n1}},
+				{{%show}} {{n2}}
+			WHERE
+				{{n1}}.[[id]] < {{n2}}.[[id]] AND
+				{{n1}}.[[themoviedb_id]] = {{n2}}.[[themoviedb_id]] AND
+				{{n1}}.[[language_id]] = {{n2}}.[[language_id]]'
+			)->execute();
+		$movies = Yii::$app->db->createCommand('
+			DELETE
+				{{n1}}
+			FROM
+				{{%movie}} {{n1}},
+				{{%movie}} {{n2}}
+			WHERE
+				{{n1}}.[[id]] < {{n2}}.[[id]] AND
+				{{n1}}.[[themoviedb_id]] = {{n2}}.[[themoviedb_id]] AND
+				{{n1}}.[[language_id]] = {{n2}}.[[language_id]]'
+			)->execute();
+
+		echo "Deleted {$shows} shows and {$movies} movies\n";
 	}
 }

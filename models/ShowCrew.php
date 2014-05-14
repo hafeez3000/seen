@@ -11,19 +11,17 @@ use \app\components\PersonTrait;
  *
  * @property integer $id
  * @property integer $show_id
- * @property string $name
+ * @property integer $person_id
  * @property string $department
  * @property string $job
- * @property string $profile_path
  * @property string $created_at
  * @property string $updated_at
  *
  * @property Show $show
+ * @property Person $person
  */
 class ShowCrew extends ActiveRecord
 {
-	use PersonTrait;
-
 	/**
 	 * @inheritdoc
 	 */
@@ -38,10 +36,10 @@ class ShowCrew extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id', 'show_id'], 'required'],
-			[['id', 'show_id'], 'integer'],
+			[['show_id', 'person_id'], 'required'],
+			[['id', 'show_id', 'person_id'], 'integer'],
 			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
-			[['name', 'department', 'job', 'profile_path'], 'string', 'max' => 255]
+			[['department', 'job'], 'string', 'max' => 255]
 		];
 	}
 
@@ -52,11 +50,10 @@ class ShowCrew extends ActiveRecord
 	{
 		return [
 			'id' => Yii::t('Show/Crew', 'ID'),
-			'show_id' => Yii::t('Show/Crew', 'Show ID'),
-			'name' => Yii::t('Show/Crew', 'Name'),
+			'show_id' => Yii::t('Show/Crew', 'Show'),
+			'person_id' => Yii::t('Show/Crew', 'Person'),
 			'department' => Yii::t('Show/Crew', 'Department'),
 			'job' => Yii::t('Show/Crew', 'Job'),
-			'profile_path' => Yii::t('Show/Crew', 'Profile path'),
 			'created_at' => Yii::t('Show/Crew', 'Created at'),
 			'updated_at' => Yii::t('Show/Crew', 'Updated at'),
 		];
@@ -80,5 +77,13 @@ class ShowCrew extends ActiveRecord
 	public function getShow()
 	{
 		return $this->hasOne(Show::className(), ['id' => 'show_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getPerson()
+	{
+		return $this->hasOne(Person::className(), ['id' => 'person_id']);
 	}
 }

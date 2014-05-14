@@ -32,6 +32,10 @@ AppAsset::register($this);
 
     <?php echo $this->render('//layouts/js_head.php'); ?>
 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+	<link type="image/x-icon" href="/favicon.ico" />
+
 	<?php $this->head() ?>
 </head>
 	<body>

@@ -122,12 +122,16 @@ class TvController extends Controller
 	{
 		$show = Show::find()
 			->where(['slug' => $slug])
-			->with('seasons')
-			->with('creators')
-			->with('cast')
-			->with('crew')
-			->with('language')
-			->with('seasons.episodes')
+			->with([
+				'seasons',
+				'creators',
+				'cast',
+				'cast.person',
+				'crew',
+				'crew.person',
+				'language',
+				'seasons.episodes',
+			])
 			->one();
 		if ($show === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));

@@ -48,6 +48,7 @@ class LanguageHelper
 
 		$languages = Language::find()
 			->select(['iso', 'name'])
+			->where(['hide' => false])
 			->asArray()
 			->orderBy(['name' => SORT_ASC])
 			->all();

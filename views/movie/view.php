@@ -53,7 +53,15 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($movie->cast as $cast): ?>
 							<li>
-								<img <?php echo $cast->profileUrl; ?> alt="<?php echo Html::encode($cast->name); ?>" title="<?php echo Html::encode($cast->name); ?>">
+								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $cast->person->id]); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
+									'name' => $cast->person->name,
+									'character' => $cast->character,
+								])); ?>">
+									<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
+										'name' => $cast->person->name,
+										'character' => $cast->character,
+									])); ?>">
+								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -67,7 +75,15 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-crew" class="list-unstyled list-inline">
 						<?php foreach ($movie->crew as $crew): ?>
 							<li>
-								<img <?php echo $crew->profileUrl; ?> alt="<?php echo Html::encode($crew->name); ?>" title="<?php echo Html::encode($crew->name); ?>">
+								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $crew->person->id]); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+									'name' => $crew->person->name,
+									'job' => $crew->job,
+								])); ?>">
+									<img <?php echo $crew->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+										'name' => $crew->person->name,
+										'job' => $crew->job,
+									])); ?>">
+								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -76,11 +92,11 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 
 			<?php if (count($movie->similarMovies)): ?>
 				<div id="movie-view-similar-wrapper" class="persons">
-					<h2><?php echo Yii::t('Movie/View', 'similar'); ?></h2>
+					<h2><?php echo Yii::t('Movie/View', 'Similar Movies'); ?></h2>
 
 					<ul id="movie-view-similar" class="list-unstyled list-inline">
 						<?php foreach ($movie->similarMovies as $similarMovie): ?>
-							<li>
+							<li class="<?php if (count($similarMovie->userWatches) > 0): ?>movie-view-similar-watched<?php endif; ?>">
 								<a href="<?php echo Url::toRoute(['view', 'slug' => $similarMovie->slug]); ?>" title="<?php echo Html::encode($similarMovie->title); ?>">
 									<img <?php echo $similarMovie->posterUrlSmall; ?> alt="<?php echo Html::encode($similarMovie->title); ?>">
 								</a>

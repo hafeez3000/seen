@@ -17,6 +17,21 @@
 		margin-bottom: 10px;
 		width: 102px;
 		height: 138px;
+
+		&.movie-view-similar-watched {
+			img {
+				.grayscale();
+				.transition(all .3s ease);
+
+				&:hover {
+					.grayscale-disable();
+				}
+			}
+		}
+
+		a {
+			display: block;
+		}
 	}
 }
 

@@ -11,20 +11,18 @@ use \app\components\PersonTrait;
  *
  * @property integer $id
  * @property integer $show_id
- * @property integer $credit_id
- * @property string $name
+ * @property integer $person_id
+ * @property string $credit_id
  * @property string $character
- * @property string $profile_path
  * @property integer $order
  * @property string $created_at
  * @property string $updated_at
  *
  * @property Show $show
+ * @property Person $person
  */
 class ShowCast extends ActiveRecord
 {
-	use PersonTrait;
-
 	/**
 	 * @inheritdoc
 	 */
@@ -39,10 +37,11 @@ class ShowCast extends ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id', 'show_id'], 'required'],
-			[['id', 'show_id', 'credit_id', 'order'], 'integer'],
+			[['show_id', 'person_id'], 'required'],
+			[['id', 'show_id', 'person_id', 'order'], 'integer'],
 			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
-			[['name', 'character', 'profile_path'], 'string', 'max' => 255]
+			[['credit_id'], 'string', 'max' => 50],
+			[['character'], 'string', 'max' => 255]
 		];
 	}
 
@@ -53,11 +52,10 @@ class ShowCast extends ActiveRecord
 	{
 		return [
 			'id' => Yii::t('Show/Cast', 'ID'),
-			'show_id' => Yii::t('Show/Cast', 'Show ID'),
-			'credit_id' => Yii::t('Show/Cast', 'Credit ID'),
-			'name' => Yii::t('Show/Cast', 'Name'),
+			'show_id' => Yii::t('Show/Cast', 'Show'),
+			'person_id' => Yii::t('Show/Cast', 'Person'),
+			'credit_id' => Yii::t('Show/Cast', 'Credit'),
 			'character' => Yii::t('Show/Cast', 'Character'),
-			'profile_path' => Yii::t('Show/Cast', 'Profile path'),
 			'order' => Yii::t('Show/Cast', 'Order'),
 			'created_at' => Yii::t('Show/Cast', 'Created at'),
 			'updated_at' => Yii::t('Show/Cast', 'Updated at'),
@@ -82,5 +80,13 @@ class ShowCast extends ActiveRecord
 	public function getShow()
 	{
 		return $this->hasOne(Show::className(), ['id' => 'show_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getPerson()
+	{
+		return $this->hasOne(Person::className(), ['id' => 'person_id']);
 	}
 }
