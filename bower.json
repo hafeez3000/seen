@@ -9,7 +9,7 @@
   "moduleType": [
     "globals"
   ],
-  "license": "Proprietary",
+  "license": "CC BY-NC 4.0",
   "private": true,
   "ignore": [
     "**/.*",

@@ -85,12 +85,14 @@ class SiteController extends Controller
 
 		$model = new LoginForm;
 
-		if ($model->load(Yii::$app->request->post()) && $model->login())
+		if ($model->load(Yii::$app->request->post()) && $model->login()) {
+			Yii::$app->session->setFlash('goal', 2);
 			return $this->goBack();
-		else
+		} else {
 			return $this->render('login', [
 				'model' => $model,
 			]);
+		}
 	}
 
 	public function actionLogout()
@@ -107,6 +109,7 @@ class SiteController extends Controller
 		$model = new SignupForm;
 
 		if ($model->load(Yii::$app->request->post()) && $model->register()) {
+			Yii::$app->session->setFlash('goal', 1);
 			Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN!'));
 			return $this->redirect(['tv/index']);
 		} else
@@ -153,6 +156,7 @@ class SiteController extends Controller
 	{
 		$model = new ContactForm;
 		if ($model->load(Yii::$app->request->post()) && $model->contact()) {
+			Yii::$app->session->setFlash('goal', 3);
 			Yii::$app->session->setFlash('success', Yii::t('Site/Contact', 'Thanks for your message! We will answer your request as soon as possible.'));
 
 			return $this->redirect(['/site/contact']);

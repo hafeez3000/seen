@@ -30,23 +30,7 @@ AppAsset::register($this);
 		echo Html::encode(Yii::$app->name);
 	?></title>
 
-	<script type="text/javascript">
-		var App = {
-			baseUrl: "<?php echo Yii::$app->request->baseUrl; ?>",
-			language: "<?php echo Yii::$app->language; ?>",
-			themoviedb: {
-				key: "<?php echo Yii::$app->params['themoviedb']['key']; ?>",
-				url: "<?php echo Yii::$app->params['themoviedb']['url']; ?>",
-				image_url: "<?php echo Yii::$app->params['themoviedb']['image_url']; ?>"
-			},
-			translation: {
-				unknown_error: "<?php echo Yii::t('Error', 'An unknown error occured! Please try again later.'); ?>",
-				first_aired: "<?php echo Yii::t('Show', 'First aired'); ?>",
-				released: "<?php echo Yii::t('Movie', 'Released'); ?>",
-				votes: "<?php echo Yii::t('Show', 'Votes'); ?>"
-			}
-		}
-	</script>
+    <?php echo $this->render('//layouts/js_head.php'); ?>
 
 	<?php $this->head() ?>
 </head>
@@ -66,24 +50,11 @@ AppAsset::register($this);
 					'options' => ['class' => 'navbar-nav'],
 					'items' => [
 						['label' => Yii::t('Site/Navigation', 'Contact'), 'url' => ['site/contact']],
-						[
-							'label' => Yii::t('Site/Navigation', 'Email'),
-							'url' => ['email/index'],
-							'visible' => Yii::$app->user->can('viewEmails'),
-							'active' => Yii::$app->controller->id == 'email',
-						],
-						[
-							'label' => Yii::t('Site/Navigation', 'Log'),
-							'url' => ['log/index'],
-							'visible' => Yii::$app->user->can('viewLogs'),
-							'active' => Yii::$app->controller->id == 'log',
-						],
-						[
-							'label' => Yii::t('Site/Navigation', 'Language'),
-							'url' => ['language/admin'],
-							'visible' => Yii::$app->user->can('manageLanguages'),
-							'active' => Yii::$app->controller->id == 'language',
-						],
+                        [
+                                'label' => Yii::t('Site/Navigation', 'Admin'),
+                                'url' => ['/admin'],
+                                'visible' => Yii::$app->user->can('supporter') || Yii::$app->user->can('admin'),
+                        ],
 					],
 				]);
 
@@ -123,25 +94,7 @@ AppAsset::register($this);
 		</header>
 
 		<div id="content" class="container">
-			<div id="flash-messages">
-				<?php
-					$flashMessages = Yii::$app->session->getAllFlashes();
-
-					if (is_array($flashMessages)) {
-						foreach ($flashMessages as $key => $message) {
-							if ($key == 'error')
-								$key = 'danger';
-
-							echo Alert::widget([
-								'options' => [
-									'class' => 'alert-' . $key
-								],
-								'body' => $message,
-							]);
-						}
-					}
-				?>
-			</div>
+			<?php echo $this->render('//layouts/flash.php'); ?>
 
 			<div id="ajax-loading"></div>
 
@@ -155,9 +108,9 @@ AppAsset::register($this);
 			</div>
 		</footer>
 
-		<?php $this->endBody() ?>
+        <?php echo $this->render('//layouts/js_foot.php'); ?>
 
-		<?php echo $this->render('/layouts/social.php'); ?>
+		<?php $this->endBody() ?>
 	</body>
 </html>
 <?php $this->endPage() ?>

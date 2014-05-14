@@ -200,7 +200,6 @@ class SyncController extends Controller
 
 		$movieChanges = $movieDb->getMovieChanges();
 
-		$languages = Language::find()->all();
 		$movies = Movie::find()
 			->where(['themoviedb_id' => $movieChanges]);
 

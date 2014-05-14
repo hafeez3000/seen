@@ -9,6 +9,8 @@ use \yii\db\ActiveRecord;
 use \app\models\User;
 use \app\models\UserShow;
 use \app\models\UserShowRun;
+use \app\components\Email;
+use \app\components\Mailchimp;
 
 class EventBootstrap implements BootstrapInterface
 {

@@ -38,12 +38,13 @@ $config['components']['urlManager'] = [
 		'logout' => 'site/logout',
 		'account' => 'user/account',
 
+		// Admin
+		'admin' => 'admin/site/index',
+
 		// Languages
-		'language/admin' => 'language/admin',
-		'language/<id:\d+>' => 'language/view',
-		'language/update/<id:\d+>' => 'language/update',
 		'language/<iso:.*?>' => 'site/language',
 
+		// Reset password
 		'reset-password' => 'site/reset',
 		'reset-password/<token:.*?>' => 'site/reset-password',
 
@@ -87,6 +88,10 @@ $config['components']['i18n'] = [
 
 $config['components']['authManager'] = [
 	'class' => 'yii\rbac\DbManager',
+];
+
+$config['modules']['admin'] = [
+	'class' => 'app\modules\admin\Module',
 ];
 
 if (!YII_ENV_TEST) {

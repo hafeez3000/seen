@@ -27,3 +27,12 @@ $this->title[] = Yii::t('Error', 'Error {code}', ['code' => $statusCode]);
 		<?php endif; ?>
 	</div>
 </div>
+
+<script type="text/javascript">
+    _paq.push(['setCustomVariable',
+        1,
+        "Error",
+        "<?php echo $statusCode; ?> - <?php echo Html::encode($message); ?>",
+        "page"
+    ]);
+</script>
