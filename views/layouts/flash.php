@@ -1,3 +1,9 @@
+<?php
+
+use \yii\bootstrap\Alert;
+
+?>
+
 <div id="flash-messages">
 	<?php
 		$flashMessages = Yii::$app->session->getAllFlashes();
