@@ -30,19 +30,7 @@ AppAsset::register($this);
 		echo Html::encode(Yii::$app->name);
 	?></title>
 
-	<script type="text/javascript">
-		var App = {
-			language: "<?php echo Yii::$app->language; ?>",
-			themoviedb: {
-				key: "<?php echo Yii::$app->params['themoviedb']['key']; ?>",
-				url: "<?php echo Yii::$app->params['themoviedb']['url']; ?>",
-				image_url: "<?php echo Yii::$app->params['themoviedb']['image_url']; ?>"
-			},
-			translation: {
-				noPosterImage: "<?php echo Yii::t('Show', 'No image available'); ?>"
-			}
-		}
-	</script>
+    <?php echo $this->render('//layouts/js_head.php'); ?>
 
 	<?php $this->head() ?>
 </head>
@@ -50,25 +38,7 @@ AppAsset::register($this);
 		<?php $this->beginBody() ?>
 
 		<div id="login-container">
-			<div id="flash-messages">
-				<?php
-					$flashMessages = Yii::$app->session->getAllFlashes();
-
-					if (is_array($flashMessages)) {
-						foreach ($flashMessages as $key => $message) {
-							if ($key == 'error')
-								$key = 'danger';
-
-							echo Alert::widget([
-								'options' => [
-									'class' => 'alert-' . $key
-								],
-								'body' => $message,
-							]);
-						}
-					}
-				?>
-			</div>
+			<?php echo $this->render('//layouts/flash.php'); ?>
 
 			<?php echo $content; ?>
 		</div>
@@ -76,6 +46,8 @@ AppAsset::register($this);
 		<div id="login-back">
 			<a href="<?php echo Url::toRoute(['/']) ?>"><?php echo Yii::t('Login', 'Back to SEEN'); ?></a>
 		</div>
+
+        <?php echo $this->render('//layouts/js_foot.php'); ?>
 
 		<?php $this->endBody() ?>
 	</body>
