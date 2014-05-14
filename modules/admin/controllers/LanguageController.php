@@ -1,27 +1,27 @@
-<?php namespace app\controllers;
+<?php namespace app\modules\admin\controllers;
 
 use \Yii;
-use \yii\web\Controller;
 use \yii\filters\AccessControl;
 use \yii\data\Pagination;
 
+use \app\modules\admin\controllers\BaseController;
 use \app\models\Language;
 use \app\models\search\LanguageSearch;
 
-class LanguageController extends Controller
+class LanguageController extends BaseController
 {
 	/**
-	 * @inheritdoc
-	 */
+	* @inheritdoc
+	*/
 	public function behaviors()
 	{
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['admin', 'view', 'update'],
+				'only' => ['index', 'view', 'update'],
 				'rules' => [
 					[
-						'actions' => ['admin', 'view', 'update'],
+						'actions' => ['index', 'view', 'update'],
 						'allow' => true,
 						'roles' => ['manageLanguages'],
 					],
@@ -30,7 +30,7 @@ class LanguageController extends Controller
 		];
 	}
 
-	public function actionAdmin()
+	public function actionIndex()
 	{
 		$filterModel = new LanguageSearch;
 		$dataProvider = $filterModel->search($_GET);

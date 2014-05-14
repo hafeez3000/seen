@@ -1,13 +1,13 @@
-<?php namespace app\controllers;
+<?php namespace app\modules\admin\controllers;
 
 use \Yii;
-use \yii\web\Controller;
 use \yii\filters\AccessControl;
 use \yii\data\Pagination;
 
+use \app\modules\admin\controllers\BaseController;
 use \app\models\Log;
 
-class LogController extends Controller
+class LogController extends BaseController
 {
 	public function behaviors()
 	{

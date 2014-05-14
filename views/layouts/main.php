@@ -50,24 +50,11 @@ AppAsset::register($this);
 					'options' => ['class' => 'navbar-nav'],
 					'items' => [
 						['label' => Yii::t('Site/Navigation', 'Contact'), 'url' => ['site/contact']],
-						[
-							'label' => Yii::t('Site/Navigation', 'Email'),
-							'url' => ['email/index'],
-							'visible' => Yii::$app->user->can('viewEmails'),
-							'active' => Yii::$app->controller->id == 'email',
-						],
-						[
-							'label' => Yii::t('Site/Navigation', 'Log'),
-							'url' => ['log/index'],
-							'visible' => Yii::$app->user->can('viewLogs'),
-							'active' => Yii::$app->controller->id == 'log',
-						],
-						[
-							'label' => Yii::t('Site/Navigation', 'Language'),
-							'url' => ['language/admin'],
-							'visible' => Yii::$app->user->can('manageLanguages'),
-							'active' => Yii::$app->controller->id == 'language',
-						],
+                        [
+                                'label' => Yii::t('Site/Navigation', 'Admin'),
+                                'url' => ['/admin'],
+                                'visible' => Yii::$app->user->can('supporter') || Yii::$app->user->can('admin'),
+                        ],
 					],
 				]);
 
