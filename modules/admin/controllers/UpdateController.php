@@ -137,6 +137,20 @@ class UpdateController extends BaseController
 						->where(['updated_at' => null])
 						->count();
 				}
+			} elseif (strpos($matches[3], 'sync/persons') !== false) {
+				$model = Person::find();
+
+				if ($force)
+					$updates = $model
+						->where(['updated_at' => null])
+						->orWhere('[[updated_at]] <= :time')
+						->addParams([':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+						->count();
+				else
+					$updates = $model
+						->where(['id' => $personChanges])
+						->orWhere(['updated_at' => null])
+						->count();
 			} else {
 				$updates = 0;
 			}

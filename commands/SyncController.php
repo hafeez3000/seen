@@ -12,6 +12,7 @@ use \app\models\MovieSimilar;
 use \app\models\MoviePopular;
 use \app\models\ShowPopular;
 use \app\models\Language;
+use \app\models\Person;
 
 /**
  * Sync data with TheMovieDB.
@@ -30,7 +31,7 @@ class SyncController extends Controller
 		];
 	}
 
-	public function actionShows()
+	public function actionShows($id = null)
 	{
 		Yii::info('Sync shows...', 'application\sync');
 
@@ -39,11 +40,16 @@ class SyncController extends Controller
 		$shows = Show::find()
 			->with('language');
 
+		if ($id !== null) {
+			echo "Sync show #{$id}\n";
+			$shows = $shows->andWhere(['id' => $id]);
+		}
+
 		if (!$this->force)
-			$shows = $shows->where(['updated_at' => null]);
+			$shows = $shows->andWhere(['updated_at' => null]);
 		else
 			$shows = $shows
-				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
 				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
@@ -78,7 +84,7 @@ class SyncController extends Controller
 			$seasons = $seasons->where(['updated_at' => null]);
 		else
 			$seasons = $seasons
-				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
 				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
@@ -114,8 +120,9 @@ class SyncController extends Controller
 			$episodes = $episodes->where(['updated_at' => null]);
 		else
 			$episodes = $episodes
-				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
-				->orWhere(['updated_at' => null]);
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
+				->orWhere(['updated_at' => null])
+                ->orderBy(['updated_at' => SORT_ASC]);
 
 		if ($this->debug) {
 			$episodeCount = $episodes->count();
@@ -163,7 +170,7 @@ class SyncController extends Controller
 		}
 	}
 
-	public function actionMovies()
+	public function actionMovies($id = null)
 	{
 		Yii::info('Sync movies...', 'application\sync');
 
@@ -172,8 +179,17 @@ class SyncController extends Controller
 		$movies = Movie::find()
 			->with('language');
 
+		if ($id !== null) {
+			echo "Sync movie {$id}...\n";
+			$movies = $movies->andWhere(['id' => $id]);
+		}
+
 		if (!$this->force)
-			$movies = $movies->where(['updated_at' => null]);
+			$movies = $movies->andWhere(['updated_at' => null]);
+		else
+			$movies = $movies
+				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
+				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$movieCount = $movies->count();
@@ -230,15 +246,30 @@ class SyncController extends Controller
 
 		$languages = Language::find();
 
+		if (!$this->force)
+			$languages = $languages
+				->where(['popular_movies_updated_at' => null])
+				->orWhere('[[popular_movies_updated_at]] <= :time')
+				->addParams([
+					':time' => date('Y-m-d H:i:s', time() - (3600 * 24 * 7))
+				]);
+
 		if ($this->debug) {
 			$languageCount = $languages->count();
 			$i = 1;
 		}
 
-		MoviePopular::deleteAll();
-
 		foreach ($languages->each() as $language) {
 			Yii::getLogger()->flush();
+
+			$oldPopularMovies = MoviePopular::find()
+				->leftJoin(Movie::tableName(), '{{%movie_popular}}.[[movie_id]] = {{%movie}}.[[id]]')
+				->where(['{{%movie}}.[[language_id]]' => $language->id])
+				->all();
+
+			foreach ($oldPopularMovies as $movie) {
+				$movie->delete();
+			}
 
 			if ($this->debug) {
 				echo "Get popular movies for language {$language->iso} {$i}/{$languageCount}\n";
@@ -277,6 +308,9 @@ class SyncController extends Controller
 				if (!$popularMovie->save())
 					Yii::error("Could not save popular movie: " . serialize($popularMovie->errors) . "!", 'application\sync');
 			}
+
+			$language->popular_movies_updated_at = date('Y-m-d H:i:s');
+			$language->save();
 		}
 	}
 
@@ -355,6 +389,42 @@ class SyncController extends Controller
 
 			$language->popular_shows_updated_at = date('Y-m-d H:i:s');
 			$language->save();
+		}
+	}
+
+	public function actionPersons()
+	{
+		Yii::info('Sync popular shows...', 'application\sync');
+
+		$movieDb = new MovieDb;
+		$personChanges = $movieDb->getPersonChanges();
+
+		$persons = Person::find();
+
+		if (!$this->force)
+			$persons = $persons
+				->where(['id' => $personChanges])
+				->orWhere(['updated_at' => null]);
+		else
+			$persons = $persons
+				->where(['updated_at' => null])
+				->orWhere('[[updated_at]] <= :time')
+				->addParams([':time' => date('Y-m-d H:i:s', time() - 3600 * 24)]);
+
+		if ($this->debug) {
+			$personCount = $persons->count();
+			$i = 1;
+		}
+
+		foreach ($persons->each() as $person) {
+			Yii::getLogger()->flush();
+
+			if ($this->debug) {
+				echo "Update person {$i}/{$personCount}\n";
+				$i++;
+			}
+
+			$movieDb->syncPerson($person);
 		}
 	}
 }
