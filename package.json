@@ -1,6 +1,6 @@
 {
   "name": "seen",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "SEEN",
   "main": "web/index.php",
   "directories": {
