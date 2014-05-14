@@ -4,7 +4,7 @@
 	"keywords": ["seen", "tv", "movie", "database"],
 	"homepage": "https://seenapp.com/",
 	"type": "project",
-	"license": "Proprietary",
+	"license": "CC BY-NC 4.0",
 	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.4.0",
