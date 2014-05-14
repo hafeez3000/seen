@@ -343,13 +343,13 @@ class Show extends ActiveRecord
 				{{%user_episode}}.[[episode_id]] = {{%episode}}.[[id]] AND
 				{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
 				{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
-				{{%show}}.[[id]] = :id
+				{{%show}}.[[id]] = :show_id
 			ORDER BY
 				{{%season}}.[[number]] DESC,
 				{{%episode}}.[[number]] DESC
 		')
 			->addParams([
-				':id' => $this->id,
+				':show_id' => $this->id,
 				':user_id' => ($id === null) ? Yii::$app->user->id : $id,
 			]);
 	}
@@ -361,8 +361,12 @@ class Show extends ActiveRecord
 				{{%user_episode}}.*
 			FROM
 				{{%episode}},
-				{{%user_episode}}
+				{{%user_episode}},
+				{{%season}}
 			WHERE
+				{{%season}}.[[show_id]] = :show_id AND
+				{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
+				{{%episode}}.[[id]] = {{%user_episode}}.[[episode_id]] AND
 				{{%user_episode}}.[[run_id]] = (
 					SELECT
 						{{%user_show_run}}.[[id]]
@@ -374,16 +378,6 @@ class Show extends ActiveRecord
 					ORDER BY
 						{{%user_show_run}}.[[created_at]] DESC
 					LIMIT 1
-				) AND
-				{{%user_episode}}.[[episode_id]] IN (
-					SELECT
-						{{episode}}.[[id]]
-					FROM
-						{{%episode}} AS {{episode}},
-						{{%season}} AS {{season}}
-					WHERE
-						{{season}}.[[show_id]] = :show_id AND
-						{{episode}}.season_id = {{season}}.[[id]]
 				)
 		')
 			->addParams([

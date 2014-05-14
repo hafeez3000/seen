@@ -38,7 +38,9 @@ use \app\components\TimestampBehavior;
  * @property Country[] $countries
  * @property Genre[] $genres
  * @property Language[] $languages
+ * @property Person[] $castPersons
  * @property MovieCast[] $cast
+ * @property Person[] $crewPersons
  * @property MovieCrew[] $crew
  * @property Movie[] $popularMovies
  * @property UserMovie[] $userWatches
@@ -208,10 +210,28 @@ class Movie extends ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
+	public function getCastPersons()
+	{
+		return $this->hasMany(Person::className(), ['id' => 'person_id'])
+			->viaTable('{{%movie_cast}}', ['movie_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getCast()
 	{
 		return $this->hasMany(MovieCast::className(), ['movie_id' => 'id'])
 			->orderBy(['{{%movie_cast}}.[[order]]' => SORT_ASC]);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCrewPersons()
+	{
+		return $this->hasMany(Person::className(), ['id' => 'person_id'])
+			->viaTable('{{%movie_crew}}', ['movie_id' => 'id']);
 	}
 
 	/**
@@ -273,32 +293,8 @@ class Movie extends ActiveRecord
 
 	public static function getRecommend()
 	{
-		/*$movies = Movie::findBySql('
-			SELECT DISTINCT
-				{{%movie}}.*
-			FROM
-				{{%movie}},
-				{{%user_movie}},
-				{{%movie_similar}},
-				{{%language}}
-			WHERE
-				{{%user_movie}}.[[user_id]] = :user_id AND
-				{{%movie}}.[[id]] != {{%user_movie}}.[[movie_id]] AND
-				{{%movie_similar}}.[[movie_id]] = {{%user_movie}}.[[movie_id]] AND
-				{{%movie}}.[[id]] = {{%movie_similar}}.[[similar_to_movie_id]] AND
-				{{%movie}}.[[release_date]] <= NOW() AND
-				{{%movie}}.[[language_id]] = {{%language}}.[[id]] AND
-				{{%language}}.[[iso]] = :language
-			ORDER BY
-				 DESC
-			LIMIT 20
-		', [
-			':user_id' => Yii::$app->user->id,
-			':language' => Yii::$app->language,
-		])
-			->all();*/
-
 		return Movie::find()
+			->distinct()
 			->select('{{%movie}}.*')
 			->from([
 				'{{%movie}}',
@@ -307,7 +303,11 @@ class Movie extends ActiveRecord
 				'{{%language}}',
 			])
 			->where(['{{%user_movie}}.[[user_id]]' => Yii::$app->user->id])
-			->andWhere('{{%movie}}.[[id]] != {{%user_movie}}.[[movie_id]]')
+			->andWhere('{{%movie}}.[[id]] NOT IN (
+				SELECT {{user_movie}}.[[movie_id]]
+				FROM {{%user_movie}} AS {{user_movie}}
+				WHERE {{user_movie}}.[[user_id]] = :user_id
+			)')
 			->andWhere('{{%movie_similar}}.[[movie_id]] = {{%user_movie}}.[[movie_id]]')
 			->andWhere('{{%movie}}.[[id]] = {{%movie_similar}}.[[similar_to_movie_id]]')
 			->andWhere('{{%movie}}.[[release_date]] <= NOW()')
@@ -315,6 +315,7 @@ class Movie extends ActiveRecord
 			->andWhere('{{%language}}.[[iso]] = :language')
 			->orderBy(['{{%movie}}.[[popularity]]' => SORT_DESC])
 			->params([
+				':user_id' => Yii::$app->user->id,
 				':language' => Yii::$app->language,
 			]);
 	}
