@@ -11,6 +11,7 @@ use \app\models\Episode;
 use \app\models\Movie;
 use \app\models\MovieSimilar;
 use \app\models\Language;
+use \app\models\Person;
 use \app\components\MovieDb;
 
 class UpdateController extends BaseController
@@ -140,17 +141,20 @@ class UpdateController extends BaseController
 			} elseif (strpos($matches[3], 'sync/persons') !== false) {
 				$model = Person::find();
 
-				if ($force)
+				if ($force) {
 					$updates = $model
 						->where(['updated_at' => null])
 						->orWhere('[[updated_at]] <= :time')
 						->addParams([':time' => date('Y-m-d H:i:s', time() - 3600 * 24)])
 						->count();
-				else
+				} else {
+					$personChanges = $movieDb->getPersonChanges();
+
 					$updates = $model
 						->where(['id' => $personChanges])
 						->orWhere(['updated_at' => null])
 						->count();
+				}
 			} else {
 				$updates = 0;
 			}
