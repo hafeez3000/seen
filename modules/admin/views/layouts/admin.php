@@ -67,6 +67,12 @@ AppAsset::register($this);
 							'visible' => Yii::$app->user->can('manageLanguages'),
 							'active' => Yii::$app->controller->id == 'language',
 						],
+                        [
+                            'label' => Yii::t('Site/Navigation', 'Update'),
+                            'url' => ['update/index'],
+                            'visible' => Yii::$app->user->can('viewUpdates'),
+                            'active' => Yii::$app->controller->id == 'update',
+                        ],
 					],
 				]);
 

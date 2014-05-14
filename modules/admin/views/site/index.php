@@ -30,4 +30,18 @@ $this->title[] = Yii::t('Admin', 'Admin Dashboard');
 			</a>
 		<?php endif; ?>
 	</div>
+	<div class="col-lg-3 col-md-4">
+		<?php if (Yii::$app->user->can('manageUsers')): ?>
+			<a href="<?php echo Url::toRoute('user/index'); ?>" title="<?php echo Yii::t('Admin', 'Users'); ?>">
+				<img src="<?php echo Yii::$app->request->baseUrl ?>/images/admin/users.png" alt="<?php echo Yii::t('Admin', 'Users'); ?>">
+			</a>
+		<?php endif; ?>
+	</div>
+	<div class="col-lg-3 col-md-4">
+		<?php if (Yii::$app->user->can('viewUpdates')): ?>
+			<a href="<?php echo Url::toRoute('update/index'); ?>" title="<?php echo Yii::t('Admin', 'Updates'); ?>">
+				<img src="<?php echo Yii::$app->request->baseUrl ?>/images/admin/updates.png" alt="<?php echo Yii::t('Admin', 'Updates'); ?>">
+			</a>
+		<?php endif; ?>
+	</div>
 </div>
