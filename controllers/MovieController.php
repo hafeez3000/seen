@@ -10,6 +10,7 @@ use \app\models\Movie;
 use \app\models\Language;
 use \app\models\UserMovie;
 use \app\models\MoviePopular;
+use \app\models\UserMovieWatchlist;
 use \app\components\MovieDb;
 
 class MovieController extends Controller
@@ -107,6 +108,7 @@ class MovieController extends Controller
 				'movies' => $movies,
 				'pages' => $pages,
 				'recommendMovies' => Movie::getRecommend()->limit(20)->all(),
+				'watchlistMovies' => Movie::getWatchlist()->limit(20)->all(),
 			]);
 		}
 	}
@@ -204,6 +206,16 @@ class MovieController extends Controller
 		$userMovie->user_id = Yii::$app->user->id;
 		$userMovie->movie_id = $movie->id;
 		$userMovie->save();
+
+		$watchlist = UserMovieWatchlist::find()
+			->where([
+				'user_id' => Yii::$app->user->id,
+				'movie_id' => $movie->id,
+			])
+			->one();
+
+		if ($watchlist !== null)
+			$watchlist->delete();
 
 		if (Yii::$app->request->isAjax) {
 			Yii::$app->response->format = Response::FORMAT_JSON;

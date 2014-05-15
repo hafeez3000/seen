@@ -28,6 +28,9 @@ $config['components']['urlManager'] = [
 		'movie/unwatch/<id:\d+>' => 'movie/unwatch',
 		'movie/<slug:.*?>' => 'movie/view',
 
+		'watchlist/add/<slug:.*?>' => 'watchlist/add',
+		'watchlist/remove/<slug:.*?>' => 'watchlist/remove',
+
 		// Oauth
 		'login/oauth/authorize' => 'oauth/authorize',
 		'POST login/oauth/access_token' => 'oauth/access-token',

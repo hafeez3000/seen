@@ -130,6 +130,7 @@ class Movie extends ActiveRecord
 			],
 		];
 	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -291,6 +292,9 @@ class Movie extends ActiveRecord
 		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])->viaTable('{{%movie_popular}}', ['movie_id' => 'id']);
 	}
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
 	public static function getRecommend()
 	{
 		return Movie::find()
@@ -319,6 +323,33 @@ class Movie extends ActiveRecord
 				':language' => Yii::$app->language,
 			]);
 	}
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getWatchlist()
+    {
+        return Movie::find()
+            ->distinct()
+            ->select('{{%movie}}.*')
+            ->from([
+                '{{%movie}}',
+                '{{%user_movie_watchlist}}',
+            ])
+            ->where(['{{%user_movie_watchlist}}.[[user_id]]' => Yii::$app->user->id])
+            ->andWhere('{{%movie}}.[[id]] = {{%user_movie_watchlist}}.[[movie_id]]')
+            ->orderBy(['{{%user_movie_watchlist}}.[[created_at]]' => SORT_DESC]);
+    }
+
+    public function getOnWatchlist()
+    {
+        return UserMovieWatchlist::find()
+            ->where([
+                'movie_id' => $this->id,
+                'user_id' => Yii::$app->user->id,
+            ])
+            ->exists();
+    }
 
 	public function getPosterUrlSmall()
 	{
