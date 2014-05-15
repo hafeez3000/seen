@@ -217,6 +217,13 @@ class MovieController extends Controller
 		if ($watchlist !== null)
 			$watchlist->delete();
 
+		Yii::$app->session->setFlash('event', serialize([
+			'category' => 'movie',
+			'action' => 'watched',
+			'name' => 'add',
+			'value' => $movie->id,
+		]));
+
 		if (Yii::$app->request->isAjax) {
 			Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -254,6 +261,13 @@ class MovieController extends Controller
 
 		$movie = $userMovie->movie;
 		$userMovie->delete();
+
+		Yii::$app->session->setFlash('event', serialize([
+			'category' => 'movie',
+			'action' => 'watched',
+			'name' => 'remove',
+			'value' => $movie->id,
+		]));
 
 		return $this->redirect(['view', 'slug' => $movie->slug]);
 	}

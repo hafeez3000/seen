@@ -46,6 +46,13 @@ class WatchlistController extends Controller
 			$watchlist->movie_id = $movie->id;
 			$watchlist->user_id = Yii::$app->user->id;
 			$watchlist->save();
+
+			Yii::$app->session->setFlash('event', serialize([
+				'category' => 'movie',
+				'action' => 'watchlist',
+				'name' => 'add',
+				'value' => $movie->id,
+			]));
 		}
 
 		return $this->redirect(['movie/view', 'slug' => $movie->slug]);
@@ -64,8 +71,16 @@ class WatchlistController extends Controller
 			])
 			->one();
 
-		if ($watchlist !== null)
+		if ($watchlist !== null) {
 			$watchlist->delete();
+
+			Yii::$app->session->setFlash('event', serialize([
+				'category' => 'movie',
+				'action' => 'watchlist',
+				'name' => 'remove',
+				'value' => $movie->id,
+			]));
+		}
 
 		return $this->redirect(['movie/view', 'slug' => $movie->slug]);
 	}

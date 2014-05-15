@@ -34,7 +34,7 @@ use \app\components\LanguageHelper;
 	<?php if (count($shows)): ?>
 		<ul id="tv-dashboard-showlist" class="list-unstyled list-inline">
 			<?php foreach ($shows as $show): ?>
-				<li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>">
+				<li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>" data-id="<?php echo $show->id; ?>">
 					<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>">
 						<img <?php echo $show->posterUrl; ?> alt="<?php echo Html::encode($show->name); ?>" title="<?php echo Html::encode($show->name); ?>">
 					</a>

@@ -59,6 +59,14 @@ $(function() {
 						$listItem.addClass("has-seen");
 						$listItem.attr("data-seen", "1");
 						highlightEpisodes();
+
+						_paq.push([
+							"trackEvent",
+							"tv",
+							"episode",
+							"seen",
+							id
+						]);
 					}
 				});
 			} else {
@@ -67,6 +75,14 @@ $(function() {
 						$listItem.removeClass("has-seen");
 						$listItem.attr("data-seen", "0");
 						highlightEpisodes();
+
+						_paq.push([
+							"trackEvent",
+							"tv",
+							"episode",
+							"unseen",
+							id
+						]);
 					}
 				});
 			}
@@ -93,6 +109,14 @@ $(function() {
 				});
 			});
 
+			_paq.push([
+				"trackEvent",
+				"tv",
+				"season",
+				"seen",
+				seasonId
+			]);
+
 			return false;
 		});
 
@@ -114,6 +138,14 @@ $(function() {
 			success: function(data) {
 				if (data && data.success) {
 					$item.hide("fast");
+
+					_paq.push([
+						"trackEvent",
+						"tv",
+						"archive",
+						"archive",
+						$item.data("id")
+					]);
 				} else if (data && !data.success && data.message) {
 					App.error(data.message);
 				}
