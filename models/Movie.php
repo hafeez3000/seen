@@ -338,7 +338,7 @@ class Movie extends ActiveRecord
             ])
             ->where(['{{%user_movie_watchlist}}.[[user_id]]' => Yii::$app->user->id])
             ->andWhere('{{%movie}}.[[id]] = {{%user_movie_watchlist}}.[[movie_id]]')
-            ->orderBy(['{{%user_movie_watchlist}}.[[created_at]]' => SORT_DESC]);
+            ->orderBy(['{{%movie}}.[[release_date]]' => SORT_ASC]);
     }
 
     public function getOnWatchlist()
