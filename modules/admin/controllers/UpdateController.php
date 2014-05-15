@@ -178,7 +178,20 @@ class UpdateController extends BaseController
 
 			$updates *= 20;
 		} elseif (strpos($command, 'sync/popular-movies') !== false) {
-			$updates = Language::find()->count() * 20;
+			$model = Language::find();
+
+			if ($force)
+				$updates = $model->count();
+			else
+				$updates = $model
+					->where(['popular_movies_updated_at' => null])
+					->orWhere('[[popular_movies_updated_at]] <= :time')
+					->addParams([
+						':time' => date('Y-m-d H:i:s', time() - (3600 * 24 * 7))
+					])
+					->count();
+
+			$updates *= 20;
 		} elseif (strpos($command, 'sync/movies') !== false) {
 			$model = Movie::find()
 				->with('language');
