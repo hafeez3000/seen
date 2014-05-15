@@ -12,7 +12,7 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 ?>
 
 <div id="movie-dashboard">
-	<div class="row">
+	<div class="row" id="movie-dashboard-header">
 		<div class="col-sm-6 col-md-8">
 			<h1>
 				<?php echo Yii::t('Movie/Dashboard', 'Your Movies'); ?>

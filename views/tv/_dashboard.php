@@ -11,7 +11,7 @@ use \app\components\LanguageHelper;
 ?>
 
 <div id="tv-dashboard<?php if($archive): ?>-archive<?php endif; ?>" class="tv-dashboard">
-	<div class="row">
+	<div class="row" id="tv-dashboard-header">
 		<div class="col-sm-6 col-md-8">
 			<h1>
 				<?php echo $title; ?>
