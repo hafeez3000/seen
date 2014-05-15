@@ -224,6 +224,18 @@ class MovieController extends Controller
 				'success' => true,
 			];
 		} else {
+			$watchedCount = UserMovie::find()
+				->where([
+					'movie_id' => $movie->id,
+					'user_id' => Yii::$app->user->id,
+				])
+				->count();
+
+			if ($watchedCount == 1)
+				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have marked the movie as watched. You can always click on the <em>watched again</em> button to track the movie multiple times.'));
+			else
+				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have marked the movie as watched again.'));
+
 			return $this->redirect(['view', 'slug' => $movie->slug]);
 		}
 	}
@@ -231,8 +243,10 @@ class MovieController extends Controller
 	public function actionUnwatch($id)
 	{
 		$userMovie = UserMovie::find()
-			->where(['id' => $id])
-			->andWhere(['user_id' => Yii::$app->user->id])
+			->where([
+				'id' => $id,
+				'user_id' => Yii::$app->user->id,
+			])
 			->with('movie')
 			->one();
 		if ($userMovie === null)

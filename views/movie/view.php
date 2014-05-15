@@ -16,9 +16,15 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 	<div class="clearfix">
 		<div class="pull-left"><?php echo Html::encode($movie->title); ?></div>
 		<div class="pull-right">
-            <a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-sm <?php if (count($userMovies) === 0): ?>btn-primary<?php else: ?>btn-default<?php endif; ?>">
-                <?php echo Yii::t('Movie/View', 'Watched'); ?>
-            </a>
+            <?php if (count($userMovies) === 0): ?>
+                <a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-sm btn-primary">
+                    <?php echo Yii::t('Movie/View', 'Watched'); ?>
+                </a>
+            <?php else: ?>
+                <a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-sm btn-default">
+                    <?php echo Yii::t('Movie/View', 'Watched again'); ?>
+                </a>
+            <?php endif; ?>
 
             <?php if ($movie->onWatchlist): ?>
                 <a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-sm btn-default">
