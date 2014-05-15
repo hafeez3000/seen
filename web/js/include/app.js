@@ -135,6 +135,8 @@ $(function() {
 	});
 
 	// Search tv show
+	var tvSearchTerm = "";
+
 	$("#tv-search").select2({
 		placeholder: "Search all TV Shows",
 		minimumInputLength: 3,
@@ -144,6 +146,8 @@ $(function() {
 			quietMillis: 100,
 			cache: true,
 			data: function (term, page) {
+				tvSearchTerm = term;
+
 				return {
 					api_key: App.themoviedb.key,
 					query: term,
@@ -153,6 +157,12 @@ $(function() {
 				};
 			},
 			results: function (data, page) {
+				_paq.push(['trackSiteSearch',
+					tvSearchTerm,
+					"tv",
+					data.total_results
+				]);
+
 				var more = page < data.total_pages;
 
 				return {
@@ -218,6 +228,8 @@ $(function() {
 	});
 
 	// Search movie
+	var movieSearchTerm = "";
+
 	$("#movie-search").select2({
 		placeholder: "Search for movie",
 		minimumInputLength: 3,
@@ -227,6 +239,8 @@ $(function() {
 			quietMillis: 100,
 			cache: true,
 			data: function (term, page) {
+				movieSearchTerm = term;
+
 				return {
 					api_key: App.themoviedb.key,
 					query: term,
@@ -236,6 +250,14 @@ $(function() {
 				};
 			},
 			results: function (data, page) {
+				_paq.push(['trackSiteSearch',
+					movieSearchTerm,
+					"movie",
+					data.total_results
+				]);
+
+				console.log(_paq);
+
 				var more = page < data.total_pages;
 
 				return {
