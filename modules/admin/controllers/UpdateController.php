@@ -21,10 +21,10 @@ class UpdateController extends BaseController
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index'],
+				'only' => ['index', 'count'],
 				'rules' => [
 					[
-						'actions' => ['index'],
+						'actions' => ['index', 'count'],
 						'allow' => true,
 						'roles' => ['viewUpdates'],
 					],
@@ -75,8 +75,28 @@ class UpdateController extends BaseController
 				return 1;
 		});
 
+		// Get process list
+		$line = exec("ps aux | grep 'yii-cron'", $processes, $status);
+
+		$processes = array_filter($processes, function($process) {
+			if (strpos($process, '/bin/sh -c') === false)
+				return false;
+
+			return preg_match('/(\S+)\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+(.*)/', $process) === 1;
+		});
+
+		$processes = array_map(function($raw) {
+			preg_match('/(\S+)\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+.*\s+(.*)/', $raw, $matches);
+
+			return [
+				'user' => $matches[1],
+				'command' => str_replace('"', '', $matches[2]),
+			];
+		}, $processes);
+
 		return $this->render('index', [
 			'cronjobs' => $cronjobs,
+			'processes' => $processes,
 		]);
 	}
 
