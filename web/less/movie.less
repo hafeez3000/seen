@@ -9,6 +9,74 @@
     }
 }
 
+#movie-dashboard-movielist, #movie-recommend-dashboard-movielist {
+    display: block;
+    overflow: auto;
+    white-space: nowrap;
+
+    @media (min-width: @screen-sm-min) {
+        height: 232px;
+    }
+
+    @media (min-width: @screen-md-min) {
+        height: 240px;
+    }
+
+    @media (min-width: @screen-lg-min) {
+        height: 285px;
+    }
+
+    li {
+        width: 30%;
+        margin-right: 2%;
+        padding: 0;
+
+        @media (min-width: @screen-sm-min) {
+            width: 155px;
+            margin-right: 10px;
+        }
+
+        @media (min-width: @screen-md-min) {
+            width: 160px;
+            margin-right: 12px;
+        }
+
+        @media (min-width: @screen-lg-min) {
+            width: 190px;
+            margin-right: 16px;
+        }
+
+        > a {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        img {
+            width: 100%;
+
+            .grayscale(60%);
+            .transition(all .3s ease);
+
+            @media (min-width: @screen-sm-min) {
+                height: 232px!important;
+            }
+
+            @media (min-width: @screen-md-min) {
+                height: 240px!important;
+            }
+
+            @media (min-width: @screen-lg-min) {
+                height: 285px!important;
+            }
+
+            &:hover {
+                .grayscale-disable();
+            }
+        }
+    }
+}
+
 /**
  * Movie/View
  */

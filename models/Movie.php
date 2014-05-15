@@ -328,6 +328,14 @@ class Movie extends ActiveRecord
 			return 'data-src="holder.js/92x138/#eee:#555/text:' . $this->title . '"';
 	}
 
+    public function getPosterUrl()
+    {
+        if (!empty($this->poster_path))
+            return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w342/' . $this->poster_path . '"';
+        else
+            return 'data-src="holder.js/342x513/#eee:#555/text:' . $this->title . '"';
+    }
+
 	public function getPosterUrlLarge()
 	{
 		if (!empty($this->poster_path))
