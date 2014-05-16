@@ -2,205 +2,215 @@
  * Movie/Dashboard
  */
 #movie-dashboard-header {
-    margin-bottom: 15px;
+	#s2id_movie-search {
+		margin-top: 23px!important;
+	}
+}
 
-    #s2id_movie-search {
-        margin-top: 23px!important;
-    }
+#movie-dashboard {
+	h2 {
+		&:first-of-type {
+			margin-top: 10px;
+		}
+	}
 }
 
 #movie-dashboard-movielist, #movie-recommend-dashboard-movielist, #movie-watchlist-dashboard-movielist {
-    display: block;
-    overflow-x: auto;
-    overflow-y: visible;
-    white-space: nowrap;
+	display: block;
+	overflow-y: visible;
+	white-space: nowrap;
+	margin-bottom: 40px;
 
-    @media (min-width: @screen-sm-min) {
-        height: 232px;
-    }
+	ul {
+		overflow-x: auto;
+	}
 
-    @media (min-width: @screen-md-min) {
-        height: 240px;
-    }
+	@media (min-width: @screen-sm-min) {
+		height: 232px;
+	}
 
-    @media (min-width: @screen-lg-min) {
-        height: 285px;
-    }
+	@media (min-width: @screen-md-min) {
+		height: 240px;
+	}
 
-    li {
-        width: 30%;
-        margin-right: 2%;
-        padding: 0;
+	@media (min-width: @screen-lg-min) {
+		height: 285px;
+	}
 
-        @media (min-width: @screen-sm-min) {
-            width: 155px;
-            margin-right: 10px;
-        }
+	li {
+		width: 30%;
+		margin-right: 2%;
+		padding: 0;
 
-        @media (min-width: @screen-md-min) {
-            width: 160px;
-            margin-right: 12px;
-        }
+		@media (min-width: @screen-sm-min) {
+			width: 155px;
+			margin-right: 10px;
+		}
 
-        @media (min-width: @screen-lg-min) {
-            width: 190px;
-            margin-right: 16px;
-        }
+		@media (min-width: @screen-md-min) {
+			width: 160px;
+			margin-right: 12px;
+		}
 
-        > a {
-            display: block;
-            height: 100%;
-            width: 100%;
-        }
+		@media (min-width: @screen-lg-min) {
+			width: 190px;
+			margin-right: 16px;
+		}
 
-        img {
-            width: 100%;
+		> a {
+			display: block;
+			height: 100%;
+			width: 100%;
+		}
 
-            .grayscale(60%);
-            .transition(all .3s ease);
+		img {
+			width: 100%;
 
-            @media (min-width: @screen-sm-min) {
-                height: 232px!important;
-            }
+			.grayscale(60%);
+			.transition(all .3s ease);
 
-            @media (min-width: @screen-md-min) {
-                height: 240px!important;
-            }
+			@media (min-width: @screen-sm-min) {
+				height: 232px!important;
+			}
 
-            @media (min-width: @screen-lg-min) {
-                height: 285px!important;
-            }
+			@media (min-width: @screen-md-min) {
+				height: 240px!important;
+			}
 
-            &:hover {
-                .grayscale-disable();
-            }
-        }
-    }
+			@media (min-width: @screen-lg-min) {
+				height: 285px!important;
+			}
+
+			&:hover {
+				.grayscale-disable();
+			}
+		}
+	}
 }
 
 /**
  * Movie/View
  */
 #movie-view {
-    #movie-view-header {
-        margin-bottom: 20px;
+	#movie-view-header {
+		margin-bottom: 20px;
 
-        #movie-view-actions {
-            padding-top: 26px;
+		#movie-view-actions {
+			padding-top: 26px;
 
-            a {
-                &:first-child {
-                    margin-right: 10px;
-                }
-            }
-        }
+			a {
+				&:first-child {
+					margin-right: 10px;
+				}
+			}
+		}
 
-        form {
-            width: 100%;
+		form {
+			width: 100%;
 
-            #s2id_movie-search {
-                margin-top: 23px!important;
+			#s2id_movie-search {
+				margin-top: 23px!important;
 
-                > a {
-                    margin-top: 0;
-                    width: 100%;
-                }
-            }
-        }
-    }
+				> a {
+					margin-top: 0;
+					width: 100%;
+				}
+			}
+		}
+	}
 
 	#movie-view-overview, #movie-view-watched, #movie-view-cast-wrapper, #movie-view-crew-wrapper {
 		margin-bottom: 20px;
 	}
 
-    .movie-view-details {
-        margin-top: 20px;
+	.movie-view-details {
+		margin-top: 20px;
 
-        @media (min-width: @screen-sm-min) {
-            margin-top: 0;
-        }
+		@media (min-width: @screen-sm-min) {
+			margin-top: 0;
+		}
 
-        tr {
-            width: 100%;
+		tr {
+			width: 100%;
 
-            &:first-child {
-                td {
-                    padding-top: 0;
-                }
-            }
+			&:first-child {
+				td {
+					padding-top: 0;
+				}
+			}
 
-            td {
-                &:first-child {
-                    font-weight: bold;
-                    width: 20%;
+			td {
+				&:first-child {
+					font-weight: bold;
+					width: 20%;
 
-                    @media (min-width: @screen-sm-min) {
-                        width: 125px;
-                    }
+					@media (min-width: @screen-sm-min) {
+						width: 125px;
+					}
 
-                    @media (min-width: @screen-md-min) {
-                        width: 90px;
-                    }
+					@media (min-width: @screen-md-min) {
+						width: 90px;
+					}
 
-                    @media (min-width: @screen-lg-min) {
-                        width: 100px;
-                    }
-                }
+					@media (min-width: @screen-lg-min) {
+						width: 100px;
+					}
+				}
 
-                &:last-child {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    display: inline-block;
-                    width: 80%;
+				&:last-child {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					display: inline-block;
+					width: 80%;
 
-                    @media (min-width: @screen-sm-min) {
-                        width: 500px - 125px;
-                    }
+					@media (min-width: @screen-sm-min) {
+						width: 500px - 125px;
+					}
 
-                    @media (min-width: @screen-md-min) {
-                        width: 216px - 90px;
-                    }
+					@media (min-width: @screen-md-min) {
+						width: 216px - 90px;
+					}
 
-                    @media (min-width: @screen-lg-min) {
-                        width: 229px - 100px;
-                    }
-                }
-            }
-        }
+					@media (min-width: @screen-lg-min) {
+						width: 229px - 100px;
+					}
+				}
+			}
+		}
 
-        &#movie-view-details-full {
-            td {
-                &:first-child {
-                    width: 15%;
+		&#movie-view-details-full {
+			td {
+				&:first-child {
+					width: 15%;
 
-                    @media (min-width: @screen-sm-min) {
-                        width: 150px;
-                    }
-                }
+					@media (min-width: @screen-sm-min) {
+						width: 150px;
+					}
+				}
 
-                &:last-child {
-                    width: 85%;
+				&:last-child {
+					width: 85%;
 
-                    @media (min-width: @screen-sm-min) {
-                        width: 470px - 150px;
-                    }
+					@media (min-width: @screen-sm-min) {
+						width: 470px - 150px;
+					}
 
-                    @media (min-width: @screen-md-min) {
-                        width: 616px - 150px;
-                    }
+					@media (min-width: @screen-md-min) {
+						width: 616px - 150px;
+					}
 
-                    @media (min-width: @screen-lg-min) {
-                        width: 750px - 150px;
-                    }
-                }
-            }
-        }
+					@media (min-width: @screen-lg-min) {
+						width: 750px - 150px;
+					}
+				}
+			}
+		}
 
-        .movie-view-details-cut {
-            overflow: hidden;
-        }
-    }
+		.movie-view-details-cut {
+			overflow: hidden;
+		}
+	}
 
 	h2 {
 		margin-top: 0;
