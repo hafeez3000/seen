@@ -11,6 +11,9 @@ $config['components']['urlManager'] = [
 	'enablePrettyUrl' => true,
 	'showScriptName' => false,
 	'rules' => [
+		'imprint' => 'site/imprint',
+		'privacy' => 'site/privacy',
+
 		// TV
 		'tv' => 'tv/index',
 		'tv/load' => 'tv/load',

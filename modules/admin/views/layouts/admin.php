@@ -106,7 +106,7 @@ AppAsset::register($this);
 		<footer>
 			<div class="container">
 				<p>Copyright VisualAppeal, 2012-<?php echo date('Y') ?></p>
-				<p><?php echo Html::a(Yii::t('Site/Navigation', 'Imprint'), ['site/imprint']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Privacy'), ['site/privacy']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Developer'), ['developer/index']); ?></p>
+				<p><?php echo Html::a(Yii::t('Site/Navigation', 'Imprint'), ['/site/imprint']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Privacy'), ['/site/privacy']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Developer'), ['/developer/index']); ?></p>
 			</div>
 		</footer>
 
