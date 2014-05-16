@@ -13,6 +13,7 @@ use \app\models\MovieSimilar;
 use \app\models\Language;
 use \app\models\Person;
 use \app\components\MovieDb;
+use \app\components\LanguageHelper;
 
 class UpdateController extends BaseController
 {
@@ -226,7 +227,7 @@ class UpdateController extends BaseController
 		if ($updates !== null)
 			return [
 				'success' => true,
-				'updates' => $updates,
+				'updates' => LanguageHelper::number($updates),
 			];
 		else
 			return [
