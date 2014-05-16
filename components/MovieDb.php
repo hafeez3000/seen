@@ -257,7 +257,7 @@ class MovieDb
 	public function getTvChanges($startDate = null, $endDate = null)
 	{
 		$results = $this->paginate('/tv/changes', [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
 			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
 		]);
 
@@ -269,7 +269,7 @@ class MovieDb
 	public function getTvChange($id, $startDate = null, $endDate = null)
 	{
 		return $this->get(sprintf('/tv/%s/changes', $id), [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
 			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
 		]);
 	}
@@ -277,7 +277,7 @@ class MovieDb
 	public function getSeasonChanges($id, $startDate = null, $endDate = null)
 	{
 		return $this->get(sprintf('/tv/season/%s/changes', $id), [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
 			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
 		]);
 	}
@@ -285,7 +285,7 @@ class MovieDb
 	public function getEpisodeChanges($id, $startDate = null, $endDate = null)
 	{
 		return $this->get(sprintf('/tv/episode/%s/changes', $id), [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
 			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
 		]);
 	}
@@ -845,6 +845,15 @@ class MovieDb
 									$season->link('show', $show);
 								}
 								break;
+							case 'added':
+								foreach ($shows as $show) {
+									$season = new Season;
+									$season->themoviedb_id = $item->value->season_id;
+									$season->number = $item->value->season_number;
+									$season->save();
+									$season->link('show', $show);
+								}
+								break;
 							case 'updated':
 								$this->syncSeasonChanges($item->value->season_id, $item->value->season_number);
 								break;
@@ -854,6 +863,149 @@ class MovieDb
 						}
 					}
 					break;
+				case 'created_by':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								$person = Person::findOne($item->value->person_id);
+
+								if ($person === null) {
+									$person = new Person;
+									$person->id = $item->value->person_id;
+									$person->save();
+
+									foreach ($shows as $show)
+										$show->link('creators', $person);
+
+									break;
+								}
+
+								foreach ($shows as $show)
+									if (!ShowCreator::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
+										$show->link('creators', $person);
+						}
+					}
+					break;
+				case 'crew':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								$person = Person::findOne($item->value->person_id);
+
+								if ($person === null) {
+									$person = new Person;
+									$person->id = $item->value->person_id;
+									$person->save();
+
+									foreach ($shows as $show)
+										$show->link('crew', $person);
+
+									break;
+								}
+
+								foreach ($shows as $show)
+									if (!ShowCrew::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
+										$show->link('crew', $person);
+						}
+					}
+					break;
+				case 'cast':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								$person = Person::findOne($item->value->person_id);
+
+								if ($person === null) {
+									$person = new Person;
+									$person->id = $item->value->person_id;
+									$person->save();
+
+									foreach ($shows as $show)
+										$show->link('cast', $person);
+
+									break;
+								}
+
+								foreach ($shows as $show)
+									if (!ShowCast::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
+										$show->link('cast', $person);
+						}
+					}
+					break;
+				case 'genres':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								$genre = Genre::findOne($item->value->id);
+
+								if ($genre === null) {
+									$genre = new Genre;
+									$genre->id = $item->value->id;
+									$genre->name = $item->value->name;
+									$genre->save();
+
+									foreach ($shows as $show)
+										$show->link('genres', $genre);
+
+									break;
+								}
+
+								foreach ($shows as $show)
+									if (!ShowGenre::find()->where(['genre_id' => $genre->id, 'show_id' => $show->id])->exists())
+										$show->link('genres', $genre);
+						}
+					}
+					break;
+				case 'origin_country':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'deleted':
+								$country = Country::findOne([
+									'name' => $item->original_value,
+								]);
+
+								$showCountries = ShowCountry::find()
+									->where([
+										'country_id' => $country->id,
+										'show_id' => $show->id
+									])
+									->all();
+								foreach ($showCountries as $showCountry)
+									$showCountry->delete();
+
+								break;
+						}
+					}
+
+					break;
+				case 'network':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								$network = Network::findOne($item->value->id);
+
+								if ($network === null) {
+									$network = new Network;
+									$network->id = $item->value->id;
+									$network->name = $item->value->name;
+									$network->save();
+
+									foreach ($shows as $show)
+										$show->link('networks', $network);
+
+									break;
+								}
+
+								foreach ($shows as $show)
+									if (!ShowNetwork::find()->where(['network_id' => $network->id, 'show_id' => $show->id])->exists())
+										$show->link('networks', $network);
+
+								break;
+						}
+					}
+
+					break;
+				case 'production_countries':
 				case 'plot_keywords':
 				case 'translations':
 				case 'videos':
@@ -861,6 +1013,10 @@ class MovieDb
 				case 'images':
 				case 'season_regular':
 				case 'certifications':
+				case 'fanhattan_id':
+				case 'tvrage_id':
+				case 'guest_stars':
+				case 'alternative_titles':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
@@ -905,20 +1061,16 @@ class MovieDb
 				case 'first_air_date':
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
-							if ($show->language->iso == $item->iso_639_1) {
-								$show->first_air_date = isset($item->value) ? $item->value : null;
-								$show->save();
-							}
+							$show->first_air_date = isset($item->value) ? $item->value : null;
+							$show->save();
 						}
 					}
 					break;
 				case 'last_air_date':
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
-							if ($show->language->iso == $item->iso_639_1) {
-								$show->last_air_date = isset($item->value) ? $item->value : null;
-								$show->save();
-							}
+							$show->last_air_date = isset($item->value) ? $item->value : null;
+							$show->save();
 						}
 					}
 					break;
@@ -955,32 +1107,32 @@ class MovieDb
 				case 'status':
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
-							if ($show->language->iso == $item->iso_639_1) {
-								$show->status = isset($item->value) ? $item->value : null;
-								$show->save();
-							}
+							$show->status = isset($item->value) ? $item->value : null;
+							$show->save();
 						}
 					}
 					break;
 				case 'vote_average':
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
-							if ($show->language->iso == $item->iso_639_1) {
-								$show->vote_average = isset($item->value) ? $item->value : null;
-								$show->save();
-							}
+							$show->vote_average = isset($item->value) ? $item->value : null;
+							$show->save();
 						}
 					}
 					break;
 				case 'vote_count':
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
-							if ($show->language->iso == $item->iso_639_1) {
-								$show->vote_count = isset($item->value) ? $item->value : null;
-								$show->save();
-							}
+							$show->vote_count = isset($item->value) ? $item->value : null;
+							$show->save();
 						}
 					}
+					break;
+				case 'episode':
+					foreach ($attribute->items as $item) {
+						$this->syncEpisodeChanges($item->value->episode_id, $item->value->episode_number);
+					}
+
 					break;
 				default:
 					var_dump($attribute);
@@ -1028,6 +1180,28 @@ class MovieDb
 									$episode->link('season', $season);
 								}
 								break;
+							case 'added':
+								foreach ($seasons as $season) {
+									$episode = new Episode;
+									$episode->number = $item->value->episode_number;
+									$episode->save();
+									$episode->link('season', $season);
+								}
+								break;
+							case 'deleted':
+								$episodes = Episode::find()
+									->where([
+										'season_id' => array_map(function($season) {
+											return $season->id;
+										}, $seasons),
+										'number' => $item->original_value->episode_number,
+									])
+									->all();
+
+								foreach ($episodes as $episode)
+									$episode->delete();
+
+								break;
 							default:
 								var_dump('season', $attribute);
 								die('Unknown season episode item action ' . $item->action);
@@ -1047,10 +1221,8 @@ class MovieDb
 				case 'air_date':
 					foreach ($attribute->items as $item) {
 						foreach ($seasons as $season) {
-							if ($season->show->language->iso == $item->iso_639_1) {
-								$season->air_date = isset($item->value) ? $item->value : null;
-								$season->save();
-							}
+							$season->air_date = isset($item->value) ? $item->value : null;
+							$season->save();
 						}
 					}
 					break;
@@ -1110,6 +1282,8 @@ class MovieDb
 				case 'videos':
 				case 'guest_stars':
 				case 'crew':
+				case 'images':
+				case 'imdb_id':
 					break;
 				case 'name':
 					foreach ($attribute->items as $item) {
@@ -1144,40 +1318,32 @@ class MovieDb
 				case 'vote_average':
 					foreach ($attribute->items as $item) {
 						foreach ($episodes as $episode) {
-							if ($episode->season->show->language->iso == $item->iso_639_1) {
-								$episode->vote_average = isset($item->value) ? $item->value : null;
-								$episode->save();
-							}
+							$episode->vote_average = isset($item->value) ? $item->value : null;
+							$episode->save();
 						}
 					}
 					break;
 				case 'vote_count':
 					foreach ($attribute->items as $item) {
 						foreach ($episodes as $episode) {
-							if ($episode->season->show->language->iso == $item->iso_639_1) {
-								$episode->vote_count = isset($item->value) ? $item->value : null;
-								$episode->save();
-							}
+							$episode->vote_count = isset($item->value) ? $item->value : null;
+							$episode->save();
 						}
 					}
 					break;
 				case 'production_code':
 					foreach ($attribute->items as $item) {
 						foreach ($episodes as $episode) {
-							if ($episode->season->show->language->iso == $item->iso_639_1) {
-								$episode->production_code = isset($item->value) ? $item->value : null;
-								$episode->save();
-							}
+							$episode->production_code = isset($item->value) ? $item->value : null;
+							$episode->save();
 						}
 					}
 					break;
 				case 'air_date':
 					foreach ($attribute->items as $item) {
 						foreach ($episodes as $episode) {
-							if ($episode->season->show->language->iso == $item->iso_639_1) {
-								$episode->air_date = isset($item->value) ? $item->value : null;
-								$episode->save();
-							}
+							$episode->air_date = isset($item->value) ? $item->value : null;
+							$episode->save();
 						}
 					}
 					break;
