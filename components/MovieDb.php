@@ -860,6 +860,7 @@ class MovieDb
 				case 'languages':
 				case 'images':
 				case 'season_regular':
+				case 'certifications':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
