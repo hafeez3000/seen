@@ -82,6 +82,8 @@
  */
 #movie-view {
     #movie-view-header {
+        margin-bottom: 20px;
+
         #movie-view-actions {
             padding-top: 26px;
 
@@ -109,6 +111,95 @@
 	#movie-view-overview, #movie-view-watched, #movie-view-cast-wrapper, #movie-view-crew-wrapper {
 		margin-bottom: 20px;
 	}
+
+    .movie-view-details {
+        margin-top: 20px;
+
+        @media (min-width: @screen-sm-min) {
+            margin-top: 0;
+        }
+
+        tr {
+            width: 100%;
+
+            &:first-child {
+                td {
+                    padding-top: 0;
+                }
+            }
+
+            td {
+                &:first-child {
+                    font-weight: bold;
+                    width: 20%;
+
+                    @media (min-width: @screen-sm-min) {
+                        width: 125px;
+                    }
+
+                    @media (min-width: @screen-md-min) {
+                        width: 90px;
+                    }
+
+                    @media (min-width: @screen-lg-min) {
+                        width: 100px;
+                    }
+                }
+
+                &:last-child {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    display: inline-block;
+                    width: 80%;
+
+                    @media (min-width: @screen-sm-min) {
+                        width: 500px - 125px;
+                    }
+
+                    @media (min-width: @screen-md-min) {
+                        width: 216px - 90px;
+                    }
+
+                    @media (min-width: @screen-lg-min) {
+                        width: 229px - 100px;
+                    }
+                }
+            }
+        }
+
+        &#movie-view-details-full {
+            td {
+                &:first-child {
+                    width: 15%;
+
+                    @media (min-width: @screen-sm-min) {
+                        width: 150px;
+                    }
+                }
+
+                &:last-child {
+                    width: 85%;
+
+                    @media (min-width: @screen-sm-min) {
+                        width: 470px - 150px;
+                    }
+
+                    @media (min-width: @screen-md-min) {
+                        width: 616px - 150px;
+                    }
+
+                    @media (min-width: @screen-lg-min) {
+                        width: 750px - 150px;
+                    }
+                }
+            }
+        }
+
+        .movie-view-details-cut {
+            overflow: hidden;
+        }
+    }
 
 	h2 {
 		margin-top: 0;

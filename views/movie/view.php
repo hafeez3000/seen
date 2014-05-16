@@ -15,11 +15,11 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 
 <div id="movie-view">
     <div class="row" id="movie-view-header">
-        <div class="col-sm-6">
+        <div class="col-sm-4 col-lg-6">
             <h1><?php echo Html::encode($movie->title); ?></h1>
         </div>
 
-        <div class="col-sm-3" id="movie-view-actions">
+        <div class="col-sm-5 col-lg-3" id="movie-view-actions">
             <div class="clearfix">
                 <div class="pull-right">
                     <?php if (count($userMovies) === 0): ?>
@@ -45,7 +45,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
             </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-3 col-lg-3">
             <?php $form = ActiveForm::begin([
                 'action' => Yii::$app->urlManager->createAbsoluteUrl(['movie/load']),
             ]); ?>
@@ -61,9 +61,23 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 
 		<div class="col-sm-8">
 			<?php if (!empty($movie->overview)): ?>
-				<div id="movie-view-overview">
-					<?php echo Html::encode($movie->overview); ?>
-				</div>
+                <div class="row">
+    				<div class="col-md-8" id="movie-view-overview">
+    					<?php echo Html::encode($movie->overview); ?>
+    				</div>
+
+                    <div class="col-md-4 movie-view-details" id="movie-view-details-side">
+                        <?php echo $this->render('_details', [
+                            'movie' => $movie,
+                        ]); ?>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="movie-view-details" id="movie-view-details-full">
+                    <?php echo $this->render('_details', [
+                        'movie' => $movie,
+                    ]); ?>
+                </div>
 			<?php endif; ?>
 
 			<?php if (count($userMovies)): ?>
