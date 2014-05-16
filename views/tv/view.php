@@ -5,14 +5,16 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
+use \yii\widgets\ActiveForm;
+
 
 $this->title[] = $show->name;
 $this->title[] = Yii::t('Show/View', 'TV Shows');
 ?>
 
 <div id="tv-view" data-subscribed="<?php echo $show->isUserSubscribed ? 1 : 0; ?>">
-	<div class="clearfix">
-		<div class="pull-left">
+	<div class="row" id="tv-view-header">
+        <div class="col-sm-6 col-md-8">
 			<h1>
 				<?php echo Html::encode($show->name); ?>
 				<?php if ($show->isUserSubscribed): ?>
@@ -23,10 +25,12 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 			</h1>
 		</div>
 
-		<div class="pull-right" id="missing-information">
-			<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank"  title="<?php echo Yii::t('Show/View', 'Update information on The Movie Database') ?>">
-				<?php echo Yii::t('Show/View', 'Missing information?') ?>
-			</a>
+		<div class="col-sm-6 col-md-4" id="missing-information">
+            <?php $form = ActiveForm::begin([
+                'action' => Yii::$app->urlManager->createAbsoluteUrl(['tv/load']),
+            ]); ?>
+                <input type="hidden" id="tv-search" name="id" style="margin-top: 30px; width: 100%;">
+            <?php ActiveForm::end(); ?>
 		</div>
 	</div>
 
