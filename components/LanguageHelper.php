@@ -38,6 +38,21 @@ class LanguageHelper
 		return self::format($timestamp, $format);
 	}
 
+	public static function number($number, $decimals = 0)
+	{
+		if (isset(Yii::$app->params['lang'][Yii::$app->language]['decPoint']))
+			$decPoint = Yii::$app->params['lang'][Yii::$app->language]['decPoint'];
+		else
+			$decPoint = Yii::$app->params['lang'][Yii::$app->params['lang']['default']]['decPoint'];
+
+		if (isset(Yii::$app->params['lang'][Yii::$app->language]['thousandsSep']))
+			$thousandsSep = Yii::$app->params['lang'][Yii::$app->language]['thousandsSep'];
+		else
+			$thousandsSep = Yii::$app->params['lang'][Yii::$app->params['lang']['default']]['thousandsSep'];
+
+		return number_format($number, $decimals, $decPoint, $thousandsSep);
+	}
+
 	public static function navigation()
 	{
 		$currentLanguage = Language::find()

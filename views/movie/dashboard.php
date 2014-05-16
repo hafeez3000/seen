@@ -12,14 +12,9 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 ?>
 
 <div id="movie-dashboard">
-	<div class="row">
+	<div class="row" id="movie-dashboard-header">
 		<div class="col-sm-6 col-md-8">
-			<h1>
-				<?php echo Yii::t('Movie/Dashboard', 'Your Movies'); ?>
-				<small>
-					<a href="<?php echo Url::toRoute(['recommend']); ?>"><?php echo Yii::t('Movie/Dashboard', 'Recommend for you'); ?></a>
-				</small>
-			</h1>
+			<h1><?php echo Yii::t('Movie/Dashboard', 'Your Movies'); ?></h1>
 		</div>
 
 		<div class="col-sm-6 col-md-4">
@@ -31,36 +26,42 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 		</div>
 	</div>
 
+    <?php if (count($watchlistMovies)): ?>
+        <h2><?php echo Yii::t('Movie/Dashboard', 'Watchlist'); ?></h2>
+
+        <ul id="movie-watchlist-dashboard-movielist" class="list-unstyled list-inline">
+            <?php foreach ($watchlistMovies as $movie): ?>
+                <li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
+                    <a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
+                        <img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <h2><?php echo Yii::t('Movie/Dashboard', 'Recommend for you'); ?></h2>
+    <ul id="movie-recommend-dashboard-movielist" class="list-unstyled list-inline">
+        <?php foreach ($recommendMovies as $movie): ?>
+            <li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
+                <a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
+                    <img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+
 	<?php if (count($movies)): ?>
-		<div id="movie-dashboard-movielist">
+        <h2><?php echo Yii::t('Movie/Dashboard', 'Recently Watched'); ?></h2>
+
+		<ul id="movie-dashboard-movielist" class="list-unstyled list-inline">
 			<?php foreach ($movies as $movie): ?>
-				<div class="movie-dashboard-movie media" id="movie-<?php echo $movie->id; ?>">
-					<div class="pull-left">
-						<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
-							<img <?php echo $movie->posterUrlSmall; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
-						</a>
-					</div>
-
-					<div class="media-body">
-						<h4 class="media-heading"><a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>"><?php echo Html::encode($movie->title); ?></a></h4>
-
-						<?php if (!empty($movie->overview)): ?>
-							<?php echo Html::encode($movie->overview); ?>
-						<?php else: ?>
-							<em><?php echo Yii::t('Movie/Dashboard', 'No description available!'); ?></em>
-						<?php endif; ?>
-						</div>
-					</div>
+				<li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
+					<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
+						<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+					</a>
 				</li>
 			<?php endforeach; ?>
-		</div>
-
-		<?php echo LinkPager::widget([
-			'pagination' => $pages,
-		]); ?>
-	<?php else: ?>
-		<div class="alert alert-info">
-			<?php echo Yii::t('Movie/Dashboard', 'You have not watched a movie yet! Start with searching for your favorite ones'); ?>
-		</div>
+		</ul>
 	<?php endif; ?>
 </div>

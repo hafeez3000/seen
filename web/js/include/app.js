@@ -59,6 +59,14 @@ $(function() {
 						$listItem.addClass("has-seen");
 						$listItem.attr("data-seen", "1");
 						highlightEpisodes();
+
+						_paq.push([
+							"trackEvent",
+							"tv",
+							"episode",
+							"seen",
+							id
+						]);
 					}
 				});
 			} else {
@@ -67,6 +75,14 @@ $(function() {
 						$listItem.removeClass("has-seen");
 						$listItem.attr("data-seen", "0");
 						highlightEpisodes();
+
+						_paq.push([
+							"trackEvent",
+							"tv",
+							"episode",
+							"unseen",
+							id
+						]);
 					}
 				});
 			}
@@ -93,6 +109,14 @@ $(function() {
 				});
 			});
 
+			_paq.push([
+				"trackEvent",
+				"tv",
+				"season",
+				"seen",
+				seasonId
+			]);
+
 			return false;
 		});
 
@@ -114,6 +138,14 @@ $(function() {
 			success: function(data) {
 				if (data && data.success) {
 					$item.hide("fast");
+
+					_paq.push([
+						"trackEvent",
+						"tv",
+						"archive",
+						"archive",
+						$item.data("id")
+					]);
 				} else if (data && !data.success && data.message) {
 					App.error(data.message);
 				}
@@ -135,8 +167,10 @@ $(function() {
 	});
 
 	// Search tv show
+	var tvSearchTerm = "";
+
 	$("#tv-search").select2({
-		placeholder: "Search all TV Shows",
+		placeholder: App.translation.tv_search,
 		minimumInputLength: 3,
 		ajax: {
 			url: App.themoviedb.url + "/search/tv",
@@ -144,6 +178,8 @@ $(function() {
 			quietMillis: 100,
 			cache: true,
 			data: function (term, page) {
+				tvSearchTerm = term;
+
 				return {
 					api_key: App.themoviedb.key,
 					query: term,
@@ -153,6 +189,12 @@ $(function() {
 				};
 			},
 			results: function (data, page) {
+				_paq.push(['trackSiteSearch',
+					tvSearchTerm,
+					"tv",
+					data.total_results
+				]);
+
 				var more = page < data.total_pages;
 
 				return {
@@ -208,18 +250,21 @@ $(function() {
 					App.error(data.message);
 				}
 			},
+			error: function(data) {
+				App.error(App.translation.unknown_error);
+				$("#ajax-loading").hide();
+			},
 			beforeSend: function(){
 				$("#ajax-loading").show();
-			},
-			complete: function(){
-				$("#ajax-loading").hide();
 			}
 		});
 	});
 
 	// Search movie
+	var movieSearchTerm = "";
+
 	$("#movie-search").select2({
-		placeholder: "Search for movie",
+		placeholder: App.translation.movie_search,
 		minimumInputLength: 3,
 		ajax: {
 			url: App.themoviedb.url + "/search/movie",
@@ -227,6 +272,8 @@ $(function() {
 			quietMillis: 100,
 			cache: true,
 			data: function (term, page) {
+				movieSearchTerm = term;
+
 				return {
 					api_key: App.themoviedb.key,
 					query: term,
@@ -236,6 +283,14 @@ $(function() {
 				};
 			},
 			results: function (data, page) {
+				_paq.push(['trackSiteSearch',
+					movieSearchTerm,
+					"movie",
+					data.total_results
+				]);
+
+				console.log(_paq);
+
 				var more = page < data.total_pages;
 
 				return {
@@ -293,12 +348,10 @@ $(function() {
 			},
 			error: function(data) {
 				App.error(App.translation.unknown_error);
+				$("#ajax-loading").hide();
 			},
 			beforeSend: function(){
 				$("#ajax-loading").show();
-			},
-			complete: function(){
-				$("#ajax-loading").hide();
 			}
 		});
 	});
@@ -440,6 +493,28 @@ $(function() {
 			offset: {
 				top: top
 			}
+		});
+	}
+
+	if ($("#updates-index").length) {
+		console.log("updates-index");
+		$("#updates-index table tbody tr").each(function() {
+			console.log("row");
+			var $row = $(this);
+
+			$.ajax({
+				type: "get",
+				url: $row.data("url"),
+				success: function(data) {
+					console.log(data);
+					if (data && data.success) {
+						$row.find(".update-count").html(data.updates);
+						return;
+					} else if (data && !data.success && data.message) {
+						App.error(data.message);
+					}
+				}
+			});
 		});
 	}
 

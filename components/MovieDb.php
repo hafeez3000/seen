@@ -121,6 +121,9 @@ class MovieDb
 		if (isset($results->results)) {
 			$output = array_merge($results->results, $output);
 
+			if ($results->total_pages == 1)
+				return $output;
+
 			while ($results->total_pages >= $page) {
 				$page++;
 				$results = $this->get($path, array_merge($parameters, ['page' => $page]));
@@ -252,6 +255,18 @@ class MovieDb
 			'language' => $language,
 			'page' => '1',
 		]);
+	}
+
+	public function getTvChanges($startDate = null, $endDate = null)
+	{
+		$results = $this->paginate('/tv/changes', [
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+		]);
+
+		return array_map(function($arr) {
+			return $arr->id;
+		}, $results);
 	}
 
 	public function getMovieChanges($startDate = null, $endDate = null)

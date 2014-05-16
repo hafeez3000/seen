@@ -10,6 +10,7 @@ use \app\models\Movie;
 use \app\models\Language;
 use \app\models\UserMovie;
 use \app\models\MoviePopular;
+use \app\models\UserMovieWatchlist;
 use \app\components\MovieDb;
 
 class MovieController extends Controller
@@ -106,6 +107,8 @@ class MovieController extends Controller
 			return $this->render('dashboard', [
 				'movies' => $movies,
 				'pages' => $pages,
+				'recommendMovies' => Movie::getRecommend()->limit(20)->all(),
+				'watchlistMovies' => Movie::getWatchlist()->limit(20)->all(),
 			]);
 		}
 	}
@@ -204,6 +207,23 @@ class MovieController extends Controller
 		$userMovie->movie_id = $movie->id;
 		$userMovie->save();
 
+		$watchlist = UserMovieWatchlist::find()
+			->where([
+				'user_id' => Yii::$app->user->id,
+				'movie_id' => $movie->id,
+			])
+			->one();
+
+		if ($watchlist !== null)
+			$watchlist->delete();
+
+		Yii::$app->session->setFlash('event', serialize([
+			'category' => 'movie',
+			'action' => 'watched',
+			'name' => 'add',
+			'value' => $movie->id,
+		]));
+
 		if (Yii::$app->request->isAjax) {
 			Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -211,6 +231,18 @@ class MovieController extends Controller
 				'success' => true,
 			];
 		} else {
+			$watchedCount = UserMovie::find()
+				->where([
+					'movie_id' => $movie->id,
+					'user_id' => Yii::$app->user->id,
+				])
+				->count();
+
+			if ($watchedCount == 1)
+				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have marked the movie as watched. You can always click on the <em>watched again</em> button to track the movie multiple times.'));
+			else
+				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have marked the movie as watched again.'));
+
 			return $this->redirect(['view', 'slug' => $movie->slug]);
 		}
 	}
@@ -218,8 +250,10 @@ class MovieController extends Controller
 	public function actionUnwatch($id)
 	{
 		$userMovie = UserMovie::find()
-			->where(['id' => $id])
-			->andWhere(['user_id' => Yii::$app->user->id])
+			->where([
+				'id' => $id,
+				'user_id' => Yii::$app->user->id,
+			])
 			->with('movie')
 			->one();
 		if ($userMovie === null)
@@ -228,15 +262,13 @@ class MovieController extends Controller
 		$movie = $userMovie->movie;
 		$userMovie->delete();
 
+		Yii::$app->session->setFlash('event', serialize([
+			'category' => 'movie',
+			'action' => 'watched',
+			'name' => 'remove',
+			'value' => $movie->id,
+		]));
+
 		return $this->redirect(['view', 'slug' => $movie->slug]);
-	}
-
-	public function actionRecommend()
-	{
-		$movies = Movie::getRecommend()->limit(20)->all();
-
-		return $this->render('recommend', [
-			'movies' => $movies,
-		]);
 	}
 }

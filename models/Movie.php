@@ -130,6 +130,7 @@ class Movie extends ActiveRecord
 			],
 		];
 	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -291,6 +292,9 @@ class Movie extends ActiveRecord
 		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])->viaTable('{{%movie_popular}}', ['movie_id' => 'id']);
 	}
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
 	public static function getRecommend()
 	{
 		return Movie::find()
@@ -320,6 +324,33 @@ class Movie extends ActiveRecord
 			]);
 	}
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getWatchlist()
+    {
+        return Movie::find()
+            ->distinct()
+            ->select('{{%movie}}.*')
+            ->from([
+                '{{%movie}}',
+                '{{%user_movie_watchlist}}',
+            ])
+            ->where(['{{%user_movie_watchlist}}.[[user_id]]' => Yii::$app->user->id])
+            ->andWhere('{{%movie}}.[[id]] = {{%user_movie_watchlist}}.[[movie_id]]')
+            ->orderBy(['{{%movie}}.[[release_date]]' => SORT_ASC]);
+    }
+
+    public function getOnWatchlist()
+    {
+        return UserMovieWatchlist::find()
+            ->where([
+                'movie_id' => $this->id,
+                'user_id' => Yii::$app->user->id,
+            ])
+            ->exists();
+    }
+
 	public function getPosterUrlSmall()
 	{
 		if (!empty($this->poster_path))
@@ -327,6 +358,14 @@ class Movie extends ActiveRecord
 		else
 			return 'data-src="holder.js/92x138/#eee:#555/text:' . $this->title . '"';
 	}
+
+    public function getPosterUrl()
+    {
+        if (!empty($this->poster_path))
+            return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w342/' . $this->poster_path . '"';
+        else
+            return 'data-src="holder.js/342x513/#eee:#555/text:' . $this->title . '"';
+    }
 
 	public function getPosterUrlLarge()
 	{

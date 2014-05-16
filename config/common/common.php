@@ -26,8 +26,10 @@ $config['components']['urlManager'] = [
 		'movie/load' => 'movie/load',
 		'movie/watch/<slug:.*?>' => 'movie/watch',
 		'movie/unwatch/<id:\d+>' => 'movie/unwatch',
-		'movie/recommend' => 'movie/recommend',
 		'movie/<slug:.*?>' => 'movie/view',
+
+		'watchlist/add/<slug:.*?>' => 'watchlist/add',
+		'watchlist/remove/<slug:.*?>' => 'watchlist/remove',
 
 		// Oauth
 		'login/oauth/authorize' => 'oauth/authorize',

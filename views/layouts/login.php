@@ -8,7 +8,6 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\bootstrap\Alert;
 
 use app\assets\AppAsset;
 
