@@ -881,6 +881,106 @@ class MovieDb
 						}
 					}
 					break;
+				case 'backdrop_path':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->backdrop_path = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'poster_path':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->poster_path = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'first_air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->first_air_date = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'last_air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->last_air_date = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'homepage':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->homepage = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'in_production':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->in_production = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'popularity':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->popularity = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'status':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->status = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'vote_average':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->vote_average = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'vote_count':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->vote_count = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
 				default:
 					var_dump($attribute);
 					die('Unknown tv attribute key ' . $attribute->key);
@@ -943,6 +1043,36 @@ class MovieDb
 						}
 					}
 					break;
+				case 'air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($seasons as $season) {
+							if ($season->show->language->iso == $item->iso_639_1) {
+								$season->air_date = $item->value;
+								$season->save();
+							}
+						}
+					}
+					break;
+				case 'name':
+					foreach ($attribute->items as $item) {
+						foreach ($seasons as $season) {
+							if ($season->show->language->iso == $item->iso_639_1) {
+								$season->name = $item->value;
+								$season->save();
+							}
+						}
+					}
+					break;
+				case 'poster_path':
+					foreach ($attribute->items as $item) {
+						foreach ($seasons as $season) {
+							if ($season->show->language->iso == $item->iso_639_1) {
+								$season->poster_path = $item->value;
+								$season->save();
+							}
+						}
+					}
+					break;
 				case 'images':
 					break;
 				default:
@@ -966,6 +1096,9 @@ class MovieDb
 				'themoviedb_id' => $id,
 				'number' => $number,
 			])
+			->with([
+				'season.show.language'
+			])
 			->all();
 
 		if (count($episodes) == 0)
@@ -976,6 +1109,76 @@ class MovieDb
 				case 'videos':
 				case 'guest_stars':
 				case 'crew':
+					break;
+				case 'name':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->name = $item->value;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'overview':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->overview = $item->value;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'still_path':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->still_path = $item->value;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'vote_average':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->vote_average = $item->value;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'vote_count':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->vote_count = $item->value;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'production_code':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->production_code = $item->value;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->air_date = $item->value;
+								$episode->save();
+							}
+						}
+					}
 					break;
 				default:
 					var_dump($attribute);
