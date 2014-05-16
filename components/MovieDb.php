@@ -837,13 +837,13 @@ class MovieDb
 					foreach ($attribute->items as $item) {
 						switch ($item->action) {
 							case 'created':
-								$season = new Season;
-								$season->themoviedb_id = $item->value->season_id;
-								$season->number = $item->value->season_number;
-								$season->save();
-
-								foreach ($shows as $show)
+								foreach ($shows as $show) {
+									$season = new Season;
+									$season->themoviedb_id = $item->value->season_id;
+									$season->number = $item->value->season_number;
+									$season->save();
 									$season->link('show', $show);
+								}
 								break;
 							case 'updated':
 								$this->syncSeasonChanges($item->value->season_id, $item->value->season_number);
@@ -917,9 +917,18 @@ class MovieDb
 							case 'updated':
 								$this->syncEpisodeChanges($item->value->episode_id, $item->value->episode_number);
 								break;
+							case 'created':
+								foreach ($seasons as $season) {
+									$episode = new Episode;
+									$episode->themoviedb_id = $item->value->episode_id;
+									$episode->number = $item->value->episode_number;
+									$episode->save();
+									$episode->link('season', $season);
+								}
+								break;
 							default:
 								var_dump('season', $attribute);
-								die('Unknown episode item action ' . $item->action);
+								die('Unknown season episode item action ' . $item->action);
 						}
 					}
 					break;
