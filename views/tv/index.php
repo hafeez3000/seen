@@ -5,12 +5,25 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
+use \yii\widgets\ActiveForm;
 
 $this->title[] = Yii::t('Show/Index', 'TV Shows');
 ?>
 
 <div id="tv-index">
-	<h1><?php echo Yii::t('Show/Index', 'Popular TV Shows'); ?></h1>
+    <div class="row" id="tv-dashboard-header">
+        <div class="col-sm-6 col-md-8">
+            <h1><?php echo Yii::t('Show/Index', 'Popular TV Shows'); ?></h1>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+            <?php $form = ActiveForm::begin([
+                'action' => Yii::$app->urlManager->createAbsoluteUrl(['tv/load']),
+            ]); ?>
+                <input type="hidden" id="tv-search" name="id" style="margin-top: 30px; width: 100%;">
+            <?php ActiveForm::end(); ?>
+        </div>
+    </div>
 
 	<div class="row">
 		<?php foreach ($shows as $show): ?>

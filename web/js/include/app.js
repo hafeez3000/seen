@@ -250,11 +250,12 @@ $(function() {
 					App.error(data.message);
 				}
 			},
+			error: function(data) {
+				App.error(App.translation.unknown_error);
+				$("#ajax-loading").hide();
+			},
 			beforeSend: function(){
 				$("#ajax-loading").show();
-			},
-			complete: function(){
-				$("#ajax-loading").hide();
 			}
 		});
 	});
@@ -347,12 +348,10 @@ $(function() {
 			},
 			error: function(data) {
 				App.error(App.translation.unknown_error);
+				$("#ajax-loading").hide();
 			},
 			beforeSend: function(){
 				$("#ajax-loading").show();
-			},
-			complete: function(){
-				$("#ajax-loading").hide();
 			}
 		});
 	});
