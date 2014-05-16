@@ -859,6 +859,7 @@ class MovieDb
 				case 'videos':
 				case 'languages':
 				case 'images':
+				case 'season_regular':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
