@@ -121,10 +121,7 @@ class MovieDb
 		if (isset($results->results)) {
 			$output = array_merge($results->results, $output);
 
-			if ($results->total_pages == 1)
-				return $output;
-
-			while ($results->total_pages >= $page) {
+			while ($results->total_pages > $page) {
 				$page++;
 				$results = $this->get($path, array_merge($parameters, ['page' => $page]));
 
