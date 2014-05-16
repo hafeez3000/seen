@@ -162,6 +162,51 @@
 			}
 		}
 
+        #tv-view-details {
+            table {
+                tr {
+                    td {
+                        &:first-child {
+                            font-weight: bold;
+                            width: 20%;
+
+                            @media (min-width: @screen-sm-min) {
+                                width: 100px;
+                            }
+
+                            @media (min-width: @screen-md-min) {
+                                width: 100px;
+                            }
+
+                            @media (min-width: @screen-lg-min) {
+                                width: 100px;
+                            }
+                        }
+
+                        &:last-child {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            display: inline-block;
+                            width: 80%;
+
+                            @media (min-width: @screen-sm-min) {
+                                width: 345px - 100px;
+                            }
+
+                            @media (min-width: @screen-md-min) {
+                                width: 374px - 100px;
+                            }
+
+                            @media (min-width: @screen-lg-min) {
+                                width: 360px - 100px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 		#tv-view-seasons {
 			h3 {
 				&:first-of-type {
