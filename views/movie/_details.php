@@ -8,6 +8,13 @@ use \app\components\LanguageHelper;
 
 <table class="table table-striped table-condensed">
 	<tbody>
+		<?php if (!empty($movie->original_title)): ?>
+			<tr>
+				<td><?php echo Yii::t('Movie', 'Original Title'); ?></td>
+				<td><?php echo Yii::t('Movie', Html::encode($movie->original_title)); ?></td>
+			</tr>
+		<?php endif; ?>
+
 		<?php if (!empty($movie->status)): ?>
 			<tr>
 				<td><?php echo Yii::t('Movie', 'Status'); ?></td>
