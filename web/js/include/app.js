@@ -170,7 +170,7 @@ $(function() {
 	var tvSearchTerm = "";
 
 	$("#tv-search").select2({
-		placeholder: "Search all TV Shows",
+		placeholder: App.translation.tv_search,
 		minimumInputLength: 3,
 		ajax: {
 			url: App.themoviedb.url + "/search/tv",
@@ -264,7 +264,7 @@ $(function() {
 	var movieSearchTerm = "";
 
 	$("#movie-search").select2({
-		placeholder: "Search for movie",
+		placeholder: App.translation.movie_search,
 		minimumInputLength: 3,
 		ajax: {
 			url: App.themoviedb.url + "/search/movie",
