@@ -865,7 +865,7 @@ class MovieDb
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
 							if ($show->language->iso == $item->iso_639_1) {
-								$show->overview = $item->value;
+								$show->overview = isset($item->value) ? $item->value : null;
 								$show->save();
 							}
 						}
@@ -875,7 +875,107 @@ class MovieDb
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
 							if ($show->language->iso == $item->iso_639_1) {
-								$show->name = $item->value;
+								$show->name = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'backdrop_path':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->backdrop_path = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'poster_path':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->poster_path = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'first_air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->first_air_date = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'last_air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->last_air_date = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'homepage':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->homepage = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'in_production':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->in_production = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'popularity':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->popularity = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'status':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->status = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'vote_average':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->vote_average = isset($item->value) ? $item->value : null;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'vote_count':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->vote_count = isset($item->value) ? $item->value : null;
 								$show->save();
 							}
 						}
@@ -937,7 +1037,37 @@ class MovieDb
 					foreach ($attribute->items as $item) {
 						foreach ($seasons as $season) {
 							if ($season->show->language->iso == $item->iso_639_1) {
-								$season->overview = $item->value;
+								$season->overview = isset($item->value) ? $item->value : null;
+								$season->save();
+							}
+						}
+					}
+					break;
+				case 'air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($seasons as $season) {
+							if ($season->show->language->iso == $item->iso_639_1) {
+								$season->air_date = isset($item->value) ? $item->value : null;
+								$season->save();
+							}
+						}
+					}
+					break;
+				case 'name':
+					foreach ($attribute->items as $item) {
+						foreach ($seasons as $season) {
+							if ($season->show->language->iso == $item->iso_639_1) {
+								$season->name = isset($item->value) ? $item->value : null;
+								$season->save();
+							}
+						}
+					}
+					break;
+				case 'poster_path':
+					foreach ($attribute->items as $item) {
+						foreach ($seasons as $season) {
+							if ($season->show->language->iso == $item->iso_639_1) {
+								$season->poster_path = isset($item->value) ? $item->value : null;
 								$season->save();
 							}
 						}
@@ -984,7 +1114,7 @@ class MovieDb
 					foreach ($attribute->items as $item) {
 						foreach ($episodes as $episode) {
 							if ($episode->season->show->language->iso == $item->iso_639_1) {
-								$episode->name = $item->value;
+								$episode->name = isset($item->value) ? $item->value : null;
 								$episode->save();
 							}
 						}
@@ -994,7 +1124,57 @@ class MovieDb
 					foreach ($attribute->items as $item) {
 						foreach ($episodes as $episode) {
 							if ($episode->season->show->language->iso == $item->iso_639_1) {
-								$episode->overview = $item->value;
+								$episode->overview = isset($item->value) ? $item->value : null;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'still_path':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->still_path = isset($item->value) ? $item->value : null;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'vote_average':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->vote_average = isset($item->value) ? $item->value : null;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'vote_count':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->vote_count = isset($item->value) ? $item->value : null;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'production_code':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->production_code = isset($item->value) ? $item->value : null;
+								$episode->save();
+							}
+						}
+					}
+					break;
+				case 'air_date':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							if ($episode->season->show->language->iso == $item->iso_639_1) {
+								$episode->air_date = isset($item->value) ? $item->value : null;
 								$episode->save();
 							}
 						}
