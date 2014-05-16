@@ -269,6 +269,30 @@ class MovieDb
 		}, $results);
 	}
 
+	public function getTvChange($id, $startDate = null, $endDate = null)
+	{
+		return $this->get(sprintf('/tv/%s/changes', $id), [
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+		]);
+	}
+
+	public function getSeasonChanges($id, $startDate = null, $endDate = null)
+	{
+		return $this->get(sprintf('/tv/season/%s/changes', $id), [
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+		]);
+	}
+
+	public function getEpisodeChanges($id, $startDate = null, $endDate = null)
+	{
+		return $this->get(sprintf('/tv/episode/%s/changes', $id), [
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24)) : date('Y-m-d', strtotime($startDate)),
+			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+		]);
+	}
+
 	public function getMovieChanges($startDate = null, $endDate = null)
 	{
 		$results = $this->paginate('/movie/changes', [
@@ -791,5 +815,165 @@ class MovieDb
 		}
 
 		return true;
+	}
+
+	public function syncTvChange($id)
+	{
+		Yii::info("Syncing tv show change #{$id}...", 'application\sync');
+
+		$attributes = $this->getTvChange($id);
+
+		if ($attributes == false)
+			return false;
+
+		$shows = Show::find()
+			->where(['themoviedb_id' => $id])
+			->with(['language'])
+			->all();
+
+		if (count($shows) == 0)
+			return false;
+
+		foreach ($attributes->changes as $attribute) {
+			switch ($attribute->key) {
+				case 'season':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'created':
+								$season = new Season;
+								$season->themoviedb_id = $item->value->season_id;
+								$season->number = $item->value->season_number;
+								$season->save();
+
+								foreach ($shows as $show)
+									$season->link('show', $show);
+								break;
+							case 'updated':
+								$this->syncSeasonChanges($item->value->season_id, $item->value->season_number);
+								break;
+							default:
+								var_dump($attribute);
+								die('Unknown tv season item action ' . $item->action);
+						}
+					}
+					break;
+				case 'plot_keywords':
+				case 'translations':
+				case 'videos':
+				case 'languages':
+				case 'images':
+					break;
+				case 'overview':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->overview = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				case 'name':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							if ($show->language->iso == $item->iso_639_1) {
+								$show->name = $item->value;
+								$show->save();
+							}
+						}
+					}
+					break;
+				default:
+					var_dump($attribute);
+					die('Unknown tv attribute key ' . $attribute->key);
+			}
+		}
+	}
+
+	public function syncSeasonChanges($id, $number)
+	{
+		Yii::info("Syncing season change #{$id}...", 'application\sync');
+
+		$attributes = $this->getSeasonChanges($id);
+
+		if ($attributes == false)
+			return false;
+
+		$seasons = Season::find()
+			->where([
+				'themoviedb_id' => $id,
+				'number' => $number,
+			])
+			->with([
+				'show.language'
+			])
+			->all();
+
+		if (count($seasons) == 0)
+			return false;
+
+		foreach ($attributes->changes as $attribute) {
+			switch ($attribute->key) {
+				case 'episode':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'updated':
+								$this->syncEpisodeChanges($item->value->episode_id, $item->value->episode_number);
+								break;
+							default:
+								var_dump('season', $attribute);
+								die('Unknown episode item action ' . $item->action);
+						}
+					}
+					break;
+				case 'overview':
+					foreach ($attribute->items as $item) {
+						foreach ($seasons as $season) {
+							if ($season->show->language->iso == $item->iso_639_1) {
+								$season->overview = $item->value;
+								$season->save();
+							}
+						}
+					}
+					break;
+				case 'images':
+					break;
+				default:
+					var_dump($attribute);
+					die('Unknown season attribute key ' . $attribute->key);
+			}
+		}
+	}
+
+	public function syncEpisodeChanges($id, $number)
+	{
+		Yii::info("Syncing episode change #{$id}...", 'application\sync');
+
+		$attributes = $this->getEpisodeChanges($id);
+
+		if ($attributes == false)
+			return false;
+
+		$episodes = Episode::find()
+			->where([
+				'themoviedb_id' => $id,
+				'number' => $number,
+			])
+			->all();
+
+		if (count($episodes) == 0)
+			return false;
+
+		foreach ($attributes->changes as $attribute) {
+			switch ($attribute->key) {
+				case 'videos':
+				case 'guest_stars':
+				case 'crew':
+					break;
+				default:
+					var_dump($attribute);
+					die('Unknown episode attribute key ' . $attribute->key);
+			}
+		}
 	}
 }

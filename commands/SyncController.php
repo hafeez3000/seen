@@ -13,6 +13,7 @@ use \app\models\MoviePopular;
 use \app\models\ShowPopular;
 use \app\models\Language;
 use \app\models\Person;
+use \app\models\SyncStatus;
 
 /**
  * Sync data with TheMovieDB.
@@ -122,7 +123,7 @@ class SyncController extends Controller
 			$episodes = $episodes
 				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
 				->orWhere(['updated_at' => null])
-                ->orderBy(['updated_at' => SORT_ASC]);
+				->orderBy(['updated_at' => SORT_ASC]);
 
 		if ($this->debug) {
 			$episodeCount = $episodes->count();
@@ -143,56 +144,55 @@ class SyncController extends Controller
 		return 0;
 	}
 
-    public function actionTvChanges()
-    {
-        Yii::info('Sync tv changes...', 'application\sync');
+	public function actionTvChanges()
+	{
+		Yii::info('Sync tv changes...', 'application\sync');
 
-        $movieDb = new MovieDb;
+		$movieDb = new MovieDb;
 
-        $showChanges = $movieDb->getTvChanges();
+		$tvChanges = $movieDb->getTvChanges();
 
-        $shows = Show::find()
-            ->where(['themoviedb_id' => $showChanges]);
+		if ($this->debug) {
+			$changesCount = count($tvChanges);
+			$i = 1;
+		}
 
-        if ($this->debug) {
-            $changesCount = $shows->count();
-            $i = 1;
-        }
+		$syncStatus = SyncStatus::find()
+			->where([
+				'name' => 'tv_changes',
+				'updated' => date('Y-m-d'),
+			])
+			->one();
 
-        foreach ($shows->each() as $show) {
-            Yii::getLogger()->flush();
+		if ($syncStatus !== null) {
+			$completedChanges = unserialize($syncStatus->value);
+		} else {
+			$completedChanges = [];
+			$syncStatus = new SyncStatus;
+			$syncStatus->name = 'tv_changes';
+			$syncStatus->updated = date('Y-m-d');
+		}
 
-            if ($this->debug) {
-                echo "Update show {$i}/{$changesCount}\n";
-                $i++;
-                $j = 1;
-            }
+		foreach ($tvChanges as $tvChange) {
+			Yii::getLogger()->flush();
 
-            $movieDb->syncShow($show);
+			if ($this->debug) {
+				echo "Update tv change {$i}/{$changesCount}\n";
+				$i++;
+			}
 
-            foreach ($show->getSeasons()->each() as $season) {
+			if (in_array($tvChange, $completedChanges))
+				continue;
 
-                if ($this->debug) {
-                    echo "Update season {$j}/" . count($show->seasons) . "\n";
-                    $j++;
-                    $k = 1;
-                }
+			$movieDb->syncTvChange($tvChange);
 
-                $movieDb->syncSeason($season);
+			$completedChanges[] = $tvChange;
+			$syncStatus->value = serialize($completedChanges);
+			$syncStatus->save();
+		}
 
-                foreach ($season->getEpisodes()->each() as $episode) {
-                    if ($this->debug) {
-                        echo "Update episode {$k}/" . count($season->episodes) . "\n";
-                        $k++;
-                    }
-
-                    $movieDb->syncEpisode($episode);
-                }
-            }
-        }
-
-        return 0;
-    }
+		return 0;
+	}
 
 	public function actionMoviesSimilar()
 	{

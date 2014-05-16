@@ -13,17 +13,17 @@ use \app\models\Language;
  */
 class TvMigrateController extends Controller
 {
-    public $force = false;
+	public $force = false;
 
-    public $debug = false;
+	public $debug = false;
 
-    public function options($actionId)
-    {
-        return [
-            'force',
-            'debug',
-        ];
-    }
+	public function options($actionId)
+	{
+		return [
+			'force',
+			'debug',
+		];
+	}
 
 	protected function chooseShow($name, $shows)
 	{
@@ -253,11 +253,11 @@ class TvMigrateController extends Controller
 	{
 		$shows = Show::find();
 
-        if (!$this->force)
-            $shows = $shows->where(['like', 'slug', 'slug']);
+		if (!$this->force)
+			$shows = $shows->where(['like', 'slug', 'slug']);
 
-        if ($this->debug)
-            echo "Fixing {$shows->count()} show slugs...\n";
+		if ($this->debug)
+			echo "Fixing {$shows->count()} show slugs...\n";
 
 		foreach ($shows->each() as $show) {
 			$show->slug = '';
@@ -266,13 +266,13 @@ class TvMigrateController extends Controller
 
 		$movies = Movie::find();
 
-        if (!$this->force)
-            $movies = $movies
-                ->where(['like', 'slug', 'slug'])
-                ->orWhere('[[slug]] REGEXP "\\-[0-9]$"');
+		if (!$this->force)
+			$movies = $movies
+				->where(['like', 'slug', 'slug'])
+				->orWhere('[[slug]] REGEXP "\\-[0-9]$"');
 
-        if ($this->debug)
-            echo "Fixing {$movies->count()} movie slugs...\n";
+		if ($this->debug)
+			echo "Fixing {$movies->count()} movie slugs...\n";
 
 		foreach ($movies->each() as $movie) {
 			$movie->slug = '';
