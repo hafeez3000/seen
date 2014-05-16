@@ -143,6 +143,57 @@ class SyncController extends Controller
 		return 0;
 	}
 
+    public function actionTvChanges()
+    {
+        Yii::info('Sync tv changes...', 'application\sync');
+
+        $movieDb = new MovieDb;
+
+        $showChanges = $movieDb->getTvChanges();
+
+        $shows = Show::find()
+            ->where(['themoviedb_id' => $showChanges]);
+
+        if ($this->debug) {
+            $changesCount = $shows->count();
+            $i = 1;
+        }
+
+        foreach ($shows->each() as $show) {
+            Yii::getLogger()->flush();
+
+            if ($this->debug) {
+                echo "Update show {$i}/{$changesCount}\n";
+                $i++;
+                $j = 1;
+            }
+
+            $movieDb->syncShow($show);
+
+            foreach ($show->getSeasons()->each() as $season) {
+
+                if ($this->debug) {
+                    echo "Update season {$j}/" . count($show->seasons) . "\n";
+                    $j++;
+                    $k = 1;
+                }
+
+                $movieDb->syncSeason($season);
+
+                foreach ($season->getEpisodes()->each() as $episode) {
+                    if ($this->debug) {
+                        echo "Update episode {$k}/" . count($season->episodes) . "\n";
+                        $k++;
+                    }
+
+                    $movieDb->syncEpisode($episode);
+                }
+            }
+        }
+
+        return 0;
+    }
+
 	public function actionMoviesSimilar()
 	{
 		Yii::info('Sync similar movies...', 'application\sync');
