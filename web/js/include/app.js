@@ -499,14 +499,12 @@ $(function() {
 	if ($("#updates-index").length) {
 		console.log("updates-index");
 		$("#updates-index table tbody tr").each(function() {
-			console.log("row");
 			var $row = $(this);
 
 			$.ajax({
 				type: "get",
 				url: $row.data("url"),
 				success: function(data) {
-					console.log(data);
 					if (data && data.success) {
 						$row.find(".update-count").html(data.updates);
 						return;

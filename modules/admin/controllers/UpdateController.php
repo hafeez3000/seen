@@ -222,6 +222,12 @@ class UpdateController extends BaseController
 					->orWhere(['updated_at' => null])
 					->count();
 			}
+		} elseif (strpos($command, 'sync/tv-changes') !== false) {
+			$showChanges = $movieDb->getTvChanges();
+
+			$updates = Show::find()
+				->where(['themoviedb_id' => $showChanges])
+				->count();
 		}
 
 		if ($updates !== null)
