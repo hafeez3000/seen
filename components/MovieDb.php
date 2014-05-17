@@ -913,6 +913,8 @@ class MovieDb
 										$show->link('crew', $person);
 
 								break;
+							case 'updated':
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv crew item action ' . $item->action);
