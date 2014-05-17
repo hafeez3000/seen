@@ -1165,6 +1165,7 @@ class MovieDb
 				'number' => $number,
 			])
 			->with([
+				'show',
 				'show.language'
 			])
 			->all();
@@ -1228,6 +1229,27 @@ class MovieDb
 								die('Unknown season episode item action ' . $item->action);
 						}
 					}
+					break;
+				case 'season_number':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								$season = new Season;
+								$season->themoviedb_id = $id;
+								$season->number = $item->value;
+								if (isset($seasons[0]->show->id))
+									$season->show_id = $seasons[0]->show->id;
+
+								$season->save();
+
+								$seasons[] = $season;
+								break;
+							default:
+								var_dump('season', $attribute);
+								die('Unknown season season_number item action ' . $item->action);
+						}
+					}
+
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
