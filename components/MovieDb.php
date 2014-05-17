@@ -858,7 +858,7 @@ class MovieDb
 								$this->syncSeasonChanges($item->value->season_id, $item->value->season_number);
 								break;
 							default:
-								var_dump($attribute);
+								var_dump($id, $attribute);
 								die('Unknown tv season item action ' . $item->action);
 						}
 					}
@@ -883,6 +883,9 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowCreator::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
 										$show->link('creators', $person);
+							default:
+								var_dump($id, $attribute);
+								die('Unknown tv created_by item action ' . $item->action);
 						}
 					}
 					break;
@@ -906,6 +909,9 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowCrew::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
 										$show->link('crew', $person);
+							default:
+								var_dump($id, $attribute);
+								die('Unknown tv crew item action ' . $item->action);
 						}
 					}
 					break;
@@ -929,6 +935,9 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowCast::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
 										$show->link('cast', $person);
+							default:
+								var_dump($id, $attribute);
+								die('Unknown tv cast item action ' . $item->action);
 						}
 					}
 					break;
@@ -953,6 +962,9 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowGenre::find()->where(['genre_id' => $genre->id, 'show_id' => $show->id])->exists())
 										$show->link('genres', $genre);
+							default:
+								var_dump($id, $attribute);
+								die('Unknown tv genres item action ' . $item->action);
 						}
 					}
 					break;
@@ -974,6 +986,9 @@ class MovieDb
 									$showCountry->delete();
 
 								break;
+							default:
+									var_dump($id, $attribute);
+									die('Unknown tv origin_country item action ' . $item->action);
 						}
 					}
 
@@ -1001,6 +1016,9 @@ class MovieDb
 										$show->link('networks', $network);
 
 								break;
+							default:
+								var_dump($id, $attribute);
+								die('Unknown tv network item action ' . $item->action);
 						}
 					}
 
@@ -1144,7 +1162,7 @@ class MovieDb
 
 					break;
 				default:
-					var_dump($attribute);
+					var_dump($id, $attribute);
 					die('Unknown tv attribute key ' . $attribute->key);
 			}
 		}
@@ -1225,7 +1243,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump('season', $attribute);
+								var_dump('season', $id, $attribute);
 								die('Unknown season episode item action ' . $item->action);
 						}
 					}
@@ -1245,7 +1263,7 @@ class MovieDb
 								$seasons[] = $season;
 								break;
 							default:
-								var_dump('season', $attribute);
+								var_dump('season', $id, $attribute);
 								die('Unknown season season_number item action ' . $item->action);
 						}
 					}
@@ -1292,7 +1310,7 @@ class MovieDb
 				case 'images':
 					break;
 				default:
-					var_dump($attribute);
+					var_dump($id, $attribute);
 					die('Unknown season attribute key ' . $attribute->key);
 			}
 		}
@@ -1391,7 +1409,7 @@ class MovieDb
 					}
 					break;
 				default:
-					var_dump($attribute);
+					var_dump($id, $attribute);
 					die('Unknown episode attribute key ' . $attribute->key);
 			}
 		}
