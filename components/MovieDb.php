@@ -1343,8 +1343,25 @@ class MovieDb
 				case 'videos':
 				case 'guest_stars':
 				case 'crew':
-				case 'images':
 				case 'imdb_id':
+					break;
+				case 'images':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+							case 'updated':
+								if (isset($item->value->backdrop->file_path)) {
+									foreach ($episodes as $episode) {
+										$episode->backdrop_path = $item->value->backdrop->file_path;
+										$episode->save();
+									}
+								}
+								break;
+							default:
+								var_dump($id, $attribute);
+								die('Unknown episode images item action ' . $item->action);
+						}
+					}
 					break;
 				case 'name':
 					foreach ($attribute->items as $item) {
@@ -1437,6 +1454,14 @@ class MovieDb
 						}
 					}
 
+					break;
+				case 'episode_number':
+					foreach ($attribute->items as $item) {
+						foreach ($episodes as $episode) {
+							$episode->number = isset($item->value) ? $item->value : null;
+							$episode->save();
+						}
+					}
 					break;
 				default:
 					var_dump($id, $attribute);
