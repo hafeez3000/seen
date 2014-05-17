@@ -1017,6 +1017,7 @@ class MovieDb
 				case 'tvrage_id':
 				case 'guest_stars':
 				case 'alternative_titles':
+				case 'general':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
