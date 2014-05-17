@@ -1039,6 +1039,14 @@ class MovieDb
 						}
 					}
 					break;
+				case 'original_name':
+					foreach ($attribute->items as $item) {
+						foreach ($shows as $show) {
+							$show->original_name = isset($item->value) ? $item->value : null;
+							$show->save();
+						}
+					}
+					break;
 				case 'backdrop_path':
 					foreach ($attribute->items as $item) {
 						foreach ($shows as $show) {
