@@ -1436,6 +1436,8 @@ class MovieDb
 								die('Unknown episode season_number item action ' . $item->action);
 						}
 					}
+
+					break;
 				default:
 					var_dump($id, $attribute);
 					die('Unknown episode attribute key ' . $attribute->key);
