@@ -1408,6 +1408,34 @@ class MovieDb
 						}
 					}
 					break;
+				case 'season_number':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								foreach ($episodes as $episode) {
+									$season = Season::find()
+										->where([
+											'show_id' => $episode->season->show_id,
+											'number' => $item->value,
+										])
+										->one();
+
+									if ($season === null) {
+										$season = new Season;
+										$season->show_id = $episode->season->show_id;
+										$season->number = $item->value;
+										$season->save();
+									}
+
+									$episode->season_id = $season->id;
+									$episode->save();
+								}
+								break;
+							default:
+								var_dump($id, $attribute);
+								die('Unknown episode season_number item action ' . $item->action);
+						}
+					}
 				default:
 					var_dump($id, $attribute);
 					die('Unknown episode attribute key ' . $attribute->key);
