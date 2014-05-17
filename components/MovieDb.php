@@ -1202,6 +1202,18 @@ class MovieDb
 									$episode->delete();
 
 								break;
+							case 'destroyed':
+								$episodes = Episode::find()
+									->where([
+										'themoviedb_id' => $item->value->episode_id,
+										'number' => $item->value->episode_number,
+									])
+									->all();
+
+								foreach ($episodes as $episode)
+									$episode->delete();
+
+								break;
 							default:
 								var_dump('season', $attribute);
 								die('Unknown season episode item action ' . $item->action);
