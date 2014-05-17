@@ -831,6 +831,8 @@ class MovieDb
 		if (count($shows) == 0)
 			return false;
 
+		echo "Sync tv change #{$shows[0]->original_name}\n";
+
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {
 				case 'season':
@@ -1229,6 +1231,8 @@ class MovieDb
 		if (count($seasons) == 0)
 			return false;
 
+		echo "Sync season {$number}\n";
+
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {
 				case 'episode':
@@ -1375,6 +1379,8 @@ class MovieDb
 
 		if (count($episodes) == 0)
 			return false;
+
+		echo "Sync episode {$number}\n";
 
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {
