@@ -1350,9 +1350,9 @@ class MovieDb
 						switch ($item->action) {
 							case 'added':
 							case 'updated':
-								if (isset($item->value->backdrop->file_path)) {
+								if (isset($item->value->still->file_path)) {
 									foreach ($episodes as $episode) {
-										$episode->backdrop_path = $item->value->backdrop->file_path;
+										$episode->still_path = $item->value->still->file_path;
 										$episode->save();
 									}
 								}
