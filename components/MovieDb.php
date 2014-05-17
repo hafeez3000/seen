@@ -986,6 +986,20 @@ class MovieDb
 										$show->link('genres', $genre);
 
 								break;
+							case 'deleted':
+								$showGenres = ShowGenre::find()
+									->where([
+										'genre_id' => $item->original_value->id,
+										'show_id' => array_map(function($show) {
+											return $show->id;
+										}, $shows),
+									])
+									->all();
+
+								foreach ($showGenres as $showGenre)
+									$showGenre->delete();
+
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv genres item action ' . $item->action);
