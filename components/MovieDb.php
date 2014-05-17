@@ -885,6 +885,20 @@ class MovieDb
 										$show->link('creators', $person);
 
 								break;
+							case 'deleted':
+								$creators = ShowCreator::find()
+									->where([
+										'person_id' => $item->original_value->person_id,
+										'show_id' => array_map(function($show) {
+											return $show->id;
+										}, $shows),
+									])
+									->all();
+
+								foreach ($creators as $creator)
+									$creator->delete();
+
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv created_by item action ' . $item->action);
