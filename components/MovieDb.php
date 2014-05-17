@@ -883,6 +883,8 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowCreator::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
 										$show->link('creators', $person);
+
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv created_by item action ' . $item->action);
@@ -909,6 +911,8 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowCrew::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
 										$show->link('crew', $person);
+
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv crew item action ' . $item->action);
@@ -935,6 +939,8 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowCast::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
 										$show->link('cast', $person);
+
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv cast item action ' . $item->action);
@@ -962,6 +968,8 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowGenre::find()->where(['genre_id' => $genre->id, 'show_id' => $show->id])->exists())
 										$show->link('genres', $genre);
+
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv genres item action ' . $item->action);
