@@ -144,33 +144,39 @@ class SyncController extends Controller
 		return 0;
 	}
 
-	public function actionTvChanges()
+	public function actionTvChanges($id = null)
 	{
 		Yii::info('Sync tv changes...', 'application\sync');
 
 		$movieDb = new MovieDb;
 
-		$tvChanges = $movieDb->getTvChanges();
+		if ($id === null) {
+			$tvChanges = $movieDb->getTvChanges();
 
-		if ($this->debug) {
-			$changesCount = count($tvChanges);
-			$i = 1;
-		}
+			if ($this->debug) {
+				$changesCount = count($tvChanges);
+				$i = 1;
+			}
 
-		$syncStatus = SyncStatus::find()
-			->where([
-				'name' => 'tv_changes',
-				'updated' => date('Y-m-d'),
-			])
-			->one();
+			$syncStatus = SyncStatus::find()
+				->where([
+					'name' => 'tv_changes',
+					'updated' => date('Y-m-d'),
+				])
+				->one();
 
-		if ($syncStatus !== null) {
-			$completedChanges = unserialize($syncStatus->value);
+			if ($syncStatus !== null) {
+				$completedChanges = unserialize($syncStatus->value);
+			} else {
+				$completedChanges = [];
+				$syncStatus = new SyncStatus;
+				$syncStatus->name = 'tv_changes';
+				$syncStatus->updated = date('Y-m-d');
+			}
 		} else {
-			$completedChanges = [];
-			$syncStatus = new SyncStatus;
-			$syncStatus->name = 'tv_changes';
-			$syncStatus->updated = date('Y-m-d');
+			$tvChanges = [$id];
+			$changesCount = 1;
+			$i = 1;
 		}
 
 		foreach ($tvChanges as $tvChange) {
@@ -181,14 +187,16 @@ class SyncController extends Controller
 				$i++;
 			}
 
-			if (in_array($tvChange, $completedChanges))
+			if ($id === null && in_array($tvChange, $completedChanges))
 				continue;
 
 			$movieDb->syncTvChange($tvChange);
 
-			$completedChanges[] = $tvChange;
-			$syncStatus->value = serialize($completedChanges);
-			$syncStatus->save();
+			if ($id === null) {
+				$completedChanges[] = $tvChange;
+				$syncStatus->value = serialize($completedChanges);
+				$syncStatus->save();
+			}
 		}
 
 		return 0;

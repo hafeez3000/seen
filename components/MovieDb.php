@@ -831,8 +831,6 @@ class MovieDb
 		if (count($shows) == 0)
 			return false;
 
-		echo "Sync tv change #{$shows[0]->original_name}\n";
-
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {
 				case 'season':
@@ -1231,31 +1229,32 @@ class MovieDb
 		if (count($seasons) == 0)
 			return false;
 
-		echo "Sync season {$number}\n";
-
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {
 				case 'episode':
 					foreach ($attribute->items as $item) {
 						switch ($item->action) {
 							case 'updated':
-								$this->syncEpisodeChanges($item->value->episode_id, $item->value->episode_number);
+								$this->syncEpisodeChanges($item->value->episode_id);
 								break;
 							case 'created':
 								foreach ($seasons as $season) {
-									$episode = new Episode;
-									$episode->themoviedb_id = $item->value->episode_id;
-									$episode->number = $item->value->episode_number;
-									$episode->save();
-									$episode->link('season', $season);
+									if ($season->show->language->iso == $item->iso_639_1) {
+										$episode = new Episode;
+										$episode->number = $item->value->episode_number;
+										$episode->save();
+										$episode->link('season', $season);
+									}
 								}
 								break;
 							case 'added':
 								foreach ($seasons as $season) {
-									$episode = new Episode;
-									$episode->number = $item->value->episode_number;
-									$episode->save();
-									$episode->link('season', $season);
+									if ($season->show->language->iso == $item->iso_639_1) {
+										$episode = new Episode;
+										$episode->number = $item->value->episode_number;
+										$episode->save();
+										$episode->link('season', $season);
+									}
 								}
 								break;
 							case 'deleted':
@@ -1358,7 +1357,7 @@ class MovieDb
 		}
 	}
 
-	public function syncEpisodeChanges($id, $number)
+	public function syncEpisodeChanges($id)
 	{
 		Yii::info("Syncing episode change #{$id}...", 'application\sync');
 
@@ -1370,7 +1369,6 @@ class MovieDb
 		$episodes = Episode::find()
 			->where([
 				'themoviedb_id' => $id,
-				'number' => $number,
 			])
 			->with([
 				'season.show.language'
@@ -1379,8 +1377,6 @@ class MovieDb
 
 		if (count($episodes) == 0)
 			return false;
-
-		echo "Sync episode {$number}\n";
 
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {
