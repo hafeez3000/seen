@@ -1239,22 +1239,18 @@ class MovieDb
 								break;
 							case 'created':
 								foreach ($seasons as $season) {
-									if ($season->show->language->iso == $item->iso_639_1) {
-										$episode = new Episode;
-										$episode->number = $item->value->episode_number;
-										$episode->save();
-										$episode->link('season', $season);
-									}
+									$episode = new Episode;
+									$episode->number = $item->value->episode_number;
+									$episode->save();
+									$episode->link('season', $season);
 								}
 								break;
 							case 'added':
 								foreach ($seasons as $season) {
-									if ($season->show->language->iso == $item->iso_639_1) {
-										$episode = new Episode;
-										$episode->number = $item->value->episode_number;
-										$episode->save();
-										$episode->link('season', $season);
-									}
+									$episode = new Episode;
+									$episode->number = $item->value->episode_number;
+									$episode->save();
+									$episode->link('season', $season);
 								}
 								break;
 							case 'deleted':
