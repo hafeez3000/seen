@@ -1258,6 +1258,7 @@ class MovieDb
 								foreach ($seasons as $season) {
 									$episode = new Episode;
 									$episode->number = $item->value->episode_number;
+									$episode->themoviedb_id = $item->value->episode_id;
 									$episode->save();
 									$episode->link('season', $season);
 								}
