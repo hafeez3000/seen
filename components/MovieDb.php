@@ -263,8 +263,7 @@ class MovieDb
 	public function getTvChanges($startDate = null, $endDate = null)
 	{
 		$results = $this->paginate('/tv/changes', [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
-			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 13)) : date('Y-m-d', strtotime($startDate)),
 		]);
 
 		return array_map(function($arr) {
@@ -275,24 +274,21 @@ class MovieDb
 	public function getTvChange($id, $startDate = null, $endDate = null)
 	{
 		return $this->get(sprintf('/tv/%s/changes', $id), [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
-			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 13)) : date('Y-m-d', strtotime($startDate)),
 		]);
 	}
 
 	public function getSeasonChanges($id, $startDate = null, $endDate = null)
 	{
 		return $this->get(sprintf('/tv/season/%s/changes', $id), [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
-			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 13)) : date('Y-m-d', strtotime($startDate)),
 		]);
 	}
 
 	public function getEpisodeChanges($id, $startDate = null, $endDate = null)
 	{
 		return $this->get(sprintf('/tv/episode/%s/changes', $id), [
-			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 14)) : date('Y-m-d', strtotime($startDate)),
-			'end_date' => ($endDate === null) ? date('Y-m-d') : date('Y-m-d', strtotime($endDate)),
+			'start_date' => ($startDate === null) ? date('Y-m-d', (time() - 3600 * 24 * 13)) : date('Y-m-d', strtotime($startDate)),
 		]);
 	}
 
