@@ -1255,29 +1255,22 @@ class MovieDb
 								$this->syncEpisodeChanges($item->value->episode_id);
 								break;
 							case 'created':
-								foreach ($seasons as $season) {
-									$episode = new Episode;
-									$episode->number = $item->value->episode_number;
-									$episode->themoviedb_id = $item->value->episode_id;
-
-									try {
-										$episode->save();
-										$episode->link('season', $season);
-									} catch (\Exception $e) {
-										Yii::warning($e->getMessage(), 'application\sync');
-									}
-								}
-								break;
 							case 'added':
 								foreach ($seasons as $season) {
-									$episode = new Episode;
-									$episode->number = $item->value->episode_number;
+									$episodeExists = Episode::find()
+										->where([
+											'themoviedb_id' => $item->value->episode_id,
+											'number' => $item->value->episode_number,
+										])
+										->exists();
 
-									try {
+									if (!$episodeExists) {
+										$episode = new Episode;
+										$episode->number = $item->value->episode_number;
+										$episode->themoviedb_id = $item->value->episode_id;
+
 										$episode->save();
 										$episode->link('season', $season);
-									} catch (\Exception $e) {
-										Yii::warning($e->getMessage(), 'application\sync');
 									}
 								}
 								break;
