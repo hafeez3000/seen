@@ -34,6 +34,8 @@ class MovieDb
 {
 	private $key = '';
 
+	private $lastStatus = null;
+
 	protected $errors = [];
 
 	public function __construct()
@@ -87,6 +89,7 @@ class MovieDb
 
 		Yii::trace("Execute request to {$url} with parameters...", 'application\sync');
 
+		$this->lastStatus = null;
 		$response = curl_exec($curl);
 		if ($response === false) {
 			Yii::error("Error while requesting {$path}");
@@ -98,6 +101,7 @@ class MovieDb
 		if ($status < 200 || $status >= 400) {
 			Yii::error("Error while requesting {$url}, code {$status}: " . $response);
 			$this->errors[] = "Error while requesting {$path}, code {$status}: " . $response;
+			$this->lastStatus = $status;
 			return false;
 		}
 
@@ -325,6 +329,9 @@ class MovieDb
 		if ($attributes == false) {
 			Yii::error("Could not get attributes from api for show #{$show->id}...", 'application\sync');
 
+			if ($this->lastStatus == 404)
+				$show->delete();
+
 			return false;
 		}
 
@@ -521,6 +528,9 @@ class MovieDb
 		if ($attributes == false) {
 			Yii::error("Could not get attributes from api for season #{$season->id}...", 'application\sync');
 
+			if ($this->lastStatus == 404)
+				$season->delete();
+
 			return false;
 		}
 
@@ -563,8 +573,14 @@ class MovieDb
 
 		$attributes = $this->getEpisode($episode);
 
-		if ($attributes == false)
+		if ($attributes == false) {
+			Yii::error("Could not get attributes from api for episode #{$episode->id}...", 'application\sync');
+
+			if ($this->lastStatus == 404)
+				$episode->delete();
+
 			return false;
+		}
 
 		$episode->attributes = (array) $attributes;
 		$episode->themoviedb_id = $attributes->id;
@@ -615,6 +631,9 @@ class MovieDb
 
 		if ($attributes == false) {
 			Yii::error("Could not get attributes from api for movie #{$movie->id}...", 'application\sync');
+
+			if ($this->lastStatus == 404)
+				$movie->delete();
 
 			return false;
 		}
