@@ -204,7 +204,9 @@ class MovieDb
 
 	public function getSeason($season)
 	{
-		return $this->get(sprintf('/tv/%s/season/%s', $season->show->themoviedb_id, $season->number), [
+		$number = isset($season->number) ? $season->number : 0;
+
+		return $this->get(sprintf('/tv/%s/season/%s', $season->show->themoviedb_id, $number), [
 			'language' => $season->show->language->iso,
 		]);
 	}
