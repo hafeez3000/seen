@@ -1259,16 +1259,26 @@ class MovieDb
 									$episode = new Episode;
 									$episode->number = $item->value->episode_number;
 									$episode->themoviedb_id = $item->value->episode_id;
-									$episode->save();
-									$episode->link('season', $season);
+
+									try {
+										$episode->save();
+										$episode->link('season', $season);
+									} catch (\Exception $e) {
+										Yii::warning($e->getMessage(), 'application\sync');
+									}
 								}
 								break;
 							case 'added':
 								foreach ($seasons as $season) {
 									$episode = new Episode;
 									$episode->number = $item->value->episode_number;
-									$episode->save();
-									$episode->link('season', $season);
+
+									try {
+										$episode->save();
+										$episode->link('season', $season);
+									} catch (\Exception $e) {
+										Yii::warning($e->getMessage(), 'application\sync');
+									}
 								}
 								break;
 							case 'deleted':
