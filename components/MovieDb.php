@@ -1256,20 +1256,23 @@ class MovieDb
 								break;
 							case 'created':
 								foreach ($seasons as $season) {
-									$episodeExists = Episode::find()
+									$episode = Episode::find()
 										->where([
-											'themoviedb_id' => $item->value->episode_id,
 											'number' => $item->value->episode_number,
+											'season_id' => $season->id,
 										])
-										->exists();
+										->one();
 
-									if (!$episodeExists) {
+									if ($episode === null) {
 										$episode = new Episode;
 										$episode->number = $item->value->episode_number;
 										$episode->themoviedb_id = $item->value->episode_id;
 
 										$episode->save();
 										$episode->link('season', $season);
+									} else if ($episode->themoviedb_id == 0) {
+										$episode->themoviedb_id = $item->value->episode_id;
+										$episode->save();
 									}
 								}
 								break;
