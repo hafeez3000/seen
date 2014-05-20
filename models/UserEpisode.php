@@ -15,7 +15,7 @@ use \app\components\TimestampBehavior;
  * @property string $created_at
  *
  * @property Episode $episode
- * @property User $user
+ * @property UserShowRun $run
  */
 class UserEpisode extends ActiveRecord
 {

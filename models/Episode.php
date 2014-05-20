@@ -23,8 +23,8 @@ use \app\components\TimestampBehavior;
  * @property string $updated_at
  * @property string $deleted_at
  *
- * @property Language $language
  * @property Season $season
+ * @property UserEpisode $userEpisode
  */
 class Episode extends ActiveRecord
 {
