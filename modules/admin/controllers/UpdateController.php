@@ -12,6 +12,7 @@ use \app\models\Movie;
 use \app\models\MovieSimilar;
 use \app\models\Language;
 use \app\models\Person;
+use \app\models\SyncStatus;
 use \app\components\MovieDb;
 use \app\components\LanguageHelper;
 
@@ -37,7 +38,26 @@ class UpdateController extends BaseController
 	public function actionIndex()
 	{
 		// Get cronjob list
-		$line = exec("crontab -l", $cronjobs, $status);
+		if (!defined('YII_ENV') || YII_ENV != 'dev') {
+			$line = exec("crontab -l", $cronjobs, $status);
+		} else {
+			$cronjobs = [
+				'MAILTO="thelfensdrfer@gmail.com"',
+				'',
+				'# m h  dom mon dow   command',
+				'# SEEN',
+				'0	0	*	*	*	/var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/shows"',
+				'0       1       *       *       *       /var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/seasons"',
+				'0       2       *       *       *       /var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/episodes"',
+				'0       3       *       *       *       /var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/movies"',
+				'0	4	*	*	*	/var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/movies-changes"',
+				'0	5	*	*	*	/var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/movies-similar"',
+				'0	6	*	*	*	/var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/popular-movies"',
+				'0       7       *       *       *       /var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/popular-shows"',
+				'0       8       *       *       *       /var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/persons"',
+				'0	9	*	*	*	/var/www/seenapp.com/yii-cron "php /var/www/seenapp.com/main/yii sync/tv-changes"',
+			];
+		}
 
 		// Filter yii/sync commands
 		$cronjobs = array_filter($cronjobs, function($cronjob) {
@@ -223,11 +243,23 @@ class UpdateController extends BaseController
 					->count();
 			}
 		} elseif (strpos($command, 'sync/tv-changes') !== false) {
-			$showChanges = $movieDb->getTvChanges();
+			$tvChanges = $movieDb->getTvChanges();
 
-			$updates = Show::find()
-				->where(['themoviedb_id' => $showChanges])
-				->count();
+			$syncStatus = SyncStatus::find()
+				->where([
+					'name' => 'tv_changes',
+					'updated' => date('Y-m-d'),
+				])
+				->one();
+
+			if ($syncStatus !== null)
+				$completedChanges = unserialize($syncStatus->value);
+			else
+				$completedChanges = [];
+
+			$updates = count(array_filter($tvChanges, function($tvChange) use($completedChanges) {
+				return !in_array($tvChange, $completedChanges);
+			}));
 		}
 
 		if ($updates !== null)
