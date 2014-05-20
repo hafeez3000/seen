@@ -1366,6 +1366,7 @@ class MovieDb
 					}
 					break;
 				case 'images':
+				case 'videos':
 					break;
 				default:
 					var_dump($id, $attribute);
