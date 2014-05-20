@@ -1255,7 +1255,6 @@ class MovieDb
 								$this->syncEpisodeChanges($item->value->episode_id);
 								break;
 							case 'created':
-							case 'added':
 								foreach ($seasons as $season) {
 									$episodeExists = Episode::find()
 										->where([
@@ -1268,6 +1267,24 @@ class MovieDb
 										$episode = new Episode;
 										$episode->number = $item->value->episode_number;
 										$episode->themoviedb_id = $item->value->episode_id;
+
+										$episode->save();
+										$episode->link('season', $season);
+									}
+								}
+								break;
+							case 'added':
+								foreach ($seasons as $season) {
+									$episodeExists = Episode::find()
+										->where([
+											'number' => $item->value->episode_number,
+											'season_id' => $season->id,
+										])
+										->exists();
+
+									if (!$episodeExists) {
+										$episode = new Episode;
+										$episode->number = $item->value->episode_number;
 
 										$episode->save();
 										$episode->link('season', $season);
