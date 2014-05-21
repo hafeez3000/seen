@@ -1091,6 +1091,7 @@ class MovieDb
 				case 'guest_stars':
 				case 'alternative_titles':
 				case 'general':
+				case 'episode_run_time':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
