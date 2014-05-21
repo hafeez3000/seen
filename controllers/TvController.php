@@ -209,7 +209,7 @@ class TvController extends Controller
 			return $this->redirect(['view', 'slug' => $show->slug]);
 		}
 
-		$userShow = $show->getUserShow()
+		$userShow = $show->getUserShows()
 			->where(['user_id' => Yii::$app->user->id])
 			->one();
 

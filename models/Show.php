@@ -277,7 +277,7 @@ class Show extends ActiveRecord
 			return false;
 
 		if (!isset($this->isUserSubscribedCache[Yii::$app->user->id])) {
-			$isSubscribed = $this->getUserShow()
+			$isSubscribed = $this->getUserShows()
 				->where(['user_id' => Yii::$app->user->id])
 				->andWhere(['deleted_at' => null])
 				->exists();
