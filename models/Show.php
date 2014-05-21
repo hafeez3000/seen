@@ -38,6 +38,7 @@ use \app\components\TimestampBehavior;
  * @property User[] $users
  * @property ShowCast[] $cast
  * @property ShowCrew[] $crew
+ * @property UserShow[] $userShows
  * @property Show $popularShows
  */
 class Show extends ActiveRecord
@@ -252,7 +253,7 @@ class Show extends ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getUserShow()
+	public function getUserShows()
 	{
 		return $this->hasMany(UserShow::className(), ['show_id' => 'id']);
 	}
@@ -352,6 +353,29 @@ class Show extends ActiveRecord
 				':show_id' => $this->id,
 				':user_id' => ($id === null) ? Yii::$app->user->id : $id,
 			]);
+	}
+
+	/**
+	 * Get all seen episodes for this show.
+	 *
+	 * @param integer $id User ID. If null, the current user is used
+	 *
+	 * @return UserEpisode[]
+	 */
+	public function getAllUserEpisodes($id = null)
+	{
+		return UserEpisode::find()
+			->select(UserEpisode::tableName() . '.*')
+			->distinct()
+			->from([
+				UserEpisode::tableName(),
+				UserShowRun::tableName(),
+			])
+			->where([
+				'{{%user_show_run}}.[[show_id]]' => $this->id,
+				'{{%user_show_run}}.[[user_id]]' => ($id === null) ? Yii::$app->user->id : $id,
+			])
+			->andWhere('{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]');
 	}
 
 	public function getLatestUserEpisodes()

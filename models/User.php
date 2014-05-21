@@ -301,6 +301,26 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
+	public function getArchivedShows()
+	{
+		return $this->hasMany(Show::className(), ['id' => 'show_id'])
+			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
+				$query->where(['{{%user_show}}.[[archived]]' => 1]);
+			});
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getAllShows()
+	{
+		return $this->hasMany(Show::className(), ['id' => 'show_id'])
+			->viaTable('{{%user_show}}', ['user_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getMovies()
 	{
 		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])
@@ -328,16 +348,5 @@ class User extends ActiveRecord implements IdentityInterface
 			->where(['{{%user_show_run}}.[[user_id]]' => $this->id])
 			->andWhere('{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]')
 			->andWhere('{{%episode}}.[[id]] = {{%user_episode}}.[[episode_id]]');
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getArchivedShows()
-	{
-		return $this->hasMany(Show::className(), ['id' => 'show_id'])
-			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
-				$query->where(['{{%user_show}}.[[archived]]' => 1]);
-			});
 	}
 }

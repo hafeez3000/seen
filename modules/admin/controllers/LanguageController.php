@@ -35,7 +35,7 @@ class LanguageController extends BaseController
 		$filterModel = new LanguageSearch;
 		$dataProvider = $filterModel->search($_GET);
 
-		return $this->render('admin', [
+		return $this->render('index', [
 			'dataProvider' => $dataProvider,
 			'filterModel' => $filterModel,
 		]);

@@ -6,6 +6,7 @@ use \yii\data\Pagination;
 
 use \app\modules\admin\controllers\BaseController;
 use \app\models\search\UserSearch;
+use \app\models\User;
 
 class UserController extends BaseController
 {
@@ -34,6 +35,25 @@ class UserController extends BaseController
 		return $this->render('index', [
 			'dataProvider' => $dataProvider,
 			'filterModel' => $filterModel,
+		]);
+	}
+
+	public function actionView($id)
+	{
+		$model = User::find()
+			->where(['id' => $id])
+			->with([
+				'language',
+				'allShows',
+			])
+			->one();
+		if ($model === null)
+			throw new \yii\web\NotFoundHttpException(Yii::t('The user #{id} could not be found!', [
+				'id' => $id,
+			]));
+
+		return $this->render('view', [
+			'model' => $model,
 		]);
 	}
 }

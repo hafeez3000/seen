@@ -37,6 +37,10 @@ $this->title[] = Yii::t('User', 'Users');
 				return $data->getEpisodes()->count();
 			}
 		],
+		[
+			'class' => 'yii\grid\ActionColumn',
+			'template' => '{view}',
+		],
 	],
 	'dataProvider' => $dataProvider,
 	'filterModel' => $filterModel,

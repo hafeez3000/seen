@@ -8,10 +8,10 @@ $this->title[] = Yii::t('Language', 'Languages');
 
 <h2><?php echo Yii::t('Language', 'Language {name}', [
 	'name' => !empty($model->en_name) ? $model->en_name : $model->iso,
-]); ?> <a class="btn btn-default" href="<?php echo Url::toRoute(['/language/update', 'id' => $model->id]); ?>"><span class="glyphicon glyphicon-pencil"></span></a></h2>
+]); ?> <a class="btn btn-default" href="<?php echo Url::toRoute(['update', 'id' => $model->id]); ?>"><span class="glyphicon glyphicon-pencil"></span></a></h2>
 
 <p>
-	<a class="btn btn-default" href="<?php echo Url::toRoute(['/language/admin']); ?>"><?php echo Yii::t('Language', 'All Languages'); ?></a>
+	<a class="btn btn-default" href="<?php echo Url::toRoute(['index']); ?>"><?php echo Yii::t('Language', 'All Languages'); ?></a>
 </p>
 
 <?php
