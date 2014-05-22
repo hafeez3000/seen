@@ -16,7 +16,6 @@ use \app\components\Email;
  * @property string $password
  * @property integer $language_id
  * @property string $timezone
- * @property integer $level
  * @property string $reset_key
  * @property string $validation_key
  * @property string $api_key
@@ -48,7 +47,7 @@ class User extends ActiveRecord implements IdentityInterface
 			[['email', 'password'], 'required'],
 			[['email'], 'email'],
 			[['email', 'name', 'timezone'], 'string', 'max' => 100],
-			[['language_id', 'level'], 'integer'],
+			[['language_id'], 'integer'],
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
 			[['api_key'], 'string', 'max' => 32],
 			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s']
@@ -67,7 +66,6 @@ class User extends ActiveRecord implements IdentityInterface
 			'password' => Yii::t('User', 'Password'),
 			'language_id' => Yii::t('User', 'Language'),
 			'timezone' => Yii::t('User', 'Timezone'),
-			'level' => Yii::t('User', 'Level'),
 			'reset_key' => Yii::t('User', 'Reset key'),
 			'validation_key' => Yii::t('User', 'Validation key'),
 			'created_at' => Yii::t('User', 'Created at'),
