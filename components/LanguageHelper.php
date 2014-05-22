@@ -13,11 +13,7 @@ class LanguageHelper
 		$date = new \DateTime;
 		$date->setTimezone(new \DateTimeZone('UTC'));
 		$date->setTimestamp($timestamp);
-
-		if (Yii::$app->user->isGuest)
-			$date->setTimezone(new \DateTimeZone('UTC'));
-		else
-			$date->setTimezone(new \DateTimeZone(Yii::$app->user->identity->timezone));
+		$date->setTimezone(new \DateTimeZone(Yii::$app->user->identity->timezone));
 
 		return $date->format($format);
 	}
