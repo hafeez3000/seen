@@ -855,20 +855,38 @@ class MovieDb
 						switch ($item->action) {
 							case 'created':
 								foreach ($shows as $show) {
-									$season = new Season;
-									$season->themoviedb_id = $item->value->season_id;
-									$season->number = $item->value->season_number;
-									$season->save();
-									$season->link('show', $show);
+									$season = Season::find()
+										->where([
+											'show_id' => $show->id,
+											'number' => $item->value->season_number,
+										])
+										->one();
+
+									if ($season === null) {
+										$season = new Season;
+										$season->themoviedb_id = $item->value->season_id;
+										$season->number = $item->value->season_number;
+										$season->save();
+										$season->link('show', $show);
+									}
 								}
 								break;
 							case 'added':
 								foreach ($shows as $show) {
-									$season = new Season;
-									$season->themoviedb_id = $item->value->season_id;
-									$season->number = $item->value->season_number;
-									$season->save();
-									$season->link('show', $show);
+									$season = Season::find()
+										->where([
+											'show_id' => $show->id,
+											'number' => $item->value->season_number,
+										])
+										->one();
+
+									if ($season === null) {
+										$season = new Season;
+										$season->themoviedb_id = $item->value->season_id;
+										$season->number = $item->value->season_number;
+										$season->save();
+										$season->link('show', $show);
+									}
 								}
 								break;
 							case 'updated':
