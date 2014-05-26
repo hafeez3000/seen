@@ -1458,6 +1458,12 @@ class MovieDb
 									}
 								}
 								break;
+							case 'deleted':
+								foreach ($episodes as $episode) {
+									$episode->still_path = null;
+									$episode->save();
+								}
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown episode images item action ' . $item->action);
