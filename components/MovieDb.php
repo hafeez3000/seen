@@ -1110,6 +1110,7 @@ class MovieDb
 				case 'alternative_titles':
 				case 'general':
 				case 'episode_run_time':
+				case 'production_companies':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
