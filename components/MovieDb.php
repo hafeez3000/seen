@@ -1441,6 +1441,7 @@ class MovieDb
 				case 'guest_stars':
 				case 'crew':
 				case 'imdb_id':
+				case 'tvdb_id':
 				case 'general':
 					break;
 				case 'images':
