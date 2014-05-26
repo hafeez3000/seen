@@ -1107,6 +1107,7 @@ class MovieDb
 				case 'fanhattan_id':
 				case 'tvrage_id':
 				case 'imdb_id':
+				case 'tvdb_id':
 				case 'guest_stars':
 				case 'alternative_titles':
 				case 'general':
