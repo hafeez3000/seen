@@ -14,6 +14,16 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 ?>
 
 <div id="movie-view">
+    <?php if ($movieNative !== null): ?>
+        <div class="alert alert-info">
+            <?php echo Yii::t('Movie', 'The Movie is also available in <a href="{url}" title="{title}">{language}</a>', [
+                'url' => Url::toRoute(['view', 'slug' => $movieNative->slug]),
+                'title' => $movieNative->title,
+                'language' => $movieNative->language->name,
+            ]); ?>
+        </div>
+    <?php endif; ?>
+
     <div class="row" id="movie-view-header">
         <div class="col-sm-4 col-lg-6">
             <h1><?php echo Html::encode($movie->title); ?></h1>

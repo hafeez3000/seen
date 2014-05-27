@@ -118,6 +118,7 @@ class MovieController extends Controller
 		$movie = Movie::find()
 			->where(['slug' => $slug])
 			->with([
+				'language',
 				'crew',
 				'crew.person',
 				'cast',
@@ -134,9 +135,40 @@ class MovieController extends Controller
 			->andWhere(['movie_id' => $movie->id])
 			->all();
 
+		if ($movie->language->iso != Yii::$app->language) {
+			$movieNative = Movie::find()
+				->select('{{%movie}}.*')
+				->distinct()
+				->from([
+					'{{%movie}}',
+					'{{%language}}',
+				])
+				->where([
+					'themoviedb_id' => $movie->themoviedb_id,
+				])
+				->andWhere('{{%movie}}.[[language_id]] = {{%language}}.[[id]]')
+				->andWhere('{{%language}}.[[iso]] = :language')
+				->with([
+					'language',
+					'crew',
+					'crew.person',
+					'cast',
+					'cast.person',
+					'similarMovies',
+					'similarMovies.userWatches',
+				])
+				->params([
+					':language' => Yii::$app->language,
+				])
+				->one();
+		} else {
+			$movieNative = null;
+		}
+
 		return $this->render('view', [
 			'movie' => $movie,
 			'userMovies' => $userMovies,
+			'movieNative' => $movieNative,
 		]);
 	}
 
