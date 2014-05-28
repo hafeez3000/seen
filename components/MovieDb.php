@@ -951,15 +951,42 @@ class MovieDb
 									$person->id = $item->value->person_id;
 									$person->save();
 
-									foreach ($shows as $show)
-										$show->link('crew', $person);
+									foreach ($shows as $show) {
+										$crew = ShowCrew::find()
+											->where([
+												'show_id' => $show->id,
+												'person_id' => $person->id,
+											])
+											->one();
+
+										if ($crew === null) {
+											$crew = new ShowCrew;
+											$crew->show_id = $show->id;
+											$crew->person_id = $person->id;
+											$crew->save();
+										}
+									}
 
 									break;
 								}
 
-								foreach ($shows as $show)
-									if (!ShowCrew::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists())
-										$show->link('crew', $person);
+								foreach ($shows as $show) {
+									if (!ShowCrew::find()->where(['person_id' => $person->id, 'show_id' => $show->id])->exists()) {
+										$crew = ShowCrew::find()
+											->where([
+												'show_id' => $show->id,
+												'person_id' => $person->id,
+											])
+											->one();
+
+										if ($crew === null) {
+											$crew = new ShowCrew;
+											$crew->show_id = $show->id;
+											$crew->person_id = $person->id;
+											$crew->save();
+										}
+									}
+								}
 
 								break;
 							case 'updated':
