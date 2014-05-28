@@ -303,6 +303,7 @@ class Movie extends ActiveRecord
 			->from([
 				'{{%movie}}',
 				'{{%user_movie}}',
+                '{{%user_movie_watchlist}}',
 				'{{%movie_similar}}',
 				'{{%language}}',
 			])
@@ -312,6 +313,11 @@ class Movie extends ActiveRecord
 				FROM {{%user_movie}} AS {{user_movie}}
 				WHERE {{user_movie}}.[[user_id]] = :user_id
 			)')
+            ->andWhere('{{%movie}}.[[id]] NOT IN (
+                SELECT {{user_movie_watchlist}}.[[movie_id]]
+                FROM {{%user_movie_watchlist}} AS {{user_movie_watchlist}}
+                WHERE {{user_movie_watchlist}}.[[user_id]] = :user_id
+            )')
 			->andWhere('{{%movie_similar}}.[[movie_id]] = {{%user_movie}}.[[movie_id]]')
 			->andWhere('{{%movie}}.[[id]] = {{%movie_similar}}.[[similar_to_movie_id]]')
 			->andWhere('{{%movie}}.[[release_date]] <= NOW()')
