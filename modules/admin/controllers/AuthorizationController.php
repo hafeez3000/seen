@@ -14,10 +14,10 @@ class AuthorizationController extends BaseController
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'view', 'load', 'add'],
+				'only' => ['index', 'view', 'load', 'add', 'remove'],
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'load', 'add'],
+						'actions' => ['index', 'view', 'load', 'add', 'remove'],
 						'allow' => true,
 						'roles' => ['admin'],
 					],
