@@ -124,20 +124,52 @@ class TvController extends Controller
 			->where(['slug' => $slug])
 			->with([
 				'seasons',
+				'seasons.episodes',
 				'creators',
 				'cast',
 				'cast.person',
 				'crew',
 				'crew.person',
 				'language',
-				'seasons.episodes',
 			])
 			->one();
 		if ($show === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 
+		if ($show->language->iso != Yii::$app->language) {
+			$showNative = Show::find()
+				->select('{{%show}}.*')
+				->distinct()
+				->from([
+					'{{%show}}',
+					'{{%language}}',
+				])
+				->where([
+					'themoviedb_id' => $show->themoviedb_id,
+				])
+				->andWhere('{{%show}}.[[language_id]] = {{%language}}.[[id]]')
+				->andWhere('{{%language}}.[[iso]] = :language')
+				->with([
+					'seasons',
+					'seasons.episodes',
+					'creators',
+					'cast',
+					'cast.person',
+					'crew',
+					'crew.person',
+					'language',
+				])
+				->params([
+					':language' => Yii::$app->language,
+				])
+				->one();
+		} else {
+			$showNative = null;
+		}
+
 		return $this->render('view', [
 			'show' => $show,
+			'showNative' => $showNative,
 		]);
 	}
 

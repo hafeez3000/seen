@@ -14,6 +14,16 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 ?>
 
 <div id="tv-view" data-subscribed="<?php echo $show->isUserSubscribed ? 1 : 0; ?>">
+    <?php if ($showNative !== null): ?>
+        <div class="alert alert-info">
+            <?php echo Yii::t('Movie', 'The Show is also available in <a href="{url}" title="{title}">{language}</a>', [
+                'url' => Url::toRoute(['view', 'slug' => $showNative->slug]),
+                'title' => $showNative->name,
+                'language' => $showNative->language->name,
+            ]); ?>
+        </div>
+    <?php endif; ?>
+
 	<div class="row" id="tv-view-header">
         <div class="col-sm-6 col-md-8">
 			<h1>
