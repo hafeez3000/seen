@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e7565e51821ddf1d022a7f5a9231bbbb",
+    "hash": "47ce793e11c265542fbe7ca5da9522de",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -429,12 +429,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widgets.git",
-                "reference": "acabb121200cc370d4e74e3867434f2aaa52ad1e"
+                "reference": "51d89c15903245af7b85e7a2f9a93daad206ff50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widgets/zipball/acabb121200cc370d4e74e3867434f2aaa52ad1e",
-                "reference": "acabb121200cc370d4e74e3867434f2aaa52ad1e",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widgets/zipball/51d89c15903245af7b85e7a2f9a93daad206ff50",
+                "reference": "51d89c15903245af7b85e7a2f9a93daad206ff50",
                 "shasum": ""
             },
             "require": {
@@ -469,7 +469,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-05-28 06:02:58"
+            "time": "2014-05-28 10:18:39"
         },
         {
             "name": "mailchimp/mailchimp",
@@ -556,47 +556,6 @@
                 "email"
             ],
             "time": "2014-02-07 21:15:24"
-        },
-        {
-            "name": "mdmsoft/yii2-admin",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mdmsoft/yii2-admin.git",
-                "reference": "bac22f6186083d05455ce0003855f2b8c706099b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mdmsoft/yii2-admin/zipball/bac22f6186083d05455ce0003855f2b8c706099b",
-                "reference": "bac22f6186083d05455ce0003855f2b8c706099b",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "mdm\\admin\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Misbahul Munir",
-                    "email": "misbahuldmunir@gmail.com"
-                }
-            ],
-            "description": "Auth manager for Yii2 ",
-            "keywords": [
-                "admin",
-                "auth",
-                "yii"
-            ],
-            "time": "2014-05-27 07:56:21"
         },
         {
             "name": "nesbot/carbon",
@@ -747,12 +706,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "e74ec23583ac3647fe2b7dbb52521be4283767a5"
+                "reference": "431229e41820d619aa1e55f9127441d4ee0672d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/e74ec23583ac3647fe2b7dbb52521be4283767a5",
-                "reference": "e74ec23583ac3647fe2b7dbb52521be4283767a5",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/431229e41820d619aa1e55f9127441d4ee0672d8",
+                "reference": "431229e41820d619aa1e55f9127441d4ee0672d8",
                 "shasum": ""
             },
             "require": {
@@ -817,7 +776,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-05-28 06:34:05"
+            "time": "2014-05-28 10:09:38"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -907,6 +866,49 @@
                 "yii2"
             ],
             "time": "2014-05-23 14:58:21"
+        },
+        {
+            "name": "yiisoft/yii2-jui",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-jui.git",
+                "reference": "44f7cd8e59a8616b29cd434e28ab852b4036057a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-jui/zipball/44f7cd8e59a8616b29cd434e28ab852b4036057a",
+                "reference": "44f7cd8e59a8616b29cd434e28ab852b4036057a",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii\\jui\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Qiang Xue",
+                    "email": "qiang.xue@gmail.com",
+                    "homepage": "http://www.yiiframework.com/",
+                    "role": "Founder and project lead"
+                }
+            ],
+            "description": "The Jquery UI extension for the Yii framework",
+            "keywords": [
+                "jQuery UI",
+                "renderer",
+                "yii2"
+            ],
+            "time": "2014-05-04 15:11:10"
         },
         {
             "name": "zelenin/yii2-slug-behavior",
@@ -1674,12 +1676,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "93f8f3271fc20f2e09e79c80ffdc371114ad4f29"
+                "reference": "fd991850387b36a3c3f2c4860f0a3f86f4e33b52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/93f8f3271fc20f2e09e79c80ffdc371114ad4f29",
-                "reference": "93f8f3271fc20f2e09e79c80ffdc371114ad4f29",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd991850387b36a3c3f2c4860f0a3f86f4e33b52",
+                "reference": "fd991850387b36a3c3f2c4860f0a3f86f4e33b52",
                 "shasum": ""
             },
             "require": {
@@ -1734,7 +1736,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-05-24 17:56:29"
+            "time": "2014-05-28 08:49:30"
         },
         {
             "name": "myclabs/deep-copy",

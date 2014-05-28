@@ -15,7 +15,8 @@
 		"mailchimp/mailchimp": "2.0.*",
 		"mandrill/mandrill": "1.0.*",
 		"bugsnag/bugsnag": "2.*",
-		"kartik-v/yii2-grid": "dev-master"
+		"kartik-v/yii2-grid": "dev-master",
+		"yiisoft/yii2-jui": "*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",

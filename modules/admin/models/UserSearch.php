@@ -1,4 +1,4 @@
-<?php namespace app\models\search;
+<?php namespace app\modules\admin\models;
 
 use \Yii;
 use \yii\base\Model;

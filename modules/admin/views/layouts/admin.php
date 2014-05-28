@@ -78,6 +78,12 @@ AppAsset::register($this);
                             'visible' => Yii::$app->user->can('viewUpdates'),
                             'active' => Yii::$app->controller->id == 'update',
                         ],
+                        [
+                            'label' => Yii::t('Site/Navigation', 'Authorization'),
+                            'url' => ['authorization/index'],
+                            'visible' => Yii::$app->user->can('admin'),
+                            'active' => Yii::$app->controller->id == 'authorization',
+                        ],
 					],
 				]);
 

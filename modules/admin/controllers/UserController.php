@@ -5,7 +5,7 @@ use \yii\filters\AccessControl;
 use \yii\data\Pagination;
 
 use \app\modules\admin\controllers\BaseController;
-use \app\models\search\UserSearch;
+use \app\modules\admin\models\UserSearch;
 use \app\models\User;
 
 class UserController extends BaseController

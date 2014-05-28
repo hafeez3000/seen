@@ -6,7 +6,7 @@ use \yii\data\Pagination;
 
 use \app\modules\admin\controllers\BaseController;
 use \app\models\Language;
-use \app\models\search\LanguageSearch;
+use \app\modules\admin\models\LanguageSearch;
 
 class LanguageController extends BaseController
 {
