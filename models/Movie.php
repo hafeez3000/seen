@@ -303,7 +303,6 @@ class Movie extends ActiveRecord
 			->from([
 				'{{%movie}}',
 				'{{%user_movie}}',
-                '{{%user_movie_watchlist}}',
 				'{{%movie_similar}}',
 				'{{%language}}',
 			])
