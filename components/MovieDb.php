@@ -1379,15 +1379,13 @@ class MovieDb
 					foreach ($attribute->items as $item) {
 						switch ($item->action) {
 							case 'added':
-								$season = new Season;
-								$season->themoviedb_id = $id;
-								$season->number = $item->value;
-								if (isset($seasons[0]->show->id))
-									$season->show_id = $seasons[0]->show->id;
+								foreach ($seasons as $season) {
+									if ($season->number != $item->value) {
+										$season->number = $item->value;
+										$season->save();
+									}
+								}
 
-								$season->save();
-
-								$seasons[] = $season;
 								break;
 							default:
 								var_dump('season', $id, $attribute);
