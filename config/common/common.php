@@ -100,6 +100,10 @@ $config['components']['authManager'] = [
 	'class' => 'yii\rbac\DbManager',
 ];
 
+$config['components']['cache'] = [
+	'class' => 'yii\caching\DummyCache',
+];
+
 $config['modules']['admin'] = [
 	'class' => 'app\modules\admin\Module',
 ];
