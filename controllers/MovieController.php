@@ -108,7 +108,7 @@ class MovieController extends Controller
 				'movies' => $movies,
 				'pages' => $pages,
 				'recommendMovies' => Movie::getRecommend()->limit(20)->all(),
-				'watchlistMovies' => Movie::getWatchlist()->limit(20)->all(),
+				'watchlistMovies' => Movie::getWatchlist()->all(),
 			]);
 		}
 	}
