@@ -4,6 +4,7 @@ use \Yii;
 use \yii\filters\AccessControl;
 use \yii\web\Controller;
 use \yii\filters\VerbFilter;
+use \yii\helpers\Url;
 
 use \app\models\User;
 use \app\models\Language;
@@ -110,7 +111,11 @@ class SiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post()) && $model->register()) {
 			Yii::$app->session->setFlash('goal', 1);
-			Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN!'));
+			Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN! <a href="{url-account}">Update your timezone</a> or add <a href="{url-movies}">movies</a> or <a href="{url-tv}">tv shows</a>', [
+				'url-account' => Url::toRoute(['/user/account']),
+				'url-movies' => Url::toRoute(['/movies']),
+				'url-tv' => Url::toRoute(['/tv']),
+			]));
 			return $this->redirect(['tv/index']);
 		} else
 			return $this->render('sign-up', [

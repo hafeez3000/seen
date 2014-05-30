@@ -64,7 +64,7 @@ use \app\components\LanguageHelper;
 	<?php else: ?>
 		<div class="alert alert-info">
 			<?php if (!$archive): ?>
-				<?php echo Yii::t('Show/Dashboard', 'You are not subscribe to a TV Show! Start with searching for your favorite ones'); ?>
+				<?php echo Yii::t('Show/Dashboard', 'You are not subscribe to a TV Show! Start with searching for your favorites.'); ?>
 			<?php else: ?>
 				<?php echo Yii::t('Show/Dashboard', 'Your archive is empty! Add TV Shows which are not in production anymore or you are currently not watching.'); ?>
 			<?php endif; ?>
