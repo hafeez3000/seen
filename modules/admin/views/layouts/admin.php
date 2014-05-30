@@ -84,6 +84,12 @@ AppAsset::register($this);
                             'visible' => Yii::$app->user->can('admin'),
                             'active' => Yii::$app->controller->id == 'authorization',
                         ],
+                        [
+                            'label' => Yii::t('Site/Navigation', 'Statistics'),
+                            'url' => ['statistic/index'],
+                            'visible' => Yii::$app->user->can('admin'),
+                            'active' => Yii::$app->controller->id == 'statistic',
+                        ],
 					],
 				]);
 

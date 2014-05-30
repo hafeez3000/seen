@@ -9,6 +9,8 @@ class Module extends BaseModule
 	{
 		Yii::$app->errorHandler->errorAction = '/admin/site/error';
 
+		Yii::setAlias('@module', dirname(__FILE__));
+
 		return parent::init();
 	}
 }

@@ -22,7 +22,11 @@ module.exports = function(grunt) {
 				},
 				files: {
 					"web/js/app.min.js": jsFiles,
-					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js"
+					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js",
+					"modules/admin/js/app.min.js": [
+						"web/components/highcharts/highcharts.js",
+						"modules/admin/js/include/app.js"
+					]
 				}
 			},
 			production: {
@@ -33,7 +37,11 @@ module.exports = function(grunt) {
 				},
 				files: {
 					"web/js/app.min.js": jsFiles,
-					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js"
+					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js",
+					"modules/admin/js/app.min.js": [
+						"web/components/highcharts/highcharts-all.js",
+						"modules/admin/js/include/app.js"
+					]
 				}
 			}
 		},
@@ -84,6 +92,7 @@ module.exports = function(grunt) {
 			js: {
 				files: [
 					"web/js/include/**/*.js",
+					"modules/admin/js/include/**/*.js",
 					"web/components/**/*.js"
 				],
 				tasks: [

@@ -51,4 +51,11 @@ $this->title[] = Yii::t('Admin', 'Admin Dashboard');
 			</a>
 		</div>
 	<?php endif; ?>
+	<?php if (Yii::$app->user->can('admin')): ?>
+		<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+			<a href="<?php echo Url::toRoute('statistic/index'); ?>" title="<?php echo Yii::t('Admin', 'Statistic'); ?>">
+				<img src="<?php echo Yii::$app->request->baseUrl ?>/images/admin/stats.png" alt="<?php echo Yii::t('Admin', 'Statistic'); ?>">
+			</a>
+		</div>
+	<?php endif; ?>
 </div>
