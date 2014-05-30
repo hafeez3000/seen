@@ -99,12 +99,12 @@ AppAsset::register($this);
                         ['label' => Yii::t('Site/Navigation', 'Frontpage'), 'url' => Yii::$app->homeUrl],
 						['label' => Yii::$app->user->identity->email,
 							'active' => Yii::$app->controller->id == 'user',
-							'items' => [
-								['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
-								['label' => Yii::t('Site/Navigation', 'Import'), 'url' => ['user/import']],
-								['label' => '', 'options' => ['class' => 'divider']],
-								['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['site/logout']],
-							]
+                            'items' => [
+                                ['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['//user/account']],
+                                ['label' => Yii::t('Site/Navigation', 'Import'), 'url' => ['//user/import']],
+                                ['label' => '', 'options' => ['class' => 'divider']],
+                                ['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['//site/logout']],
+                            ]
 						],
 					],
 				]);
