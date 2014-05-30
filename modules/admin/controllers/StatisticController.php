@@ -136,7 +136,7 @@ class StatisticController extends BaseController
 				foreach ($dates as $key => $data) {
 					foreach ($data as $dataPoint) {
 						if ($dataPoint['x'] == $timestamp)
-							continue;
+							continue 2;
 					}
 
 					$dates[$key][] = [
@@ -218,7 +218,7 @@ class StatisticController extends BaseController
 			foreach ($timestamps as $timestamp) {
 				foreach ($data as $dataPoint) {
 					if ($dataPoint['x'] == $timestamp)
-						continue;
+						continue 2;
 				}
 
 				$data[] = [
