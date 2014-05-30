@@ -10,10 +10,10 @@ class StatisticController extends BaseController
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'loadUserActionTimeline'],
+				'only' => ['index', 'loadUserActionTimeline', 'loadApiCallTimeline'],
 				'rules' => [
 					[
-						'actions' => ['index', 'loadUserActionTimeline'],
+						'actions' => ['index', 'loadUserActionTimeline', 'loadApiCallTimeline'],
 						'allow' => true,
 						'roles' => ['admin'],
 					],
@@ -175,6 +175,73 @@ class StatisticController extends BaseController
 			[
 				'name' => Yii::t('Statistic', 'Watched Episodes'),
 				'data' => $dates['episodesWatched'],
+			],
+		];
+	}
+
+	public function actionLoadApiCallTimeline()
+	{
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$cacheId = 'statistic-api-call-timeline';
+
+		$dates = Yii::$app->cache->get($cacheId);
+
+		if ($dates === false) {
+			$timestamps = [];
+			for ($i = 0; $i < 30; $i++) {
+				$timestamps[] = mktime(0, 0, 0, date('n'), date('j') - $i, date('Y')) * 1000;
+			}
+
+			$apiCalls = Yii::$app->db->createCommand('
+				SELECT
+					DATE({{%themoviedb_rate}}.[[created_at]]) AS [[x]],
+					COUNT(*) AS [[y]]
+				FROM
+					{{%themoviedb_rate}}
+				WHERE
+					{{%themoviedb_rate}}.[[created_at]] > :time
+				GROUP BY
+					DATE({{%themoviedb_rate}}.[[created_at]])
+				ORDER BY
+					{{%themoviedb_rate}}.[[created_at]] ASC
+			', [
+				':time' => date('Y-m-d H:i:s', (time() - 3600 * 24 * 30))
+			])->queryAll();
+
+			$data = array_map(function($calls) {
+				return [
+					'x' => strtotime($calls['x']) * 1000,
+					'y' => intval($calls['y']),
+				];
+			}, $apiCalls);
+
+			foreach ($timestamps as $timestamp) {
+				foreach ($data as $dataPoint) {
+					if ($dataPoint['x'] == $timestamp)
+						continue;
+				}
+
+				$data[] = [
+					'x' => $timestamp,
+					'y' => 0,
+				];
+			}
+
+			usort($data, function($a, $b) {
+				if ($a['x'] == $b['x']) {
+					return 0;
+				}
+
+				return ($a['x'] < $b['x']) ? -1 : 1;
+			});
+
+			Yii::$app->cache->set($cacheId, $dates, 3600);
+		}
+
+		return [
+			[
+				'name' => Yii::t('Statistic', 'API calls'),
+				'data' => $data,
 			],
 		];
 	}

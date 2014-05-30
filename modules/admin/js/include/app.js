@@ -94,6 +94,7 @@ $(function() {
 	console.log("Init admin module...");
 
 	var $userActionTimeline = $("#chart-user-action-timeline");
+	var $apiCallTimeline = $("#chart-api-call-timeline");
 
 	if ($userActionTimeline.length) {
 		$.getJSON($userActionTimeline.data("url"), function(data) {
@@ -104,6 +105,28 @@ $(function() {
 				},
 				legend: {
 					enabled: true
+				},
+				series: data,
+				xAxis: {
+					type: "datetime",
+					minRange: 7 * 24 * 3600000
+				},
+				yAxis: {
+					title: {
+						text: null
+					},
+					min: 0
+				}
+			}));
+		});
+	}
+
+	if ($apiCallTimeline.length) {
+		$.getJSON($apiCallTimeline.data("url"), function(data) {
+			$apiCallTimeline.highcharts($.extend(true, {}, highchartsOptions, {
+				chart: {
+					type: "line",
+					zoomType: "x"
 				},
 				series: data,
 				xAxis: {
