@@ -8,6 +8,7 @@ use \yii\helpers\Url;
 
 use \app\models\User;
 use \app\models\Language;
+use \app\models\Show;
 use \app\models\forms\LoginForm;
 use \app\models\forms\SignupForm;
 use \app\models\forms\ContactForm;
@@ -53,20 +54,38 @@ class SiteController extends Controller
 
 	public function randomImage()
 	{
+		$popularShows = Show::find()
+			->select('{{%show}}.[[id]]')
+			->from([
+				'{{%show}}',
+				'{{%language}}',
+			])
+			->where('{{%language}}.id = {{%show}}.[[language_id]]')
+			->andWhere('{{%language}}.[[iso]] = :language')
+			->andWhere('{{%show}}.[[backdrop_path]] != ""')
+			->params([
+					':language' => Yii::$app->language,
+			])
+			->orderBy(['{{%show}}.[[popularity]]' => SORT_DESC])
+			->limit(100)
+			->asArray()
+			->all();
+
+		shuffle($popularShows);
+
 		$data = Yii::$app->db
 			->createCommand('
 				SELECT
-					{{%show}}.*
+					{{%show}}.[[backdrop_path]],
+					{{%show}}.[[slug]],
+					{{%show}}.[[name]]
 				FROM
-					{{%show}},
-					{{%language}}
+					{{%show}}
 				WHERE
-					{{%language}}.id = {{%show}}.[[language_id]] AND
-				 	{{%language}}.[[iso]] = :language
-				 ORDER BY
-				 	RAND()
-				 LIMIT 1')
-			->bindValue(':language', Yii::$app->language)
+					{{%show}}.[[id]] = :show
+				LIMIT 1', [
+				':show' => array_shift($popularShows)['id'],
+			])
 			->queryOne();
 
 		if (isset($data['backdrop_path']))
