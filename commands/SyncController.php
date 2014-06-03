@@ -275,6 +275,27 @@ class SyncController extends Controller
 
 		$movieChanges = $movieDb->getMovieChanges();
 
+		if ($this->debug) {
+			$changesCount = count($movieChanges);
+			$i = 1;
+		}
+
+		$syncStatus = SyncStatus::find()
+			->where([
+				'name' => 'movie_changes',
+				'updated' => date('Y-m-d'),
+			])
+			->one();
+
+		if ($syncStatus !== null) {
+			$completedChanges = unserialize($syncStatus->value);
+		} else {
+			$completedChanges = [];
+			$syncStatus = new SyncStatus;
+			$syncStatus->name = 'movie_changes';
+			$syncStatus->updated = date('Y-m-d');
+		}
+
 		$movies = Movie::find()
 			->where(['themoviedb_id' => $movieChanges]);
 
@@ -291,7 +312,14 @@ class SyncController extends Controller
 				$i++;
 			}
 
+			if (in_array($movie->id, $completedChanges))
+				continue;
+
 			$movieDb->syncMovie($movie);
+
+			$completedChanges[] = $movie->id;
+			$syncStatus->value = serialize($completedChanges);
+			$syncStatus->save();
 		}
 
 		return 0;

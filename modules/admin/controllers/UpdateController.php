@@ -175,9 +175,21 @@ class UpdateController extends BaseController
 		} elseif (strpos($command, 'sync/movies-changes') !== false) {
 			$movieChanges = $movieDb->getMovieChanges();
 
-			$updates = Movie::find()
-				->where(['themoviedb_id' => $movieChanges])
-				->count();
+			$syncStatus = SyncStatus::find()
+				->where([
+					'name' => 'movie_changes',
+					'updated' => date('Y-m-d'),
+				])
+				->one();
+
+			if ($syncStatus !== null)
+				$completedChanges = unserialize($syncStatus->value);
+			else
+				$completedChanges = [];
+
+			$updates = count(array_filter($movieChanges, function($movieId) use($completedChanges) {
+				return !in_array($movieId, $completedChanges);
+			}));
 		} elseif (strpos($command, 'sync/movies-similar') !== false) {
 			$updates = MovieSimilar::find()
 				->where(['similar_to_movie_id' => null])
