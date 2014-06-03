@@ -128,10 +128,6 @@ if (!YII_ENV_TEST) {
 					'application\mail',
 				],
 			],
-			'bugsnag' => [ // Log errors to bugsnag
-				'class' => 'app\components\BugsnagLogger',
-				'levels' => ['error', 'warning'],
-			]
 		],
 	];
 }

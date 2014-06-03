@@ -6,7 +6,6 @@ if ($baseUrl == '/')
 
 $config['bootstrap'][] = 'app\components\bootstrap\MaintenanceBootstrap';
 $config['bootstrap'][] = 'log';
-$config['bootstrap'][] = 'app\components\bootstrap\BugsnagBootstrap';
 $config['bootstrap'][] = 'app\components\bootstrap\EventBootstrap';
 $config['bootstrap'][] = 'app\components\bootstrap\LanguageBootstrap';
 
