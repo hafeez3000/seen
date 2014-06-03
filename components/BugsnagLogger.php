@@ -8,9 +8,6 @@ class BugsnagLogger extends Target
 {
 	public function export()
 	{
-		if (defined('YII_ENV_TEST'))
-			return false;
-
 		$bugsnag = Yii::$app->bugsnag;
 
 		$bugsnag->setBatchSending(true);
