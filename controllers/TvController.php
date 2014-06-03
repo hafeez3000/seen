@@ -42,7 +42,13 @@ class TvController extends Controller
 		if (Yii::$app->user->isGuest) {
 			$language = Language::find()
 				->where(['iso' => Yii::$app->language])
+				->orWhere(['iso' => Yii::$app->params['lang']['default']])
 				->one();
+
+			if ($language === null)
+				$language = Language::find()
+
+					->one();
 
 			$shows = Show::popular($language->id)
 				->all();

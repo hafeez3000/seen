@@ -16,7 +16,8 @@
 		"mandrill/mandrill": "1.0.*",
 		"bugsnag/bugsnag": "2.*",
 		"kartik-v/yii2-grid": "dev-master",
-		"yiisoft/yii2-jui": "*"
+		"yiisoft/yii2-jui": "*",
+		"gabrielbull/browser": "3.0.1"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",

@@ -45,6 +45,7 @@ class MovieController extends Controller
 		if (Yii::$app->user->isGuest) {
 			$language = Language::find()
 				->where(['iso' => Yii::$app->language])
+				->orWhere(['iso' => Yii::$app->params['lang']['default']])
 				->one();
 
 			$movies = Movie::findBySql('
