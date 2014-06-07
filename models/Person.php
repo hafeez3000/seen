@@ -171,6 +171,11 @@ class Person extends \yii\db\ActiveRecord
 			->where(['iso' => Yii::$app->language])
 			->one();
 
+		if ($language === null)
+			$language = Language::find()
+				->where(['iso' => Yii::$app->params['lang']['default']])
+				->one();
+
 		return Movie::findBySql('
 			SELECT DISTINCT
 				{{%movie}}.*
