@@ -10,10 +10,10 @@ class StatisticController extends BaseController
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index', 'loadUserActionTimeline', 'loadApiCallTimeline'],
+				'only' => ['index', 'loadUserActionTimeline', 'loadApiCallTimeline', 'loadPopularTv', 'loadPopularMovie'],
 				'rules' => [
 					[
-						'actions' => ['index', 'loadUserActionTimeline', 'loadApiCallTimeline'],
+						'actions' => ['index', 'loadUserActionTimeline', 'loadApiCallTimeline', 'loadPopularTv', 'loadPopularMovie'],
 						'allow' => true,
 						'roles' => ['admin'],
 					],
@@ -244,5 +244,87 @@ class StatisticController extends BaseController
 				'data' => $data,
 			],
 		];
+	}
+
+	public function actionLoadPopularTv()
+	{
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+		$cacheId = 'statistic-popular-tv';
+		$tvshows = Yii::$app->cache->get($cacheId);
+
+		if ($tvshows === false) {
+			$tvshows = Yii::$app->db->createCommand('
+				SELECT
+					{{%show}}.[[original_name]] as [[name]],
+					COUNT({{%show}}.[[id]]) as [[y]]
+				FROM
+					{{%show}},
+					{{%user_show}}
+				WHERE
+					{{%show}}.[[id]] = {{%user_show}}.[[show_id]]
+				GROUP BY
+					{{%show}}.[[themoviedb_id]]
+				ORDER BY
+					[[y]] DESC
+				LIMIT
+					20
+			')->queryAll();
+
+			$tvshows = array_map(function($show) {
+				return [
+					'name' => $show['name'],
+					'y' => intval($show['y']),
+				];
+			}, $tvshows);
+
+			Yii::$app->cache->set($cacheId, $tvshows, 3600);
+		}
+
+		return [[
+			'name' => Yii::t('Statistic', 'Number of subscribers'),
+			'data' => $tvshows,
+		]];
+	}
+
+	public function actionLoadPopularMovie()
+	{
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+		$cacheId = 'statistic-popular-movie';
+		$movies = Yii::$app->cache->get($cacheId);
+
+		if ($movies === false) {
+			$movies = Yii::$app->db->createCommand('
+				SELECT
+					{{%movie}}.[[original_title]] as [[name]],
+					COUNT({{%movie}}.[[id]]) as [[y]]
+				FROM
+					{{%movie}},
+					{{%user_movie}}
+				WHERE
+					{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
+				GROUP BY
+					{{%movie}}.[[themoviedb_id]]
+				ORDER BY
+					[[y]] DESC
+				LIMIT
+					20
+			')->queryAll();
+
+			$movies = array_map(function($movie) {
+				return [
+					'name' => $movie['name'],
+					'y' => intval($movie['y']),
+				];
+			}, $movies);
+
+			Yii::$app->cache->set($cacheId, $movies, 3600);
+		}
+
+		return [[
+			'name' => Yii::t('Statistic', 'Number of watches'),
+			'data' => $movies,
+		]];
 	}
 }

@@ -95,6 +95,8 @@ $(function() {
 
 	var $userActionTimeline = $("#chart-user-action-timeline");
 	var $apiCallTimeline = $("#chart-api-call-timeline");
+	var $popularTvBar = $("#chart-popular-tv");
+	var $popularMovieBar = $("#chart-popular-movie");
 
 	if ($userActionTimeline.length) {
 		$.getJSON($userActionTimeline.data("url"), function(data) {
@@ -134,6 +136,54 @@ $(function() {
 					minRange: 7 * 24 * 3600000
 				},
 				yAxis: {
+					title: {
+						text: null
+					},
+					min: 0
+				}
+			}));
+		});
+	}
+
+	if ($popularTvBar.length) {
+		$.getJSON($popularTvBar.data("url"), function(data) {
+			$popularTvBar.highcharts($.extend(true, {}, highchartsOptions, {
+				chart: {
+					type: "bar"
+				},
+				series: data,
+				xAxis: {
+					type: "category",
+					min: 0,
+					offset: 20,
+					alternateGridColor: "#ecf0f1"
+				},
+				yAxis: {
+					type: "category",
+					title: {
+						text: null
+					},
+					min: 0
+				}
+			}));
+		});
+	}
+
+	if ($popularMovieBar.length) {
+		$.getJSON($popularMovieBar.data("url"), function(data) {
+			$popularMovieBar.highcharts($.extend(true, {}, highchartsOptions, {
+				chart: {
+					type: "bar"
+				},
+				series: data,
+				xAxis: {
+					type: "category",
+					min: 0,
+					offset: 20,
+					alternateGridColor: "#ecf0f1"
+				},
+				yAxis: {
+					type: "category",
 					title: {
 						text: null
 					},
