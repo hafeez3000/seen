@@ -19,4 +19,7 @@ return [
 		'listid' => '',
 	],
 	'salt' => '123456',
+	'lang' => [
+		'default' => 'en',
+	],
 ];
