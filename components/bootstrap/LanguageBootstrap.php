@@ -4,6 +4,8 @@ use \Yii;
 use \yii\base\Application;
 use \yii\base\BootstrapInterface;
 
+use \app\models\Language;
+
 class LanguageBootstrap implements BootstrapInterface
 {
 	public function getDefaultLanguage()
@@ -35,6 +37,13 @@ class LanguageBootstrap implements BootstrapInterface
 				$language = $this->getDefaultLanguage();
 		}
 
-		$app->language = $language;
+		$exists = Language::find()
+			->where(['iso' => $language])
+			->exists();
+
+		if ($exists)
+			$app->language = $language;
+		else
+			$app->language = $app->params['lang']['default'];
 	}
 }
