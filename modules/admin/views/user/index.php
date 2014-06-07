@@ -34,7 +34,7 @@ $this->title[] = Yii::t('User', 'Users');
 		[
 			'attribute' => 'episodeCount',
 			'value' => function($data) {
-				return $data->getEpisodes()->count();
+				return $data->getUserEpisodes()->count();
 			}
 		],
 		[

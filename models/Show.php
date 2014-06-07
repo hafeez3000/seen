@@ -371,10 +371,8 @@ class Show extends ActiveRecord
 				UserEpisode::tableName(),
 				UserShowRun::tableName(),
 			])
-			->where([
-				'{{%user_show_run}}.[[show_id]]' => $this->id,
-				'{{%user_show_run}}.[[user_id]]' => ($id === null) ? Yii::$app->user->id : $id,
-			])
+			->where(['{{%user_show_run}}.[[show_id]]' => $this->id])
+			->andWhere(['{{%user_show_run}}.[[user_id]]' => ($id === null) ? Yii::$app->user->id : $id])
 			->andWhere('{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]');
 	}
 

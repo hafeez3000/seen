@@ -333,6 +333,19 @@ class User extends ActiveRecord implements IdentityInterface
 		return $this->hasOne(Language::className(), ['id' => 'language_id']);
 	}
 
+	public function getUserEpisodes()
+	{
+		return Episode::find()
+			->distinct()
+			->select('{{%user_episode}}.*')
+			->from([
+				'{{%user_episode}}',
+				'{{%user_show_run}}',
+			])
+			->where(['{{%user_show_run}}.[[user_id]]' => $this->id])
+			->andWhere('{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]');
+	}
+
 	public function getEpisodes()
 	{
 		return Episode::find()
