@@ -1,8 +1,7 @@
 .DS_Store
 Thumbs.db
 
-*.sublime-*
-npm-debug.log
+nohup.out
 
 /node_modules
 /vendor

@@ -1135,6 +1135,7 @@ class MovieDb
 				case 'tvrage_id':
 				case 'imdb_id':
 				case 'tvdb_id':
+				case 'freebase_mid':
 				case 'guest_stars':
 				case 'alternative_titles':
 				case 'general':
