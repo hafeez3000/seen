@@ -22,6 +22,7 @@ $config['components']['urlManager'] = [
 		'tv/archive' => 'tv/archive',
 		'tv/archive/<slug:.*?>' => 'tv/archive-show',
 		'tv/unarchive/<slug:.*?>' => 'tv/unarchive-show',
+		'tv/sync' => 'tv/sync',
 		'tv/<slug:.*?>' => 'tv/view',
 
 		// Movies

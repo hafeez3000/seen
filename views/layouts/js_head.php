@@ -56,7 +56,9 @@
 				],
 				rangeFrom: "<?php echo Yii::t('Highcharts', 'From'); ?>",
 				rangeTo: "<?php echo Yii::t('Highcharts', 'To'); ?>"
-			}
+			},
+			show_sync: "<?php echo Yii::t('Show', 'Successfully synced {0} shows as {1} seasons'); ?>",
+			show_sync_error: "<?php echo Yii::t('Show', 'Errow while syncing the show'); ?>"
 		}
 	}
 

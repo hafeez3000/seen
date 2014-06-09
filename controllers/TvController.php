@@ -25,10 +25,10 @@ class TvController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow'],
+				'only' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync'],
 				'rules' => [
 					[
-						'actions' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow'],
+						'actions' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -388,5 +388,34 @@ class TvController extends Controller
 				return $this->redirect(['index']);
 			}
 		}
+	}
+
+	public function actionSync($themoviedbId)
+	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+
+		$shows = Show::find()
+			->where(['themoviedb_id' => $themoviedbId])
+			->with('seasons')
+			->all();
+
+		$movieDb = new MovieDb;
+		$result = [
+			'shows' => 0,
+			'seasons' => 0,
+			'success' => true,
+		];
+
+		foreach ($shows as $show) {
+			$movieDb->syncShow($show);
+			$result['shows']++;
+
+			foreach ($show->seasons as $season) {
+				$movieDb->syncSeason($season);
+				$result['seasons']++;
+			}
+		}
+
+		return $result;
 	}
 }

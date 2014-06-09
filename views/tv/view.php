@@ -33,6 +33,10 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 				<?php else: ?>
 					<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Subscribe'); ?></a>
 				<?php endif; ?>
+
+				<?php if (Yii::$app->user->can('admin')): ?>
+					<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'themoviedbId' => $show->themoviedb_id]); ?>"><?php echo Yii::t('Show', 'Sync') ?></a>
+				<?php endif; ?>
 			</h1>
 		</div>
 

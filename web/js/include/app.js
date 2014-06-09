@@ -516,6 +516,22 @@ $(function() {
 		});
 	}
 
+	$("#show-sync").on("click", function() {
+		var $button = $(this);
+
+		$button.button("loading");
+		$.ajax({
+			type: "get",
+			url: $(this).data("url"),
+			success: function(data) {
+				$button.button("reset");
+			},
+			error: function() {
+				$button.button("reset");
+			}
+		});
+	});
+
 	$(".autoselect").on("click", function() {
 		this.select();
 	});
