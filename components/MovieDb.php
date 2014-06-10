@@ -1592,9 +1592,25 @@ class MovieDb
 					break;
 				case 'episode_number':
 					foreach ($attribute->items as $item) {
-						foreach ($episodes as $episode) {
-							$episode->number = isset($item->value) ? $item->value : null;
-							$episode->save();
+						switch ($item->action) {
+							case 'updated':
+								foreach ($episodes as $episode) {
+									Episode::find()
+										->where([
+											'number' => $item->value,
+											'season_id' => $episode->season_id,
+										])
+										->delete();
+								}
+
+								foreach ($episodes as $episode) {
+									$episode->number = isset($item->value) ? $item->value : null;
+									$episode->save();
+								}
+								break;
+							default:
+								var_dump($id, $item);
+								die('Unknown episode episode_number item action' . $item->action);
 						}
 					}
 					break;
