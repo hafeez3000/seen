@@ -1595,18 +1595,42 @@ class MovieDb
 						switch ($item->action) {
 							case 'updated':
 								foreach ($episodes as $episode) {
-									Episode::find()
-										->where([
-											'number' => $item->value,
-											'season_id' => $episode->season_id,
-										])
-										->delete();
+									Yii::$app->db->createCommand('
+										DELETE FROM
+											{{%episode}}
+										WHERE
+											[[number]] = :number AND
+											[[season_id]] = :season_id
+									', [
+										'number' => $item->value,
+										'season_id' => $episode->season_id,
+									])
+										->execute();
 								}
 
 								foreach ($episodes as $episode) {
 									$episode->number = isset($item->value) ? $item->value : null;
 									$episode->save();
 								}
+								
+								break;
+							case 'added':
+								foreach ($episodes as $episode) {
+									$exists = Episode::find()
+										->where([
+											'season_id' => $episode->season_id,
+											'number' => $item->value,
+										])
+										->exists();
+
+									if (!$exists) {
+										$newEpisode = new Episode;
+										$newEpisode->season_id = $episode->season_id;
+										$newEpisode->number = $item->value;
+										$newEpisode->save();
+									}
+								}
+
 								break;
 							default:
 								var_dump($id, $item);
