@@ -18,4 +18,13 @@
 	})();
 </script>
 <noscript><p><img src="http://stats.visualappeal.de/piwik.php?idsite=20" style="border:0;" alt="" /></p></noscript>
+
+<script>
+	(function(g,i,a,n,t,s){g['SeeYourVisitors']=n;g[n]=g[n]||function(){
+	(g[n].q=g[n].q||[]).push(arguments)},g[n].l=1*new Date();t=i.createElement(a),
+	s=i.getElementsByTagName(a)[0];t.async=1;t.src='//seeyourvisitors2.appspot.com/gg.js';
+	s.parentNode.insertBefore(t,s)})(window,document,'script','gg');
+	gg('create', '88226e42-9895-431d-964b-7115f58254c6');
+	gg('track');
+</script>
 <?php endif; ?>
