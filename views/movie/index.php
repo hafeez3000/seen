@@ -11,19 +11,15 @@ $this->title[] = Yii::t('Movie/Index', 'Movies');
 ?>
 
 <div id="movie-index">
-    <div class="row" id="movie-dashboard-header">
-        <div class="col-sm-6 col-md-8">
-            <h1><?php echo Yii::t('Movie/Index', 'Popular Movies'); ?></h1>
-        </div>
+	<div class="row" id="movie-dashboard-header">
+		<div class="col-sm-6 col-md-8">
+			<h1><?php echo Yii::t('Movie/Index', 'Popular Movies'); ?></h1>
+		</div>
 
-        <div class="col-sm-6 col-md-4">
-            <?php $form = ActiveForm::begin([
-                'action' => Yii::$app->urlManager->createAbsoluteUrl(['movie/load']),
-            ]); ?>
-                <input type="hidden" id="movie-search" name="id" style="margin-top: 30px; width: 100%;">
-            <?php ActiveForm::end(); ?>
-        </div>
-    </div>
+		<div class="col-sm-6 col-md-4">
+			<?php echo $this->render('/site/_search'); ?>
+		</div>
+	</div>
 
 	<div class="row">
 		<?php foreach ($movies as $movie): ?>

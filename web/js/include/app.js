@@ -19,8 +19,6 @@ App.success = function(message) {
 };
 
 App.init = function() {
-	var spinner = new Spinner().spin();
-	$("#ajax-loading").append(spinner.el);
 };
 
 function highlightEpisodes() {
@@ -235,18 +233,18 @@ $(function() {
 	});
 
 	// Search tv show
-	var tvSearchTerm = "";
+	var searchTerm = "";
 
-	$("#tv-search").select2({
-		placeholder: App.translation.tv_search,
+	$("#search").select2({
+		placeholder: App.translation.search,
 		minimumInputLength: 3,
 		ajax: {
-			url: App.themoviedb.url + "/search/tv",
+			url: App.themoviedb.url + "/search/multi",
 			dataType: 'jsonp',
 			quietMillis: 100,
 			cache: true,
 			data: function (term, page) {
-				tvSearchTerm = term;
+				searchTerm = term;
 
 				return {
 					api_key: App.themoviedb.key,
@@ -258,8 +256,8 @@ $(function() {
 			},
 			results: function (data, page) {
 				_paq.push(['trackSiteSearch',
-					tvSearchTerm,
-					"tv",
+					searchTerm,
+					false,
 					data.total_results
 				]);
 
@@ -272,23 +270,55 @@ $(function() {
 			}
 		},
 		formatResult: function(result) {
-			var markup = "<table class='tv-search-result'><tr>";
-			var posterUrl = "";
+			var name, poster, poster_url;
 
-			if (result.poster_path && result.poster_path.length)
-				posterUrl = App.themoviedb.image_url + "w92" + result.poster_path;
-			else
-				posterUrl = "http://placehold.it/92x135/eee/555&text=" + encodeURIComponent(result.name);
+			switch (result.media_type) {
+				case "tv":
+					name = result.name;
+					poster = (result.poster_path && result.poster_path.length) ? result.poster_path : false;
+					break;
+				case "person":
+					name = result.name;
+					poster = (result.profile_path && result.profile_path.length) ? result.profile_path : false;
+					break;
+				case "movie":
+					name = result.title;
+					poster = (result.poster_path && result.poster_path.length) ? result.poster_path : false;
+					break;
+				default:
+					name = App.translation.unknown;
+					poster = false;
+			}
 
-			markup += "<td class='tv-search-image'><img src='" + posterUrl + "'/></td>";
-			markup += "<td class='tv-search-info'>" +
-				"<h4>" + result.name + "</h4>";
+			var markup = "<table class='search-result search-result-" + result.media_type + "'><tr>";
 
-			if (result.first_air_date && result.first_air_date.length)
-				markup += "<p>" + App.translation.first_aired + ": " + moment(result.first_air_date).format("LL") + "</p>";
+			if (poster !== false) {
+				posterUrl = App.themoviedb.image_url + "w92" + poster;
+			} else {
+				posterUrl = "http://placehold.it/92x135/eee/555&text=" + encodeURIComponent(name);
+			}
 
-			if (result.vote_average && result.vote_average > 0)
-				markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
+			markup += "<td class='search-image'><img src='" + posterUrl + "'/></td>";
+			markup += "<td class='search-info'>" + "<h4>" + name + "</h4>";
+
+			switch (result.media_type) {
+				case "tv":
+					if (result.first_air_date && result.first_air_date.length)
+						markup += "<p>" + App.translation.first_aired + ": " + moment(result.first_air_date).format("LL") + "</p>";
+
+					if (result.vote_average && result.vote_average > 0)
+						markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
+
+					break;
+				case "movie":
+					if (result.release_date && result.release_date.length)
+						markup += "<p>" + App.translation.released + ": " + moment(result.release_date).format("LL") + "</p>";
+
+					if (result.vote_average && result.vote_average > 0)
+						markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
+
+					break;
+			}
 
 			markup += "</div>";
 			markup += "</td></tr></table>";
@@ -302,104 +332,26 @@ $(function() {
 			return m;
 		},
 	}).on("change", function(e) {
-		var url = $(this).closest("form").attr("action");
+		var url;
+		var $form = $(this).closest("form");
 		var id = e.val;
 
-		$.ajax({
-			type: "post",
-			url: url,
-			data: {
-				id: id
-			},
-			success: function(data) {
-				if (data && data.success && data.url) {
-					window.location.href = data.url;
-				} else if (data && !data.success && data.message) {
-					App.error(data.message);
-				}
-			},
-			error: function(data) {
-				App.error(App.translation.unknown_error);
-				$("#ajax-loading").hide();
-			},
-			beforeSend: function(){
-				$("#ajax-loading").show();
-			}
-		});
-	});
+		if (!e.added || !e.added.media_type)
+			return;
 
-	// Search movie
-	var movieSearchTerm = "";
-
-	$("#movie-search").select2({
-		placeholder: App.translation.movie_search,
-		minimumInputLength: 3,
-		ajax: {
-			url: App.themoviedb.url + "/search/movie",
-			dataType: 'jsonp',
-			quietMillis: 100,
-			cache: true,
-			data: function (term, page) {
-				movieSearchTerm = term;
-
-				return {
-					api_key: App.themoviedb.key,
-					query: term,
-					page: page,
-					language: App.language,
-					search_type: "ngram"
-				};
-			},
-			results: function (data, page) {
-				_paq.push(['trackSiteSearch',
-					movieSearchTerm,
-					"movie",
-					data.total_results
-				]);
-
-				console.log(_paq);
-
-				var more = page < data.total_pages;
-
-				return {
-					results: data.results,
-					more: more
-				};
-			}
-		},
-		formatResult: function(result) {
-			var markup = "<table class='movie-search-result'><tr>";
-			var posterUrl = "";
-
-			if (result.poster_path && result.poster_path.length)
-				posterUrl = App.themoviedb.image_url + "w92" + result.poster_path;
-			else
-				posterUrl = "http://placehold.it/92x135/eee/555&text=" + encodeURIComponent(result.title);
-
-			markup += "<td class='movie-search-image'><img src='" + posterUrl + "'/></td>";
-			markup += "<td class='movie-search-info'>" +
-				"<h4>" + result.title + "</h4>";
-
-			if (result.release_date && result.release_date.length)
-				markup += "<p>" + App.translation.released + ": " + moment(result.release_date).format("LL") + "</p>";
-
-			if (result.vote_average && result.vote_average > 0)
-				markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
-
-			markup += "</div>";
-			markup += "</td></tr></table>";
-
-			return markup;
-		},
-		formatSelection: function(result) {
-			return result.title;
-		},
-		escapeMarkup: function(m) {
-			return m;
-		},
-	}).on("change", function(e) {
-		var url = $(this).closest("form").attr("action");
-		var id = e.val;
+		switch (e.added.media_type) {
+			case "tv":
+				url = $form.attr("data-tv-url");
+				break;
+			case "person":
+				url = $form.attr("data-person-url");
+				break;
+			case "movie":
+				url = $form.attr("data-movie-url");
+				break;
+			default:
+				return;
+		}
 
 		$.ajax({
 			type: "post",

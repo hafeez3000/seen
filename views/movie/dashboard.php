@@ -18,11 +18,7 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 		</div>
 
 		<div class="col-sm-6 col-md-4">
-			<?php $form = ActiveForm::begin([
-				'action' => Yii::$app->urlManager->createAbsoluteUrl(['movie/load']),
-			]); ?>
-				<input type="hidden" id="movie-search" name="id" style="margin-top: 30px; width: 100%;">
-			<?php ActiveForm::end(); ?>
+			<?php echo $this->render('/site/_search'); ?>
 		</div>
 	</div>
 
