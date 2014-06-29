@@ -155,7 +155,6 @@ $(function() {
 				xAxis: {
 					type: "category",
 					min: 0,
-					offset: 20,
 					alternateGridColor: "#ecf0f1"
 				},
 				yAxis: {
@@ -179,7 +178,6 @@ $(function() {
 				xAxis: {
 					type: "category",
 					min: 0,
-					offset: 20,
 					alternateGridColor: "#ecf0f1"
 				},
 				yAxis: {

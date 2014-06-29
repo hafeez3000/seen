@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 					"web/js/app.min.js": jsFiles,
 					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js",
 					"modules/admin/js/app.min.js": [
-						"web/components/highcharts/highcharts.js",
+						"web/components/highcharts-release/highcharts.js",
 						"modules/admin/js/include/app.js"
 					]
 				}
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 					"web/js/app.min.js": jsFiles,
 					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js",
 					"modules/admin/js/app.min.js": [
-						"web/components/highcharts/highcharts.js",
+						"web/components/highcharts-release/highcharts.js",
 						"modules/admin/js/include/app.js"
 					]
 				}
