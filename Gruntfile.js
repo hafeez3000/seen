@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 		"web/components/spin.js/spin.js",
 		"web/components/moment/min/moment-with-langs.min.js",
 		"web/components/holderjs/holder.js",
+		"web/js/include/modernizr.custom.js",
 		"web/js/include/app.js"
 	];
 
@@ -128,7 +129,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 
-	grunt.registerTask("build", ["uglify:development", "less:development", "concat:app", "copy"]);
+	grunt.registerTask("build", ["uglify:development", "less:development", "concat", "copy"]);
 	grunt.registerTask("build_production", ["uglify:production", "less:production", "concat", "copy"]);
 
 	grunt.registerTask("default", ["build"]);

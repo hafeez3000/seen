@@ -3,11 +3,8 @@
  * @var yii\web\View $this
  */
 
-use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
-
-use \app\components\LanguageHelper;
 ?>
 
 <div id="tv-dashboard<?php if($archive): ?>-archive<?php endif; ?>" class="tv-dashboard">
@@ -34,31 +31,10 @@ use \app\components\LanguageHelper;
 	<?php if (count($shows)): ?>
 		<ul id="tv-dashboard-showlist" class="list-unstyled list-inline">
 			<?php foreach ($shows as $show): ?>
-				<li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>" data-id="<?php echo $show->id; ?>">
-					<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>">
-						<img <?php echo $show->posterUrl; ?> alt="<?php echo Html::encode($show->name); ?>" title="<?php echo Html::encode($show->name); ?>">
-					</a>
-
-					<div class="last-seen clearfix">
-						<div class="pull-left">
-							<?php if ($show->lastEpisode !== null): ?>
-								<span title="<?php echo LanguageHelper::dateTime(strtotime($show->lastEpisode->created_at)); ?>">
-									<?php echo $show->lastEpisode->createdAtAgo; ?>
-								</span>
-							<?php else: ?>
-								<?php echo Yii::t('Show/Dashboard', 'Not seen yet'); ?>
-							<?php endif; ?>
-						</div>
-
-						<div class="pull-right tv-dashboard-showlist-actions">
-							<?php if (!$archive): ?>
-								<a class="text-muted archive-show" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-lock"></span></a>
-							<?php else: ?>
-								<a class="text-muted archive-show" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Unarchive `{name}`', ['name' => $show->name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
-							<?php endif; ?>
-						</div>
-					</div>
-				</li>
+				<?php echo $this->render('_view', [
+					'show' => $show,
+					'archive' => $archive,
+				]); ?>
 			<?php endforeach; ?>
 		</ul>
 	<?php else: ?>
