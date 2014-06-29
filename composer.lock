@@ -901,12 +901,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "fec94e1695131a98187165bef9ec7528f0ec6ba2"
+                "reference": "1098453f831fad3fdfcbf036237ed064a5d29b26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/fec94e1695131a98187165bef9ec7528f0ec6ba2",
-                "reference": "fec94e1695131a98187165bef9ec7528f0ec6ba2",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/1098453f831fad3fdfcbf036237ed064a5d29b26",
+                "reference": "1098453f831fad3fdfcbf036237ed064a5d29b26",
                 "shasum": ""
             },
             "replace": {
@@ -944,7 +944,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-06-27 04:38:46"
+            "time": "2014-06-29 05:39:40"
         },
         {
             "name": "yiisoft/jquery",
@@ -1001,12 +1001,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "dc66299937f12e246e19bc27a86550d12ad65465"
+                "reference": "ab9afe317ce452d6edb86f461853ffd7f982086f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/dc66299937f12e246e19bc27a86550d12ad65465",
-                "reference": "dc66299937f12e246e19bc27a86550d12ad65465",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ab9afe317ce452d6edb86f461853ffd7f982086f",
+                "reference": "ab9afe317ce452d6edb86f461853ffd7f982086f",
                 "shasum": ""
             },
             "require": {
@@ -1074,7 +1074,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-06-29 01:58:07"
+            "time": "2014-06-29 08:23:06"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1976,12 +1976,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "0951050a1e9bc3a031c780e8e5a8c94bdeb9d9c4"
+                "reference": "f84030a0098dd70b149294a252bbdd7f6953e969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/0951050a1e9bc3a031c780e8e5a8c94bdeb9d9c4",
-                "reference": "0951050a1e9bc3a031c780e8e5a8c94bdeb9d9c4",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f84030a0098dd70b149294a252bbdd7f6953e969",
+                "reference": "f84030a0098dd70b149294a252bbdd7f6953e969",
                 "shasum": ""
             },
             "require": {
@@ -2036,7 +2036,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-06-20 14:09:34"
+            "time": "2014-06-29 10:53:44"
         },
         {
             "name": "myclabs/deep-copy",

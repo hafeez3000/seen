@@ -22,7 +22,7 @@ use \app\components\LanguageHelper;
 				</a>
 			</h4>
 
-			<span class="last-seen">
+			<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>" class="last-seen">
 				<?php if ($show->lastEpisode !== null): ?>
 					<span title="<?php echo LanguageHelper::dateTime(strtotime($show->lastEpisode->created_at)); ?>">
 						<?php echo $show->lastEpisode->createdAtAgo; ?>
@@ -30,7 +30,7 @@ use \app\components\LanguageHelper;
 				<?php else: ?>
 					<?php echo Yii::t('Show/Dashboard', 'Not seen yet'); ?>
 				<?php endif; ?>
-			</span>
+			</a>
 
 			<?php if (!$archive): ?>
 				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive {name}', ['name' => $show->name]); ?>">
