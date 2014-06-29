@@ -7,18 +7,58 @@
 
 #ajax-loading {
 	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(255, 255, 255, .8);
-	text-align: center;
+	width: 100%;
+	height: 100%;
+	opacity: .9;
+	background-color: #fff;
 	z-index: 10000;
+	padding-top: 20%;
 	display: none;
 
+	// https://github.com/tobiasahlin/SpinKit/blob/91dace1e0f9673c3d92edfc6e0a985689d22b0b2/7-three-bounce.html
 	.spinner {
-		left: 50%;
-		top: 50%;
+		margin: 0 auto;
+		width: 70px;
+		text-align: center;
+
+		.bounce1 {
+			-webkit-animation-delay: -0.32s;
+			animation-delay: -0.32s;
+		}
+
+		.bounce2 {
+			-webkit-animation-delay: -0.16s;
+			animation-delay: -0.16s;
+		}
+
+		> div {
+			width: 18px;
+			height: 18px;
+			background-color: #333;
+
+			border-radius: 100%;
+			display: inline-block;
+			-webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+			animation: bouncedelay 1.4s infinite ease-in-out;
+			/* Prevent first frame from flickering when animation starts */
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+	}
+
+	@-webkit-keyframes bouncedelay {
+		0%, 80%, 100% { -webkit-transform: scale(0.0) }
+		40% { -webkit-transform: scale(1.0) }
+	}
+
+	@keyframes bouncedelay {
+		0%, 80%, 100% {
+			transform: scale(0.0);
+			-webkit-transform: scale(0.0);
+		} 40% {
+			transform: scale(1.0);
+			-webkit-transform: scale(1.0);
+		}
 	}
 }
 
@@ -100,13 +140,6 @@ h2, h3, h4 {
 	}
 }
 
-#missing-information {
-	a {
-		display: inline-block;
-		margin-top: 40px;
-	}
-}
-
 /**
  * Cast / Crew
  */
@@ -122,9 +155,15 @@ h2, h3, h4 {
 /**
  * Search
  */
-#tv-search, #movie-search {
+#search {
 	display: inline-block;
 	margin-top: 30px;
+}
+
+.select2-container {
+	.select2-choice {
+		margin-top: 0;
+	}
 }
 
 .select2-results {
@@ -138,7 +177,7 @@ h2, h3, h4 {
 			padding: 0;
 			margin-bottom: 4px;
 
-			.tv-search-image, .movie-search-image {
+			.search-image {
 				width: 92px;
 
 				img {
@@ -147,7 +186,7 @@ h2, h3, h4 {
 				}
 			}
 
-			.tv-search-info, .movie-search-info {
+			.search-info {
 				vertical-align: top;
 				padding-left: 10px;
 

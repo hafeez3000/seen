@@ -14,18 +14,18 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 ?>
 
 <div id="tv-view" data-subscribed="<?php echo $show->isUserSubscribed ? 1 : 0; ?>">
-    <?php if ($showNative !== null): ?>
-        <div class="alert alert-info">
-            <?php echo Yii::t('Movie', 'The Show is also available in <a href="{url}" title="{title}">{language}</a>', [
-                'url' => Url::toRoute(['view', 'slug' => $showNative->slug]),
-                'title' => $showNative->name,
-                'language' => $showNative->language->name,
-            ]); ?>
-        </div>
-    <?php endif; ?>
+	<?php if ($showNative !== null): ?>
+		<div class="alert alert-info">
+			<?php echo Yii::t('Movie', 'The Show is also available in <a href="{url}" title="{title}">{language}</a>', [
+				'url' => Url::toRoute(['view', 'slug' => $showNative->slug]),
+				'title' => $showNative->name,
+				'language' => $showNative->language->name,
+			]); ?>
+		</div>
+	<?php endif; ?>
 
 	<div class="row" id="tv-view-header">
-        <div class="col-sm-6 col-md-8">
+		<div class="col-sm-6 col-md-8">
 			<h1>
 				<?php echo Html::encode($show->name); ?>
 				<?php if ($show->isUserSubscribed): ?>
@@ -40,12 +40,8 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 			</h1>
 		</div>
 
-		<div class="col-sm-6 col-md-4" id="missing-information">
-            <?php $form = ActiveForm::begin([
-                'action' => Yii::$app->urlManager->createAbsoluteUrl(['tv/load']),
-            ]); ?>
-                <input type="hidden" id="tv-search" name="id" style="margin-top: 30px; width: 100%;">
-            <?php ActiveForm::end(); ?>
+		<div class="col-sm-6 col-md-4">
+			<?php echo $this->render('/site/_search'); ?>
 		</div>
 	</div>
 
@@ -61,51 +57,51 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 				</div>
 			<?php endif; ?>
 
-            <div id="tv-view-details">
-                <table class="table table-striped table-condensed">
-                    <?php if (!empty($show->original_name)): ?>
-                        <tr>
-                            <td><?php echo Yii::t('Show', 'Original Name'); ?></td>
-                            <td><?php echo Html::encode($show->original_name); ?></td>
-                        </tr>
-                    <?php endif; ?>
+			<div id="tv-view-details">
+				<table class="table table-striped table-condensed">
+					<?php if (!empty($show->original_name)): ?>
+						<tr>
+							<td><?php echo Yii::t('Show', 'Original Name'); ?></td>
+							<td><?php echo Html::encode($show->original_name); ?></td>
+						</tr>
+					<?php endif; ?>
 
-                    <?php if ($show->first_air_date !== null): ?>
-                        <tr>
-                            <td><?php echo Yii::t('Show', 'First aired'); ?></td>
-                            <td><?php echo LanguageHelper::date(strtotime($show->first_air_date)); ?></td>
-                        </tr>
-                    <?php endif; ?>
+					<?php if ($show->first_air_date !== null): ?>
+						<tr>
+							<td><?php echo Yii::t('Show', 'First aired'); ?></td>
+							<td><?php echo LanguageHelper::date(strtotime($show->first_air_date)); ?></td>
+						</tr>
+					<?php endif; ?>
 
-                    <?php if ($show->last_air_date !== null): ?>
-                        <tr>
-                            <td><?php echo Yii::t('Show', 'Last aired'); ?></td>
-                            <td><?php echo LanguageHelper::date(strtotime($show->last_air_date)); ?></td>
-                        </tr>
-                    <?php endif; ?>
+					<?php if ($show->last_air_date !== null): ?>
+						<tr>
+							<td><?php echo Yii::t('Show', 'Last aired'); ?></td>
+							<td><?php echo LanguageHelper::date(strtotime($show->last_air_date)); ?></td>
+						</tr>
+					<?php endif; ?>
 
-                    <?php if ($show->in_production !== null && $show->in_production !== ''): ?>
-                        <tr>
-                            <td><?php echo Yii::t('Show', 'In Production'); ?></td>
-                            <td><?php echo $show->in_production ? Yii::t('Show', 'Yes') : Yii::t('Show', 'No'); ?></td>
-                        </tr>
-                    <?php endif; ?>
+					<?php if ($show->in_production !== null && $show->in_production !== ''): ?>
+						<tr>
+							<td><?php echo Yii::t('Show', 'In Production'); ?></td>
+							<td><?php echo $show->in_production ? Yii::t('Show', 'Yes') : Yii::t('Show', 'No'); ?></td>
+						</tr>
+					<?php endif; ?>
 
-                    <?php if (!empty($show->status)): ?>
-                        <tr>
-                            <td><?php echo Yii::t('Show', 'Status'); ?></td>
-                            <td><?php echo Html::encode(Yii::t('Show', $show->status)); ?></td>
-                        </tr>
-                    <?php endif; ?>
+					<?php if (!empty($show->status)): ?>
+						<tr>
+							<td><?php echo Yii::t('Show', 'Status'); ?></td>
+							<td><?php echo Html::encode(Yii::t('Show', $show->status)); ?></td>
+						</tr>
+					<?php endif; ?>
 
-                    <?php if (!empty($show->homepage)): ?>
-                        <tr>
-                            <td><?php echo Yii::t('Show', 'Website'); ?></td>
-                            <td><a href="<?php echo $show->homepage; ?>" title="<?php echo $show->homepage; ?>"><?php echo Html::encode($show->homepage); ?></a></td>
-                        </tr>
-                    <?php endif; ?>
-                </table>
-            </div>
+					<?php if (!empty($show->homepage)): ?>
+						<tr>
+							<td><?php echo Yii::t('Show', 'Website'); ?></td>
+							<td><a href="<?php echo $show->homepage; ?>" title="<?php echo $show->homepage; ?>"><?php echo Html::encode($show->homepage); ?></a></td>
+						</tr>
+					<?php endif; ?>
+				</table>
+			</div>
 
 			<?php if (count($show->cast)): ?>
 				<div id="tv-view-cast-wrapper" class="persons">
@@ -167,9 +163,9 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 						<ul class="tv-view-episodes list-unstyled list-inline">
 							<?php foreach ($season->episodes as $episode): ?>
 								<li class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>"
-                                    data-id="<?php echo $episode->id; ?>"
-                                    data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>"
-                                    title="<?php echo Yii::t('Show/View', 'Mark `{name}` as seen', ['name' => $episode->fullName]); ?>">
+									data-id="<?php echo $episode->id; ?>"
+									data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>"
+									title="<?php echo Yii::t('Show/View', 'Mark `{name}` as seen', ['name' => $episode->fullName]); ?>">
 									<?php echo Html::encode($episode->fullName); ?>
 								</li>
 							<?php endforeach; ?>

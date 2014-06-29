@@ -40,6 +40,8 @@ AppAsset::register($this);
 	<body>
 		<?php $this->beginBody() ?>
 
+		<?php echo $this->render('//layouts/_spinner.php'); ?>
+
 		<header>
 			<?php
 				NavBar::begin([
@@ -98,8 +100,6 @@ AppAsset::register($this);
 
 		<div id="content" class="container">
 			<?php echo $this->render('//layouts/flash.php'); ?>
-
-			<div id="ajax-loading"></div>
 
 			<?php echo $content; ?>
 		</div>
