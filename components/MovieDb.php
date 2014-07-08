@@ -818,10 +818,19 @@ class MovieDb
 
 		$attributes = $this->getPerson($person);
 
-		if ($attributes == false)
+		if ($attributes == false) {
+			if (!empty($person->deleted_at)) {
+				$person->delete();
+			} else {
+				$person->deleted_at = date('Y-m-d H:i:s');
+				$person->save();
+			}
+
 			return false;
+		}
 
 		$person->attributes = (array) $attributes;
+		$person->deleted_at = null;
 
 		if (!$person->save()) {
 			Yii::warning("Could update person {$person->id} '" . serialize($person->errors) . "': " . serialize($attributes), 'application\sync');

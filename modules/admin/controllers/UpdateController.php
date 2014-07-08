@@ -249,9 +249,23 @@ class UpdateController extends BaseController
 			} else {
 				$personChanges = $movieDb->getPersonChanges();
 
+				$syncStatus = SyncStatus::find()
+					->where([
+						'name' => 'person_changes',
+						'updated' => date('Y-m-d'),
+					])
+					->one();
+
+				if ($syncStatus !== null)
+					$completedChanges = unserialize($syncStatus->value);
+				else
+					$completedChanges = [];
+
 				$updates = $model
 					->where(['id' => $personChanges])
 					->orWhere(['updated_at' => null])
+					->andWhere(['deleted_at' => null])
+					->andWhere(['not in', 'id', $completedChanges])
 					->count();
 			}
 		} elseif (strpos($command, 'sync/tv-changes') !== false) {

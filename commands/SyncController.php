@@ -59,8 +59,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($shows->each() as $show) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Show {$i}/{$showCount}\n";
 				$i++;
@@ -94,8 +92,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($seasons->each() as $season) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Season {$i}/{$seasonCount}\n";
 				$i++;
@@ -131,8 +127,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($episodes->each() as $episode) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Episode {$i}/{$episodeCount}\n";
 				$i++;
@@ -180,8 +174,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($tvChanges as $tvChange) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Update tv change {$i}/{$changesCount}\n";
 				$i++;
@@ -218,8 +210,6 @@ class SyncController extends Controller
 
 		// Save similar movies as own movie
 		foreach ($similarMovies->each() as $similarMovie) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Similar Movie {$i}/{$movieCount}\n";
 				$i++;
@@ -256,8 +246,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($movies->each() as $movie) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Movie {$i}/{$movieCount}\n";
 				$i++;
@@ -305,8 +293,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($movies->each() as $movie) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Update movie {$i}/{$changesCount}\n";
 				$i++;
@@ -347,8 +333,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($languages->each() as $language) {
-			Yii::getLogger()->flush();
-
 			$oldPopularMovies = MoviePopular::find()
 				->leftJoin(Movie::tableName(), '{{%movie_popular}}.[[movie_id]] = {{%movie}}.[[id]]')
 				->where(['{{%movie}}.[[language_id]]' => $language->id])
@@ -423,8 +407,6 @@ class SyncController extends Controller
 		}
 
 		foreach ($languages->each() as $language) {
-			Yii::getLogger()->flush();
-
 			$oldPopularShows = ShowPopular::find()
 				->leftJoin(Show::tableName(), '{{%show_popular}}.[[show_id]] = {{%show}}.[[id]]')
 				->where(['{{%show}}.[[language_id]]' => $language->id])
@@ -488,6 +470,23 @@ class SyncController extends Controller
 
 		$persons = Person::find();
 
+		$syncStatus = SyncStatus::find()
+			->where([
+				'name' => 'person_changes',
+				'updated' => date('Y-m-d'),
+			])
+			->one();
+
+		if ($syncStatus !== null) {
+			$completedChanges = unserialize($syncStatus->value);
+			var_dump($completedChanges);
+		} else {
+			$completedChanges = [];
+			$syncStatus = new SyncStatus;
+			$syncStatus->name = 'person_changes';
+			$syncStatus->updated = date('Y-m-d');
+		}
+
 		if (!$this->force)
 			$persons = $persons
 				->where(['id' => $personChanges])
@@ -504,14 +503,19 @@ class SyncController extends Controller
 		}
 
 		foreach ($persons->each() as $person) {
-			Yii::getLogger()->flush();
-
 			if ($this->debug) {
 				echo "Update person {$i}/{$personCount}\n";
 				$i++;
 			}
 
+			if (in_array($person->id, $completedChanges))
+				continue;
+
 			$movieDb->syncPerson($person);
+
+			$completedChanges[] = $person->id;
+			$syncStatus->value = serialize($completedChanges);
+			$syncStatus->save();
 		}
 	}
 }
