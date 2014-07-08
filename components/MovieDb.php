@@ -1079,11 +1079,38 @@ class MovieDb
 								$showCountries = ShowCountry::find()
 									->where([
 										'country_id' => $country->id,
-										'show_id' => $show->id
+										'show_id' => array_map(function($show) {
+											return $show->id;
+										}, $shows),
 									])
 									->all();
+
 								foreach ($showCountries as $showCountry)
 									$showCountry->delete();
+
+								break;
+							case 'added':
+								$country = Country::findOne([
+									'name' => $item->value,
+								]);
+
+								if ($country === null) {
+									$country = new Country;
+									$country->name = $item->value;
+									$country->save();
+								}
+
+								foreach ($shows as $show) {
+									$showCountries = ShowCountry::find()
+										->where([
+											'country_id' => $country->id,
+											'show_id' => $show->id
+										])
+										->all();
+
+									foreach ($showCountries as $showCountry)
+										$showCountry->delete();
+								}
 
 								break;
 							default:
@@ -1141,6 +1168,7 @@ class MovieDb
 				case 'general':
 				case 'episode_run_time':
 				case 'production_companies':
+				case 'type':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
@@ -1612,7 +1640,7 @@ class MovieDb
 									$episode->number = isset($item->value) ? $item->value : null;
 									$episode->save();
 								}
-								
+
 								break;
 							case 'added':
 								foreach ($episodes as $episode) {
