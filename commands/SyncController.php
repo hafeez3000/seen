@@ -298,12 +298,12 @@ class SyncController extends Controller
 				$i++;
 			}
 
-			if (in_array($movie->id, $completedChanges))
+			if (in_array($movie->themoviedb_id, $completedChanges))
 				continue;
 
 			$movieDb->syncMovie($movie);
 
-			$completedChanges[] = $movie->id;
+			$completedChanges[] = $movie->themoviedb_id;
 			$syncStatus->value = serialize($completedChanges);
 			$syncStatus->save();
 		}

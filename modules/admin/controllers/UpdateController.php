@@ -187,9 +187,10 @@ class UpdateController extends BaseController
 			else
 				$completedChanges = [];
 
-			$updates = count(array_filter($movieChanges, function($movieId) use($completedChanges) {
-				return !in_array($movieId, $completedChanges);
-			}));
+			$updates = Movie::find()
+				->where(['themoviedb_id' => $movieChanges])
+				->andWhere(['not in', 'id', $completedChanges])
+				->count();
 		} elseif (strpos($command, 'sync/movies-similar') !== false) {
 			$updates = MovieSimilar::find()
 				->where(['similar_to_movie_id' => null])
@@ -283,9 +284,10 @@ class UpdateController extends BaseController
 			else
 				$completedChanges = [];
 
-			$updates = count(array_filter($tvChanges, function($tvChange) use($completedChanges) {
-				return !in_array($tvChange, $completedChanges);
-			}));
+			$updates = Show::find()
+				->where(['themoviedb_id' => $tvChanges])
+				->andWhere(['not in', 'themoviedb_id', $completedChanges])
+				->count();
 		}
 
 		if ($updates !== null)
