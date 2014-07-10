@@ -479,7 +479,6 @@ class SyncController extends Controller
 
 		if ($syncStatus !== null) {
 			$completedChanges = unserialize($syncStatus->value);
-			var_dump($completedChanges);
 		} else {
 			$completedChanges = [];
 			$syncStatus = new SyncStatus;
