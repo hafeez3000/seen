@@ -189,7 +189,7 @@ class UpdateController extends BaseController
 
 			$updates = Movie::find()
 				->where(['themoviedb_id' => $movieChanges])
-				->andWhere(['not in', 'id', $completedChanges])
+				->andWhere(['not in', 'themoviedb_id', $completedChanges])
 				->count();
 		} elseif (strpos($command, 'sync/movies-similar') !== false) {
 			$updates = MovieSimilar::find()
