@@ -102,7 +102,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 			<?php endif; ?>
 
 			<?php if (count($movie->cast)): ?>
-				<div id="movie-view-cast-wrapper" class="persons">
+				<div id="movie-view-cast-wrapper">
 					<h2><?php echo Yii::t('Movie/View', 'Cast'); ?></h2>
 
 					<ul id="movie-view-cast" class="list-unstyled list-inline">
@@ -124,7 +124,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 			<?php endif; ?>
 
 			<?php if (count($movie->crew)): ?>
-				<div id="movie-view-crew-wrapper" class="persons">
+				<div id="movie-view-crew-wrapper">
 					<h2><?php echo Yii::t('Movie/View', 'Crew'); ?></h2>
 
 					<ul id="movie-view-crew" class="list-unstyled list-inline">
@@ -146,16 +146,18 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 			<?php endif; ?>
 
 			<?php if (count($movie->similarMovies)): ?>
-				<div id="movie-view-similar-wrapper" class="persons">
+				<div id="movie-view-similar-wrapper">
 					<h2><?php echo Yii::t('Movie/View', 'Similar Movies'); ?></h2>
 
 					<ul id="movie-view-similar" class="list-unstyled list-inline">
 						<?php foreach ($movie->similarMovies as $similarMovie): ?>
-							<li class="<?php if (count($similarMovie->userWatches) > 0): ?>movie-view-similar-watched<?php endif; ?>">
-								<a href="<?php echo Url::toRoute(['view', 'slug' => $similarMovie->slug]); ?>" title="<?php echo Html::encode($similarMovie->title); ?>">
-									<img <?php echo $similarMovie->posterUrlSmall; ?> alt="<?php echo Html::encode($similarMovie->title); ?>">
-								</a>
-							</li>
+							<?php if ($similarMovie->id != $movie->id): ?>
+								<li class="<?php if (count($similarMovie->userWatches) > 0): ?>movie-view-similar-watched<?php endif; ?>">
+									<a href="<?php echo Url::toRoute(['view', 'slug' => $similarMovie->slug]); ?>" title="<?php echo Html::encode($similarMovie->title); ?>">
+										<img <?php echo $similarMovie->posterUrlSmall; ?> alt="<?php echo Html::encode($similarMovie->title); ?>">
+									</a>
+								</li>
+							<?php endif; ?>
 						<?php endforeach; ?>
 					</ul>
 				</div>
