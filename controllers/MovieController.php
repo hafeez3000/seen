@@ -71,7 +71,7 @@ class MovieController extends Controller
 		} else {
 			$countQuery = Yii::$app->db->createCommand('
 				SELECT
-					COUNT(DISTINCT {{%movie}}.[[id]]) AS [[row_count]]
+					COUNT({{%movie}}.[[id]]) AS [[row_count]]
 				FROM
 					{{%movie}},
 					{{%user_movie}}
@@ -86,24 +86,18 @@ class MovieController extends Controller
 				'totalCount' => $countQuery['row_count'],
 			]);
 
-			$movies = Movie::findBySql('
-				SELECT DISTINCT
-					{{%movie}}.*
-				FROM
-					{{%movie}},
-					{{%user_movie}}
-				WHERE
-					{{%user_movie}}.[[user_id]] = :user_id AND
-					{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
-				ORDER BY
-					{{%user_movie}}.[[created_at]] DESC
-				LIMIT
-					:offset, :limit
-			', [
-				':user_id' => Yii::$app->user->id,
-				':offset' => $pages->offset,
-				':limit' => $pages->limit,
-			])->all();
+			$movies = Movie::find()
+				->select('{{%movie}}.*')
+				->from([
+					'{{%movie}}',
+					'{{%user_movie}}',
+				])
+				->where(['{{%user_movie}}.[[user_id]]' => Yii::$app->user->id])
+				->andWhere('{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]')
+				->orderBy(['{{%user_movie}}.[[created_at]]' => SORT_DESC])
+				->offset($pages->offset)
+				->limit($pages->limit)
+				->all();
 
 			return $this->render('dashboard', [
 				'movies' => $movies,
