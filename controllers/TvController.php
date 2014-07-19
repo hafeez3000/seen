@@ -322,6 +322,8 @@ class TvController extends Controller
 					'name' => $show->name,
 					'archive' => Yii::$app->urlManager->createAbsoluteUrl(['tv/archive']),
 				]));
+
+				return $this->redirect(['index']);
 			}
 		} else {
 			Yii::error("User #{Yii::$app->user->id} could not archive show #{$show->id}");
