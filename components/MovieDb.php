@@ -901,6 +901,17 @@ class MovieDb
 							case 'updated':
 								$this->syncSeasonChanges($item->value->season_id, $item->value->season_number);
 								break;
+							case 'destroyed':
+								$seasons = Season::find()
+									->where([
+										'show_id' => $show->id,
+										'number' => $item->value->season_number,
+									])
+									->all();
+
+								foreach ($seasons as $season)
+									$season->delete();
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv season item action ' . $item->action);
