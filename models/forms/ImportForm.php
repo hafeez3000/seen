@@ -23,7 +23,7 @@ class ImportForm extends Model
 		return [
 			[['type', 'file'], 'required'],
 			[['type'], 'isImportType'],
-			[['file'], 'file', 'types' => ['json']],
+			[['file'], 'file', 'extensions' => ['json']],
 		];
 	}
 
