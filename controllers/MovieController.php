@@ -43,69 +43,79 @@ class MovieController extends Controller
 	public function actionIndex()
 	{
 		if (Yii::$app->user->isGuest) {
-			$language = Language::find()
-				->where(['iso' => Yii::$app->language])
-				->orWhere(['iso' => Yii::$app->params['lang']['default']])
-				->one();
-
-			$movies = Movie::findBySql('
-				SELECT DISTINCT
-					{{%movie}}.*
-				FROM
-					{{%movie}},
-					{{%movie_popular}}
-				WHERE
-					{{%movie}}.[[language_id]] = :language_id AND
-					{{%movie}}.[[id]] = {{%movie_popular}}.[[movie_id]] AND
-					{{%movie}}.[[title]] != ""
-				ORDER BY
-					{{%movie_popular}}.[[order]] ASC
-			', [
-				':language_id' => $language->id,
-			])
-				->all();
-
-			return $this->render('index', [
-				'movies' => $movies,
-			]);
+			return $this->actionPopular();
 		} else {
-			$countQuery = Yii::$app->db->createCommand('
-				SELECT
-					COUNT({{%movie}}.[[id]]) AS [[row_count]]
-				FROM
-					{{%movie}},
-					{{%user_movie}}
-				WHERE
-					{{%user_movie}}.[[user_id]] = :user_id AND
-					{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
-			');
-			$countQuery->bindValue(':user_id', Yii::$app->user->id);
-			$countQuery = $countQuery->queryOne();
-
-			$pages = new Pagination([
-				'totalCount' => $countQuery['row_count'],
-			]);
-
-			$movies = Movie::find()
-				->select('{{%movie}}.*')
-				->from([
-					'{{%movie}}',
-					'{{%user_movie}}',
-				])
-				->where(['{{%user_movie}}.[[user_id]]' => Yii::$app->user->id])
-				->andWhere('{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]')
-				->orderBy(['{{%user_movie}}.[[created_at]]' => SORT_DESC])
-				->offset($pages->offset)
-				->limit($pages->limit)
-				->all();
-
-			return $this->render('dashboard', [
-				'movies' => $movies,
-				'pages' => $pages,
-				'recommendMovies' => Movie::getRecommend()->limit(20)->all(),
-				'watchlistMovies' => Movie::getWatchlist()->all(),
-			]);
+			return $this->actionDashboard();
 		}
+	}
+
+	public function actionPopular()
+	{
+		$language = Language::find()
+			->where(['iso' => Yii::$app->language])
+			->orWhere(['iso' => Yii::$app->params['lang']['default']])
+			->one();
+
+		$movies = Movie::findBySql('
+			SELECT DISTINCT
+				{{%movie}}.*
+			FROM
+				{{%movie}},
+				{{%movie_popular}}
+			WHERE
+				{{%movie}}.[[language_id]] = :language_id AND
+				{{%movie}}.[[id]] = {{%movie_popular}}.[[movie_id]] AND
+				{{%movie}}.[[title]] != ""
+			ORDER BY
+				{{%movie_popular}}.[[order]] ASC
+		', [
+			':language_id' => $language->id,
+		])
+			->all();
+
+		return $this->render('index', [
+			'movies' => $movies,
+		]);
+	}
+
+	public function actionDashboard()
+	{
+		$countQuery = Yii::$app->db->createCommand('
+			SELECT
+				COUNT({{%movie}}.[[id]]) AS [[row_count]]
+			FROM
+				{{%movie}},
+				{{%user_movie}}
+			WHERE
+				{{%user_movie}}.[[user_id]] = :user_id AND
+				{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
+		');
+		$countQuery->bindValue(':user_id', Yii::$app->user->id);
+		$countQuery = $countQuery->queryOne();
+
+		$pages = new Pagination([
+			'totalCount' => $countQuery['row_count'],
+		]);
+
+		$movies = Movie::find()
+			->select('{{%movie}}.*')
+			->from([
+				'{{%movie}}',
+				'{{%user_movie}}',
+			])
+			->where(['{{%user_movie}}.[[user_id]]' => Yii::$app->user->id])
+			->andWhere('{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]')
+			->orderBy(['{{%user_movie}}.[[created_at]]' => SORT_DESC])
+			->offset($pages->offset)
+			->limit($pages->limit)
+			->all();
+
+		return $this->render('dashboard', [
+			'movies' => $movies,
+			'pages' => $pages,
+			'recommendMovies' => Movie::getRecommend()->limit(20)->all(),
+			'watchlistMovies' => Movie::getWatchlist()->all(),
+		]);
 	}
 
 	public function actionView($slug)

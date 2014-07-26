@@ -17,6 +17,8 @@ $config['components']['urlManager'] = [
 		// TV
 		'tv' => 'tv/index',
 		'tv/load' => 'tv/load',
+		'tv/popular' => 'tv/popular',
+		'tv/dashboard' => 'tv/dashboard',
 		'tv/subscribe/<slug:.*?>' => 'tv/subscribe',
 		'tv/unsubscribe/<slug:.*?>' => 'tv/unsubscribe',
 		'tv/archive' => 'tv/archive',
@@ -28,6 +30,8 @@ $config['components']['urlManager'] = [
 		// Movies
 		'movies' => 'movie/index',
 		'movie/load' => 'movie/load',
+		'movie/popular' => 'movie/popular',
+		'movie/dashboard' => 'movie/dashboard',
 		'movie/watch/<slug:.*?>' => 'movie/watch',
 		'movie/unwatch/<id:\d+>' => 'movie/unwatch',
 		'movie/<slug:.*?>' => 'movie/view',

@@ -40,54 +40,30 @@ class TvController extends Controller
 	public function actionIndex()
 	{
 		if (Yii::$app->user->isGuest) {
+			return $this->actionPopular();
+		} else {
+			return $this->actionDashboard();
+		}
+	}
+
+	public function actionPopular()
+	{
+		$language = Language::find()
+			->where(['iso' => Yii::$app->language])
+			->orWhere(['iso' => Yii::$app->params['lang']['default']])
+			->one();
+
+		if ($language === null)
 			$language = Language::find()
-				->where(['iso' => Yii::$app->language])
-				->orWhere(['iso' => Yii::$app->params['lang']['default']])
+
 				->one();
 
-			if ($language === null)
-				$language = Language::find()
+		$shows = Show::popular($language->id)
+			->all();
 
-					->one();
-
-			$shows = Show::popular($language->id)
-				->all();
-
-			return $this->render('index', [
-				'shows' => $shows,
-			]);
-		} else {
-			$shows = Yii::$app->user->identity
-				->getShows()
-				->all();
-
-			// Load model because cannot be loaded in `usort`
-			foreach ($shows as $show) {
-				$show->lastEpisode;
-			}
-
-			usort($shows, function($a, $b) {
-				if ($a->lastEpisode !== null && $b->lastEpisode !== null) {
-					$aTime = strtotime($a->lastEpisode->created_at);
-					$bTime = strtotime($b->lastEpisode->created_at);
-
-					if ($aTime == $bTime)
-						return 0;
-
-					return ($aTime < $bTime) ? 1 : -1;
-				} elseif ($a->lastEpisode === null) {
-					return 1;
-				} elseif ($b->lastEpisode === null) {
-					return -1;
-				}
-
-				return 0;
-			});
-
-			return $this->render('dashboard', [
-				'shows' => $shows,
-			]);
-		}
+		return $this->render('index', [
+			'shows' => $shows,
+		]);
 	}
 
 	public function actionArchive()
@@ -120,6 +96,40 @@ class TvController extends Controller
 		});
 
 		return $this->render('archive', [
+			'shows' => $shows,
+		]);
+	}
+
+	public function actionDashboard()
+	{
+		$shows = Yii::$app->user->identity
+			->getShows()
+			->all();
+
+		// Load model because cannot be loaded in `usort`
+		foreach ($shows as $show) {
+			$show->lastEpisode;
+		}
+
+		usort($shows, function($a, $b) {
+			if ($a->lastEpisode !== null && $b->lastEpisode !== null) {
+				$aTime = strtotime($a->lastEpisode->created_at);
+				$bTime = strtotime($b->lastEpisode->created_at);
+
+				if ($aTime == $bTime)
+					return 0;
+
+				return ($aTime < $bTime) ? 1 : -1;
+			} elseif ($a->lastEpisode === null) {
+				return 1;
+			} elseif ($b->lastEpisode === null) {
+				return -1;
+			}
+
+			return 0;
+		});
+
+		return $this->render('dashboard', [
 			'shows' => $shows,
 		]);
 	}

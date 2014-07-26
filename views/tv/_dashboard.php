@@ -14,8 +14,12 @@ use \yii\widgets\ActiveForm;
 				<?php echo $title; ?>
 
 				<?php if (!$archive): ?>
-					<small><a href="<?php echo Url::toRoute(['archive']); ?>"><?php echo Yii::t('Show/Dashboard', 'Archive'); ?></a></small>
+					<small><a href="<?php echo Url::toRoute(['archive']); ?>"><?php echo Yii::t('Show/Dashboard', 'Archive'); ?></a> | </small>
+				<?php else: ?>
+					<small><a href="<?php echo Url::toRoute(['dashboard']); ?>"><?php echo Yii::t('Show/Dashboard', 'Your TV Shows'); ?></a> | </small>
 				<?php endif; ?>
+
+				<small><a href="<?php echo Url::toRoute(['popular']); ?>"><?php echo Yii::t('Show/Dashboard', 'Popular'); ?></a></small>
 			</h1>
 		</div>
 

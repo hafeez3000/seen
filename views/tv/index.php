@@ -12,7 +12,15 @@ $this->title[] = Yii::t('Show/Index', 'TV Shows');
 <div id="tv-index">
 	<div class="row" id="tv-dashboard-header">
 		<div class="col-sm-6 col-md-8">
-			<h1><?php echo Yii::t('Show/Index', 'Popular TV Shows'); ?></h1>
+			<h1>
+				<?php echo Yii::t('Show/Index', 'Popular TV Shows'); ?>
+
+				<?php if (!Yii::$app->user->isGuest): ?>
+					<small><a href="<?php echo Url::toRoute(['dashboard']); ?>"><?php echo Yii::t('Show/Dashboard', 'Your TV Shows'); ?></a> | </small>
+
+					<small><a href="<?php echo Url::toRoute(['archive']); ?>"><?php echo Yii::t('Show/Dashboard', 'Archive'); ?></a></small>
+				<?php endif; ?>
+			</h1>
 		</div>
 
 		<div class="col-sm-6 col-md-4">
