@@ -120,6 +120,7 @@ class MovieController extends Controller
 				'cast.person',
 				'similarMovies',
 				'similarMovies.userWatches',
+				'genres',
 			])
 			->one();
 		if ($movie === null)

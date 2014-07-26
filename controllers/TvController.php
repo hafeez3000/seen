@@ -137,6 +137,7 @@ class TvController extends Controller
 				'crew',
 				'crew.person',
 				'language',
+				'genres',
 			])
 			->one();
 		if ($show === null)
