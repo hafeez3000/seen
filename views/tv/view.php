@@ -100,6 +100,16 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 							<td><a href="<?php echo $show->homepage; ?>" title="<?php echo $show->homepage; ?>"><?php echo Html::encode($show->homepage); ?></a></td>
 						</tr>
 					<?php endif; ?>
+
+					<?php if ($show->vote_count > 0): ?>
+						<tr>
+							<td><?php echo Yii::t('Show', 'Voting'); ?></td>
+							<td><span title="<?php echo Yii::t('Show', '{average}/10 ({count} Votes)', [
+								'average' => $show->vote_average,
+								'count' => $show->vote_count,
+								]); ?>"><?php for ($i = 0; $i < round($show->vote_average); $i++): ?><span class="glyphicon glyphicon-star"></span><?php endfor; ?></span></td>
+						</tr>
+					<?php endif; ?>
 				</table>
 			</div>
 
