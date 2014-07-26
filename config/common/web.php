@@ -18,10 +18,6 @@ $config['components']['errorHandler'] = [
 	'errorAction' => 'site/error',
 ];
 
-$config['modules']['gridview'] = [
-	'class' => '\kartik\grid\Module'
-];
-
 $config['components']['assetManager'] = [
 	'bundles' => [
 		'yii\bootstrap\BootstrapAsset' => [
@@ -35,4 +31,12 @@ $config['components']['assetManager'] = [
 			'js' => [$baseUrl . '/js/jquery.min.js'],
 		],
 	],
+];
+
+$config['components']['request'] = [
+	'cookieValidationKey' => 'ulht1utnbaliHGHKABHha89124bujlksaf',
+];
+
+$config['modules']['gridview'] = [
+	'class' => '\kartik\grid\Module'
 ];
