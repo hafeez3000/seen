@@ -68,11 +68,11 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 		<div class="col-sm-8">
 			<?php if (!empty($movie->overview)): ?>
 				<div class="row">
-					<div class="col-md-8" id="movie-view-overview">
+					<div class="col-md-7" id="movie-view-overview">
 						<?php echo Html::encode($movie->overview); ?>
 					</div>
 
-					<div class="col-md-4 movie-view-details" id="movie-view-details-side">
+					<div class="col-md-5 movie-view-details" id="movie-view-details-side">
 						<?php echo $this->render('_details', [
 							'movie' => $movie,
 						]); ?>

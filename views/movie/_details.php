@@ -71,10 +71,19 @@ use \app\components\LanguageHelper;
 		<?php if ($movie->vote_average !== null && $movie->vote_average > 0): ?>
 			<tr>
 				<td><?php echo Yii::t('Movie', 'Voting'); ?></td>
-				<td><span title="<?php echo Yii::t('Movie', '{average}/10 ({count} Votes)', [
-					'average' => $movie->vote_average,
-					'count' => $movie->vote_count,
-					]); ?>"><?php for ($i = 0; $i < round($movie->vote_average); $i++): ?><span class="glyphicon glyphicon-star"></span><?php endfor; ?></span></td>
+				<td>
+					<span title="<?php echo Yii::t('Movie', '{average}/10 ({count} Votes)', [
+						'average' => $movie->vote_average,
+						'count' => $movie->vote_count,
+						]); ?>">
+						<?php for ($i = 0; $i < round($movie->vote_average); $i++): ?>
+							<span class="glyphicon glyphicon-star"></span>
+						<?php endfor; ?>
+						<?php for ($i = round($movie->vote_average); $i < 10; $i++): ?>
+							<span class="glyphicon glyphicon-star-empty"></span>
+						<?php endfor; ?>
+					</span>
+				</td>
 			</tr>
 		<?php endif; ?>
 	</tbody>
