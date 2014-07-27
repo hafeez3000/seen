@@ -9,43 +9,40 @@ if ($env == 'development') {
 }
 
 if (isset($_SERVER['DEBUG']) && $_SERVER['DEBUG'] == true) {
-	/**
-	* Error handler, passes flow over the exception logger with new ErrorException.
-	*/
-	function log_error($num, $str, $file, $line, $context = null)
-	{
-		log_exception(new ErrorException($str, 0, $num, $file, $line));
+	echo "Debugging...\n";
+
+	declare(ticks=1);
+
+	$profile = array();
+	$last_time = microtime(true);
+
+	function do_profile() {
+		global $profile, $last_time;
+		$bt = debug_backtrace();
+		if (count($bt) <= 1) {
+			return ;
+		}
+		$frame = $bt[1];
+		unset($bt);
+		$function = $frame['function'];
+		if (!isset($profile[$function])) {
+			$profile[$function] = array(
+				'time'  => 0,
+				'calls' => 0
+			);
+		}
+		$profile[$function]['calls']++;
+		$profile[$function]['time'] += (microtime(true) - $last_time);
+		$last_time = microtime(true);
 	}
 
-	/**
-	* Uncaught exception handler.
-	*/
-	function log_exception(Exception $e)
-	{
-		echo 'Class: ' . get_class($e) . "\n";
-		echo 'Message: ' . $e->getMessage() . "\n";
-		echo 'File: ' . $e->getFile() . "\n";
-		echo 'Line: ' . $e->getLine() . "\n";
-
-		var_dump(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 10));
-
-		exit();
+	function show_profile() {
+		global $profile;
+		print_r($profile);
 	}
 
-	/**
-	* Checks for a fatal error, work around for set_error_handler not working on fatal errors.
-	*/
-	function check_for_fatal()
-	{
-		$error = error_get_last();
-		if ( $error["type"] == E_ERROR )
-			log_error( $error["type"], $error["message"], $error["file"], $error["line"] );
-	}
-
-	register_shutdown_function('check_for_fatal');
-	set_error_handler('log_error');
-	set_exception_handler('log_exception');
-	error_reporting(E_ALL);
+	register_tick_function('do_profile');
+	register_shutdown_function('show_profile');
 }
 
 // fcgi doesn't have STDIN and STDOUT defined by default
