@@ -120,17 +120,14 @@ if (!YII_ENV_TEST) {
 			'file' => [ // Log errors to file as a fallback
 				'class' => 'yii\log\FileTarget',
 				'levels' => ['error'],
-				'exportInterval' => 100,
 			],
 			'db' => [ // Log important messages to database
 				'class' => 'yii\log\DbTarget',
-				'exportInterval' => 100,
 				'levels' => ['error', 'warning'],
 			],
 			'app' => [ // Log mail/sync info messages to database
 				'class' => 'yii\log\DbTarget',
 				'levels' => ['info'],
-				'exportInterval' => 100,
 				'categories' => [
 					'application\sync',
 					'application\mail',
