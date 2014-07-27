@@ -6,6 +6,44 @@ $env = isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'devel
 
 if ($env == 'development') {
 	defined('YII_DEBUG') or define('YII_DEBUG', true);
+
+	/**
+	* Error handler, passes flow over the exception logger with new ErrorException.
+	*/
+	function log_error($num, $str, $file, $line, $context = null)
+	{
+		log_exception(new ErrorException($str, 0, $num, $file, $line));
+	}
+
+	/**
+	* Uncaught exception handler.
+	*/
+	function log_exception(Exception $e)
+	{
+		echo 'Class: ' . get_class($e) . "\n";
+		echo 'Message: ' . $e->getMessage() . "\n";
+		echo 'File: ' . $e->getFile() . "\n";
+		echo 'Line: ' . $e->getLine() . "\n";
+
+		var_dump(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 10));
+
+		exit();
+	}
+
+	/**
+	* Checks for a fatal error, work around for set_error_handler not working on fatal errors.
+	*/
+	function check_for_fatal()
+	{
+		$error = error_get_last();
+		if ( $error["type"] == E_ERROR )
+			log_error( $error["type"], $error["message"], $error["file"], $error["line"] );
+	}
+
+	register_shutdown_function('check_for_fatal');
+	set_error_handler('log_error');
+	set_exception_handler('log_exception');
+	error_reporting(E_ALL);
 }
 
 // fcgi doesn't have STDIN and STDOUT defined by default
