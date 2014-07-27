@@ -8,43 +8,6 @@ if ($env == 'development') {
 	defined('YII_DEBUG') or define('YII_DEBUG', true);
 }
 
-if (isset($_SERVER['DEBUG']) && $_SERVER['DEBUG'] == true) {
-	echo "Debugging...\n";
-
-	declare(ticks=1);
-
-	$profile = array();
-	$last_time = microtime(true);
-
-	function do_profile() {
-		global $profile, $last_time;
-		$bt = debug_backtrace();
-		if (count($bt) <= 1) {
-			return ;
-		}
-		$frame = $bt[1];
-		unset($bt);
-		$function = $frame['function'];
-		if (!isset($profile[$function])) {
-			$profile[$function] = array(
-				'time'  => 0,
-				'calls' => 0
-			);
-		}
-		$profile[$function]['calls']++;
-		$profile[$function]['time'] += (microtime(true) - $last_time);
-		$last_time = microtime(true);
-	}
-
-	function show_profile() {
-		global $profile;
-		print_r($profile);
-	}
-
-	register_tick_function('do_profile');
-	register_shutdown_function('show_profile');
-}
-
 // fcgi doesn't have STDIN and STDOUT defined by default
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'w'));
