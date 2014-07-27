@@ -6,7 +6,9 @@ $env = isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'devel
 
 if ($env == 'development') {
 	defined('YII_DEBUG') or define('YII_DEBUG', true);
+}
 
+if (isset($_SERVER['DEBUG']) && $_SERVER['DEBUG'] == true) {
 	/**
 	* Error handler, passes flow over the exception logger with new ErrorException.
 	*/
