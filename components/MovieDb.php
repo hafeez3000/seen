@@ -902,15 +902,19 @@ class MovieDb
 								$this->syncSeasonChanges($item->value->season_id, $item->value->season_number);
 								break;
 							case 'destroyed':
-								$seasons = Season::find()
-									->where([
-										'show_id' => $show->id,
-										'number' => $item->value->season_number,
-									])
-									->all();
+								foreach ($shows as $show) {
+									$seasons = Season::find()
+										->where([
+											'show_id' => array_map(function($show) {
+												return $show->id;
+											}, $shows),
+											'number' => $item->value->season_number,
+										])
+										->all();
 
-								foreach ($seasons as $season)
-									$season->delete();
+									foreach ($seasons as $season)
+										$season->delete();
+								}
 								break;
 							default:
 								var_dump($id, $attribute);
@@ -1520,6 +1524,7 @@ class MovieDb
 				case 'crew':
 				case 'imdb_id':
 				case 'tvdb_id':
+				case 'tvrage_id':
 				case 'general':
 					break;
 				case 'images':
