@@ -127,14 +127,14 @@ if (!YII_ENV_TEST) {
 				'db' => 'db',
 				'levels' => ['error', 'warning'],
 			],
-			/*'app' => [ // Log mail/sync info messages to database
+			'app' => [ // Log mail/sync info messages to database
 				'class' => 'yii\log\DbTarget',
 				'levels' => ['info'],
 				'categories' => [
 					'application\sync',
 					'application\mail',
 				],
-			],*/
+			],
 		],
 	];
 }

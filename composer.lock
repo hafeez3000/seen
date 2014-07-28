@@ -675,12 +675,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widgets.git",
-                "reference": "c8e6184bbe1eaa5244f9ffe2826f6390939092c7"
+                "reference": "57c85923a37409a98e56af7f788bc4a314caaf3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widgets/zipball/c8e6184bbe1eaa5244f9ffe2826f6390939092c7",
-                "reference": "c8e6184bbe1eaa5244f9ffe2826f6390939092c7",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widgets/zipball/57c85923a37409a98e56af7f788bc4a314caaf3d",
+                "reference": "57c85923a37409a98e56af7f788bc4a314caaf3d",
                 "shasum": ""
             },
             "require": {
@@ -715,7 +715,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-07-17 18:48:02"
+            "time": "2014-07-28 14:05:04"
         },
         {
             "name": "mailchimp/mailchimp",
@@ -901,12 +901,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "c2f4e5fef1e9f11fa532cb98ccf088e8890e25fc"
+                "reference": "5892273a2367ccc0b599414e848ccabd74781403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/c2f4e5fef1e9f11fa532cb98ccf088e8890e25fc",
-                "reference": "c2f4e5fef1e9f11fa532cb98ccf088e8890e25fc",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/5892273a2367ccc0b599414e848ccabd74781403",
+                "reference": "5892273a2367ccc0b599414e848ccabd74781403",
                 "shasum": ""
             },
             "replace": {
@@ -944,7 +944,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-07-25 18:02:30"
+            "time": "2014-07-28 00:08:27"
         },
         {
             "name": "yiisoft/jquery",
@@ -1001,12 +1001,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "8b5b6f9378210c09ca4c4ece8dbed580a5d7dec3"
+                "reference": "6640551ac2fb456d1ec7993c48092c2e8de1df0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/8b5b6f9378210c09ca4c4ece8dbed580a5d7dec3",
-                "reference": "8b5b6f9378210c09ca4c4ece8dbed580a5d7dec3",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/6640551ac2fb456d1ec7993c48092c2e8de1df0e",
+                "reference": "6640551ac2fb456d1ec7993c48092c2e8de1df0e",
                 "shasum": ""
             },
             "require": {
@@ -1074,7 +1074,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-07-25 22:46:58"
+            "time": "2014-07-28 09:36:06"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1972,12 +1972,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "61145103b6521d04c0386d1ea6899437df9d45e2"
+                "reference": "40dda4876d45602d7b9b0b5109027f51e291d64b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/61145103b6521d04c0386d1ea6899437df9d45e2",
-                "reference": "61145103b6521d04c0386d1ea6899437df9d45e2",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/40dda4876d45602d7b9b0b5109027f51e291d64b",
+                "reference": "40dda4876d45602d7b9b0b5109027f51e291d64b",
                 "shasum": ""
             },
             "require": {
@@ -2008,7 +2008,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10.x-dev"
+                    "dev-master": "1.11.x-dev"
                 }
             },
             "autoload": {
@@ -2034,7 +2034,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-07-19 19:11:34"
+            "time": "2014-07-28 11:23:37"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2084,12 +2084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "880bc9d9e60a4817ca138b8f5377e313741bf7db"
+                "reference": "11c4a62af68bdc681c52dd77acc0558907078881"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/880bc9d9e60a4817ca138b8f5377e313741bf7db",
-                "reference": "880bc9d9e60a4817ca138b8f5377e313741bf7db",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/11c4a62af68bdc681c52dd77acc0558907078881",
+                "reference": "11c4a62af68bdc681c52dd77acc0558907078881",
                 "shasum": ""
             },
             "require": {
@@ -2174,7 +2174,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2014-07-24 15:32:38"
+            "time": "2014-07-26 15:20:06"
         },
         {
             "name": "phpspec/php-diff",
@@ -2634,12 +2634,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/BrowserKit.git",
-                "reference": "c8b7ca1034645c67e01c14c4dc25eab4e4cb1df7"
+                "reference": "e09f62da7b58956a84734627310619a7438657a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/c8b7ca1034645c67e01c14c4dc25eab4e4cb1df7",
-                "reference": "c8b7ca1034645c67e01c14c4dc25eab4e4cb1df7",
+                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/e09f62da7b58956a84734627310619a7438657a6",
+                "reference": "e09f62da7b58956a84734627310619a7438657a6",
                 "shasum": ""
             },
             "require": {
@@ -2670,19 +2670,17 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-09 09:06:26"
+            "time": "2014-07-28 13:20:53"
         },
         {
             "name": "symfony/console",
@@ -2852,12 +2850,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "c2f8a5d3181736d107d6622a536fbdcd55436674"
+                "reference": "68ab3c3f50eae2b152075da722204d4de67f596f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/c2f8a5d3181736d107d6622a536fbdcd55436674",
-                "reference": "c2f8a5d3181736d107d6622a536fbdcd55436674",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/68ab3c3f50eae2b152075da722204d4de67f596f",
+                "reference": "68ab3c3f50eae2b152075da722204d4de67f596f",
                 "shasum": ""
             },
             "require": {
@@ -2890,19 +2888,17 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-09 09:06:26"
+            "time": "2014-07-28 13:20:53"
         },
         {
             "name": "symfony/finder",
@@ -2911,12 +2907,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "45fbbe9444b04be0a8595a86d91808278a0d22fc"
+                "reference": "3329a4cb19075326ef2cc2abe848aa21b84905cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/45fbbe9444b04be0a8595a86d91808278a0d22fc",
-                "reference": "45fbbe9444b04be0a8595a86d91808278a0d22fc",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/3329a4cb19075326ef2cc2abe848aa21b84905cf",
+                "reference": "3329a4cb19075326ef2cc2abe848aa21b84905cf",
                 "shasum": ""
             },
             "require": {
@@ -2939,19 +2935,17 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-15 14:15:21"
+            "time": "2014-07-28 13:20:53"
         },
         {
             "name": "symfony/process",
@@ -2960,12 +2954,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "1ae465bdcce0cd02eb2c6a2b504acb32264f63c3"
+                "reference": "521c487651e6374ca4b750e7f6fabaeff0bb2186"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/1ae465bdcce0cd02eb2c6a2b504acb32264f63c3",
-                "reference": "1ae465bdcce0cd02eb2c6a2b504acb32264f63c3",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/521c487651e6374ca4b750e7f6fabaeff0bb2186",
+                "reference": "521c487651e6374ca4b750e7f6fabaeff0bb2186",
                 "shasum": ""
             },
             "require": {
@@ -2998,7 +2992,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-07-24 17:03:35"
+            "time": "2014-07-28 13:20:53"
         },
         {
             "name": "symfony/yaml",
