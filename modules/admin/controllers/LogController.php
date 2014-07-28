@@ -17,7 +17,7 @@ class LogController extends BaseController
 				'only' => ['index'],
 				'rules' => [
 					[
-						'actions' => ['index'],
+						'actions' => ['index', 'important', 'missing'],
 						'allow' => true,
 						'roles' => ['viewLogs'],
 					],
@@ -45,6 +45,57 @@ class LogController extends BaseController
 			->all();
 
 		return $this->render('index', [
+			'pages' => $pages,
+			'logs' => $logs,
+		]);
+	}
+
+	public function actionImportant()
+	{
+		$logs = Log::find()
+			->where('[[category]] != "yii\web\HttpException:404"')
+			->andWhere('[[level]] <= 2')
+			->orderBy([
+				'log_time' => SORT_DESC,
+				'id' => SORT_DESC,
+			]);
+
+		$pages = new Pagination([
+			'totalCount' => $logs->count(),
+			'defaultPageSize' => 50,
+		]);
+
+		$logs = $logs
+			->offset($pages->offset)
+			->limit($pages->limit)
+			->all();
+
+		return $this->render('important', [
+			'pages' => $pages,
+			'logs' => $logs,
+		]);
+	}
+
+	public function actionMissing()
+	{
+		$logs = Log::find()
+			->where(['category' => 'yii\web\HttpException:404'])
+			->orderBy([
+				'log_time' => SORT_DESC,
+				'id' => SORT_DESC,
+			]);
+
+		$pages = new Pagination([
+			'totalCount' => $logs->count(),
+			'defaultPageSize' => 50,
+		]);
+
+		$logs = $logs
+			->offset($pages->offset)
+			->limit($pages->limit)
+			->all();
+
+		return $this->render('missing', [
 			'pages' => $pages,
 			'logs' => $logs,
 		]);
