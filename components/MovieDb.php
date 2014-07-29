@@ -1528,6 +1528,7 @@ class MovieDb
 				case 'crew':
 				case 'imdb_id':
 				case 'tvdb_id':
+				case 'freebase_mid':
 				case 'tvrage_id':
 				case 'general':
 					break;
