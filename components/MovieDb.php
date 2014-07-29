@@ -545,6 +545,10 @@ class MovieDb
 
 					$season->link('episodes', $episode);
 					continue;
+				} else {
+					$episode->attributes = (array) $episodeAttributes;
+					$episode->number = $episodeAttributes->episode_number;
+					$episode->save();
 				}
 
 				if (!Episode::find()->where(['number' => $episode->number, 'season_id' => $season->id])->exists())
