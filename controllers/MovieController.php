@@ -28,10 +28,10 @@ class MovieController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['watch', 'unwatch', 'recommend'],
+				'only' => ['watch', 'unwatch'],
 				'rules' => [
 					[
-						'actions' => ['watch', 'unwatch', 'recommend'],
+						'actions' => ['watch', 'unwatch'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
