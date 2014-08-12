@@ -50,12 +50,16 @@ class SyncController extends Controller
 			$shows = $shows->andWhere(['updated_at' => null]);
 		else
 			$shows = $shows
-				->where('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
+				->orWhere('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
 				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$showCount = $shows->count();
 			$i = 1;
+
+			if ($showCount == 0) {
+				echo "No shows found!\n";
+			}
 		}
 
 		foreach ($shows->each() as $show) {
