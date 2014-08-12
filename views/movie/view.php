@@ -55,7 +55,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 			</div>
 		</div>
 
-		<div class="col-sm-3 col-lg-3">
+		<div class="col-sm-3 col-lg-3 search-wrapper">
 			<?php echo $this->render('/site/_search'); ?>
 		</div>
 	</div>

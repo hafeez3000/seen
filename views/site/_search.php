@@ -14,5 +14,7 @@ use \yii\widgets\ActiveForm;
 		'data-person-url' => Yii::$app->urlManager->createAbsoluteUrl(['person/load']),
 	]
 ]); ?>
+
 	<input type="hidden" id="search" name="id" style="margin-top: 30px; width: 100%;">
-<?php ActiveForm::end(); ?>
+
+<?php ActiveForm::end();

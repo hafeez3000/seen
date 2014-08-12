@@ -23,7 +23,7 @@ $this->title[] = Yii::t('Show/Index', 'TV Shows');
 			</h1>
 		</div>
 
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-6 col-md-4 search-wrapper">
 			<?php echo $this->render('/site/_search'); ?>
 		</div>
 	</div>
