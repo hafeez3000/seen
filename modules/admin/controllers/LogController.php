@@ -53,11 +53,14 @@ class LogController extends BaseController
 	public function actionImportant()
 	{
 		$logs = Log::find()
-			->where('[[category]] != "yii\web\HttpException:404"')
+			->where('STRCMP([[category]], :notfound) != 0')
 			->andWhere('[[level]] <= 2')
 			->orderBy([
 				'log_time' => SORT_DESC,
 				'id' => SORT_DESC,
+			])
+			->params([
+				':notfound' => 'yii\web\HttpException:404',
 			]);
 
 		$pages = new Pagination([
