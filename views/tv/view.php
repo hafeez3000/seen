@@ -101,7 +101,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 						</tr>
 					<?php endif; ?>
 
-					<?php if (count($show->genres > 0)): ?>
+					<?php /*if (count($show->genres > 0)): ?>
 						<tr>
 							<td><?php echo Yii::t('Show', 'Genres'); ?></td>
 							<td class="breakable tv-view-details-genres">
@@ -110,7 +110,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 								<?php endforeach; ?>
 							</td>
 						</tr>
-					<?php endif; ?>
+					<?php endif;*/ ?>
 
 					<?php if ($show->vote_count > 0): ?>
 						<tr>
