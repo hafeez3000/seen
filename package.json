@@ -1,6 +1,6 @@
 {
   "name": "seen",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "SEEN",
   "main": "web/index.php",
   "directories": {
@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/thelfensdrfer/seen",
   "dependencies": {
-    "grunt": "^0.4.4",
-    "grunt-contrib-concat": "^0.4.0",
-    "grunt-contrib-copy": "^0.5.0",
-    "grunt-contrib-less": "^0.11.0",
-    "grunt-contrib-uglify": "^0.4.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt": "0.4.*",
+    "grunt-contrib-concat": "0.5.*",
+    "grunt-contrib-copy": "0.5.*",
+    "grunt-contrib-less": "0.11.*",
+    "grunt-contrib-uglify": "0.5.*",
+    "grunt-contrib-watch": "0.6.*"
   }
 }

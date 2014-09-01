@@ -834,6 +834,13 @@ class MovieDb
 		}
 
 		$person->attributes = (array) $attributes;
+		if (!empty($person->birthday)) {
+			$person->birthday = date('Y-m-d', strtotime($person->birthday));
+		}
+		if (!empty($person->deathday)) {
+			$person->deathday = date('Y-m-d', strtotime($person->deathday));
+		}
+
 		$person->deleted_at = null;
 
 		if (!$person->save()) {
@@ -1018,6 +1025,24 @@ class MovieDb
 
 								break;
 							case 'updated':
+								break;
+							case 'deleted':
+								$person = Person::findOne($item->value->person_id);
+
+								if ($person !== null) {
+									foreach ($shows as $show) {
+										$crew = ShowCrew::find()
+											->where([
+												'show_id' => $show->id,
+												'person_id' => $person->id,
+											])
+											->one();
+
+										if ($crew !== null) {
+											$crew->delete();
+										}
+									}
+								}
 								break;
 							default:
 								var_dump($id, $attribute);
