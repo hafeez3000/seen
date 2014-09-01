@@ -386,6 +386,8 @@ class TvController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully unarchived `{name}`.', [
 					'name' => $show->name,
 				]));
+
+				return $this->redirect(['index']);
 			}
 		} else {
 			Yii::error("User #{Yii::$app->user->id} could not unarchive show #{$show->id}");
