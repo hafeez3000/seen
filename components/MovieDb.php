@@ -1019,6 +1019,24 @@ class MovieDb
 								break;
 							case 'updated':
 								break;
+							case 'deleted':
+								$person = Person::findOne($item->value->person_id);
+
+								if ($person !== null) {
+									foreach ($shows as $show) {
+										$crew = ShowCrew::find()
+											->where([
+												'show_id' => $show->id,
+												'person_id' => $person->id,
+											])
+											->one();
+
+										if ($crew !== null) {
+											$crew->delete();
+										}
+									}
+								}
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv crew item action ' . $item->action);
