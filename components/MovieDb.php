@@ -834,6 +834,13 @@ class MovieDb
 		}
 
 		$person->attributes = (array) $attributes;
+		if (!empty($person->birthday)) {
+			$person->birthday = date('Y-m-d', strtotime($person->birthday));
+		}
+		if (!empty($person->deathday)) {
+			$person->deathday = date('Y-m-d', strtotime($person->deathday));
+		}
+
 		$person->deleted_at = null;
 
 		if (!$person->save()) {
