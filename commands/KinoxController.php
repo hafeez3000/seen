@@ -20,6 +20,9 @@ class KinoxController extends Controller
 		$episodes = [];
 
 		$table = $html->find('table', 1);
+		if (!is_callable(array($table, 'find')))
+			return;
+
 		foreach ($table->find('tbody tr') as $show) {
 			$element = $show->find('.Title a', 0);
 
