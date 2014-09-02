@@ -1027,7 +1027,7 @@ class MovieDb
 							case 'updated':
 								break;
 							case 'deleted':
-								$person = Person::findOne($item->value->person_id);
+								$person = Person::findOne($item->original_value->person_id);
 
 								if ($person !== null) {
 									foreach ($shows as $show) {
