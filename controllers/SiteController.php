@@ -151,10 +151,11 @@ class SiteController extends Controller
 		if ($model->load(Yii::$app->request->post()) && $model->send()) {
 			Yii::$app->session->setFlash('info', Yii::t('User/Reset', 'Please check your emails to reset your password!'));
 			return $this->redirect(['login']);
-		} else
+		} else {
 			return $this->render('reset-send', [
 				'model' => $model,
 			]);
+		}
 	}
 
 	public function actionResetPassword($token)
