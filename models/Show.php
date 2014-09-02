@@ -376,6 +376,11 @@ class Show extends ActiveRecord
 			->andWhere('{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]');
 	}
 
+	/**
+	 * Get the latest episodes for the current user seen in this show.
+	 *
+	 * @return yii\db\ActiveQuery
+	 */
 	public function getLatestUserEpisodes()
 	{
 		return UserEpisode::findBySql('
@@ -408,6 +413,12 @@ class Show extends ActiveRecord
 			]);
 	}
 
+	/**
+	 * Get an array for the latest episodes seen by the current user indexed by
+	 * episode ids
+	 *
+	 * @return array
+	 */
 	public function getUserEpisodesSeen()
 	{
 		return $this
@@ -417,6 +428,11 @@ class Show extends ActiveRecord
 			->all();
 	}
 
+	/**
+	 * Get the backdrop image.
+	 *
+	 * @return string
+	 */
 	public function getBackdropUrl()
 	{
 		if (!empty($this->backdrop_path))
@@ -425,6 +441,11 @@ class Show extends ActiveRecord
 			return 'data-src="holder.js/720x720/#eee:#555/text:' . $this->name . '"';
 	}
 
+	/**
+	 * Get the poster image.
+	 *
+	 * @return string
+	 */
 	public function getPosterUrl()
 	{
 		if (!empty($this->poster_path))
@@ -433,11 +454,35 @@ class Show extends ActiveRecord
 			return 'data-src="holder.js/175x272/#eee:#555/text:' . $this->name . '"';
 	}
 
+	/**
+	 * Get the large poster image.
+	 *
+	 * @return string
+	 */
 	public function getPosterUrlLarge()
 	{
 		if (!empty($this->poster_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path . '"';
 		else
 			return 'data-src="holder.js/500x735/#eee:#555/text:' . $this->name . '"';
+	}
+
+	/**
+	 * Check if the show is in the archive of the user with $userId or the current
+	 * user if $userId is null.
+	 *
+	 * @param mixed $userId User ID (Default: null)
+	 * @return boolean
+	 */
+	public function isArchived($userId = null)
+	{
+		$userId = ($userId === null) ? Yii::$app->user->id : $userId;
+
+		$userShow = UserShow::find()
+			->where(['[[show_id]]' => $this->id])
+			->andWhere(['[[user_id]]' => $userId])
+			->one();
+
+		return (bool) $userShow['archived'];
 	}
 }

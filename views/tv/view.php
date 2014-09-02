@@ -34,6 +34,14 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 					<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Subscribe'); ?></a>
 				<?php endif; ?>
 
+				<?php if (!Yii::$app->user->isGuest): ?>
+					<?php if ($show->isArchived()): ?>
+						<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Restore from archive'); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
+					<?php else: ?>
+						<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Move to archive'); ?>"><span class="glyphicon glyphicon-lock"></span></a>
+					<?php endif; ?>
+				<?php endif; ?>
+
 				<?php if (Yii::$app->user->can('admin')): ?>
 					<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'themoviedbId' => $show->themoviedb_id]); ?>"><?php echo Yii::t('Show', 'Sync') ?></a>
 				<?php endif; ?>
