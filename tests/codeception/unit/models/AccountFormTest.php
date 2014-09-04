@@ -6,7 +6,7 @@ use \Codeception\Util\Debug;
 
 use \app\models\User;
 use \app\models\forms\AccountForm;
-use \app\tests\unit\fixtures\UserFixture;
+use \app\tests\codeception\unit\fixtures\UserFixture;
 
 class AccountFormTest extends DbTestCase
 {

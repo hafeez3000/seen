@@ -5,7 +5,7 @@ use \yii\codeception\DbTestCase;
 
 use \app\models\Email;
 use \app\models\forms\EmailReplyForm;
-use \app\tests\unit\fixtures\UserFixture;
+use \app\tests\codeception\unit\fixtures\UserFixture;
 
 class EmailReplyFormTest extends DbTestCase
 {

@@ -1,4 +1,4 @@
-<?php namespace app\tests\unit\fixtures;
+<?php namespace app\tests\codeception\unit\fixtures;
 
 use \yii\test\ActiveFixture;
 

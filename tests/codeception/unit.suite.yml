@@ -13,6 +13,6 @@ modules:
             dsn: 'mysql:host=localhost;dbname=testing'
             user: 'travis'
             password: ''
-            dump: 'tests/_data/dump.sql'
+            dump: codeception/_data/dump.sql
             populate: true
             cleanup: false

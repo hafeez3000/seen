@@ -4,7 +4,7 @@ use \Yii;
 use \yii\codeception\DbTestCase;
 
 use \app\models\forms\LoginForm;
-use \app\tests\unit\fixtures\UserFixture;
+use \app\tests\codeception\unit\fixtures\UserFixture;
 
 class LoginFormTest extends DbTestCase
 {
