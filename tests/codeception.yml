@@ -20,20 +20,20 @@ coverage:
     enabled: true
     whitelist:
         include:
-            - assets/*
-            - commands/*
-            - components/*
-            - controllers/*
-            - models/*
+            - ../assets/*
+            - ../commands/*
+            - ../components/*
+            - ../controllers/*
+            - ../models/*
     blacklist:
         include:
-            - config/*
-            - messages/*
-            - migrations/*
-            - node_modules/*
-            - runtime/*
-            - tests/*
-            - upload/*
-            - vendor/*
-            - views/*
-            - web/*
+            - ../config/*
+            - ../messages/*
+            - ../migrations/*
+            - ../node_modules/*
+            - ../runtime/*
+            - ../tests/*
+            - ../upload/*
+            - ../vendor/*
+            - ../views/*
+            - ../web/*
