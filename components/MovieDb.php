@@ -1196,6 +1196,25 @@ class MovieDb
 										$show->link('networks', $network);
 
 								break;
+							case 'deleted':
+								$network = Network::findOne($item->original_value->id);
+
+								if ($network !== null) {
+									foreach ($shows as $show) {
+										$showNetworks = ShowNetwork::find()
+											->where([
+												'network_id' => $network->id,
+												'show_id' => $show->id
+											])
+											->get();
+
+										foreach ($showNetworks as $showNetwork) {
+											$showNetwork->delete();
+										}
+									}
+								}
+
+								break;
 							default:
 								var_dump($id, $attribute);
 								die('Unknown tv network item action ' . $item->action);
