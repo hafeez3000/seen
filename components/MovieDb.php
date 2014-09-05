@@ -1206,7 +1206,7 @@ class MovieDb
 												'network_id' => $network->id,
 												'show_id' => $show->id
 											])
-											->get();
+											->all();
 
 										foreach ($showNetworks as $showNetwork) {
 											$showNetwork->delete();
