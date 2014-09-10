@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "46fb93e56c19fb4ff41fc8e583174a1d",
+    "hash": "7021b15328ebf495410f2b98e85cc748",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -37,7 +37,7 @@
                 {
                     "name": "Antonio Ramirez",
                     "email": "ramirez.cobos@gmail.com",
-                    "homepage": "http://2amigos.us"
+                    "homepage": "http://www.ramirezcobos.com"
                 }
             ],
             "description": "Transliterator Helper for Yii2.",
@@ -51,16 +51,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v2.3.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "964f18be4aba82e988406ab19eac10f838eeac1a"
+                "reference": "869a72bf261a1d7ad514d9ac511733bd9faa6ccb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/964f18be4aba82e988406ab19eac10f838eeac1a",
-                "reference": "964f18be4aba82e988406ab19eac10f838eeac1a",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/869a72bf261a1d7ad514d9ac511733bd9faa6ccb",
+                "reference": "869a72bf261a1d7ad514d9ac511733bd9faa6ccb",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2014-08-06 01:40:49"
+            "time": "2014-09-05 20:59:28"
         },
         {
             "name": "cebe/markdown",
@@ -142,7 +142,7 @@
                     "name": "Carsten Brandt",
                     "email": "mail@cebe.cc",
                     "homepage": "http://cebe.cc/",
-                    "role": "Creator"
+                    "role": "Core framework development"
                 }
             ],
             "description": "A super fast highly extensible markdown parser for PHP",
@@ -806,6 +806,70 @@
             "time": "2014-09-04 10:37:11"
         },
         {
+            "name": "lusitanian/oauth",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Lusitanian/PHPoAuthLib.git",
+                "reference": "f981b349c03f7e233b7058a9d30903809898659c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Lusitanian/PHPoAuthLib/zipball/f981b349c03f7e233b7058a9d30903809898659c",
+                "reference": "f981b349c03f7e233b7058a9d30903809898659c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "predis/predis": "0.8.*@dev",
+                "symfony/http-foundation": "~2.1"
+            },
+            "suggest": {
+                "ext-openssl": "Allows for usage of secure connections with the stream-based HTTP client.",
+                "predis/predis": "Allows using the Redis storage backend.",
+                "symfony/http-foundation": "Allows using the Symfony Session storage backend."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "OAuth": "src",
+                    "OAuth\\Unit": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Desberg",
+                    "email": "david@daviddesberg.com"
+                },
+                {
+                    "name": "Pieter Hordijk",
+                    "email": "info@pieterhordijk.com",
+                    "homepage": "https://pieterhordijk.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "PHP 5.3+ oAuth 1/2 Library",
+            "keywords": [
+                "Authentication",
+                "authorization",
+                "oauth",
+                "security"
+            ],
+            "time": "2014-03-30 13:50:10"
+        },
+        {
             "name": "mailchimp/mailchimp",
             "version": "2.0.5",
             "source": {
@@ -941,6 +1005,56 @@
             "time": "2014-01-07 05:10:44"
         },
         {
+            "name": "predis/predis",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "d0b6f7992eb44682295e8ea0d6652a36fa26767a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/d0b6f7992eb44682295e8ea0d6652a36fa26767a",
+                "reference": "d0b6f7992eb44682295e8ea0d6652a36fa26767a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete PHP client library for Redis",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2014-09-05 08:49:17"
+        },
+        {
             "name": "shark/simple_html_dom",
             "version": "dev-master",
             "source": {
@@ -989,12 +1103,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "af5f2213f066159e4bc51c627c4a853fec6ddc0f"
+                "reference": "97027a2f6fad00c4d74fbef5aef6cccb179f8229"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/af5f2213f066159e4bc51c627c4a853fec6ddc0f",
-                "reference": "af5f2213f066159e4bc51c627c4a853fec6ddc0f",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/97027a2f6fad00c4d74fbef5aef6cccb179f8229",
+                "reference": "97027a2f6fad00c4d74fbef5aef6cccb179f8229",
                 "shasum": ""
             },
             "replace": {
@@ -1032,7 +1146,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-09-04 02:00:29"
+            "time": "2014-09-09 01:14:12"
         },
         {
             "name": "yiisoft/jquery",
@@ -1089,12 +1203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "21ea08284becd847090c004cf71e7c206349581e"
+                "reference": "1ebb6d1fe72a0fa768f52e0ec1e2f2c1727588fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/21ea08284becd847090c004cf71e7c206349581e",
-                "reference": "21ea08284becd847090c004cf71e7c206349581e",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/1ebb6d1fe72a0fa768f52e0ec1e2f2c1727588fb",
+                "reference": "1ebb6d1fe72a0fa768f52e0ec1e2f2c1727588fb",
                 "shasum": ""
             },
             "require": {
@@ -1162,7 +1276,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-09-05 03:34:11"
+            "time": "2014-09-10 02:37:27"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1170,12 +1284,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "309415f186e92365bce49daafeb902a5d4dead1b"
+                "reference": "a3ab453aa0d5e0b493207928ea220e83a6a0ae69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/309415f186e92365bce49daafeb902a5d4dead1b",
-                "reference": "309415f186e92365bce49daafeb902a5d4dead1b",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/a3ab453aa0d5e0b493207928ea220e83a6a0ae69",
+                "reference": "a3ab453aa0d5e0b493207928ea220e83a6a0ae69",
                 "shasum": ""
             },
             "require": {
@@ -1203,7 +1317,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2014-09-04 18:36:30"
+            "time": "2014-09-05 17:37:52"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -2038,7 +2152,7 @@
                 {
                     "name": "Anthon Pang",
                     "email": "apang@softwaredevelopment.ca",
-                    "role": "Fork Maintainer"
+                    "role": "developer"
                 }
             ],
             "description": "PHP WebDriver for Selenium 2",
@@ -2171,12 +2285,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "2ef5a00dffb122c38123f16ae1368dbbcc512e2d"
+                "reference": "3f3b9b90fbfc691aa91122c4073f169f1ae7f19f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/2ef5a00dffb122c38123f16ae1368dbbcc512e2d",
-                "reference": "2ef5a00dffb122c38123f16ae1368dbbcc512e2d",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/3f3b9b90fbfc691aa91122c4073f169f1ae7f19f",
+                "reference": "3f3b9b90fbfc691aa91122c4073f169f1ae7f19f",
                 "shasum": ""
             },
             "require": {
@@ -2261,7 +2375,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2014-09-04 20:59:18"
+            "time": "2014-09-09 14:41:58"
         },
         {
             "name": "phpspec/php-diff",
@@ -2290,7 +2404,8 @@
             "authors": [
                 {
                     "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton"
+                    "homepage": "http://github.com/chrisboulton",
+                    "role": "Original developer"
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
@@ -3174,12 +3289,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-codeception.git",
-                "reference": "05833719fc2cc14d6914e7c080267b067009b26e"
+                "reference": "fd7c91911f2d2cfbc4914a96189f164f8a761f89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-codeception/zipball/05833719fc2cc14d6914e7c080267b067009b26e",
-                "reference": "05833719fc2cc14d6914e7c080267b067009b26e",
+                "url": "https://api.github.com/repos/yiisoft/yii2-codeception/zipball/fd7c91911f2d2cfbc4914a96189f164f8a761f89",
+                "reference": "fd7c91911f2d2cfbc4914a96189f164f8a761f89",
                 "shasum": ""
             },
             "require": {
@@ -3206,7 +3321,7 @@
                 "codeception",
                 "yii2"
             ],
-            "time": "2014-08-24 10:14:35"
+            "time": "2014-09-08 11:04:42"
         },
         {
             "name": "yiisoft/yii2-debug",
@@ -3294,7 +3409,9 @@
             "time": "2014-09-03 18:09:30"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "kartik-v/yii2-grid": 20,
@@ -3304,5 +3421,7 @@
     "platform": {
         "php": ">=5.4.0"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

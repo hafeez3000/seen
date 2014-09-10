@@ -45,6 +45,8 @@ $config['components']['urlManager'] = [
 
 		// Site
 		'login' => 'site/login',
+		'login/<service:.*?>' => 'site/oauth',
+
 		'logout' => 'site/logout',
 		'account' => 'user/account',
 

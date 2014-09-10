@@ -25,7 +25,16 @@ $this->title[] = Yii::t('Site/Signup', 'Sign Up');
 	<?php echo $form->field($model, 'password')->passwordInput() ?>
 
 	<div class="form-group">
-		<?php echo Html::submitButton(Yii::t('Site/Signup', 'Create your Account'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>&nbsp;
+		<div class="clearfix">
+			<div class="pull-left">
+				<?php echo Html::submitButton(Yii::t('Site/Signup', 'Create your Account'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+			</div>
+
+			<div class="pull-right">
+				<a href="<?php echo Url::toRoute(['login/facebook']); ?>" class="btn btn-default" title="<?php echo Yii::t('Site/Signup', 'Create an account with Facebook'); ?>"><span class="social facebook"></span> <?php echo Yii::t('Site/Signup', 'Facebook'); ?></a>
+			</div>
+		</div>
+
 		<div class="form-toolbar">
 			<a href="<?php echo Url::toRoute(['login']) ?>"><?php echo Yii::t('Site/Signup', 'Already have an account?') ?></a>
 		</div>

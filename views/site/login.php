@@ -25,7 +25,15 @@ $this->title[] = Yii::t('Site/Login', 'Login');
 	<?php echo $form->field($model, 'rememberMe')->checkbox() ?>
 
 	<div class="form-group">
-		<?php echo Html::submitButton(Yii::t('Site/Login', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+		<div class="clearfix">
+			<div class="pull-left">
+				<?php echo Html::submitButton(Yii::t('Site/Login', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+			</div>
+
+			<div class="pull-right">
+				<a href="<?php echo Url::toRoute(['login/facebook']); ?>" class="btn btn-default" title="<?php echo Yii::t('Site/Login', 'Login with Facebook'); ?>"><span class="social facebook"></span> <?php echo Yii::t('Site/Login', 'Facebook'); ?></a>
+			</div>
+		</div>
 
 		<div class="form-toolbar">
 			<a href="<?php echo Url::toRoute(['reset']) ?>"><?php echo Yii::t('Site/Login', 'Forget your password?') ?></a>
