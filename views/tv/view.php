@@ -186,11 +186,23 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 			<?php $episodesSeen = $show->userEpisodesSeen; ?>
 
 			<?php foreach ($show->seasons as $season): ?>
+				<?php $seasonComplete = true; ?>
+				<?php foreach ($season->episodes as $episode): ?>
+					<?php if (!$show->isUserSubscribed || !isset($episodesSeen[$episode->id])): ?>
+						<?php $seasonComplete = false; ?>
+						<?php continue; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
+
 				<div id="tv-view-season-<?php echo $season->id; ?>" class="tv-view-season panel panel-default" data-number="<?php echo $season->number; ?>">
 					<div class="panel-heading">
 						<div class="clearfix">
 							<div class="pull-left">
-								<h3><?php echo $season->fullName; ?></h3>
+								<h3>
+									<a class="link" data-toggle="collapse" data-target="#tv-view-season-<?php echo $season->id; ?>-body">
+										<?php echo $season->fullName; ?>
+									</a>
+								</h3>
 							</div>
 
 							<div class="pull-right">
@@ -202,7 +214,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 						</div>
 					</div>
 
-					<div class="panel-body">
+					<div class="panel-body collapse <?php echo ($seasonComplete || $season->number == 0) ? '' : 'in'; ?>" id="tv-view-season-<?php echo $season->id; ?>-body">
 						<ul class="tv-view-episodes list-unstyled list-inline">
 							<?php foreach ($season->episodes as $episode): ?>
 								<li class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>"
