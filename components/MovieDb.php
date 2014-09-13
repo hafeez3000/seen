@@ -1537,6 +1537,7 @@ class MovieDb
 				case 'images':
 				case 'videos':
 				case 'general':
+				case 'freebase_mid':
 					break;
 				default:
 					var_dump($id, $attribute);
