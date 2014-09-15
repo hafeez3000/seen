@@ -9,6 +9,8 @@ class PredictionMigrateController extends Controller
 {
 	public function actionImport()
 	{
-		$client = PredictionIOClient::factory(array("appkey" => "<your app key>"));
+		$client = PredictionIOClient::factory([
+			'appkey' => Yii::$app->params['prediction']['key'],
+		]);
 	}
 }

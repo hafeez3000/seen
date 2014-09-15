@@ -125,6 +125,10 @@ class MovieDb
 		if (isset($results->results)) {
 			$output = array_merge($results->results, $output);
 
+			if (!isset($results->total_pages)) {
+				return $output;
+			}
+
 			while ($results->total_pages > $page) {
 				$page++;
 				$results = $this->get($path, array_merge($parameters, ['page' => $page]));
@@ -1027,7 +1031,7 @@ class MovieDb
 							case 'updated':
 								break;
 							case 'deleted':
-								$person = Person::findOne($item->value->person_id);
+								$person = Person::findOne($item->original_value->person_id);
 
 								if ($person !== null) {
 									foreach ($shows as $show) {
@@ -1194,6 +1198,25 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowNetwork::find()->where(['network_id' => $network->id, 'show_id' => $show->id])->exists())
 										$show->link('networks', $network);
+
+								break;
+							case 'deleted':
+								$network = Network::findOne($item->original_value->id);
+
+								if ($network !== null) {
+									foreach ($shows as $show) {
+										$showNetworks = ShowNetwork::find()
+											->where([
+												'network_id' => $network->id,
+												'show_id' => $show->id
+											])
+											->all();
+
+										foreach ($showNetworks as $showNetwork) {
+											$showNetwork->delete();
+										}
+									}
+								}
 
 								break;
 							default:
@@ -1518,6 +1541,8 @@ class MovieDb
 				case 'images':
 				case 'videos':
 				case 'general':
+				case 'freebase_mid':
+				case 'tvdb_id':
 					break;
 				default:
 					var_dump($id, $attribute);

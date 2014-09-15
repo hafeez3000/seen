@@ -11,6 +11,7 @@
 		"yiisoft/yii2": "*",
 		"yiisoft/yii2-bootstrap": "*",
 		"zelenin/yii2-slug-behavior": "0.1.*",
+		"yiisoft/yii2-redis": "dev-master",
 		"nesbot/Carbon": "1.8.*",
 		"mailchimp/mailchimp": "2.0.*",
 		"mandrill/mandrill": "1.0.*",
@@ -19,6 +20,7 @@
 		"yiisoft/yii2-jui": "*",
 		"gabrielbull/browser": "3.0.*",
 		"shark/simple_html_dom": "dev-master",
+		"predis/predis": "1.0.*",
 		"predictionio/predictionio": "0.7.*"
 	},
 	"require-dev": {

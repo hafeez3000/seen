@@ -29,7 +29,7 @@ AppAsset::register($this);
 		echo Html::encode(Yii::$app->name);
 	?></title>
 
-    <?php echo $this->render('//layouts/js_head.php'); ?>
+	<?php echo $this->render('//layouts/js_head.php'); ?>
 
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -55,11 +55,11 @@ AppAsset::register($this);
 					'options' => ['class' => 'navbar-nav'],
 					'items' => [
 						['label' => Yii::t('Site/Navigation', 'Contact'), 'url' => ['site/contact']],
-                        [
-                                'label' => Yii::t('Site/Navigation', 'Admin'),
-                                'url' => ['/admin'],
-                                'visible' => Yii::$app->user->can('supporter') || Yii::$app->user->can('admin'),
-                        ],
+						[
+								'label' => Yii::t('Site/Navigation', 'Admin'),
+								'url' => ['/admin'],
+								'visible' => Yii::$app->user->can('supporter') || Yii::$app->user->can('admin'),
+						],
 					],
 				]);
 
@@ -106,12 +106,26 @@ AppAsset::register($this);
 
 		<footer>
 			<div class="container">
-				<p>Copyright VisualAppeal, 2012-<?php echo date('Y') ?></p>
-				<p><?php echo Html::a(Yii::t('Site/Navigation', 'Imprint'), ['site/imprint']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Privacy'), ['site/privacy']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Developer'), ['developer/index']); ?></p>
+				<div class="clearfix">
+					<div class="pull-left">
+						<p>Copyright VisualAppeal, 2012-<?php echo date('Y') ?></p>
+					</div>
+
+					<div class="pull-right">
+						<p><?php echo Html::a(Yii::t('Site/Navigation', 'Imprint'), ['site/imprint']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Privacy'), ['site/privacy']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Developer'), ['developer/index']); ?></p>
+					</div>
+				</div>
+
+				<div class="clearfix">
+					<a href="https://twitter.com/seenappcom" class="twitter-follow-button" data-show-count="false" data-lang="<?php echo Yii::$app->language; ?>">Follow @seenappcom</a>
+				</div>
 			</div>
 		</footer>
 
-        <?php echo $this->render('//layouts/js_foot.php'); ?>
+		<?php echo $this->render('//layouts/js_foot.php'); ?>
+
+		<!-- Twitter -->
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 		<?php $this->endBody() ?>
 	</body>

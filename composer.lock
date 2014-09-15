@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "975b15f83a6ad7c136cdec5dbb7add3f",
+    "hash": "b7aa84d30df609fb46126976bb1cb72e",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -663,12 +663,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "0fe828a77e4c5e92fd987e624ba16a80e2052a8b"
+                "reference": "1afc8d464641607922b102b13fd289f931a88450"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/0fe828a77e4c5e92fd987e624ba16a80e2052a8b",
-                "reference": "0fe828a77e4c5e92fd987e624ba16a80e2052a8b",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/1afc8d464641607922b102b13fd289f931a88450",
+                "reference": "1afc8d464641607922b102b13fd289f931a88450",
                 "shasum": ""
             },
             "require": {
@@ -703,7 +703,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-09-15 03:41:50"
+            "time": "2014-09-15 06:41:11"
         },
         {
             "name": "kartik-v/yii2-money",
@@ -1082,6 +1082,56 @@
                 "web service"
             ],
             "time": "2014-05-10 01:14:02"
+        },
+        {
+            "name": "predis/predis",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "d0b6f7992eb44682295e8ea0d6652a36fa26767a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/d0b6f7992eb44682295e8ea0d6652a36fa26767a",
+                "reference": "d0b6f7992eb44682295e8ea0d6652a36fa26767a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete PHP client library for Redis",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2014-09-05 08:49:17"
         },
         {
             "name": "shark/simple_html_dom",
@@ -1488,6 +1538,49 @@
                 "yii2"
             ],
             "time": "2014-08-29 19:48:17"
+        },
+        {
+            "name": "yiisoft/yii2-redis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-redis.git",
+                "reference": "cf373bd91e2b022a98392a76dec395b76ce24765"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/cf373bd91e2b022a98392a76dec395b76ce24765",
+                "reference": "cf373bd91e2b022a98392a76dec395b76ce24765",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii\\redis\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc"
+                }
+            ],
+            "description": "Redis Cache, Session and ActiveRecord for the Yii framework",
+            "keywords": [
+                "active-record",
+                "cache",
+                "redis",
+                "session",
+                "yii2"
+            ],
+            "time": "2014-08-12 21:21:34"
         },
         {
             "name": "zelenin/yii2-slug-behavior",
@@ -2495,44 +2588,45 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "dev-master",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876"
+                "reference": "ad4e1e23ae01b483c16f600ff1bebec184588e32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/f8d5d08c56de5cfd592b3340424a81733259a876",
-                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/ad4e1e23ae01b483c16f600ff1bebec184588e32",
+                "reference": "ad4e1e23ae01b483c16f600ff1bebec184588e32",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
                 "php": ">=5.3.3"
             },
-            "require-dev": {
-                "phpunit/phpunit": "~4.2"
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
                 "classmap": [
-                    "src/"
+                    "PHP/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                ""
+            ],
             "license": [
                 "BSD-3-Clause"
             ],
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "lead"
                 }
             ],
             "description": "Wrapper around PHP's tokenizer extension.",
@@ -2540,7 +2634,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2014-08-31 06:12:13"
+            "time": "2014-03-03 05:10:30"
         },
         {
             "name": "phpunit/phpunit",
@@ -3244,6 +3338,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "yiisoft/yii2-redis": 20,
         "kartik-v/yii2-grid": 20,
         "shark/simple_html_dom": 20
     },

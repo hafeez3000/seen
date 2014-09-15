@@ -6,6 +6,12 @@ use \yii\web\Controller;
 use \yii\filters\VerbFilter;
 use \yii\helpers\Url;
 
+use \OAuth\ServiceFactory;
+use OAuth\OAuth2\Service\Facebook;
+use \OAuth\Common\Storage\Redis;
+use \OAuth\Common\Consumer\Credentials;
+use \Predis\Client as Predis;
+
 use \app\models\User;
 use \app\models\Language;
 use \app\models\Show;
@@ -107,6 +113,8 @@ class SiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post()) && $model->login()) {
 			Yii::$app->session->setFlash('goal', 2);
+			Yii::$app->session->setFlash('success', Yii::t('Site/Login', 'Welcome back!'));
+
 			return $this->goBack();
 		} else {
 			return $this->render('login', [
@@ -135,6 +143,7 @@ class SiteController extends Controller
 				'url-movies' => Url::toRoute(['/movies']),
 				'url-tv' => Url::toRoute(['/tv']),
 			]));
+
 			return $this->redirect(['tv/index']);
 		} else
 			return $this->render('sign-up', [
@@ -151,10 +160,11 @@ class SiteController extends Controller
 		if ($model->load(Yii::$app->request->post()) && $model->send()) {
 			Yii::$app->session->setFlash('info', Yii::t('User/Reset', 'Please check your emails to reset your password!'));
 			return $this->redirect(['login']);
-		} else
+		} else {
 			return $this->render('reset-send', [
 				'model' => $model,
 			]);
+		}
 	}
 
 	public function actionResetPassword($token)
@@ -236,5 +246,86 @@ class SiteController extends Controller
 			return $this->redirect(Yii::$app->request->referrer);
 		else
 			return $this->goHome();
+	}
+
+	public function actionOauth($service)
+	{
+		$services = [
+			'facebook',
+		];
+
+		if (!in_array($service, $services)) {
+			throw new \yii\web\BadRequestHttpException(Yii::t('Site/Login', 'Unknown service: {service}', [
+				'service' => $service,
+			]));
+		}
+
+		$redis = new Predis([
+			'host' => Yii::$app->params['redis']['host'],
+			'port' => Yii::$app->params['redis']['port'],
+		]);
+		$storage = new Redis($redis, 'seen_oauth_token', 'seen_oauth_state');
+
+		$serviceFactory = new ServiceFactory;
+
+		switch ($service) {
+			case 'facebook':
+				$service = $serviceFactory->createService('facebook', new Credentials(
+					Yii::$app->params['oauth']['facebook']['key'],
+					Yii::$app->params['oauth']['facebook']['secret'],
+					Yii::$app->request->absoluteUrl
+				), $storage, [Facebook::SCOPE_EMAIL]);
+
+				// Redirect user to facebook
+				if (Yii::$app->request->get('code', null) === null) {
+					return $this->redirect($service->getAuthorizationUri()->getAbsoluteUri());
+				}
+
+				// Get access token
+				$token = $service->requestAccessToken(Yii::$app->request->get('code', ''));
+
+				$profile = json_decode($service->request('/me'));
+
+				$user = User::findByEmail($profile->email);
+				if ($user === null) {
+					$language = Language::find()
+						->where(['iso' => substr($profile->locale, 0, 2)])
+						->one();
+
+					$user = new User;
+					$user->email = $profile->email;
+					$user->name = $profile->name;
+					$user->password = 0;
+					$user->timezone = @timezone_name_from_abbr('', ($profile->timezone - 1) * 3600, 0);
+
+					if ($language !== null) {
+						$user->language_id = $language->id;
+					}
+
+					if (!$user->save()) {
+						throw new \yii\web\HttpException(500);
+					}
+
+					Yii::$app->user->login($user, 3600 * 24 * 30);
+					Yii::$app->session->setFlash('goal', 1);
+					Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN! <a href="{url-account}">Update your timezone</a> or add <a href="{url-movies}">movies</a> or <a href="{url-tv}">tv shows</a>', [
+						'url-account' => Url::toRoute(['/user/account']),
+						'url-movies' => Url::toRoute(['/movies']),
+						'url-tv' => Url::toRoute(['/tv']),
+					]));
+					return $this->redirect(['tv/index']);
+				}
+
+				Yii::$app->user->login($user, 3600 * 24 * 30);
+				Yii::$app->session->setFlash('goal', 2);
+				Yii::$app->session->setFlash('success', Yii::t('Site/Login', 'Welcome back!'));
+				return $this->goBack();
+
+				break;
+			default:
+				throw new \yii\web\BadRequestHttpException(Yii::t('Site/Login', 'Unknown service: {service}', [
+					'service' => $service,
+				]));
+		}
 	}
 }

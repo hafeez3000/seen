@@ -45,6 +45,8 @@ $config['components']['urlManager'] = [
 
 		// Site
 		'login' => 'site/login',
+		'login/<service:.*?>' => 'site/oauth',
+
 		'logout' => 'site/logout',
 		'account' => 'user/account',
 
@@ -96,7 +98,6 @@ $config['components']['i18n'] = [
 	'translations' => [
 		'*' => [
 			'class' => 'yii\i18n\PhpMessageSource',
-			'forceTranslation' => true,
 		],
 	],
 ];

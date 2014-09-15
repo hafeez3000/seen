@@ -23,7 +23,7 @@ class DeployController extends Controller
 			'composer install --optimize-autoloader --no-dev',
 			'./yii migrate --interactive=0',
 			'grunt build_production',
-			'./yii cache/flush',
+			'./yii cache/flush-all',
 			'rm -f .maintenance',
 		], function($line) {
 			echo $line;
