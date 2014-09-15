@@ -438,4 +438,13 @@ class TvController extends Controller
 
 		return $result;
 	}
+
+	public function actionRecommend()
+	{
+		$shows = Show::getRecommend()->all();
+
+		return $this->render('recommendations', [
+			'shows' => $shows,
+		]);
+	}
 }

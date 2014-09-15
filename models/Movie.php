@@ -341,7 +341,7 @@ class Movie extends ActiveRecord
 
 			$movieIds = $client->execute($client->getCommand('itemrec_get_top_n', [
 				'pio_engine' => 'movie-recommendations',
-				'pio_n' => 25,
+				'pio_n' => 50,
 				'pio_itypes' => 'movie',
 			]));
 			$movieIds = array_map(function($movieId) {

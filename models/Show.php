@@ -3,6 +3,8 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
+use \PredictionIO\PredictionIOClient;
+
 use \app\components\TimestampBehavior;
 
 /**
@@ -411,6 +413,48 @@ class Show extends ActiveRecord
 				':user_id' => Yii::$app->user->id,
 				':show_id' => $this->id,
 			]);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public static function getRecommend()
+	{
+		try {
+			$client = PredictionIOClient::factory([
+				'appkey' => Yii::$app->params['prediction']['key'],
+			]);
+			$client->identify(Yii::$app->user->id);
+
+			$movieIds = $client->execute($client->getCommand('itemrec_get_top_n', [
+				'pio_engine' => 'tv-recommandations',
+				'pio_n' => 50,
+				'pio_itypes' => 'show',
+			]));
+			$movieIds = array_map(function($movieId) {
+				return str_replace('show-', '', $movieId);
+			}, $movieIds)['pio_iids'];
+
+			$query = Show::find()
+				->distinct()
+				->select('{{%show}}.*')
+				->from([
+					'{{%show}}',
+					'{{%language}}',
+				])
+				->where(['in', '{{%show}}.[[themoviedb_id]]', $movieIds])
+				->andWhere('{{%show}}.[[language_id]] = {{%language}}.[[id]]')
+				->andWhere('{{%language}}.[[iso]] = :language')
+				->params([
+					':language' => Yii::$app->language,
+				]);
+
+			return $query;
+		} catch (Exception $e) {
+			Yii::error('Error while getting user movie predictions:' . $e->getMessage());
+
+			return Show::find()->where(['id' => 0]);
+		}
 	}
 
 	/**
