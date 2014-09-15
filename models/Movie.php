@@ -3,6 +3,8 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
+use \PredictionIO\PredictionIOClient;
+
 use \app\components\TimestampBehavior;
 
 /**
@@ -292,10 +294,7 @@ class Movie extends ActiveRecord
 		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])->viaTable('{{%movie_popular}}', ['movie_id' => 'id']);
 	}
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public static function getRecommend()
+	protected static function getStandardRecommendations()
 	{
 		return Movie::find()
 			->distinct()
@@ -312,11 +311,11 @@ class Movie extends ActiveRecord
 				FROM {{%user_movie}} AS {{user_movie}}
 				WHERE {{user_movie}}.[[user_id]] = :user_id
 			)')
-            ->andWhere('{{%movie}}.[[id]] NOT IN (
-                SELECT {{user_movie_watchlist}}.[[movie_id]]
-                FROM {{%user_movie_watchlist}} AS {{user_movie_watchlist}}
-                WHERE {{user_movie_watchlist}}.[[user_id]] = :user_id
-            )')
+			->andWhere('{{%movie}}.[[id]] NOT IN (
+				SELECT {{user_movie_watchlist}}.[[movie_id]]
+				FROM {{%user_movie_watchlist}} AS {{user_movie_watchlist}}
+				WHERE {{user_movie_watchlist}}.[[user_id]] = :user_id
+			)')
 			->andWhere('{{%movie_similar}}.[[movie_id]] = {{%user_movie}}.[[movie_id]]')
 			->andWhere('{{%movie}}.[[id]] = {{%movie_similar}}.[[similar_to_movie_id]]')
 			->andWhere('{{%movie}}.[[release_date]] <= NOW()')
@@ -327,6 +326,52 @@ class Movie extends ActiveRecord
 				':user_id' => Yii::$app->user->id,
 				':language' => Yii::$app->language,
 			]);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public static function getRecommend()
+	{
+		try {
+			$client = PredictionIOClient::factory([
+				'appkey' => Yii::$app->params['prediction']['key'],
+			]);
+			$client->identify(Yii::$app->user->id);
+
+			$movieIds = $client->execute($client->getCommand('itemrec_get_top_n', [
+				'pio_engine' => 'movie-recommendations',
+				'pio_n' => 50,
+				'pio_itypes' => 'movie',
+			]));
+			$movieIds = array_map(function($movieId) {
+				return str_replace('movie-', '', $movieId);
+			}, $movieIds)['pio_iids'];
+
+			$query = Movie::find()
+				->distinct()
+				->select('{{%movie}}.*')
+				->from([
+					'{{%movie}}',
+					'{{%language}}',
+				])
+				->where(['in', '{{%movie}}.[[themoviedb_id]]', $movieIds])
+				->andWhere('{{%movie}}.[[language_id]] = {{%language}}.[[id]]')
+				->andWhere('{{%language}}.[[iso]] = :language')
+				->params([
+					':language' => Yii::$app->language,
+				]);
+
+			if ($query->count() <= 5) {
+				return self::getStandardRecommendations();
+			}
+
+			return $query;
+		} catch (Exception $e) {
+			Yii::error('Error while getting user movie predictions:' . $e->getMessage());
+
+			return self::getStandardRecommendations();
+		}
 	}
 
 	/**

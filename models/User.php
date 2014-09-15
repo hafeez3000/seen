@@ -334,6 +334,11 @@ class User extends ActiveRecord implements IdentityInterface
 		return $this->hasOne(Language::className(), ['id' => 'language_id']);
 	}
 
+	/**
+	 * Get user episodes for this user.
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getUserEpisodes()
 	{
 		return Episode::find()
@@ -347,6 +352,11 @@ class User extends ActiveRecord implements IdentityInterface
 			->andWhere('{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]');
 	}
 
+	/**
+	 * Get episodes seen by this user.
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getEpisodes()
 	{
 		return Episode::find()

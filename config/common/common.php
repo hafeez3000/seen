@@ -19,6 +19,7 @@ $config['components']['urlManager'] = [
 		'tv/load' => 'tv/load',
 		'tv/popular' => 'tv/popular',
 		'tv/dashboard' => 'tv/dashboard',
+		'tv/recommend' => 'tv/recommend',
 		'tv/subscribe/<slug:.*?>' => 'tv/subscribe',
 		'tv/unsubscribe/<slug:.*?>' => 'tv/unsubscribe',
 		'tv/archive' => 'tv/archive',
