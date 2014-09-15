@@ -18,7 +18,8 @@
 		"kartik-v/yii2-grid": "dev-master",
 		"yiisoft/yii2-jui": "*",
 		"gabrielbull/browser": "3.0.*",
-		"shark/simple_html_dom": "dev-master"
+		"shark/simple_html_dom": "dev-master",
+		"predictionio/predictionio": "0.7.*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",
