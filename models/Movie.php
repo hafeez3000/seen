@@ -48,6 +48,7 @@ use \app\components\TimestampBehavior;
  * @property UserMovie[] $userWatches
  * @property User $userWatched
  * @property User[] $users
+ * @property MovieVideo[] $videos
  */
 class Movie extends ActiveRecord
 {
@@ -259,6 +260,14 @@ class Movie extends ActiveRecord
 	public function getUsers()
 	{
 		return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('{{%user_movie}}', ['movie_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getVideos()
+	{
+		return $this->hasMany(MovieVideo::className(), ['movie_id' => 'id']);
 	}
 
 	/**

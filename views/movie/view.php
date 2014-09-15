@@ -75,6 +75,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<div class="col-md-5 movie-view-details" id="movie-view-details-side">
 						<?php echo $this->render('_details', [
 							'movie' => $movie,
+							'userMovies' => $userMovies,
 						]); ?>
 					</div>
 				</div>
@@ -82,22 +83,20 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 				<div class="movie-view-details" id="movie-view-details-full">
 					<?php echo $this->render('_details', [
 						'movie' => $movie,
+						'userMovies' => $userMovies,
 					]); ?>
 				</div>
 			<?php endif; ?>
 
-			<?php if (count($userMovies)): ?>
-				<div id="movie-view-watched">
-					<h2><?php echo Yii::t('Movie/View', 'Watched {count} times', ['count' => count($userMovies)]); ?></h2>
+			<?php if (count($movie->videos)): ?>
+				<div id="movie-view-videos">
+					<h2><?php echo Yii::t('Movie/View', 'Videos'); ?></h2>
 
-					<ul id="movie-view-watched-list" class="list-unstyled list-inline">
-						<?php foreach ($userMovies as $userMovie): ?>
-							<li title="<?php echo LanguageHelper::dateTime(strtotime($userMovie->created_at)); ?>">
-								<?php echo LanguageHelper::date(strtotime($userMovie->created_at)); ?>&nbsp;
-								<a href="<?php echo Url::toRoute(['unwatch', 'id' => $userMovie->id]); ?>"><span class="glyphicon glyphicon-trash"></span></a>
-							</li>
-						<?php endforeach; ?>
-					</ul>
+					<?php foreach ($movie->videos as $video): if ($video->site == 'YouTube'): ?>
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe src="//www.youtube.com/embed/<?php echo $video->key; ?>" allowfullscreen></iframe>
+						</div>
+					<?php endif; endforeach; ?>
 				</div>
 			<?php endif; ?>
 

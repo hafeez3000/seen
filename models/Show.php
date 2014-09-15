@@ -42,6 +42,7 @@ use \app\components\TimestampBehavior;
  * @property ShowCrew[] $crew
  * @property UserShow[] $userShows
  * @property Show $popularShows
+ * @property ShowVideo[] $videos
  */
 class Show extends ActiveRecord
 {
@@ -266,6 +267,14 @@ class Show extends ActiveRecord
 	public function getPopularShows()
 	{
 		return $this->hasMany(Show::className(), ['id' => 'show_id'])->viaTable('{{%show_popular}}', ['show_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getVideos()
+	{
+		return $this->hasMany(ShowVideo::className(), ['show_id' => 'id']);
 	}
 
 	/**

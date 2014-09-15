@@ -29,6 +29,8 @@ use \app\models\MovieCountry;
 use \app\models\MovieLanguage;
 use \app\models\Company;
 use \app\models\Language;
+use \app\models\ShowVideo;
+use \app\models\MovieVideo;
 
 class MovieDb
 {
@@ -206,7 +208,7 @@ class MovieDb
 	{
 		return $this->get(sprintf('/tv/%s', $show->themoviedb_id), [
 			'language' => $show->language->iso,
-			'append_to_response' => 'credits',
+			'append_to_response' => 'credits,videos',
 		]);
 	}
 
@@ -239,7 +241,7 @@ class MovieDb
 
 		return $this->get(sprintf('/movie/%s', $themoviedbId), [
 			'language' => $language,
-			'append_to_response' => 'credits,similar_movies',
+			'append_to_response' => 'credits,similar_movies,videos',
 		]);
 	}
 
@@ -507,6 +509,25 @@ class MovieDb
 					$crew->show_id = $show->id;
 					$crew->person_id = $crewAttributes->id;
 					$crew->save();
+				}
+			}
+		}
+
+		if (isset($attributes->videos->results) && is_array($attributes->videos->results)) {
+			foreach ($attributes->videos->results as $videoAttributes) {
+				$video = ShowVideo::findOne($videoAttributes->id);
+
+				if ($video === null) {
+					$video = new ShowVideo;
+					$video->id = $videoAttributes->id;
+					$video->show_id = $show->id;
+					$video->key = $videoAttributes->key;
+					$video->name = $videoAttributes->name;
+					$video->site = $videoAttributes->site;
+					$video->size = $videoAttributes->size;
+					$video->type = $videoAttributes->type;
+
+					$video->save();
 				}
 			}
 		}
@@ -800,6 +821,25 @@ class MovieDb
 					$crew->movie_id = $movie->id;
 					$crew->person_id = $crewAttributes->id;
 					$crew->save();
+				}
+			}
+		}
+
+		if (isset($attributes->videos->results) && is_array($attributes->videos->results)) {
+			foreach ($attributes->videos->results as $videoAttributes) {
+				$video = MovieVideo::findOne($videoAttributes->id);
+
+				if ($video === null) {
+					$video = new MovieVideo;
+					$video->id = $videoAttributes->id;
+					$video->movie_id = $movie->id;
+					$video->key = $videoAttributes->key;
+					$video->name = $videoAttributes->name;
+					$video->site = $videoAttributes->site;
+					$video->size = $videoAttributes->size;
+					$video->type = $videoAttributes->type;
+
+					$video->save();
 				}
 			}
 		}
@@ -1226,10 +1266,50 @@ class MovieDb
 					}
 
 					break;
+				case 'videos':
+					foreach ($attribute->items as $item) {
+						switch ($item->action) {
+							case 'added':
+								$video = ShowVideo::findOne($item->value->id);
+
+								if ($video === null) {
+									$video = new ShowVideo;
+									$video->id = $videoAttributes->id;
+									$video->key = $videoAttributes->key;
+									$video->name = $videoAttributes->name;
+									$video->site = $videoAttributes->site;
+									$video->size = $videoAttributes->size;
+									$video->type = $videoAttributes->type;
+
+									foreach ($shows as $show) {
+										if ($show->language->iso == $videoAttributes->iso_639_1) {
+											$video->show_id = $show->id;
+										}
+									}
+
+									break;
+								}
+
+								foreach ($shows as $show)
+									if (!ShowNetwork::find()->where(['network_id' => $network->id, 'show_id' => $show->id])->exists())
+										$show->link('networks', $network);
+
+								break;
+							case 'deleted':
+								$video = ShowVideo::findOne($item->original_value->id);
+								$video->delete();
+
+								break;
+							default:
+								var_dump($id, $attribute);
+								die('Unknown tv video item action ' . $item->action);
+						}
+					}
+
+					break;
 				case 'production_countries':
 				case 'plot_keywords':
 				case 'translations':
-				case 'videos':
 				case 'languages':
 				case 'images':
 				case 'season_regular':
