@@ -67,11 +67,10 @@ class PredictionMigrateController extends Controller
 		$moviesSeen = UserMovie::find()
 			->with([
 				'movie',
-				'user'
 			])
 			->all();
 		foreach ($moviesSeen as $movie) {
-			$client->identify($movie->user->id);
+			$client->identify($movie->user_id);
 			$client->execute($client->getCommand('record_action_on_item',  [
 				'pio_action' => 'view',
 				'pio_iid' => 'movie-' . $movie->movie->themoviedb_id,
