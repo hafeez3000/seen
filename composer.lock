@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7c8f17820fefa2bc52122a84a9f723fb",
+    "hash": "2ab0b5a029f4c8695da4af459ba4afc1",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -37,7 +37,7 @@
                 {
                     "name": "Antonio Ramirez",
                     "email": "ramirez.cobos@gmail.com",
-                    "homepage": "http://www.ramirezcobos.com"
+                    "homepage": "http://2amigos.us"
                 }
             ],
             "description": "Transliterator Helper for Yii2.",
@@ -142,7 +142,7 @@
                     "name": "Carsten Brandt",
                     "email": "mail@cebe.cc",
                     "homepage": "http://cebe.cc/",
-                    "role": "Core framework development"
+                    "role": "Creator"
                 }
             ],
             "description": "A super fast highly extensible markdown parser for PHP",
@@ -571,12 +571,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "919e17cff4b27cfb4c6e295107bbc57648553a51"
+                "reference": "1afc8d464641607922b102b13fd289f931a88450"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/919e17cff4b27cfb4c6e295107bbc57648553a51",
-                "reference": "919e17cff4b27cfb4c6e295107bbc57648553a51",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/1afc8d464641607922b102b13fd289f931a88450",
+                "reference": "1afc8d464641607922b102b13fd289f931a88450",
                 "shasum": ""
             },
             "require": {
@@ -611,7 +611,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-09-04 06:44:18"
+            "time": "2014-09-15 06:41:11"
         },
         {
             "name": "kartik-v/yii2-money",
@@ -1103,12 +1103,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "d0f76e416cda07ad98e5ee6d91d132b580c9d051"
+                "reference": "5a5cf224e19f5c2e9b464d6d4b94a5f5d989d5d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/d0f76e416cda07ad98e5ee6d91d132b580c9d051",
-                "reference": "d0f76e416cda07ad98e5ee6d91d132b580c9d051",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/5a5cf224e19f5c2e9b464d6d4b94a5f5d989d5d8",
+                "reference": "5a5cf224e19f5c2e9b464d6d4b94a5f5d989d5d8",
                 "shasum": ""
             },
             "replace": {
@@ -1146,7 +1146,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-09-13 02:46:31"
+            "time": "2014-09-16 03:59:09"
         },
         {
             "name": "yiisoft/jquery",
@@ -1203,12 +1203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "7ec8a9581c05df7735301b07834d2a4c3dbbf526"
+                "reference": "d83d3400cf3901a8d79ac70b48aee00ddbd998e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7ec8a9581c05df7735301b07834d2a4c3dbbf526",
-                "reference": "7ec8a9581c05df7735301b07834d2a4c3dbbf526",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d83d3400cf3901a8d79ac70b48aee00ddbd998e7",
+                "reference": "d83d3400cf3901a8d79ac70b48aee00ddbd998e7",
                 "shasum": ""
             },
             "require": {
@@ -1276,7 +1276,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-09-12 20:46:12"
+            "time": "2014-09-16 03:24:12"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2195,7 +2195,7 @@
                 {
                     "name": "Anthon Pang",
                     "email": "apang@softwaredevelopment.ca",
-                    "role": "developer"
+                    "role": "Fork Maintainer"
                 }
             ],
             "description": "PHP WebDriver for Selenium 2",
@@ -2447,8 +2447,7 @@
             "authors": [
                 {
                     "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton",
-                    "role": "Original developer"
+                    "homepage": "http://github.com/chrisboulton"
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
@@ -3414,12 +3413,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "78b43923367a764f65a4471248f8eb9645f122f2"
+                "reference": "04de419ebb46f7ae90525c1741ccf94fc6b27191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/78b43923367a764f65a4471248f8eb9645f122f2",
-                "reference": "78b43923367a764f65a4471248f8eb9645f122f2",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/04de419ebb46f7ae90525c1741ccf94fc6b27191",
+                "reference": "04de419ebb46f7ae90525c1741ccf94fc6b27191",
                 "shasum": ""
             },
             "require": {
@@ -3449,12 +3448,10 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2014-09-10 10:15:59"
+            "time": "2014-09-15 20:39:19"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "yiisoft/yii2-redis": 20,
@@ -3465,7 +3462,5 @@
     "platform": {
         "php": ">=5.4.0"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
