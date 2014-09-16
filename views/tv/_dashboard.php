@@ -5,6 +5,8 @@
 
 use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
+
+use \app\models\Show;
 ?>
 
 <div id="tv-dashboard<?php if($archive): ?>-archive<?php endif; ?>" class="tv-dashboard">
@@ -19,7 +21,8 @@ use \yii\widgets\ActiveForm;
 					<small><a href="<?php echo Url::toRoute(['dashboard']); ?>"><?php echo Yii::t('Show/Dashboard', 'Your TV Shows'); ?></a> | </small>
 				<?php endif; ?>
 
-				<small><a href="<?php echo Url::toRoute(['popular']); ?>"><?php echo Yii::t('Show/Dashboard', 'Popular'); ?></a></small>
+				<small><a href="<?php echo Url::toRoute(['popular']); ?>"><?php echo Yii::t('Show/Dashboard', 'Popular'); ?></a> | </small>
+				<small><a href="<?php echo Url::toRoute(['recommend']); ?>"><?php echo Yii::t('Show/Dashboard', 'Recommend'); ?> <span class="badge"><?php echo Show::getRecommend()->count(); ?></span></a></small>
 			</h1>
 		</div>
 

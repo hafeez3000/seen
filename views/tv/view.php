@@ -122,13 +122,13 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 
 					<?php if ($show->vote_count > 0): ?>
 						<tr>
-							<td><?php echo Yii::t('Show', '{average} out of 10', [
+							<td><?php echo Yii::t('Show/View', '{average} out of 10', [
 								'average' => $show->vote_average,
 							]); ?></td>
 							<td>
-								<span title="<?php echo Yii::t('Show', '{average}/10 ({count} Votes)', [
-									'average' => $show->vote_average,
-									'count' => $show->vote_count,
+								<span title="<?php echo Yii::t('Show/View', '{average}/10 ({count} Votes)', [
+										'average' => $show->vote_average,
+										'count' => $show->vote_count,
 									]); ?>">
 									<?php for ($i = 0; $i < round($show->vote_average); $i++): ?>
 										<span class="glyphicon glyphicon-star"></span>
@@ -142,6 +142,18 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 					<?php endif; ?>
 				</table>
 			</div>
+
+			<?php if (count($show->videos)): ?>
+				<div id="tv-view-videos">
+					<h2><?php echo Yii::t('Show/View', 'Videos'); ?></h2>
+
+					<?php foreach ($show->videos as $video): if ($video->site == 'YouTube'): ?>
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe src="//www.youtube.com/embed/<?php echo $video->key; ?>" allowfullscreen></iframe>
+						</div>
+					<?php endif; endforeach; ?>
+				</div>
+			<?php endif; ?>
 
 			<?php if (count($show->cast)): ?>
 				<div id="tv-view-cast-wrapper" class="persons">
