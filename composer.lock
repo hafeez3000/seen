@@ -1239,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "060c277c8da03f755396d94c947381f99184eade"
+                "reference": "5a5cf224e19f5c2e9b464d6d4b94a5f5d989d5d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/060c277c8da03f755396d94c947381f99184eade",
-                "reference": "060c277c8da03f755396d94c947381f99184eade",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/5a5cf224e19f5c2e9b464d6d4b94a5f5d989d5d8",
+                "reference": "5a5cf224e19f5c2e9b464d6d4b94a5f5d989d5d8",
                 "shasum": ""
             },
             "replace": {
@@ -1282,7 +1282,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-09-13 17:37:29"
+            "time": "2014-09-16 03:59:09"
         },
         {
             "name": "yiisoft/jquery",
@@ -1339,12 +1339,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "e1e36050ced2a7e6c137b18ac7069334d15d8b04"
+                "reference": "d83d3400cf3901a8d79ac70b48aee00ddbd998e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/e1e36050ced2a7e6c137b18ac7069334d15d8b04",
-                "reference": "e1e36050ced2a7e6c137b18ac7069334d15d8b04",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d83d3400cf3901a8d79ac70b48aee00ddbd998e7",
+                "reference": "d83d3400cf3901a8d79ac70b48aee00ddbd998e7",
                 "shasum": ""
             },
             "require": {
@@ -1412,7 +1412,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-09-14 18:25:11"
+            "time": "2014-09-16 03:24:12"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2133,7 +2133,7 @@
                 {
                     "name": "Anthon Pang",
                     "email": "apang@softwaredevelopment.ca",
-                    "role": "developer"
+                    "role": "Fork Maintainer"
                 }
             ],
             "description": "PHP WebDriver for Selenium 2",
@@ -2385,8 +2385,7 @@
             "authors": [
                 {
                     "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton",
-                    "role": "Original developer"
+                    "homepage": "http://github.com/chrisboulton"
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
@@ -3295,12 +3294,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "dc62dc55a4f4d89636797afcdbaae2e6aa5d5ca2"
+                "reference": "04de419ebb46f7ae90525c1741ccf94fc6b27191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/dc62dc55a4f4d89636797afcdbaae2e6aa5d5ca2",
-                "reference": "dc62dc55a4f4d89636797afcdbaae2e6aa5d5ca2",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/04de419ebb46f7ae90525c1741ccf94fc6b27191",
+                "reference": "04de419ebb46f7ae90525c1741ccf94fc6b27191",
                 "shasum": ""
             },
             "require": {
@@ -3330,12 +3329,10 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2014-09-14 18:25:11"
+            "time": "2014-09-15 20:39:19"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "yiisoft/yii2-redis": 20,
@@ -3346,7 +3343,5 @@
     "platform": {
         "php": ">=5.4.0"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
