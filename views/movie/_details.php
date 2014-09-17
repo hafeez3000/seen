@@ -90,7 +90,11 @@ use \app\components\LanguageHelper;
 
 		<?php if (count($userMovies)): ?>
 			<tr>
-				<td><?php echo Yii::t('Movie/View', 'Watched {count} {count, plural, =1{time}, other{times}}', ['count' => count($userMovies)]); ?></td>
+				<?php if (count($userMovies) == 1): ?>
+					<td><?php echo Yii::t('Movie/View', 'Watched {count} time', ['count' => count($userMovies)]); ?></td>
+				<?php else: ?>
+					<td><?php echo Yii::t('Movie/View', 'Watched {count} times', ['count' => count($userMovies)]); ?></td>
+				<?php endif; ?>
 
 				<td>
 					<ul id="movie-view-watched-list" class="list-unstyled list-inline">
