@@ -198,18 +198,17 @@ class User extends ActiveRecord implements IdentityInterface
 	 * Sends welcome email and register user at mailchimp.
 	 *
 	 * @param boolean $insert
-	 * @param array $changedAttributes
 	 *
 	 * @access public
 	 * @return void
 	 */
-	public function afterSave($insert, $changedAttributes)
+	public function afterSave($insert)
 	{
 		if ($insert && $this->scenario == 'register') {
 			$this->trigger(self::EVENT_AFTER_REGISTER);
 		}
 
-		return parent::afterSave($insert, $changedAttributes);
+		return parent::afterSave($insert);
 	}
 
 		/**
