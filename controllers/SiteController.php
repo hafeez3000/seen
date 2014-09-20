@@ -7,7 +7,7 @@ use \yii\filters\VerbFilter;
 use \yii\helpers\Url;
 
 use \OAuth\ServiceFactory;
-use OAuth\OAuth2\Service\Facebook;
+use \OAuth\OAuth2\Service\Facebook;
 use \OAuth\Common\Storage\Redis;
 use \OAuth\Common\Consumer\Credentials;
 use \Predis\Client as Predis;
