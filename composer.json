@@ -21,7 +21,8 @@
 		"gabrielbull/browser": "3.0.*",
 		"shark/simple_html_dom": "dev-master",
 		"lusitanian/oauth": "0.3.*",
-		"predis/predis": "1.0.*"
+		"predis/predis": "1.0.*",
+		"predictionio/predictionio": "0.7.*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",
