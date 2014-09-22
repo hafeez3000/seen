@@ -1277,11 +1277,12 @@ class MovieDb
 									$video->id = $item->value->id;
 									$video->key = $item->value->key;
 									$video->name = $item->value->name;
+									$video->site = $item->value->site;
 									$video->size = $item->value->size;
 									$video->type = $item->value->type;
 
 									foreach ($shows as $show) {
-										if ($show->language->iso == $item->iso_639_1) {
+										if ($show->language->iso == $item->value->iso_639_1) {
 											$video->show_id = $show->id;
 										}
 									}
