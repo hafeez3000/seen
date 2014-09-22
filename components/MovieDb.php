@@ -1274,15 +1274,14 @@ class MovieDb
 
 								if ($video === null) {
 									$video = new ShowVideo;
-									$video->id = $videoAttributes->id;
-									$video->key = $videoAttributes->key;
-									$video->name = $videoAttributes->name;
-									$video->site = $videoAttributes->site;
-									$video->size = $videoAttributes->size;
-									$video->type = $videoAttributes->type;
+									$video->id = $item->value->id;
+									$video->key = $item->value->key;
+									$video->name = $item->value->name;
+									$video->size = $item->value->size;
+									$video->type = $item->value->type;
 
 									foreach ($shows as $show) {
-										if ($show->language->iso == $videoAttributes->iso_639_1) {
+										if ($show->language->iso == $item->iso_639_1) {
 											$video->show_id = $show->id;
 										}
 									}
