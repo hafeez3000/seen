@@ -1277,7 +1277,7 @@ class MovieDb
 									$video->id = $item->value->id;
 									$video->key = $item->value->key;
 									$video->name = $item->value->name;
-									$video->site = $item->value->site;
+									$video->site = isset($item->value->site) ? $item->value->site : null;
 									$video->size = $item->value->size;
 									$video->type = $item->value->type;
 
@@ -1293,6 +1293,15 @@ class MovieDb
 								foreach ($shows as $show)
 									if (!ShowNetwork::find()->where(['network_id' => $network->id, 'show_id' => $show->id])->exists())
 										$show->link('networks', $network);
+
+								break;
+							case 'updated':
+								$video = ShowVideo::findOne($item->value->id);
+								$video->key = $item->value->key;
+								$video->name = $item->value->name;
+								$video->site = isset($item->value->site) ? $item->value->site : null;
+								$video->size = $item->value->size;
+								$video->type = $item->value->type;
 
 								break;
 							case 'deleted':
