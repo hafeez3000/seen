@@ -1282,7 +1282,7 @@ class MovieDb
 									$video->type = $item->value->type;
 
 									foreach ($shows as $show) {
-										if ($show->language->iso == $item->value->iso_639_1) {
+										if ($show->language->iso == $item->iso_639_1) {
 											$video->show_id = $show->id;
 										}
 									}
@@ -1296,12 +1296,18 @@ class MovieDb
 
 								break;
 							case 'updated':
-								$video = ShowVideo::findOne($item->value->id);
+								$video = ShowVideo::findOne($item->original_value->id);
+								if ($video === null) {
+									$video = new ShowVideo;
+								}
+
+								$video->id = $item->value->id;
 								$video->key = $item->value->key;
 								$video->name = $item->value->name;
 								$video->site = isset($item->value->site) ? $item->value->site : null;
 								$video->size = $item->value->size;
 								$video->type = $item->value->type;
+								$video->save();
 
 								break;
 							case 'deleted':
