@@ -45,8 +45,8 @@ class Episode extends ActiveRecord
 			[['season_id'], 'required'],
 			[['themoviedb_id', 'season_id', 'number', 'vote_count'], 'integer'],
 			[['overview'], 'string'],
-			[['air_date'], 'date', 'format' => 'Y-m-d'],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['air_date'], 'date', 'format' => 'php:Y-m-d'],
+			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['vote_average'], 'number'],
 			[['name', 'still_path', 'production_code'], 'string', 'max' => 255]
 		];

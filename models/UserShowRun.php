@@ -35,7 +35,7 @@ class UserShowRun extends ActiveRecord
 		return [
 			[['user_id', 'show_id'], 'required'],
 			[['user_id', 'show_id'], 'integer'],
-			[['created_at'], 'date', 'format' => 'Y-m-d H:i:s']
+			[['created_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
 		];
 	}
 

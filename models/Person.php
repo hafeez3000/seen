@@ -43,8 +43,8 @@ class Person extends \yii\db\ActiveRecord
 			[['id'], 'required'],
 			[['id'], 'integer'],
 			[['biography'], 'string'],
-			[['birthday', 'deathday'], 'date', 'format' => 'Y-m-d'],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['birthday', 'deathday'], 'date', 'format' => 'php:Y-m-d'],
+			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['adult'], 'boolean'],
 			[['name', 'homepage', 'place_of_birth', 'profile_path'], 'string', 'max' => 255]
 		];

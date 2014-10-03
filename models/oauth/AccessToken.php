@@ -42,7 +42,7 @@ class AccessToken extends ActiveRecord
 			[['user_id', 'oauth_application_id'], 'required'],
 			[['user_id', 'oauth_application_id'], 'integer'],
 			[['scopes'], 'string'],
-			[['expires_at', 'created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['expires_at', 'created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['access_token'], 'string', 'max' => 32]
 		];
 	}

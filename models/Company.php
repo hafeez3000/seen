@@ -39,7 +39,7 @@ class Company extends \yii\db\ActiveRecord
 		return [
 			[['description'], 'string'],
 			[['parent_id'], 'integer'],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['name', 'headquarters', 'homepage', 'logo_path'], 'string', 'max' => 255]
 		];
 	}

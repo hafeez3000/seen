@@ -34,7 +34,7 @@ class Country extends \yii\db\ActiveRecord
 	{
 		return [
 			[['name'], 'required'],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['name'], 'string', 'max' => 255]
 		];
 	}

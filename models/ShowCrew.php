@@ -38,7 +38,7 @@ class ShowCrew extends ActiveRecord
 		return [
 			[['show_id', 'person_id'], 'required'],
 			[['id', 'show_id', 'person_id'], 'integer'],
-			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['department', 'job'], 'string', 'max' => 255]
 		];
 	}

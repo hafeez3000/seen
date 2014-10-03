@@ -42,7 +42,7 @@ class Language extends \yii\db\ActiveRecord
 	{
 		return [
 			[['iso'], 'required'],
-			[['popular_shows_updated_at', 'popular_movies_updated_at', 'created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['popular_shows_updated_at', 'popular_movies_updated_at', 'created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['rtl', 'hide'], 'boolean'],
 			[['name'], 'string', 'max' => 100],
 			[['en_name'], 'string', 'max' => 50],

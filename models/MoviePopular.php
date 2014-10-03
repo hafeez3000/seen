@@ -33,7 +33,7 @@ class MoviePopular extends ActiveRecord
 		return [
 			[['movie_id', 'order'], 'required'],
 			[['movie_id', 'order'], 'integer'],
-			[['created_at'], 'date', 'format' => 'Y-m-d H:i:s']
+			[['created_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
 		];
 	}
 

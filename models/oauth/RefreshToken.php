@@ -39,7 +39,7 @@ class RefreshToken extends ActiveRecord
 			[['user_id', 'oauth_application_id'], 'required'],
 			[['user_id', 'oauth_application_id'], 'integer'],
 			[['scopes'], 'string'],
-			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['refresh_token'], 'string', 'max' => 32]
 		];
 	}

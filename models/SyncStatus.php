@@ -27,7 +27,7 @@ class SyncStatus extends ActiveRecord
 	{
 		return [
 			[['name'], 'required'],
-			[['updated'], 'date', 'format' => 'Y-m-d'],
+			[['updated'], 'date', 'format' => 'php:Y-m-d'],
 			[['name'], 'string', 'max' => 255],
 			[['value'], 'safe'],
 		];

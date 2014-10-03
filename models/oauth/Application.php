@@ -65,7 +65,7 @@ class Application extends ActiveRecord
 			[['user_id', 'name', 'callback'], 'required'],
 			[['user_id'], 'integer'],
 			[['description'], 'string'],
-			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['name'], 'string', 'max' => 100],
 			[['description', 'website', 'callback'], 'string', 'max' => 255],
 			[['key', 'secret'], 'string', 'max' => 64],

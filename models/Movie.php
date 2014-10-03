@@ -70,8 +70,8 @@ class Movie extends ActiveRecord
 			[['themoviedb_id', 'language_id', 'budget', 'revenue', 'runtime', 'vote_count'], 'integer'],
 			[['adult'], 'boolean'],
 			[['tagline', 'overview'], 'string'],
-			[['release_date'], 'date', 'format' => 'Y-m-d'],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['release_date'], 'date', 'format' => 'php:Y-m-d'],
+			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['popularity', 'vote_average'], 'number'],
 			[['title', 'original_title', 'slug', 'backdrop_path', 'poster_path', 'status', 'homepage'], 'string', 'max' => 255],
 			[['imdb_id'], 'string', 'max' => 15]

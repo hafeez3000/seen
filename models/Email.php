@@ -48,7 +48,7 @@ class Email extends ActiveRecord
 			[['from_email', 'from_name', 'subject'], 'string', 'max' => 255],
 			[['success'], 'boolean'],
 			[['respond_user_id', 'assigned_user_id'], 'integer'],
-			[['respond_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['respond_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 		];
 	}
 

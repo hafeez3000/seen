@@ -66,8 +66,8 @@ class Show extends ActiveRecord
 			[['themoviedb_id', 'language_id', 'vote_count'], 'integer'],
 			[['in_production'], 'boolean'],
 			[['overview'], 'string'],
-			[['first_air_date', 'last_air_date'], 'date', 'format' => 'Y-m-d'],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['first_air_date', 'last_air_date'], 'date', 'format' => 'php:Y-m-d'],
+			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['popularity', 'vote_average'], 'number'],
 			[['name', 'original_name', 'slug', 'homepage', 'backdrop_path', 'poster_path'], 'string', 'max' => 255],
 			[['status'], 'string', 'max' => 100]

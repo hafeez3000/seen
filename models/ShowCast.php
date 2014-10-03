@@ -39,7 +39,7 @@ class ShowCast extends ActiveRecord
 		return [
 			[['show_id', 'person_id'], 'required'],
 			[['id', 'show_id', 'person_id', 'order'], 'integer'],
-			[['created_at', 'updated_at'], 'date', 'format' => 'Y-m-d H:i:s'],
+			[['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['credit_id'], 'string', 'max' => 50],
 			[['character'], 'string', 'max' => 255]
 		];

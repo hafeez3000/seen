@@ -33,7 +33,7 @@ class UserMovie extends ActiveRecord
 		return [
 			[['user_id', 'movie_id'], 'required'],
 			[['user_id', 'movie_id'], 'integer'],
-			[['created_at'], 'date', 'format' => 'Y-m-d H:i:s']
+			[['created_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
 		];
 	}
 

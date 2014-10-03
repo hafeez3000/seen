@@ -50,7 +50,7 @@ class User extends ActiveRecord implements IdentityInterface
 			[['language_id'], 'integer'],
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
 			[['api_key'], 'string', 'max' => 32],
-			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'Y-m-d H:i:s']
+			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
 		];
 	}
 
