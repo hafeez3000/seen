@@ -28,7 +28,6 @@ class LanguageBootstrap implements BootstrapInterface
 				Yii::$app->session->set('language', $language);
 			} else {
 				$language = Yii::$app->session->get('language');
-				$language = $this->getDefaultLanguage();
 			}
 		} else {
 			if (isset(Yii::$app->user->identity->language->iso))

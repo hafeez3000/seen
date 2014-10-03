@@ -238,8 +238,9 @@ class SiteController extends Controller
 			$user = Yii::$app->user->identity;
 			$user->language_id = $language['id'];
 
-			if (!$user->save())
+			if (!$user->save()) {
 				Yii::error("Could not save language #{$language['id']} for user #{$user->id}!");
+			}
 		}
 
 		if (Yii::$app->request->referrer !== null && strpos(Yii::$app->request->referrer, 'language') === false)
