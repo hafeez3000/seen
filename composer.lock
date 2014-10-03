@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ad313d1418284d43c94315128827d293",
+    "hash": "b1c6174fa7b3d6eadb4f7ab1c7a54088",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -154,6 +154,47 @@
             "description": "Bootswatch is a collection of themes for Bootstrap."
         },
         {
+            "name": "bower-asset/cookieCuttr",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mrgrt/cookieCuttr.git",
+                "reference": "5cb548ace438b9571ab8a83ce78cad30f703120e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mrgrt/cookieCuttr/zipball/5cb548ace438b9571ab8a83ce78cad30f703120e",
+                "reference": "5cb548ace438b9571ab8a83ce78cad30f703120e",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.9.0",
+                "bower-asset/jquery.cookie": ">=1.4.1"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "./jquery.cookiecuttr.js",
+                    "./cookiecuttr.css"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A tailorable jQuery plugin to deal with the EU Cookie Law.",
+            "keywords": [
+                "cookie"
+            ],
+            "time": "2014-07-09 13:32:28"
+        },
+        {
             "name": "bower-asset/highcharts-release",
             "version": "v4.0.4",
             "source": {
@@ -239,6 +280,38 @@
             ]
         },
         {
+            "name": "bower-asset/jquery-cookie",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/carhartl/jquery-cookie.git",
+                "reference": "7f88a4e631aba8a8c688fd8999ce6b9bcfd50718"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/carhartl/jquery-cookie/zipball/7f88a4e631aba8a8c688fd8999ce6b9bcfd50718",
+                "reference": "7f88a4e631aba8a8c688fd8999ce6b9bcfd50718",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.2"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "./jquery.cookie.js"
+                ],
+                "bower-asset-ignore": [
+                    "test",
+                    ".*",
+                    "*.json",
+                    "*.md",
+                    "*.txt",
+                    "Gruntfile.js"
+                ]
+            }
+        },
+        {
             "name": "bower-asset/jquery-ui",
             "version": "1.11.1",
             "source": {
@@ -264,6 +337,39 @@
 
                 ]
             }
+        },
+        {
+            "name": "bower-asset/jquery.cookie",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/carhartl/jquery-cookie.git",
+                "reference": "aeb793d27286c7f0b915c3aaee24c3b7d04d71fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/carhartl/jquery-cookie/zipball/aeb793d27286c7f0b915c3aaee24c3b7d04d71fd",
+                "reference": "aeb793d27286c7f0b915c3aaee24c3b7d04d71fd",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.2"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "src/jquery.cookie.js"
+                ],
+                "bower-asset-ignore": [
+                    "test",
+                    ".*",
+                    "*.json",
+                    "*.md",
+                    "*.txt",
+                    "Gruntfile.js"
+                ]
+            },
+            "time": "2014-07-16 05:30:01"
         },
         {
             "name": "bower-asset/jquery.inputmask",

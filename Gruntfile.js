@@ -6,7 +6,9 @@ module.exports = function(grunt) {
 		"vendor/bower/spin.js/spin.js",
 		"vendor/bower/moment/min/moment-with-langs.min.js",
 		"vendor/bower/holderjs/holder.js",
-		"web/js/include/modernizr.custom.js"
+		"vendor/bower/jquery-cookie/jquery.cookie.js",
+		"vendor/bower/cookieCuttr/jquery.cookieCuttr.js",
+		"web/js/include/modernizr.custom.js",
 	];
 
 	var jsAdminFiles = [

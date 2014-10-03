@@ -30,7 +30,9 @@
 		"bower-asset/jquery": "2.1.*",
 		"bower-asset/bootstrap": "3.2.*",
 		"bower-asset/select2-bootstrap-css": "1.4.*",
-		"bower-asset/highcharts-release": "4.0.*"
+		"bower-asset/highcharts-release": "4.0.*",
+		"bower-asset/jquery-cookie": "1.4.*",
+		"bower-asset/cookieCuttr": "*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",
