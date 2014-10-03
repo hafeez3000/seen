@@ -459,7 +459,7 @@ class Show extends ActiveRecord
 				]);
 
 			return $query;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			Yii::error('Error while getting user movie predictions:' . $e->getMessage());
 
 			return Show::find()->where(['id' => 0]);

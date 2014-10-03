@@ -27,8 +27,7 @@ $config['components']['assetManager'] = [
 			'js' => [],
 		],
 		'yii\web\JqueryAsset' => [
-			//'sourcePath' => null,
-			'js' => [$baseUrl . '/js/jquery.min.js'],
+			'js' => [],
 		],
 	],
 ];

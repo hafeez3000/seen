@@ -1,4 +1,5 @@
 !.gitignore
 *.min.css
+*.map
 *.png
 *.gif

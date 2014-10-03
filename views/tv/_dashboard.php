@@ -3,27 +3,16 @@
  * @var yii\web\View $this
  */
 
-use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
-
-use \app\models\Show;
 ?>
 
-<div id="tv-dashboard<?php if($archive): ?>-archive<?php endif; ?>" class="tv-dashboard">
+<div id="tv-<?php echo $active; ?>" class="tv-dashboard">
 	<div class="row" id="tv-dashboard-header">
 		<div class="col-sm-6 col-md-8">
-			<h1>
-				<?php echo $title; ?>
-
-				<?php if (!$archive): ?>
-					<small><a href="<?php echo Url::toRoute(['archive']); ?>"><?php echo Yii::t('Show/Dashboard', 'Archive'); ?></a> | </small>
-				<?php else: ?>
-					<small><a href="<?php echo Url::toRoute(['dashboard']); ?>"><?php echo Yii::t('Show/Dashboard', 'Your TV Shows'); ?></a> | </small>
-				<?php endif; ?>
-
-				<small><a href="<?php echo Url::toRoute(['popular']); ?>"><?php echo Yii::t('Show/Dashboard', 'Popular'); ?></a> | </small>
-				<small><a href="<?php echo Url::toRoute(['recommend']); ?>"><?php echo Yii::t('Show/Dashboard', 'Recommend'); ?> <span class="badge"><?php echo Show::getRecommend()->count(); ?></span></a></small>
-			</h1>
+			<?php echo $this->render('_navigation', [
+				'active' => $active,
+				'title' => $title,
+			]); ?>
 		</div>
 
 		<div class="col-sm-6 col-md-4">
@@ -36,16 +25,18 @@ use \app\models\Show;
 			<?php foreach ($shows as $show): ?>
 				<?php echo $this->render('_view', [
 					'show' => $show,
-					'archive' => $archive,
+					'active' => $active,
 				]); ?>
 			<?php endforeach; ?>
 		</ul>
 	<?php else: ?>
 		<div class="alert alert-info">
-			<?php if (!$archive): ?>
+			<?php if ($active == 'dashboard'): ?>
 				<?php echo Yii::t('Show/Dashboard', 'You are not subscribe to a TV Show! Start with searching for your favorites.'); ?>
-			<?php else: ?>
+			<?php elseif ($active == 'archive'): ?>
 				<?php echo Yii::t('Show/Dashboard', 'Your archive is empty! Add TV Shows which are not in production anymore or you are currently not watching.'); ?>
+			<?php elseif ($active == 'recommend'): ?>
+				<?php echo Yii::t('Show/Dashboard', 'We currently cannot recommend any new shows for you! Try to subscribe to more shows you like.'); ?>
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>

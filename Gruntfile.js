@@ -1,12 +1,17 @@
 module.exports = function(grunt) {
 	var jsFiles = [
-		"web/components/bootstrap/dist/js/bootstrap.min.js",
-		"web/components/select2/select2.min.js",
-		"web/components/spin.js/spin.js",
-		"web/components/moment/min/moment-with-langs.min.js",
-		"web/components/holderjs/holder.js",
-		"web/js/include/modernizr.custom.js",
-		"web/js/include/app.js"
+		"vendor/bower/jquery/dist/jquery.min.js",
+		"vendor/bower/bootstrap/dist/js/bootstrap.min.js",
+		"vendor/bower/select2/select2.min.js",
+		"vendor/bower/spin.js/spin.js",
+		"vendor/bower/moment/min/moment-with-langs.min.js",
+		"vendor/bower/holderjs/holder.js",
+		"web/js/include/modernizr.custom.js"
+	];
+
+	var jsAdminFiles = [
+		"vendor/bower/highcharts-release/highcharts.js",
+		"modules/admin/js/include/app.js"
 	];
 
 	// Project configuration.
@@ -22,12 +27,9 @@ module.exports = function(grunt) {
 
 				},
 				files: {
-					"web/js/app.min.js": jsFiles,
-					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js",
-					"modules/admin/js/app.min.js": [
-						"web/components/highcharts-release/highcharts.js",
-						"modules/admin/js/include/app.js"
-					]
+					"web/js/app.min.js": "web/js/include/app.js",
+					"web/js/vendor.min.js": jsFiles,
+					"modules/admin/js/app.min.js": jsAdminFiles
 				}
 			},
 			production: {
@@ -37,12 +39,9 @@ module.exports = function(grunt) {
 					}
 				},
 				files: {
-					"web/js/app.min.js": jsFiles,
-					"web/js/jquery.min.js": "web/components/jquery/dist/jquery.min.js",
-					"modules/admin/js/app.min.js": [
-						"web/components/highcharts-release/highcharts.js",
-						"modules/admin/js/include/app.js"
-					]
+					"web/js/app.min.js": "web/js/include/app.js",
+					"web/js/vendor.min.js": jsFiles,
+					"modules/admin/js/app.min.js": jsAdminFiles
 				}
 			}
 		},
@@ -51,7 +50,7 @@ module.exports = function(grunt) {
 				options: {
 					compress: true,
 					sourceMap: true,
-					sourceMapFilename: "web/less/app.source.less"
+					sourceMapFilename: "app.min.css.map"
 				},
 				files: {
 					"web/css/app.min.css": "web/less/app.less"
@@ -69,9 +68,9 @@ module.exports = function(grunt) {
 		concat: {
 			app: {
 				src: [
-					"web/components/bootswatch/lumen/bootstrap.min.css",
-					"web/components/select2/select2.css",
-					"web/components/select2-bootstrap-css/select2-bootstrap.css",
+					"vendor/bower/bootswatch/lumen/bootstrap.min.css",
+					"vendor/bower/select2/select2.css",
+					"vendor/bower/select2-bootstrap-css/select2-bootstrap.css",
 					"web/css/app.min.css"
 				],
 				dest: "web/css/app.min.css"
@@ -82,8 +81,8 @@ module.exports = function(grunt) {
 				files: [
 					"web/less/*.less",
 					"!web/less/*.source.less",
-					"web/components/**/*.less",
-					"web/components/**/*.css"
+					"vendor/bower/**/*.less",
+					"vendor/bower/**/*.css"
 				],
 				tasks: [
 					"less:development",
@@ -94,7 +93,7 @@ module.exports = function(grunt) {
 				files: [
 					"web/js/include/**/*.js",
 					"modules/admin/js/include/**/*.js",
-					"web/components/**/*.js"
+					"vendor/bower/**/*.js"
 				],
 				tasks: [
 					"uglify:development"
@@ -104,19 +103,19 @@ module.exports = function(grunt) {
 		copy: {
 			select_png: {
 				expand: true,
-				cwd: "web/components/select2/",
+				cwd: "vendor/bower/select2/",
 				src: "*.png",
 				dest: "web/css"
 			},
 			select_gif: {
 				expand: true,
-				cwd: "web/components/select2/",
+				cwd: "vendor/bower/select2/",
 				src: "*.gif",
 				dest: "web/css"
 			},
 			fonts: {
 				expand: true,
-				cwd: "web/components/bootstrap/fonts/",
+				cwd: "vendor/bower/bootstrap/fonts/",
 				src: "**",
 				dest: "web/fonts"
 			}

@@ -66,7 +66,7 @@ class TvController extends Controller
 		$shows = Show::popular($language->id)
 			->all();
 
-		return $this->render('index', [
+		return $this->render('popular', [
 			'shows' => $shows,
 		]);
 	}

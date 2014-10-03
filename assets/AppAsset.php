@@ -57,16 +57,17 @@ class AppAsset extends AssetBundle
 	];
 
 	public $js = [
+		'js/vendor.min.js',
 		'js/app.min.js',
 	];
 
-	public $depends = [
-		'yii\web\JqueryAsset',
+	public $jsOptions = [
+		'position' => \yii\web\View::POS_HEAD
 	];
 
 	public function init() {
 		if (Yii::$app->language != 'en' && in_array(Yii::$app->language, $this->select2Languages))
-			$this->js[] = 'components/select2/select2_locale_' . Yii::$app->language . '.js';
+			$this->js[] = '../vendor/bower/select2/select2_locale_' . Yii::$app->language . '.js';
 
 		return parent::init();
 	}

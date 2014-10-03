@@ -5,7 +5,7 @@
 $this->title[] = Yii::t('Show/Dashboard', 'Your TV Shows');
 
 echo $this->render('_dashboard', [
-	'archive' => false,
+	'active' => 'dashboard',
 	'title' => Yii::t('Show/Dashboard', 'Your TV Shows'),
 	'shows' => $shows,
 ]);

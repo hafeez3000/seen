@@ -32,13 +32,21 @@ use \app\components\LanguageHelper;
 				<?php endif; ?>
 			</a>
 
-			<?php if (!$archive): ?>
+			<?php if ($active == 'dashboard'): ?>
 				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive {name}', ['name' => $show->name]); ?>">
 					<span class="glyphicon glyphicon-lock"> <?php echo Yii::t('Show', 'Archive') ?></span>
 				</a>
-			<?php else: ?>
+			<?php elseif ($active == 'archive'): ?>
 				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->name]); ?>">
 					<span class="glyphicon glyphicon-arrow-left"> <?php echo Yii::t('Show', 'Restore') ?></span>
+				</a>
+			<?php elseif ($active == 'popular'): ?>
+				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/view', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->name]); ?>">
+					<span class="glyphicon glyphicon-search"> <?php echo Yii::t('Show', 'Show') ?></span>
+				</a>
+			<?php elseif ($active == 'recommend'): ?>
+				<a class="btn btn-primary" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/subscribe', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->name]); ?>">
+					<span class="glyphicon glyphicon-ok"> <?php echo Yii::t('Show', 'Subscribe') ?></span>
 				</a>
 			<?php endif; ?>
 		</figcaption>
