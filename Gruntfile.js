@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 		"vendor/bower/moment/min/moment-with-langs.min.js",
 		"vendor/bower/holderjs/holder.js",
 		"vendor/bower/jquery-cookie/jquery.cookie.js",
-		"vendor/bower/cookieCuttr/jquery.cookieCuttr.js",
+		"vendor/bower/cookieCuttr/jquery.cookiecuttr.js",
 		"web/js/include/modernizr.custom.js",
 	];
 
