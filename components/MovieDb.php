@@ -1638,6 +1638,7 @@ class MovieDb
 				case 'general':
 				case 'freebase_mid':
 				case 'tvdb_id':
+				case 'tvrage_id':
 					break;
 				default:
 					var_dump($id, $attribute);
