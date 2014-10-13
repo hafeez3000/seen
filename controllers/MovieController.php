@@ -37,6 +37,26 @@ class MovieController extends Controller
 					],
 				],
 			],
+			[
+				'class' => 'yii\filters\HttpCache',
+				'only' => ['index'],
+				'lastModified' => function($action, $params) {
+					if (Yii::$app->user->isGuest) {
+						$language = Language::find()
+							->where(['iso' => Yii::$app->language])
+							->one();
+
+						if (isset($language->popular_movies_updated_at)) {
+							return $language->popular_movies_updated_at;
+						} else {
+							return null;
+						}
+					} else {
+						return false;
+					}
+				},
+				'cacheControlHeader' => 'no-cache',
+			],
 		];
 	}
 
