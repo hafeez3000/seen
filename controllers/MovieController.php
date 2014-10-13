@@ -49,7 +49,7 @@ class MovieController extends Controller
 						if (isset($language->popular_movies_updated_at)) {
 							return $language->popular_movies_updated_at;
 						} else {
-							return null;
+							return time();
 						}
 					} else {
 						return false;

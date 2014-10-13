@@ -39,6 +39,26 @@ class TvController extends Controller
 					]
 				],
 			],
+			[
+				'class' => 'yii\filters\HttpCache',
+				'only' => ['index'],
+				'lastModified' => function($action, $params) {
+					if (Yii::$app->user->isGuest) {
+						$language = Language::find()
+							->where(['iso' => Yii::$app->language])
+							->one();
+
+						if (isset($language->popular_shows_updated_at)) {
+							return $language->popular_shows_updated_at;
+						} else {
+							return time();
+						}
+					} else {
+						return false;
+					}
+				},
+				'cacheControlHeader' => 'no-cache',
+			],
 		];
 	}
 
