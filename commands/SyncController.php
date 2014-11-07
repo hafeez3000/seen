@@ -70,6 +70,12 @@ class SyncController extends Controller
 			}
 
 			$movieDb->syncShow($show);
+
+			if ($themoviedb_id != null) {
+				foreach ($show->seasons as $season) {
+					$movieDb->syncSeason($season);
+				}
+			}
 		}
 
 		return 0;
