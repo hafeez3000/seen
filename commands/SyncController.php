@@ -44,14 +44,14 @@ class SyncController extends Controller
 		if ($themoviedb_id != null) {
 			echo "Sync show via TheMovieDB ID #{$themoviedb_id}\n";
 			$shows = $shows->andWhere(['themoviedb_id' => $themoviedb_id]);
+		} else {
+			if (!$this->force)
+				$shows = $shows->andWhere(['updated_at' => null]);
+			else
+				$shows = $shows
+					->orWhere('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
+					->orWhere(['updated_at' => null]);
 		}
-
-		if (!$this->force)
-			$shows = $shows->andWhere(['updated_at' => null]);
-		else
-			$shows = $shows
-				->orWhere('updated_at <= :time', [':time' => date('Y-m-d H:i:s', time() - 3600 * 24 * 7)])
-				->orWhere(['updated_at' => null]);
 
 		if ($this->debug) {
 			$showCount = $shows->count();
