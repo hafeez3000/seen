@@ -1312,7 +1312,10 @@ class MovieDb
 								break;
 							case 'deleted':
 								$video = ShowVideo::findOne($item->original_value->id);
-								$video->delete();
+
+								if ($video !== null) {
+									$video->delete();
+								}
 
 								break;
 							default:
