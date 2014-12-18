@@ -9,13 +9,6 @@ $this->title[] = Yii::t('Admin', 'Admin Dashboard');
 <h1><?php echo Yii::t('Admin', 'Admin Dashboard'); ?></h1>
 
 <div id="admin-dashboard" class="row">
-	<?php if (Yii::$app->user->can('viewEmails')): ?>
-		<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-			<a href="<?php echo Url::toRoute('email/index'); ?>" title="<?php echo Yii::t('Admin', 'Emails'); ?>">
-				<img src="<?php echo Yii::$app->request->baseUrl ?>/images/admin/mail.png" alt="<?php echo Yii::t('Admin', 'Emails'); ?>">
-			</a>
-		</div>
-	<?php endif; ?>
 	<?php if (Yii::$app->user->can('viewLogs')): ?>
 		<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
 			<a href="<?php echo Url::toRoute('log/index'); ?>" title="<?php echo Yii::t('Admin', 'Log Messages'); ?>">

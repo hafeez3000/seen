@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7fa4de99076109a0cadd9a8c7a3fe91c",
+    "hash": "975bed9932790ad37d561177b824cfa5",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -313,16 +313,16 @@
         },
         {
             "name": "bower-asset/jquery-ui",
-            "version": "1.11.1",
+            "version": "1.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jqueryui.git",
-                "reference": "39890e8599bdd79c423ea21b967195106800b87d"
+                "reference": "396781474d936959061271505f506b78398fe6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jqueryui/zipball/39890e8599bdd79c423ea21b967195106800b87d",
-                "reference": "39890e8599bdd79c423ea21b967195106800b87d",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/396781474d936959061271505f506b78398fe6a2",
+                "reference": "396781474d936959061271505f506b78398fe6a2",
                 "shasum": ""
             },
             "require": {
@@ -870,16 +870,16 @@
         },
         {
             "name": "kartik-v/bootstrap-checkbox-x",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-checkbox-x.git",
-                "reference": "516ccecc97972e84f7228badaffc41e88972745a"
+                "reference": "7067f949d79e6ae067150d9145520dfe89fb10a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-checkbox-x/zipball/516ccecc97972e84f7228badaffc41e88972745a",
-                "reference": "516ccecc97972e84f7228badaffc41e88972745a",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-checkbox-x/zipball/7067f949d79e6ae067150d9145520dfe89fb10a5",
+                "reference": "7067f949d79e6ae067150d9145520dfe89fb10a5",
                 "shasum": ""
             },
             "type": "library",
@@ -910,7 +910,7 @@
                 "state",
                 "three"
             ],
-            "time": "2014-10-10 16:08:37"
+            "time": "2014-10-15 17:16:18"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -1530,16 +1530,16 @@
         },
         {
             "name": "mandrill/mandrill",
-            "version": "1.0.53",
+            "version": "1.0.54",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/mailchimp/mandrill-api-php.git",
-                "reference": "67c40851204de8680c0a366a6ef19ff8ca95426f"
+                "reference": "9f336b08ea148c80db3b694f3dc737cd4f414e19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/mailchimp/mandrill-api-php/get/67c40851204de8680c0a366a6ef19ff8ca95426f.zip",
-                "reference": "67c40851204de8680c0a366a6ef19ff8ca95426f",
+                "url": "https://bitbucket.org/mailchimp/mandrill-api-php/get/9f336b08ea148c80db3b694f3dc737cd4f414e19.zip",
+                "reference": "9f336b08ea148c80db3b694f3dc737cd4f414e19",
                 "shasum": ""
             },
             "require": {
@@ -1569,7 +1569,7 @@
                 "api",
                 "email"
             ],
-            "time": "2014-06-26 18:02:01"
+            "time": "2014-10-16 21:08:20"
         },
         {
             "name": "nesbot/carbon",
@@ -1729,12 +1729,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/samacs/simple_html_dom.git",
-                "reference": "ac483f192164c270b3c56d300a453210ff99c057"
+                "reference": "842b3fc1f9f0c70b8c1b2e93fc451834c42e384d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samacs/simple_html_dom/zipball/ac483f192164c270b3c56d300a453210ff99c057",
-                "reference": "ac483f192164c270b3c56d300a453210ff99c057",
+                "url": "https://api.github.com/repos/samacs/simple_html_dom/zipball/842b3fc1f9f0c70b8c1b2e93fc451834c42e384d",
+                "reference": "842b3fc1f9f0c70b8c1b2e93fc451834c42e384d",
                 "shasum": ""
             },
             "require": {
@@ -1764,7 +1764,7 @@
                 "dom",
                 "php dom"
             ],
-            "time": "2014-09-02 22:03:03"
+            "time": "2014-10-17 00:16:28"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3179,16 +3179,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.37",
+            "version": "3.7.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc"
+                "reference": "38709dc22d519a3d1be46849868aa2ddf822bcf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
-                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/38709dc22d519a3d1be46849868aa2ddf822bcf6",
+                "reference": "38709dc22d519a3d1be46849868aa2ddf822bcf6",
                 "shasum": ""
             },
             "require": {
@@ -3248,7 +3248,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-04-30 12:24:19"
+            "time": "2014-10-17 09:04:17"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
