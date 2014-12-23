@@ -254,7 +254,9 @@ class TvMigrateController extends Controller
 		$shows = Show::find();
 
 		if (!$this->force)
-			$shows = $shows->where(['like', 'slug', 'slug']);
+			$shows = $shows
+				->where(['like', 'slug', 'slug'])
+				->orWhere('[[slug]] REGEXP "\\-[0-9]+$"');
 
 		if ($this->debug)
 			echo "Fixing {$shows->count()} show slugs...\n";
@@ -269,7 +271,7 @@ class TvMigrateController extends Controller
 		if (!$this->force)
 			$movies = $movies
 				->where(['like', 'slug', 'slug'])
-				->orWhere('[[slug]] REGEXP "\\-[0-9]$"');
+				->orWhere('[[slug]] REGEXP "\\-[0-9]+$"');
 
 		if ($this->debug)
 			echo "Fixing {$movies->count()} movie slugs...\n";
