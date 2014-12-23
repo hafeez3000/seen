@@ -126,10 +126,10 @@ class Movie extends ActiveRecord
 			],
 			'slug' => [
 				'class' => 'Zelenin\yii\behaviors\Slug',
-				'source_attribute' => ['title', 'language.iso'],
-				'slug_attribute' => 'slug',
+				'attribute' => ['title', 'language.iso'],
+				'slugAttribute' => 'slug',
 				'replacement' => '-',
-				'unique' => true,
+				'ensureUnique' => true,
 			],
 		];
 	}

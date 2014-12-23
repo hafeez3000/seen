@@ -118,10 +118,10 @@ class Show extends ActiveRecord
 			],
 			'slug' => [
 				'class' => 'Zelenin\yii\behaviors\Slug',
-				'source_attribute' => ['name', 'language.iso'],
-				'slug_attribute' => 'slug',
+				'attribute' => ['name', 'language.iso'],
+				'slugAttribute' => 'slug',
 				'replacement' => '-',
-				'unique' => true,
+				'ensureUnique' => true,
 			],
 		];
 	}
