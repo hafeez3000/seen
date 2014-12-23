@@ -57,8 +57,10 @@ class LanguageHelper
 
 	public static function navigation()
 	{
+		$currentIso = substr(Yii::$app->language, 0, 2);
+
 		$currentLanguage = Language::find()
-			->where(['iso' => Yii::$app->language])
+			->where(['iso' => $currentIso])
 			->select('iso')
 			->asArray()
 			->one();
