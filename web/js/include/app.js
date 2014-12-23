@@ -111,8 +111,6 @@ $(function() {
 
 	replaceHoverWithTouch();
 
-	$.cookieCuttr();
-
 	if ($("#tv-view").data("subscribed") == "1") {
 		// Mark episodes as seen/unseen
 		$(".tv-view-episodes li").on("click", function() {
