@@ -7,6 +7,7 @@ php:
 install:
   - composer self-update
   - npm install -g bower
+  - composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
   - composer install --dev --no-progress
   - touch ./tests/_localurl.php
   - echo "<?php return '/web/index-test.php';" >> ./tests/codeception/_localurl.php
