@@ -42,15 +42,19 @@ class EventBootstrap implements BootstrapInterface
 				'appkey' => Yii::$app->params['prediction']['key'],
 			]);
 
-			$client->execute($client->getCommand('create_item', [
-				'pio_iid' => 'movie-' . $movie->themoviedb_id,
-				'pio_itypes' => 'movie',
-				'year' => ($movie->release_date != null) ? date('Y', strtotime($movie->release_date)) : '',
-				'budget' => ($movie->budget > 0) ? $movie->budget : '',
-				'revenue' => ($movie->revenue > 0) ? $movie->revenue : '',
-				'adult' => ($movie->adult) ? true : false,
-				'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
-			]));
+			try {
+				$client->execute($client->getCommand('create_item', [
+					'pio_iid' => 'movie-' . $movie->themoviedb_id,
+					'pio_itypes' => 'movie',
+					'year' => ($movie->release_date != null) ? date('Y', strtotime($movie->release_date)) : '',
+					'budget' => ($movie->budget > 0) ? $movie->budget : '',
+					'revenue' => ($movie->revenue > 0) ? $movie->revenue : '',
+					'adult' => ($movie->adult) ? true : false,
+					'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
+				]));
+			} catch (\Guzzle\Http\Exception\CurlException $e) {
+				Yii::error($e);
+			}
 		});
 
 		// Update movie at prediction.io
@@ -61,15 +65,19 @@ class EventBootstrap implements BootstrapInterface
 				'appkey' => Yii::$app->params['prediction']['key'],
 			]);
 
-			$client->execute($client->getCommand('create_item', [
-				'pio_iid' => 'movie-' . $movie->themoviedb_id,
-				'pio_itypes' => 'movie',
-				'year' => ($movie->release_date != null) ? date('Y', strtotime($movie->release_date)) : '',
-				'budget' => ($movie->budget > 0) ? $movie->budget : '',
-				'revenue' => ($movie->revenue > 0) ? $movie->revenue : '',
-				'adult' => ($movie->adult) ? true : false,
-				'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
-			]));
+			try {
+				$client->execute($client->getCommand('create_item', [
+					'pio_iid' => 'movie-' . $movie->themoviedb_id,
+					'pio_itypes' => 'movie',
+					'year' => ($movie->release_date != null) ? date('Y', strtotime($movie->release_date)) : '',
+					'budget' => ($movie->budget > 0) ? $movie->budget : '',
+					'revenue' => ($movie->revenue > 0) ? $movie->revenue : '',
+					'adult' => ($movie->adult) ? true : false,
+					'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
+				]));
+			} catch (\Guzzle\Http\Exception\CurlException $e) {
+				Yii::error($e);
+			}
 		});
 
 		// Add user movie to prediction.io
@@ -80,11 +88,15 @@ class EventBootstrap implements BootstrapInterface
 				'appkey' => Yii::$app->params['prediction']['key'],
 			]);
 
-			$client->identify($userMovie->user_id);
-			$client->execute($client->getCommand('record_action_on_item',  [
-				'pio_action' => 'view',
-				'pio_iid' => 'movie-' . $userMovie->movie->themoviedb_id,
-			]));
+			try {
+				$client->identify($userMovie->user_id);
+				$client->execute($client->getCommand('record_action_on_item',  [
+					'pio_action' => 'view',
+					'pio_iid' => 'movie-' . $userMovie->movie->themoviedb_id,
+				]));
+			} catch (\Guzzle\Http\Exception\CurlException $e) {
+				Yii::error($e);
+			}
 		});
 
 		// Add show to prediction.io
@@ -95,12 +107,16 @@ class EventBootstrap implements BootstrapInterface
 				'appkey' => Yii::$app->params['prediction']['key'],
 			]);
 
-			$client->execute($client->getCommand('create_item', [
-				'pio_iid' => 'show-' . $show->themoviedb_id,
-				'pio_itypes' => 'show',
-				'year' => ($show->first_air_date != null) ? date('Y', strtotime($show->first_air_date)) : '',
-				'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
-			]));
+			try {
+				$client->execute($client->getCommand('create_item', [
+					'pio_iid' => 'show-' . $show->themoviedb_id,
+					'pio_itypes' => 'show',
+					'year' => ($show->first_air_date != null) ? date('Y', strtotime($show->first_air_date)) : '',
+					'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
+				]));
+			} catch (\Guzzle\Http\Exception\CurlException $e) {
+				Yii::error($e);
+			}
 		});
 
 		// Update show at prediction.io
@@ -111,12 +127,16 @@ class EventBootstrap implements BootstrapInterface
 				'appkey' => Yii::$app->params['prediction']['key'],
 			]);
 
-			$client->execute($client->getCommand('create_item', [
-				'pio_iid' => 'show-' . $show->themoviedb_id,
-				'pio_itypes' => 'show',
-				'year' => ($show->first_air_date != null) ? date('Y', strtotime($show->first_air_date)) : '',
-				'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
-			]));
+			try {
+				$client->execute($client->getCommand('create_item', [
+					'pio_iid' => 'show-' . $show->themoviedb_id,
+					'pio_itypes' => 'show',
+					'year' => ($show->first_air_date != null) ? date('Y', strtotime($show->first_air_date)) : '',
+					'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
+				]));
+			} catch (\Guzzle\Http\Exception\CurlException $e) {
+				Yii::error($e);
+			}
 		});
 
 		// Add user show to prediction.io
@@ -127,11 +147,15 @@ class EventBootstrap implements BootstrapInterface
 				'appkey' => Yii::$app->params['prediction']['key'],
 			]);
 
-			$client->identify($userShow->user_id);
-			$client->execute($client->getCommand('record_action_on_item',  [
-				'pio_action' => 'view',
-				'pio_iid' => 'show-' . $userShow->show->themoviedb_id,
-			]));
+			try {
+				$client->identify($userShow->user_id);
+				$client->execute($client->getCommand('record_action_on_item',  [
+					'pio_action' => 'view',
+					'pio_iid' => 'show-' . $userShow->show->themoviedb_id,
+				]));
+			} catch (\Guzzle\Http\Exception\CurlException $e) {
+				Yii::error($e);
+			}
 		});
 
 		// Send welcome email
