@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "adc4e7aa0ce4a96ba302de0888f179fd",
+    "hash": "14f33276efadd531912b5bd82a761afd",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -470,16 +470,16 @@
         },
         {
             "name": "bower-asset/select2",
-            "version": "3.4.8",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ivaynberg/select2.git",
-                "reference": "b5f3b2839c48c53f9641d6bb1bccafc5260c7620"
+                "reference": "6633cda9061d9fc65075dd140c63f9a6adbcbd72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivaynberg/select2/zipball/b5f3b2839c48c53f9641d6bb1bccafc5260c7620",
-                "reference": "b5f3b2839c48c53f9641d6bb1bccafc5260c7620",
+                "url": "https://api.github.com/repos/ivaynberg/select2/zipball/6633cda9061d9fc65075dd140c63f9a6adbcbd72",
+                "reference": "6633cda9061d9fc65075dd140c63f9a6adbcbd72",
                 "shasum": ""
             },
             "require": {
