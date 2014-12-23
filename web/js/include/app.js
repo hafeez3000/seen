@@ -38,11 +38,17 @@ function highlightEpisodes() {
 	});
 }
 
+function classReg(className) {
+	return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+}
+
+function toggleClass(elem, c) {
+	var fn = hasClass(elem, c) ? removeClass : addClass;
+	fn(elem, c);
+}
+
 function replaceHoverWithTouch() {
 	if (Modernizr.touch) {
-		function classReg(className) {
-			return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
-		}
 
 		var hasClass, addClass, removeClass;
 
@@ -71,11 +77,6 @@ function replaceHoverWithTouch() {
 			};
 		}
 
-		function toggleClass(elem, c) {
-			var fn = hasClass(elem, c) ? removeClass : addClass;
-			fn(elem, c);
-		}
-
 		var classie = {
 			hasClass: hasClass,
 			addClass: addClass,
@@ -101,6 +102,123 @@ function replaceHoverWithTouch() {
 				classie.toggle(this, 'cs-hover' );
 			}, false );
 		} );
+	}
+}
+
+function syncImportMovie() {
+	var $currentMovie = $movies.eq(index);
+	var title = $currentMovie.data("title");
+
+	$currentMovie.css({
+		display: "block"
+	});
+
+	$currentMovie.find("h2 a").on("click", function(e) {
+		e.preventDefault();
+
+		$(this).closest(".import-movie").hide();
+		currentMovie++;
+
+		$("#import-progress").find(".import-current").html(currentMovie);
+		$("#import-progress").find(".progress-bar").css({
+			width: Math.round(currentMovie / length * 100) + "%"
+		});
+
+		return false;
+	});
+
+	$currentMovie.addClass("loading");
+
+	$.ajax({
+		url: App.themoviedb.url + "/search/movie",
+		dataType: 'jsonp',
+		cache: true,
+		data: {
+			api_key: App.themoviedb.key,
+			query: title,
+			language: App.language
+		},
+		success: function(data) {
+			if (!data || !data.total_results || data.total_results === 0) {
+				$currentMovie.removeClass("loading");
+				$currentMovie.addClass("empty");
+			}
+
+			for (var i = 0; i < data.total_results; i++) {
+				var result = data.results[i];
+				if (!result)
+					continue;
+
+				var imagePath = (result.poster_path && result.poster_path.length) ?
+					App.themoviedb.image_url + "w185" + result.poster_path :
+					"http://placehold.it/185x260/eee/555&text=" + encodeURIComponent(result.title);
+
+				$link = $("<a data-id='" + result.id + "' title='" + result.title + "'><img src='" + imagePath + "'></a>");
+				$link.on("click", function(e) {
+					e.preventDefault();
+
+					var id = $(this).data("id");
+					var $item = $(this).closest(".import-movie");
+
+					$.ajax({
+						type: "post",
+						url: App.baseUrl + "/movie/load",
+						data: {
+							id: id
+						},
+						success: function(data) {
+							if (data && data.success && data.slug) {
+								$.ajax({
+									type: "get",
+									url: App.baseUrl + "/movie/watch/" + data.slug,
+									success: function(data) {
+										if (data && data.success)
+											$item.remove();
+
+										currentMovie++;
+										$("#import-progress").find(".import-current").html(currentMovie);
+										$("#import-progress").find(".progress-bar").css({
+											width: Math.round(currentMovie / length * 100) + "%"
+										});
+									},
+									beforeSend: function(){
+										$("#ajax-loading").show();
+									},
+									complete: function(){
+										$("#ajax-loading").hide();
+									}
+								});
+							} else if (data && !data.success && data.message) {
+								App.error(data.message);
+								$("#ajax-loading").hide();
+							} else {
+								$("#ajax-loading").hide();
+							}
+						},
+						beforeSend: function(){
+							$("#ajax-loading").show();
+						},
+						error: function(){
+							$("#ajax-loading").hide();
+						}
+					});
+
+					return false;
+				});
+				$currentMovie.append($link);
+			}
+
+			$currentMovie.removeClass("loading");
+		},
+		error: function() {
+			index = length;
+			App.error(App.translation.unknown_error);
+		}
+	});
+
+	index++;
+	if (index >= length) {
+		clearInterval(timer);
 	}
 }
 
@@ -386,123 +504,6 @@ $(function() {
 		var currentMovie = 0;
 
 		$("#import-progress").find(".import-max").html(length);
-
-		function syncImportMovie() {
-			var $currentMovie = $movies.eq(index);
-			var title = $currentMovie.data("title");
-
-			$currentMovie.css({
-				display: "block"
-			});
-
-			$currentMovie.find("h2 a").on("click", function(e) {
-				e.preventDefault();
-
-				$(this).closest(".import-movie").hide();
-				currentMovie++;
-
-				$("#import-progress").find(".import-current").html(currentMovie);
-				$("#import-progress").find(".progress-bar").css({
-					width: Math.round(currentMovie / length * 100) + "%"
-				});
-
-				return false;
-			});
-
-			$currentMovie.addClass("loading");
-
-			$.ajax({
-				url: App.themoviedb.url + "/search/movie",
-				dataType: 'jsonp',
-				cache: true,
-				data: {
-					api_key: App.themoviedb.key,
-					query: title,
-					language: App.language
-				},
-				success: function(data) {
-					if (!data || !data.total_results || data.total_results === 0) {
-						$currentMovie.removeClass("loading");
-						$currentMovie.addClass("empty");
-					}
-
-					for (var i = 0; i < data.total_results; i++) {
-						var result = data.results[i];
-						if (!result)
-							continue;
-
-						var imagePath = (result.poster_path && result.poster_path.length) ?
-							App.themoviedb.image_url + "w185" + result.poster_path :
-							"http://placehold.it/185x260/eee/555&text=" + encodeURIComponent(result.title);
-
-						$link = $("<a data-id='" + result.id + "' title='" + result.title + "'><img src='" + imagePath + "'></a>");
-						$link.on("click", function(e) {
-							e.preventDefault();
-
-							var id = $(this).data("id");
-							var $item = $(this).closest(".import-movie");
-
-							$.ajax({
-								type: "post",
-								url: App.baseUrl + "/movie/load",
-								data: {
-									id: id
-								},
-								success: function(data) {
-									if (data && data.success && data.slug) {
-										$.ajax({
-											type: "get",
-											url: App.baseUrl + "/movie/watch/" + data.slug,
-											success: function(data) {
-												if (data && data.success)
-													$item.remove();
-
-												currentMovie++;
-												$("#import-progress").find(".import-current").html(currentMovie);
-												$("#import-progress").find(".progress-bar").css({
-													width: Math.round(currentMovie / length * 100) + "%"
-												});
-											},
-											beforeSend: function(){
-												$("#ajax-loading").show();
-											},
-											complete: function(){
-												$("#ajax-loading").hide();
-											}
-										});
-									} else if (data && !data.success && data.message) {
-										App.error(data.message);
-										$("#ajax-loading").hide();
-									} else {
-										$("#ajax-loading").hide();
-									}
-								},
-								beforeSend: function(){
-									$("#ajax-loading").show();
-								},
-								error: function(){
-									$("#ajax-loading").hide();
-								}
-							});
-
-							return false;
-						});
-						$currentMovie.append($link);
-					}
-
-					$currentMovie.removeClass("loading");
-				},
-				error: function() {
-					index = length;
-					App.error(App.translation.unknown_error);
-				}
-			});
-
-			index++;
-			if (index >= length) {
-				clearInterval(timer);
-			}
-		}
 	}
 
 	if ($("#email-reply-form-affix").length) {
