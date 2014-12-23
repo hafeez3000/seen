@@ -377,7 +377,7 @@ class Movie extends ActiveRecord
 
 			return $query;
 		} catch (\Exception $e) {
-			Yii::error('Error while getting user movie predictions:' . $e->getMessage());
+			Yii::error('Error while getting user predictions from prediction.io:' . $e->getMessage());
 
 			return self::getStandardRecommendations();
 		}

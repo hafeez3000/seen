@@ -53,7 +53,7 @@ class EventBootstrap implements BootstrapInterface
 					'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
 				]));
 			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error($e);
+				Yii::error('Error while adding movie to prediction.io:' . $e->getMessage());
 			}
 		});
 
@@ -76,7 +76,7 @@ class EventBootstrap implements BootstrapInterface
 					'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
 				]));
 			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error($e);
+				Yii::error('Error while updating movie to prediction.io:' . $e->getMessage());
 			}
 		});
 
@@ -95,7 +95,7 @@ class EventBootstrap implements BootstrapInterface
 					'pio_iid' => 'movie-' . $userMovie->movie->themoviedb_id,
 				]));
 			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error($e);
+				Yii::error('Error while adding user to prediction.io:' . $e->getMessage());
 			}
 		});
 
@@ -115,7 +115,7 @@ class EventBootstrap implements BootstrapInterface
 					'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
 				]));
 			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error($e);
+				Yii::error('Error while adding show to prediction.io:' . $e->getMessage());
 			}
 		});
 
@@ -135,7 +135,7 @@ class EventBootstrap implements BootstrapInterface
 					'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
 				]));
 			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error($e);
+				Yii::error('Error while updating show to prediction.io:' . $e->getMessage());
 			}
 		});
 
@@ -154,7 +154,7 @@ class EventBootstrap implements BootstrapInterface
 					'pio_iid' => 'show-' . $userShow->show->themoviedb_id,
 				]));
 			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error($e);
+				Yii::error('Error while adding user show to prediction.io:' . $e->getMessage());
 			}
 		});
 
