@@ -7,7 +7,7 @@ $this->title[] = Yii::t('Log/Index', 'Log messages');
 ?>
 
 <div id="log-index">
-	<h1><?php echo Yii::t('Log', 'Log messages'); ?></h1>
+	<h1><?php echo Yii::t('Log/Index', 'Log messages'); ?></h1>
 
 	<?php echo $this->render('_index', [
 		'logs' => $logs,

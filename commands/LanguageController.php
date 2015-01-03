@@ -36,7 +36,7 @@ class LanguageController extends Controller
 
 	public function actionCreateMissing()
 	{
-		$default = Yii::$app->params['lang']['default'];
+		$default = Yii::$app->params['lang']['default_iso'];
 
 		$baseLanguage = Language::find()
 			->where(['iso' => $default])

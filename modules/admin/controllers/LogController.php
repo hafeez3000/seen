@@ -103,4 +103,15 @@ class LogController extends BaseController
 			'logs' => $logs,
 		]);
 	}
+
+	public function actionTruncate()
+	{
+		if (Yii::$app->request->post('confirm', false) !== false) {
+			$result = Yii::$app->db->createCommand('TRUNCATE {{%log}}')->execute();
+			Yii::$app->session->setFlash('info', Yii::t('Log/Truncate', 'Log table truncated.'));
+			return $this->redirect(['index']);
+		} else {
+			return $this->render('truncate');
+		}
+	}
 }

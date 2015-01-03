@@ -5,19 +5,14 @@
 
 use \yii\widgets\LinkPager;
 use \yii\helpers\Url;
-?>
 
-<p>
-	<div class="btn-group">
-		<a href="<?php echo Url::toRoute(['index']) ?>" class="btn <?php echo (Yii::$app->controller->action->id == 'index') ? 'btn-primary' : 'btn-default'; ?>"><?php echo Yii::t('Log', 'All') ?></a>
-		<a href="<?php echo Url::toRoute(['important']) ?>" class="btn <?php echo (Yii::$app->controller->action->id == 'important') ? 'btn-primary' : 'btn-default'; ?>"><?php echo Yii::t('Log', 'Important') ?></a>
-		<a href="<?php echo Url::toRoute(['missing']) ?>" class="btn <?php echo (Yii::$app->controller->action->id == 'missing') ? 'btn-primary' : 'btn-default'; ?>"><?php echo Yii::t('Log', '404') ?></a>
-	</div>
-</p>
+echo $this->render('_navigation');
 
-<?php echo LinkPager::widget([
+echo LinkPager::widget([
 	'pagination' => $pages,
-]); ?>
+]);
+
+?>
 
 <table id="log-table" class="table table-condensed">
 	<thead>

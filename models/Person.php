@@ -124,6 +124,11 @@ class Person extends \yii\db\ActiveRecord
 			->where(['iso' => Yii::$app->language])
 			->one();
 
+		if ($language === null)
+			$language = Language::find()
+				->where(['iso' => Yii::$app->params['lang']['default_iso']])
+				->one();
+
 		return Show::findBySql('
 			SELECT DISTINCT
 				{{%show}}.*
