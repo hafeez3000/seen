@@ -1341,6 +1341,7 @@ class MovieDb
 				case 'episode_run_time':
 				case 'production_companies':
 				case 'type':
+				case 'iso_639_1':
 					break;
 				case 'overview':
 					foreach ($attribute->items as $item) {
