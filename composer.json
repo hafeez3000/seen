@@ -15,6 +15,7 @@
 		"yiisoft/yii2-redis": "2.0.*",
 		"zelenin/yii2-slug-behavior": "0.2.*",
 		"kartik-v/yii2-grid": "2.8.*",
+		"kartik-v/yii2-mpdf": "1.0.*",
 		"nesbot/Carbon": "1.13.*",
 		"mailchimp/mailchimp": "2.0.*",
 		"mandrill/mandrill": "1.0.*",
