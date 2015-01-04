@@ -61,7 +61,7 @@ $this->title[] = Yii::t('Person/View', 'Persons');
 								<?php if (!empty($person->homepage)): ?>
 									<tr>
 										<td><strong><?php echo Yii::t('Person/View', 'Homepage'); ?></strong></td>
-										<td><a href="<?php echo Html::encode($person->homepage); ?>"><?php echo Html::encode($person->homepage); ?></td>
+										<td><?php echo Yii::$app->formatter->asUrl($person->homepage); ?></td>
 									</tr>
 								<?php endif; ?>
 							</tbody>
