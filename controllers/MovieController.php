@@ -133,6 +133,26 @@ class MovieController extends Controller
 				'genres',
 			])
 			->one();
+		if ($movie === null) {
+			$searchSlug = implode('-', array_filter(explode('-', $slug), function($item) {
+				return !is_numeric($item);
+			}));
+
+			$movie = Movie::find()
+				->where(['like', 'slug', $searchSlug])
+				->with([
+					'language',
+					'crew',
+					'crew.person',
+					'cast',
+					'cast.person',
+					'similarMovies',
+					'similarMovies.userWatches',
+					'genres',
+				])
+				->one();
+		}
+
 		if ($movie === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Movie', 'The movie could not be found!'));
 
