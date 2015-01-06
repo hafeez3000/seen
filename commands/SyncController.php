@@ -43,7 +43,7 @@ class SyncController extends Controller
 
 		if ($id !== null) {
 			echo "Sync show #{$id}\n";
-			$shows = $shows->andWhere(['id' => $id]);
+			$shows = $shows->andWhere(['themoviedb_id' => $id]);
 		} else {
 			if (!$this->force)
 				$shows = $shows->andWhere(['updated_at' => null]);
