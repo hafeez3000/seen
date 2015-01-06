@@ -32,7 +32,7 @@ class SyncController extends Controller
 		];
 	}
 
-	public function actionShows($id = null)
+	public function actionShows($themoviedb_id = null)
 	{
 		Yii::info('Sync shows...', 'application\sync');
 
@@ -41,9 +41,12 @@ class SyncController extends Controller
 		$shows = Show::find()
 			->with('language');
 
-		if ($id !== null) {
-			echo "Sync show #{$id}\n";
-			$shows = $shows->andWhere(['themoviedb_id' => $id]);
+		if ($themoviedb_id !== null) {
+			echo "Sync show #{$themoviedb_id}\n";
+			$shows = $shows
+				->with('seasons')
+				->with('seasons.episodes')
+				->where(['themoviedb_id' => $themoviedb_id]);
 		} else {
 			if (!$this->force)
 				$shows = $shows->andWhere(['updated_at' => null]);
@@ -69,6 +72,17 @@ class SyncController extends Controller
 			}
 
 			$movieDb->syncShow($show);
+
+			if ($this->force) {
+				foreach ($show->seasons as $season) {
+					echo "Season {$season->number}/" . count($show->seasons) . "\n";
+					$movieDb->syncSeason($season);
+
+					foreach ($season->episodes as $episode) {
+						$movieDb->syncEpisode($episode);
+					}
+				}
+			}
 		}
 
 		return 0;
