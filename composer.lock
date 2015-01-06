@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "85c45c9962f037d2b901dba53203be2d",
+    "hash": "e4246ac2be7418682b365b02b7881a25",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -356,16 +356,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.49",
+            "version": "3.1.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "4a0bda47031b9d2074b0c77c3b447df71ed1ca95"
+                "reference": "f44d5deec804c72fe85da31819b18bdcdad26f65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/4a0bda47031b9d2074b0c77c3b447df71ed1ca95",
-                "reference": "4a0bda47031b9d2074b0c77c3b447df71ed1ca95",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/f44d5deec804c72fe85da31819b18bdcdad26f65",
+                "reference": "f44d5deec804c72fe85da31819b18bdcdad26f65",
                 "shasum": ""
             },
             "require": {
@@ -559,54 +559,6 @@
                     "test/"
                 ]
             }
-        },
-        {
-            "name": "bugsnag/bugsnag",
-            "version": "v2.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "332a94be2212e6dcf5d2ba09d9eaf1ccb75eddf7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/332a94be2212e6dcf5d2ba09d9eaf1ccb75eddf7",
-                "reference": "332a94be2212e6dcf5d2ba09d9eaf1ccb75eddf7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Bugsnag_": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "James Smith",
-                    "email": "notifiers@bugsnag.com",
-                    "homepage": "https://bugsnag.com"
-                }
-            ],
-            "description": "Official Bugsnag notifier for PHP applications.",
-            "homepage": "https://github.com/bugsnag/bugsnag-php",
-            "keywords": [
-                "bugsnag",
-                "errors",
-                "exceptions",
-                "logging",
-                "tracking"
-            ],
-            "time": "2014-12-19 23:57:40"
         },
         {
             "name": "cebe/markdown",

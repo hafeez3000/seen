@@ -19,7 +19,6 @@
 		"nesbot/Carbon": "1.13.*",
 		"mailchimp/mailchimp": "2.0.*",
 		"mandrill/mandrill": "1.0.*",
-		"bugsnag/bugsnag": "2.*",
 		"gabrielbull/browser": "3.1.*",
 		"shark/simple_html_dom": "dev-master",
 		"lusitanian/oauth": "0.3.*",
