@@ -36,7 +36,7 @@ echo DetailView::widget([
 
 		<ul>
 			<?php foreach ($model->allShows as $show): ?>
-				<li><a href="<?php echo Url::toRoute(['/tv/view', 'slug' => $show->slug]); ?>"><?php echo $show->original_name; ?> - <?php echo $show->name; ?> (<?php echo $show->getAllUserEpisodes($model->id)->count(); ?>)</a></li>
+				<li><a href="<?php echo Url::toRoute(['/tv/view', 'slug' => $show->slug]); ?>"><?php echo $show->original_name; ?> - <?php echo $show->completeName; ?> (<?php echo $show->getAllUserEpisodes($model->id)->count(); ?>)</a></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
@@ -46,7 +46,7 @@ echo DetailView::widget([
 
 		<ul>
 			<?php foreach ($model->movies as $movie): ?>
-				<li><a href="<?php echo Url::toRoute(['/movie/view', 'slug' => $movie->slug]); ?>"><?php echo $movie->original_title; ?> (<?php echo $movie->title; ?>)</a></li>
+				<li><a href="<?php echo Url::toRoute(['/movie/view', 'slug' => $movie->slug]); ?>"><?php echo $movie->original_title; ?> (<?php echo $movie->completeTitle; ?>)</a></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

@@ -32,8 +32,8 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 			<ul class="list-unstyled list-inline">
 				<?php foreach ($watchlistMovies as $movie): ?>
 					<li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
-						<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
-							<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+						<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->completeTitle; ?>">
+							<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
 						</a>
 					</li>
 				<?php endforeach; ?>
@@ -47,8 +47,8 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
     		<ul class="list-unstyled list-inline">
     			<?php foreach ($recommendMovies as $movie): ?>
     				<li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
-    					<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
-    						<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+    					<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->completeTitle; ?>">
+    						<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
     					</a>
     				</li>
     			<?php endforeach; ?>
@@ -65,8 +65,8 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 			<ul class="list-unstyled list-inline">
 				<?php foreach ($movies as $movie): ?>
 					<li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
-						<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->title; ?>">
-							<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+						<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->completeTitle; ?>">
+							<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
 						</a>
 					</li>
 				<?php endforeach; ?>

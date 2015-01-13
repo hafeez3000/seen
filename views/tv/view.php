@@ -9,7 +9,7 @@ use \yii\widgets\ActiveForm;
 
 use \app\components\LanguageHelper;
 
-$this->title[] = $show->name;
+$this->title[] = $show->completeName;
 $this->title[] = Yii::t('Show/View', 'TV Shows');
 ?>
 
@@ -27,7 +27,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 	<div class="row" id="tv-view-header">
 		<div class="col-sm-6 col-md-8">
 			<h1>
-				<?php echo Html::encode($show->name); ?>
+				<?php echo Html::encode($show->completeName); ?>
 				<?php if ($show->isUserSubscribed): ?>
 					<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unsubscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Unsubscribe'); ?></a>
 				<?php else: ?>
@@ -56,7 +56,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 	<div id="tv-view-content" class="row">
 		<div id="tv-view-information" class="col-sm-6 col-md-5 col-lg-4">
 			<div id="tv-view-backdrop">
-				<img <?php echo $show->backdropUrl; ?> alt="<?php echo Html::encode($show->name); ?>">
+				<img <?php echo $show->backdropUrl; ?> alt="<?php echo Html::encode($show->completeName); ?>">
 			</div>
 
 			<?php if (!empty($show->overview)): ?>

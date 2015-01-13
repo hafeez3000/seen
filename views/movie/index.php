@@ -30,7 +30,7 @@ $this->title[] = Yii::t('Movie/Index', 'Movies');
 	<div class="row">
 		<?php foreach ($movies as $movie): ?>
 			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 movie-index">
-				<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->title); ?>">
+				<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
 					<img <?php echo $movie->posterUrlLarge; ?>>
 				</a>
 			</div>

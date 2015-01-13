@@ -258,7 +258,7 @@ class TvController extends Controller
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 
 		if ($show->isUserSubscribed) {
-			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are already subscribed to {name}.', ['name' => $show->name]));
+			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are already subscribed to {name}.', ['name' => $show->completeName]));
 
 			return $this->redirect(['view', 'slug' => $show->slug]);
 		}
@@ -289,7 +289,7 @@ class TvController extends Controller
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 
 		if (!$show->isUserSubscribed) {
-			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are not subscribed to {name}.', ['name' => $show->name]));
+			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are not subscribed to {name}.', ['name' => $show->completeName]));
 
 			return $this->redirect(['view', 'slug' => $show->slug]);
 		}
@@ -312,7 +312,7 @@ class TvController extends Controller
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 
 		if (!$show->isUserSubscribed) {
-			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are not subscribed to {name}.', ['name' => $show->name]));
+			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are not subscribed to {name}.', ['name' => $show->completeName]));
 
 			return $this->redirect(['view', 'slug' => $show->slug]);
 		}
@@ -335,7 +335,7 @@ class TvController extends Controller
 				];
 			} else {
 				Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully archived `{name}`. Move on to the <a href="{archive}">Archive</a> to see your archived shows.', [
-					'name' => $show->name,
+					'name' => $show->completeName,
 					'archive' => Yii::$app->urlManager->createAbsoluteUrl(['tv/archive']),
 				]));
 
@@ -366,7 +366,7 @@ class TvController extends Controller
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 
 		if (!$show->isUserSubscribed) {
-			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are not subscribed to {name}.', ['name' => $show->name]));
+			Yii::$app->session->setFlash('info', Yii::t('Show', 'You are not subscribed to {name}.', ['name' => $show->completeName]));
 
 			return $this->redirect(['view', 'slug' => $show->slug]);
 		}
@@ -389,7 +389,7 @@ class TvController extends Controller
 				];
 			} else {
 				Yii::$app->session->setFlash('success', Yii::t('Show', 'You successfully unarchived `{name}`.', [
-					'name' => $show->name,
+					'name' => $show->completeName,
 				]));
 
 				return $this->redirect(['index']);

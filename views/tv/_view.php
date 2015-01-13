@@ -11,18 +11,18 @@ use \app\components\LanguageHelper;
 
 <li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>" data-id="<?php echo $show->id; ?>">
 	<figure>
-		<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>">
-			<img <?php echo $show->posterUrl; ?> alt="<?php echo Html::encode($show->name); ?>" title="<?php echo Html::encode($show->name); ?>">
+		<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>">
+			<img <?php echo $show->posterUrl; ?> alt="<?php echo Html::encode($show->completeName); ?>" title="<?php echo Html::encode($show->completeName); ?>">
 		</a>
 
 		<figcaption class="clearfix">
 			<h4>
-				<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>">
-					<?php echo Html::encode($show->name); ?>
+				<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>">
+					<?php echo Html::encode($show->completeName); ?>
 				</a>
 			</h4>
 
-			<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->name; ?>" class="last-seen">
+			<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>" class="last-seen">
 				<?php if ($show->lastEpisode !== null): ?>
 					<span title="<?php echo LanguageHelper::dateTime(strtotime($show->lastEpisode->created_at)); ?>">
 						<?php echo $show->lastEpisode->createdAtAgo; ?>
@@ -33,19 +33,19 @@ use \app\components\LanguageHelper;
 			</a>
 
 			<?php if ($active == 'dashboard'): ?>
-				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive {name}', ['name' => $show->name]); ?>">
+				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Archive {name}', ['name' => $show->completeName]); ?>">
 					<span class="glyphicon glyphicon-lock"> <?php echo Yii::t('Show', 'Archive') ?></span>
 				</a>
 			<?php elseif ($active == 'archive'): ?>
-				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->name]); ?>">
+				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->completeName]); ?>">
 					<span class="glyphicon glyphicon-arrow-left"> <?php echo Yii::t('Show', 'Restore') ?></span>
 				</a>
 			<?php elseif ($active == 'popular'): ?>
-				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/view', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->name]); ?>">
+				<a class="btn btn-default" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/view', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->completeName]); ?>">
 					<span class="glyphicon glyphicon-search"> <?php echo Yii::t('Show', 'Show') ?></span>
 				</a>
 			<?php elseif ($active == 'recommend'): ?>
-				<a class="btn btn-primary" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/subscribe', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->name]); ?>">
+				<a class="btn btn-primary" href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/subscribe', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show/Dashboard', 'Remove {name} from the archive', ['name' => $show->completeName]); ?>">
 					<span class="glyphicon glyphicon-ok"> <?php echo Yii::t('Show', 'Subscribe') ?></span>
 				</a>
 			<?php endif; ?>

@@ -77,7 +77,7 @@ $this->title[] = Yii::t('Person/View', 'Persons');
 				<div class="row" id="person-view-movies">
 					<?php foreach ($movies as $movie): ?>
 						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-							<a href="<?php echo Url::toRoute(['movie/view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->title); ?>">
+							<a href="<?php echo Url::toRoute(['movie/view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
 								<img <?php echo $movie->posterUrlLarge; ?>>
 							</a>
 						</div>

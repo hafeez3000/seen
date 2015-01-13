@@ -303,6 +303,20 @@ class Movie extends ActiveRecord
 		return $this->hasMany(Movie::className(), ['id' => 'movie_id'])->viaTable('{{%movie_popular}}', ['movie_id' => 'id']);
 	}
 
+	/**
+	 * Get the original movie title if the localized one is the same
+	 * and therefore empty.
+	 *
+	 * @return string
+	 */
+	public function getCompleteTitle()
+	{
+		if (!empty($this->title))
+			return $this->title;
+		else
+			return $this->original_title;
+	}
+
 	protected static function getStandardRecommendations()
 	{
 		return Movie::find()

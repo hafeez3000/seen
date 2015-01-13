@@ -300,6 +300,20 @@ class Show extends ActiveRecord
 	}
 
 	/**
+	 * Get the original show name if the localized one is the same
+	 * and therefore empty.
+	 *
+	 * @return string
+	 */
+	public function getCompleteName()
+	{
+		if (!empty($this->name))
+			return $this->name;
+		else
+			return $this->original_name;
+	}
+
+	/**
 	 * @return UserEpisode|null
 	 */
 	public function getLastEpisode()

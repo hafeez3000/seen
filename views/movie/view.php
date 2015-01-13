@@ -9,7 +9,7 @@ use \yii\widgets\ActiveForm;
 
 use \app\components\LanguageHelper;
 
-$this->title[] = $movie->title;
+$this->title[] = $movie->completeTitle;
 $this->title[] = Yii::t('Movie/View', 'Movies');
 ?>
 
@@ -26,7 +26,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 
 	<div class="row" id="movie-view-header">
 		<div class="col-sm-4 col-lg-6">
-			<h1><?php echo Html::encode($movie->title); ?></h1>
+			<h1><?php echo Html::encode($movie->completeTitle); ?></h1>
 		</div>
 
 		<div class="col-sm-5 col-lg-3" id="movie-view-actions">
@@ -62,7 +62,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 
 	<div class="row">
 		<div class="col-sm-4">
-			<img <?php echo $movie->posterUrlLarge; ?> alt="<?php echo Html::encode($movie->title); ?>" title="<?php echo Html::encode($movie->title); ?>">
+			<img <?php echo $movie->posterUrlLarge; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
 
 			<div id="movie-view-ads">
 				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
