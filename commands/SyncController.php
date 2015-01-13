@@ -75,7 +75,10 @@ class SyncController extends Controller
 
 			if ($this->force) {
 				foreach ($show->seasons as $season) {
-					echo "Season {$season->number}/" . count($show->seasons) . "\n";
+					if ($this->debug) {
+						echo "Season {$season->number}/" . count($show->seasons) . "\n";
+					}
+
 					$movieDb->syncSeason($season);
 
 					foreach ($season->episodes as $episode) {
