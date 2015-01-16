@@ -1290,10 +1290,6 @@ class MovieDb
 									break;
 								}
 
-								foreach ($shows as $show)
-									if (!ShowNetwork::find()->where(['network_id' => $network->id, 'show_id' => $show->id])->exists())
-										$show->link('networks', $network);
-
 								break;
 							case 'updated':
 								$video = ShowVideo::findOne($item->original_value->id);
