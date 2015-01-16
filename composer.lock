@@ -356,16 +356,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.55",
+            "version": "3.1.57",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "d90a0d180495635e8dd97a770e7ab8b3c4ee6d53"
+                "reference": "d180082aa1ba98c85f85b2c4eebbfa195fd25613"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/d90a0d180495635e8dd97a770e7ab8b3c4ee6d53",
-                "reference": "d90a0d180495635e8dd97a770e7ab8b3c4ee6d53",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/d180082aa1ba98c85f85b2c4eebbfa195fd25613",
+                "reference": "d180082aa1ba98c85f85b2c4eebbfa195fd25613",
                 "shasum": ""
             },
             "require": {
@@ -898,16 +898,16 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v1.7.0",
+            "version": "v1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "bf88606ff2faeb8b1471b8739a4c7d5d0c7bbe27"
+                "reference": "4a5f5c2789a6fde71dc8d8b7177351decd02e866"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/bf88606ff2faeb8b1471b8739a4c7d5d0c7bbe27",
-                "reference": "bf88606ff2faeb8b1471b8739a4c7d5d0c7bbe27",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/4a5f5c2789a6fde71dc8d8b7177351decd02e866",
+                "reference": "4a5f5c2789a6fde71dc8d8b7177351decd02e866",
                 "shasum": ""
             },
             "require": {
@@ -940,7 +940,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-01-12 11:23:28"
+            "time": "2015-01-13 19:50:02"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -1666,16 +1666,16 @@
         },
         {
             "name": "zelenin/yii2-slug-behavior",
-            "version": "0.2.8",
+            "version": "0.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zelenin/yii2-slug-behavior.git",
-                "reference": "d6d99f2161bcc77613db3f0372c89fc3a70edbbb"
+                "reference": "3306bed1aaa895ddd571d7289bcb2bccefef4e9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zelenin/yii2-slug-behavior/zipball/d6d99f2161bcc77613db3f0372c89fc3a70edbbb",
-                "reference": "d6d99f2161bcc77613db3f0372c89fc3a70edbbb",
+                "url": "https://api.github.com/repos/zelenin/yii2-slug-behavior/zipball/3306bed1aaa895ddd571d7289bcb2bccefef4e9a",
+                "reference": "3306bed1aaa895ddd571d7289bcb2bccefef4e9a",
                 "shasum": ""
             },
             "require": {
