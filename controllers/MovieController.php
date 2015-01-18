@@ -53,7 +53,7 @@ class MovieController extends Controller
 	{
 		$language = Language::find()
 			->where(['iso' => Yii::$app->language])
-			->orWhere(['iso' => Yii::$app->params['lang']['default']])
+			->orWhere(['iso' => Yii::$app->params['lang']['default_iso']])
 			->one();
 
 		$movies = Movie::findBySql('
