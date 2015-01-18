@@ -371,6 +371,9 @@ class SyncController extends Controller
 			$popularMoviesAttribute = $movieDb->getPopularMovies($language->iso);
 			$order = 0;
 
+			if (!isset($popularMoviesAttribute->results))
+				return false;
+
 			foreach ($popularMoviesAttribute->results as $movieAttribute) {
 				$order++;
 
