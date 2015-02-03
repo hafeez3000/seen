@@ -3,15 +3,15 @@
 return [
 	'themoviedb' => [
 		'key' => '',
-		'url' => '',
-		'image_url' => '',
+		'url' => 'https://api.themoviedb.org/',
+		'image_url' => 'https://image.tmdb.org/t/p/',
 	],
 	'email' => [
 		'admin' => 'admin@seenapp.com',
 		'system' => 'no-reply@seenapp.com',
 		'mandrill' => [
 			'baseUrl' => 'https://mandrillapp.com/api/1.0/',
-			'apikey' => '6a7b5efb-e419-488f-b649-3afc33289439',
+			'apikey' => '',
 			'globalMergeVars' => [
 			],
 		],
@@ -42,5 +42,22 @@ return [
 			'decPoint' => ',',
 			'thousandsSep' => '.',
 		],
+	],
+	'oauth' => [
+		'facebook' => [
+			'key' => '',
+			'secret' => '',
+		],
+	],
+	'redis' => [
+		'host' => '127.0.0.1',
+		'port' => 6379,
+	],
+	'prediction' => [
+		'key' => '',
+	],
+	'adsense' => [
+		'client' => '',
+		'slot' => '',
 	],
 ];
