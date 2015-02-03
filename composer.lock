@@ -51,16 +51,16 @@
         },
         {
             "name": "bower-asset/bootstrap",
-            "version": "v3.3.1",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "9a7e365c2c4360335d25246dac11afb1f577210a"
+                "reference": "bcf7dd38b5ab180256e2e4fb5da0369551b3f082"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/9a7e365c2c4360335d25246dac11afb1f577210a",
-                "reference": "9a7e365c2c4360335d25246dac11afb1f577210a",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/bcf7dd38b5ab180256e2e4fb5da0369551b3f082",
+                "reference": "bcf7dd38b5ab180256e2e4fb5da0369551b3f082",
                 "shasum": ""
             },
             "require": {
@@ -101,86 +101,27 @@
             ]
         },
         {
-            "name": "bower-asset/bootstrap-sass-official",
-            "version": "v3.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twbs/bootstrap-sass.git",
-                "reference": "93f42bc913bdd4c9df3d4652bd5168b4ede870c6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap-sass/zipball/93f42bc913bdd4c9df3d4652bd5168b4ede870c6",
-                "reference": "93f42bc913bdd4c9df3d4652bd5168b4ede870c6",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/jquery": ">=1.9.0"
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": [
-                    "assets/stylesheets/_bootstrap.scss",
-                    "assets/fonts/bootstrap/glyphicons-halflings-regular.eot",
-                    "assets/fonts/bootstrap/glyphicons-halflings-regular.svg",
-                    "assets/fonts/bootstrap/glyphicons-halflings-regular.ttf",
-                    "assets/fonts/bootstrap/glyphicons-halflings-regular.woff",
-                    "assets/javascripts/bootstrap/affix.js",
-                    "assets/javascripts/bootstrap/alert.js",
-                    "assets/javascripts/bootstrap/button.js",
-                    "assets/javascripts/bootstrap/carousel.js",
-                    "assets/javascripts/bootstrap/collapse.js",
-                    "assets/javascripts/bootstrap/dropdown.js",
-                    "assets/javascripts/bootstrap/tab.js",
-                    "assets/javascripts/bootstrap/transition.js",
-                    "assets/javascripts/bootstrap/scrollspy.js",
-                    "assets/javascripts/bootstrap/modal.js",
-                    "assets/javascripts/bootstrap/tooltip.js",
-                    "assets/javascripts/bootstrap/popover.js"
-                ],
-                "bower-asset-ignore": [
-                    "**/.*",
-                    "lib",
-                    "tasks",
-                    "templates",
-                    "test",
-                    "*.gemspec",
-                    "Rakefile",
-                    "Gemfile"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "bootstrap-sass is a Sass-powered version of Bootstrap, ready to drop right into your Sass powered applications.",
-            "keywords": [
-                "bootstrap",
-                "sass",
-                "twbs"
-            ]
-        },
-        {
             "name": "bower-asset/bootswatch",
-            "version": "v3.3.1-patch2",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thomaspark/bootswatch.git",
-                "reference": "ba985c807d5934a1787daea902f33a4bea2677a9"
+                "reference": "7e6070630176d8a802c4837345d5998eac7c1d7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thomaspark/bootswatch/zipball/ba985c807d5934a1787daea902f33a4bea2677a9",
-                "reference": "ba985c807d5934a1787daea902f33a4bea2677a9",
+                "url": "https://api.github.com/repos/thomaspark/bootswatch/zipball/7e6070630176d8a802c4837345d5998eac7c1d7a",
+                "reference": "7e6070630176d8a802c4837345d5998eac7c1d7a",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/bootstrap": ">=3.3.1,<3.4",
-                "bower-asset/bootstrap-sass-official": ">=3.3.1,<3.4"
+                "bower-asset/bootstrap": "~3.3.2"
             },
             "require-dev": {
-                "bower-asset/font-awesome": ">=4.0.0,<4.1",
-                "bower-asset/html5shiv": ">=3.7.0,<3.8",
-                "bower-asset/respond": ">=1.4.2,<1.5"
+                "bower-asset/bootstrap-sass-official": "~3.3.2",
+                "bower-asset/font-awesome": "~4.0.0",
+                "bower-asset/html5shiv": "~3.7.0",
+                "bower-asset/respond": "~1.4.2"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -356,16 +297,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.57",
+            "version": "3.1.59",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "d180082aa1ba98c85f85b2c4eebbfa195fd25613"
+                "reference": "6fcd2cf28ee111f8aadcd42a1b8d43d6f7a5c0ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/d180082aa1ba98c85f85b2c4eebbfa195fd25613",
-                "reference": "d180082aa1ba98c85f85b2c4eebbfa195fd25613",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/6fcd2cf28ee111f8aadcd42a1b8d43d6f7a5c0ba",
+                "reference": "6fcd2cf28ee111f8aadcd42a1b8d43d6f7a5c0ba",
                 "shasum": ""
             },
             "require": {
@@ -401,7 +342,7 @@
                 "form",
                 "input",
                 "inputmask",
-                "jQuery",
+                "jquery",
                 "mask",
                 "plugins"
             ]
@@ -473,12 +414,12 @@
             "version": "3.5.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ivaynberg/select2.git",
+                "url": "https://github.com/select2/select2.git",
                 "reference": "6633cda9061d9fc65075dd140c63f9a6adbcbd72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ivaynberg/select2/zipball/6633cda9061d9fc65075dd140c63f9a6adbcbd72",
+                "url": "https://api.github.com/repos/select2/select2/zipball/6633cda9061d9fc65075dd140c63f9a6adbcbd72",
                 "reference": "6633cda9061d9fc65075dd140c63f9a6adbcbd72",
                 "shasum": ""
             },
@@ -498,25 +439,25 @@
         },
         {
             "name": "bower-asset/select2-bootstrap-css",
-            "version": "v1.4.4",
+            "version": "v1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/t0m/select2-bootstrap-css.git",
-                "reference": "c2237298d5373371852d297c4bc5a31e409bbbee"
+                "reference": "dffa8740723d12cf5b9a56a28cc3dcd5e08ac3e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/t0m/select2-bootstrap-css/zipball/c2237298d5373371852d297c4bc5a31e409bbbee",
-                "reference": "c2237298d5373371852d297c4bc5a31e409bbbee",
+                "url": "https://api.github.com/repos/t0m/select2-bootstrap-css/zipball/dffa8740723d12cf5b9a56a28cc3dcd5e08ac3e2",
+                "reference": "dffa8740723d12cf5b9a56a28cc3dcd5e08ac3e2",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/select2": ">=3.3.2,<4.0"
+                "bower-asset/select2": ">=3.3.2,<4.0.0"
             },
             "require-dev": {
-                "bower-asset/bootstrap": ">=3.3.0,<3.4",
-                "bower-asset/bootstrap-sass-official": ">=3.3.0,<3.4",
-                "bower-asset/respond": ">=1.4.2,<1.5"
+                "bower-asset/bootstrap": "~3.3.0",
+                "bower-asset/bootstrap-sass-official": "3.3.3",
+                "bower-asset/respond": "~1.4.2"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -654,8 +595,7 @@
                 {
                     "name": "Edward Z. Yang",
                     "email": "admin@htmlpurifier.org",
-                    "homepage": "http://ezyang.com",
-                    "role": "Developer"
+                    "homepage": "http://ezyang.com"
                 }
             ],
             "description": "Standards compliant HTML filter written in PHP",
@@ -898,16 +838,16 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v1.7.1",
+            "version": "v1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "4a5f5c2789a6fde71dc8d8b7177351decd02e866"
+                "reference": "a6bd683be7a50720e4a3c8efd74b80bf5331dd69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/4a5f5c2789a6fde71dc8d8b7177351decd02e866",
-                "reference": "4a5f5c2789a6fde71dc8d8b7177351decd02e866",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/a6bd683be7a50720e4a3c8efd74b80bf5331dd69",
+                "reference": "a6bd683be7a50720e4a3c8efd74b80bf5331dd69",
                 "shasum": ""
             },
             "require": {
@@ -940,7 +880,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-01-13 19:50:02"
+            "time": "2015-01-25 16:21:06"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -1332,17 +1272,17 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "40ff70cadea3785d83cac1c8309514b36113064e"
+                "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/40ff70cadea3785d83cac1c8309514b36113064e",
-                "reference": "40ff70cadea3785d83cac1c8309514b36113064e",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/f75989f3ab2743a82fe0b03ded2598a2b1546813",
+                "reference": "f75989f3ab2743a82fe0b03ded2598a2b1546813",
                 "shasum": ""
             },
             "require": {
@@ -1386,7 +1326,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-05 14:28:40"
+            "time": "2015-02-01 16:10:57"
         },
         {
             "name": "yiisoft/yii2",
@@ -1717,12 +1657,12 @@
             "version": "v1.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Behat/Mink.git",
+                "url": "https://github.com/minkphp/Mink.git",
                 "reference": "0769e6d9726c140a54dbf827a438c0f9912749fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Mink/zipball/0769e6d9726c140a54dbf827a438c0f9912749fe",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/0769e6d9726c140a54dbf827a438c0f9912749fe",
                 "reference": "0769e6d9726c140a54dbf827a438c0f9912749fe",
                 "shasum": ""
             },
@@ -1772,12 +1712,12 @@
             "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Behat/MinkBrowserKitDriver.git",
+                "url": "https://github.com/minkphp/MinkBrowserKitDriver.git",
                 "reference": "63960c8fcad4529faad1ff33e950217980baa64c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkBrowserKitDriver/zipball/63960c8fcad4529faad1ff33e950217980baa64c",
+                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/63960c8fcad4529faad1ff33e950217980baa64c",
                 "reference": "63960c8fcad4529faad1ff33e950217980baa64c",
                 "shasum": ""
             },
@@ -1827,12 +1767,12 @@
             "version": "v1.0.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Behat/MinkGoutteDriver.git",
+                "url": "https://github.com/minkphp/MinkGoutteDriver.git",
                 "reference": "fa1b073b48761464feb0b05e6825da44b20118d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkGoutteDriver/zipball/fa1b073b48761464feb0b05e6825da44b20118d8",
+                "url": "https://api.github.com/repos/minkphp/MinkGoutteDriver/zipball/fa1b073b48761464feb0b05e6825da44b20118d8",
                 "reference": "fa1b073b48761464feb0b05e6825da44b20118d8",
                 "shasum": ""
             },
@@ -1878,12 +1818,12 @@
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Behat/MinkSelenium2Driver.git",
+                "url": "https://github.com/minkphp/MinkSelenium2Driver.git",
                 "reference": "bcf1b537de37db6db0822d9e7bd97e600fd7a476"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/MinkSelenium2Driver/zipball/bcf1b537de37db6db0822d9e7bd97e600fd7a476",
+                "url": "https://api.github.com/repos/minkphp/MinkSelenium2Driver/zipball/bcf1b537de37db6db0822d9e7bd97e600fd7a476",
                 "reference": "bcf1b537de37db6db0822d9e7bd97e600fd7a476",
                 "shasum": ""
             },
@@ -1949,9 +1889,9 @@
                 "bower-asset/jquery": ">=1.7"
             },
             "require-dev": {
-                "bower-asset/jasmine-ajax": ">=1.3.1,<1.4",
-                "bower-asset/jasmine-jquery": ">=1.5.2,<1.6",
-                "bower-asset/jquery": ">=1.7,<1.8"
+                "bower-asset/jasmine-ajax": "~1.3.1",
+                "bower-asset/jasmine-jquery": "~1.5.2",
+                "bower-asset/jquery": "~1.7"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -2904,7 +2844,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/BrowserKit",
             "source": {
                 "type": "git",
@@ -2959,17 +2899,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "6ac6491ff60c0e5a941db3ccdc75a07adbb61476"
+                "reference": "e44154bfe3e41e8267d7a3794cd9da9a51cfac34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/6ac6491ff60c0e5a941db3ccdc75a07adbb61476",
-                "reference": "6ac6491ff60c0e5a941db3ccdc75a07adbb61476",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/e44154bfe3e41e8267d7a3794cd9da9a51cfac34",
+                "reference": "e44154bfe3e41e8267d7a3794cd9da9a51cfac34",
                 "shasum": ""
             },
             "require": {
@@ -3012,11 +2952,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-06 17:50:02"
+            "time": "2015-01-25 04:39:26"
         },
         {
             "name": "symfony/css-selector",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/CssSelector",
             "source": {
                 "type": "git",
@@ -3067,7 +3007,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/DomCrawler",
             "source": {
                 "type": "git",
@@ -3120,7 +3060,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
@@ -3167,17 +3107,17 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "319794f611bd8bdefbac72beb3f05e847f8ebc92"
+                "reference": "ecfc23e89d9967999fa5f60a1e9af7384396e9ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/319794f611bd8bdefbac72beb3f05e847f8ebc92",
-                "reference": "319794f611bd8bdefbac72beb3f05e847f8ebc92",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/ecfc23e89d9967999fa5f60a1e9af7384396e9ae",
+                "reference": "ecfc23e89d9967999fa5f60a1e9af7384396e9ae",
                 "shasum": ""
             },
             "require": {
@@ -3210,21 +3150,21 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-06 22:47:52"
+            "time": "2015-01-25 04:39:26"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018"
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/82462a90848a52c2533aa6b598b107d68076b018",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/60ed7751671113cf1ee7d7778e691642c2e9acd8",
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8",
                 "shasum": ""
             },
             "require": {
@@ -3257,7 +3197,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-03 15:33:07"
+            "time": "2015-01-25 04:39:26"
         },
         {
             "name": "thelfensdrfer/yii2-ssh-console",
