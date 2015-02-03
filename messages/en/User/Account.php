@@ -20,6 +20,7 @@ return [
     'Email' => '',
     'Name' => '',
     'Password (only change to set a new one)' => '',
+    'Public profile' => '',
     'Save Settings' => '',
     'Settings saved.' => '',
     'The timezone does not exist!' => '',

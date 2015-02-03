@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    0 => '',
     '404 errors' => '',
     'All' => '',
     'Category' => '',
@@ -28,5 +29,4 @@ return [
     'Message' => '',
     'Time' => '',
     'Truncate' => '',
-    404 => '',
 ];
