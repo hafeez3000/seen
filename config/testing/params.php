@@ -4,6 +4,7 @@ return [
 	'themoviedb' => [
 		'key' => '',
 		'url' => '',
+		'image_url' => '',
 	],
 	'email' => [
 		'admin' => 'admin@seenapp.com',
