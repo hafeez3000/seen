@@ -19,7 +19,6 @@
 return [
     'Email' => '',
     'ID' => '',
-    'It is recommended you use an upgraded browser to display the {type} control properly.' => '',
     'To (Email)' => '',
     'To (Name)' => '',
 ];
