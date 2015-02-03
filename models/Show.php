@@ -316,7 +316,7 @@ class Show extends ActiveRecord
 	/**
 	 * @return UserEpisode|null
 	 */
-	public function getLastEpisode()
+	public function getLastEpisode($userId = null)
 	{
 		return UserEpisode::findBySql('
 			SELECT
@@ -341,7 +341,7 @@ class Show extends ActiveRecord
 		')
 			->addParams([
 				':id' => $this->id,
-				':user_id' => Yii::$app->user->id,
+				':user_id' => ($userId === null) ? Yii::$app->user->id : $userId,
 			]);
 	}
 

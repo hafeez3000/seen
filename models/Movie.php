@@ -400,7 +400,7 @@ class Movie extends ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public static function getWatchlist()
+	public static function getWatchlist($userId = null)
 	{
 		return Movie::find()
 			->distinct()
@@ -409,7 +409,7 @@ class Movie extends ActiveRecord
 				'{{%movie}}',
 				'{{%user_movie_watchlist}}',
 			])
-			->where(['{{%user_movie_watchlist}}.[[user_id]]' => Yii::$app->user->id])
+			->where(['{{%user_movie_watchlist}}.[[user_id]]' => ($userId === null) ? Yii::$app->user->id : $userId])
 			->andWhere('{{%movie}}.[[id]] = {{%user_movie_watchlist}}.[[movie_id]]')
 			->orderBy(['{{%movie}}.[[release_date]]' => SORT_ASC]);
 	}

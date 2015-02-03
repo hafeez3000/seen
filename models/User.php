@@ -18,7 +18,9 @@ use \app\components\Email;
  * @property string $timezone
  * @property string $reset_key
  * @property string $validation_key
- * @property string $api_key
+ * @property string $auth_key
+ * @property boolean $profile_public
+ * @property string $profile_name
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -49,7 +51,9 @@ class User extends ActiveRecord implements IdentityInterface
 			[['email', 'name', 'timezone'], 'string', 'max' => 100],
 			[['language_id'], 'integer'],
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
-			[['api_key'], 'string', 'max' => 32],
+			[['auth_key'], 'string', 'max' => 32],
+			[['profile_public'], 'boolean'],
+			[['profile_name'], 'string', 'max' => 64],
 			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
 		];
 	}
@@ -181,7 +185,7 @@ class User extends ActiveRecord implements IdentityInterface
 	 */
 	public function getAuthKey()
 	{
-		return $this->api_key;
+		return $this->auth_key;
 	}
 
 	/**
@@ -189,7 +193,28 @@ class User extends ActiveRecord implements IdentityInterface
 	 */
 	public function validateAuthKey($authKey)
 	{
-		return $this->api_key === $authKey;
+		return $this->auth_key === $authKey;
+	}
+
+	/**
+	 * Before save method.
+	 *
+	 * Creates a new profile name if necessary.
+	 *
+	 * @param boolean $insert
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function beforeSave($insert)
+	{
+		if (empty($this->profile_name) && $this->profile_public) {
+			$this->profile_name = $this->id . '-' . substr(md5($this->email), 0, 6);
+		} elseif ($this->profile_name !== null) {
+			$this->profile_name = null;
+		}
+
+		return parent::beforeSave($insert);
 	}
 
 	/**
@@ -285,6 +310,21 @@ class User extends ActiveRecord implements IdentityInterface
 	}
 
 	/**
+	 * Get archived and non archived shows.
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getAllShows()
+	{
+		return $this->hasMany(Show::className(), ['id' => 'show_id'])
+			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
+				$query->andWhere(['{{%user_show}}.[[deleted_at]]' => null]);
+			});
+	}
+
+	/**
+	 * Get only non archived shows.
+	 *
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getShows()
@@ -298,23 +338,18 @@ class User extends ActiveRecord implements IdentityInterface
 	}
 
 	/**
+	 * Get only archived shows.
+	 *
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getArchivedShows()
 	{
 		return $this->hasMany(Show::className(), ['id' => 'show_id'])
 			->viaTable('{{%user_show}}', ['user_id' => 'id'], function($query) {
-				$query->where(['{{%user_show}}.[[archived]]' => 1]);
+				$query
+					->where(['{{%user_show}}.[[archived]]' => 1])
+					->andWhere(['{{%user_show}}.[[deleted_at]]' => null]);
 			});
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getAllShows()
-	{
-		return $this->hasMany(Show::className(), ['id' => 'show_id'])
-			->viaTable('{{%user_show}}', ['user_id' => 'id']);
 	}
 
 	/**

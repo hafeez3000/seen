@@ -41,22 +41,22 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 		</div>
 	<?php endif; ?>
 
-    <?php if (count($recommendMovies)): ?>
-    	<h2><?php echo Yii::t('Movie/Dashboard', 'Recommend for you'); ?></h2>
-    	<div id="movie-recommend-dashboard-movielist">
-    		<ul class="list-unstyled list-inline">
-    			<?php foreach ($recommendMovies as $movie): ?>
-    				<li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
-    					<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->completeTitle; ?>">
-    						<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
-    					</a>
-    				</li>
-    			<?php endforeach; ?>
-    		</ul>
-    	</div>
-    <?php else: ?>
-        <div class="alert alert-info"><?php echo Yii::t('Movie/Dashboard', 'Start by adding movies you watched. After you added your first movies we can recommend new movies based on your seen ones.'); ?>
-    <?php endif; ?>
+	<?php if (count($recommendMovies)): ?>
+		<h2><?php echo Yii::t('Movie/Dashboard', 'Recommend for you'); ?></h2>
+		<div id="movie-recommend-dashboard-movielist">
+			<ul class="list-unstyled list-inline">
+				<?php foreach ($recommendMovies as $movie): ?>
+					<li class="movie-dashboard-movie" id="movie-<?php echo $movie->id; ?>">
+						<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo $movie->completeTitle; ?>">
+							<img <?php echo $movie->posterUrl; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php else: ?>
+		<div class="alert alert-info"><?php echo Yii::t('Movie/Dashboard', 'Start by adding movies you watched. After you added your first movies we can recommend new movies based on your seen ones.'); ?>
+	<?php endif; ?>
 
 	<?php if (count($movies)): ?>
 		<h2><?php echo Yii::t('Movie/Dashboard', 'Recently Watched'); ?></h2>

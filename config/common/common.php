@@ -69,6 +69,11 @@ $config['components']['urlManager'] = [
 		'dev/consumer/<id:\d+>/regenerate' => 'oauth-application/regenerate',
 		'dev/consumer/create' => 'oauth-application/create',
 
+		// Public profile
+		'profile/<profile:\d+\-\w+>' => 'profile/index',
+		'profile/<profile:\d+\-\w+>/movies' => 'profile/movie',
+		'profile/<profile:\d+\-\w+>/tv-shows' => 'profile/tv',
+
 		// API version 1
 		'GET api/v1/user' => 'api-v1/user',
 		'PATCH api/v1/user' => 'api-v1/update-user',

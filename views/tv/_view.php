@@ -11,18 +11,18 @@ use \app\components\LanguageHelper;
 
 <li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>" data-id="<?php echo $show->id; ?>">
 	<figure>
-		<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>">
+		<a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>">
 			<img <?php echo $show->posterUrl; ?> alt="<?php echo Html::encode($show->completeName); ?>" title="<?php echo Html::encode($show->completeName); ?>">
 		</a>
 
 		<figcaption class="clearfix">
 			<h4>
-				<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>">
+				<a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>">
 					<?php echo Html::encode($show->completeName); ?>
 				</a>
 			</h4>
 
-			<a href="<?php echo Url::toRoute(['view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>" class="last-seen">
+			<a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>" class="last-seen">
 				<?php if ($show->lastEpisode !== null): ?>
 					<span title="<?php echo LanguageHelper::dateTime(strtotime($show->lastEpisode->created_at)); ?>">
 						<?php echo $show->lastEpisode->createdAtAgo; ?>

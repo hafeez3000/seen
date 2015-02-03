@@ -15,6 +15,8 @@ class AccountForm extends Model
 	public $name;
 	public $language;
 	public $timezone;
+	public $profile_public;
+	public $profile_name;
 	public $password;
 
 	/**
@@ -30,6 +32,7 @@ class AccountForm extends Model
 			[['email', 'name'], 'string', 'max' => 100],
 			[['timezone'], 'timezoneExists'],
 			[['language'], 'exist', 'targetClass' => Language::className(), 'targetAttribute' => 'id'],
+			[['profile_public'], 'boolean'],
 			[['password'], 'string', 'min' => 6],
 			[['email'], 'unique', 'targetClass' => User::className(), 'targetAttribute' => 'email'],
 		];
@@ -40,6 +43,7 @@ class AccountForm extends Model
 		return [
 			'email' => Yii::t('User/Account', 'Email'),
 			'name' => Yii::t('User/Account', 'Name'),
+			'profile_public' => Yii::t('User/Account', 'Public profile'),
 			'password' => Yii::t('User/Account', 'Password (only change to set a new one)'),
 		];
 	}
@@ -52,6 +56,9 @@ class AccountForm extends Model
 
 		$timezones = $this->timezones;
 		$this->timezone = array_search($user->timezone, $timezones);
+
+		$this->profile_public = $user->profile_public;
+		$this->profile_name = $user->profile_name;
 	}
 
 	public function timezoneExists($attribute)
@@ -104,12 +111,11 @@ class AccountForm extends Model
 
 		$timezones = $this->timezones;
 
-		$user->attributes = [
-			'email' => $this->email,
-			'name' => $this->name,
-			'language_id' => $this->language,
-			'timezone' => $timezones[$this->timezone],
-		];
+		$user->email = $this->email;
+		$user->name = $this->name;
+		$user->language_id = $this->language;
+		$user->timezone = $timezones[$this->timezone];
+		$user->profile_public = $this->profile_public;
 
 		if (!empty($this->password))
 			$user->setPassword($this->password);

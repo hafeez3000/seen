@@ -31,6 +31,16 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 
 			<?php echo $form->field($model, 'timezone')->dropDownList($model->timezones); ?>
 
+			<?php echo $form->field($model, 'profile_public')->checkbox(); ?>
+
+			<?php if (!empty($model->profile_name)): ?>
+				<p class="text-muted">
+					<a href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['profile/index', 'profile' => $model->profile_name]) ?>">
+						<?php echo Yii::$app->urlManager->createAbsoluteUrl(['profile/index', 'profile' => $model->profile_name]) ?>
+					</a>
+				</p>
+			<?php endif; ?>
+
 			<?php echo $form->field($model, 'password')->passwordInput([
 				'autocomplete' => 'off',
 			]); ?>

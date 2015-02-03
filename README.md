@@ -11,6 +11,8 @@
 ## Installation
 
 * Clone repository
+* Create development folder `config/development` with contents of `config/testing/` and adjust settings
+* `composer global require "fxp/composer-asset-plugin:1.0.0"`
 * `composer install`
 * `grunt`
 * Copy social glyphicons web fonts (not included) into the `web/fonts/` directory
