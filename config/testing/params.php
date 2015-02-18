@@ -11,7 +11,7 @@ return [
 		'system' => 'no-reply@seenapp.com',
 		'mandrill' => [
 			'baseUrl' => 'https://mandrillapp.com/api/1.0/',
-			'apikey' => '',
+			'apikey' => 'invalid',
 			'globalMergeVars' => [
 			],
 		],

@@ -1,102 +1,88 @@
--- MySQL dump 10.15  Distrib 10.0.10-MariaDB, for osx10.9 (i386)
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost    Database: dev_seen
--- ------------------------------------------------------
--- Server version	10.0.10-MariaDB
+-- Host: localhost
+-- Erstellungszeit: 18. Feb 2015 um 19:56
+-- Server Version: 5.6.19-0ubuntu0.14.04.1
+-- PHP-Version: 5.6.5-1+deb.sury.org~trusty+1
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 --
--- Table structure for table `prod_auth_assignment`
+-- Datenbank: `seen`
 --
 
-DROP TABLE IF EXISTS `auth_assignment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `auth_assignment` (
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `auth_assignment`
+--
+
+CREATE TABLE IF NOT EXISTS `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`),
-  CONSTRAINT `auth_assignment_item_name` FOREIGN KEY (`item_name`) REFERENCES `prod_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  PRIMARY KEY (`item_name`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_auth_item`
+-- Tabellenstruktur für Tabelle `auth_item`
 --
 
-DROP TABLE IF EXISTS `auth_item`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `auth_item` (
+CREATE TABLE IF NOT EXISTS `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
-  `description` varchar(1024) COLLATE utf8_unicode_ci,
+  `description` text COLLATE utf8_unicode_ci,
   `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `data` varchar(1024) COLLATE utf8_unicode_ci,
+  `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`name`),
   KEY `type` (`type`),
-  KEY `auth_item_rule_name` (`rule_name`),
-  CONSTRAINT `auth_item_rule_name` FOREIGN KEY (`rule_name`) REFERENCES `prod_auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `auth_item_rule_name` (`rule_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_auth_item_child`
+-- Tabellenstruktur für Tabelle `auth_item_child`
 --
 
-DROP TABLE IF EXISTS `auth_item_child`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `auth_item_child` (
+CREATE TABLE IF NOT EXISTS `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`parent`,`child`),
-  KEY `auth_item_child_child` (`child`),
-  CONSTRAINT `auth_item_child_child` FOREIGN KEY (`child`) REFERENCES `prod_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `auth_item_child_parent` FOREIGN KEY (`parent`) REFERENCES `prod_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `auth_item_child_child` (`child`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_auth_rule`
+-- Tabellenstruktur für Tabelle `auth_rule`
 --
 
-DROP TABLE IF EXISTS `auth_rule`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `auth_rule` (
+CREATE TABLE IF NOT EXISTS `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `data` varchar(1024) COLLATE utf8_unicode_ci,
+  `data` text COLLATE utf8_unicode_ci,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_company`
+-- Tabellenstruktur für Tabelle `company`
 --
 
-DROP TABLE IF EXISTS `company`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `company` (
+CREATE TABLE IF NOT EXISTS `company` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
-  `description` varchar(1024) COLLATE utf8_unicode_ci COMMENT 'Description',
+  `description` text COLLATE utf8_unicode_ci COMMENT 'Description',
   `parent_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Company',
   `headquarters` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Headquarter',
   `homepage` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Homepage',
@@ -106,39 +92,35 @@ CREATE TABLE `company` (
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_country`
+-- Tabellenstruktur für Tabelle `country`
 --
 
-DROP TABLE IF EXISTS `country`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `country` (
+CREATE TABLE IF NOT EXISTS `country` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_email`
+-- Tabellenstruktur für Tabelle `email`
 --
 
-DROP TABLE IF EXISTS `email`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `email` (
+CREATE TABLE IF NOT EXISTS `email` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `ts` timestamp NULL DEFAULT NULL COMMENT 'Timestamp',
   `event` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Event',
-  `text` varchar(1024) COLLATE utf8_unicode_ci COMMENT 'Text',
-  `html` varchar(1024) COLLATE utf8_unicode_ci COMMENT 'Html',
+  `text` text COLLATE utf8_unicode_ci COMMENT 'Text',
+  `html` text COLLATE utf8_unicode_ci COMMENT 'Html',
   `from_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'From (Email)',
   `from_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'From (Name)',
   `subject` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Subject',
@@ -151,80 +133,68 @@ CREATE TABLE `email` (
   KEY `ts` (`ts`),
   KEY `from_email` (`from_email`),
   KEY `respond_user_id` (`respond_user_id`),
-  KEY `assigned_user_id` (`assigned_user_id`),
-  CONSTRAINT `email_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `prod_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `email_respond_user_id` FOREIGN KEY (`respond_user_id`) REFERENCES `prod_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `assigned_user_id` (`assigned_user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_email_attachment`
+-- Tabellenstruktur für Tabelle `email_attachment`
 --
 
-DROP TABLE IF EXISTS `email_attachment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `email_attachment` (
+CREATE TABLE IF NOT EXISTS `email_attachment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `email_id` int(10) unsigned NOT NULL COMMENT 'Email',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name',
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Type',
   PRIMARY KEY (`id`),
-  KEY `email_id` (`email_id`),
-  CONSTRAINT `email_attachment_email_id` FOREIGN KEY (`email_id`) REFERENCES `prod_email` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `email_id` (`email_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_email_group`
+-- Tabellenstruktur für Tabelle `email_group`
 --
 
-DROP TABLE IF EXISTS `email_group`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `email_group` (
+CREATE TABLE IF NOT EXISTS `email_group` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
   `receiver` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Receiver',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `receiver` (`receiver`)
-) ENGINE=MEMORY AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_email_to`
+-- Tabellenstruktur für Tabelle `email_to`
 --
 
-DROP TABLE IF EXISTS `email_to`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `email_to` (
+CREATE TABLE IF NOT EXISTS `email_to` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `email_id` int(10) unsigned NOT NULL COMMENT 'Email',
   `to_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Email',
   `to_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name',
   PRIMARY KEY (`id`),
   KEY `email_id` (`email_id`),
-  KEY `to_email` (`to_email`),
-  CONSTRAINT `email_to_email_id` FOREIGN KEY (`email_id`) REFERENCES `prod_email` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `to_email` (`to_email`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_episode`
+-- Tabellenstruktur für Tabelle `episode`
 --
 
-DROP TABLE IF EXISTS `episode`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `episode` (
+CREATE TABLE IF NOT EXISTS `episode` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `themoviedb_id` int(10) unsigned NOT NULL COMMENT 'TheMovieDB',
   `season_id` int(10) unsigned NOT NULL COMMENT 'Season',
   `number` smallint(5) unsigned DEFAULT NULL COMMENT 'Number',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
-  `overview` varchar(1024) COLLATE utf8_unicode_ci COMMENT 'Overview',
+  `overview` text COLLATE utf8_unicode_ci COMMENT 'Overview',
   `air_date` date DEFAULT NULL COMMENT 'Air date',
   `still_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Still path',
   `vote_average` double unsigned DEFAULT NULL COMMENT 'Average vote',
@@ -234,96 +204,92 @@ CREATE TABLE `episode` (
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `episode_season_id_number` (`season_id`,`number`),
   KEY `season_id` (`season_id`),
-  KEY `themoviedb_id` (`themoviedb_id`),
-  CONSTRAINT `prod_episode_ibfk_2` FOREIGN KEY (`season_id`) REFERENCES `prod_season` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=15941 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `themoviedb_id` (`themoviedb_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_genre`
+-- Tabellenstruktur für Tabelle `genre`
 --
 
-DROP TABLE IF EXISTS `genre`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `genre` (
+CREATE TABLE IF NOT EXISTS `genre` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_language`
+-- Tabellenstruktur für Tabelle `language`
 --
 
-DROP TABLE IF EXISTS `language`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `language` (
+CREATE TABLE IF NOT EXISTS `language` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `iso` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT 'ISO 639-1',
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `rtl` tinyint(1) NOT NULL DEFAULT '0',
+  `en_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `hide` tinyint(1) NOT NULL DEFAULT '0',
+  `popular_shows_updated_at` datetime DEFAULT NULL COMMENT 'Popular shows updated at',
+  `popular_movies_updated_at` datetime DEFAULT NULL COMMENT 'Popular movies updated at',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_log`
+-- Tabellenstruktur für Tabelle `log`
 --
 
-DROP TABLE IF EXISTS `log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `log` (
+CREATE TABLE IF NOT EXISTS `log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `level` int(11) DEFAULT NULL,
   `category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `log_time` int(11) DEFAULT NULL,
-  `message` varchar(1024) COLLATE utf8_unicode_ci,
+  `message` text COLLATE utf8_unicode_ci,
+  `prefix` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `idx_log_level` (`level`),
   KEY `idx_log_category` (`category`)
-) ENGINE=MEMORY AUTO_INCREMENT=5710 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_migration`
+-- Tabellenstruktur für Tabelle `migration`
 --
 
-DROP TABLE IF EXISTS `migration`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `migration` (
+CREATE TABLE IF NOT EXISTS `migration` (
   `version` varchar(180) COLLATE utf8_unicode_ci NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie`
+-- Tabellenstruktur für Tabelle `movie`
 --
 
-DROP TABLE IF EXISTS `movie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie` (
+CREATE TABLE IF NOT EXISTS `movie` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `themoviedb_id` int(10) unsigned NOT NULL COMMENT 'TheMovieDB',
-  `language_id` int(10) unsigned NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `original_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `tagline` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
-  `overview` varchar(1024) COLLATE utf8_unicode_ci,
+  `language_id` int(10) unsigned NOT NULL COMMENT 'Language',
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Title',
+  `original_title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Original title',
+  `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Slug',
+  `tagline` text COLLATE utf8_unicode_ci COMMENT 'Tagline',
+  `overview` text COLLATE utf8_unicode_ci COMMENT 'Overview',
   `imdb_id` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'IMDB ID',
   `backdrop_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Backdrop path',
   `poster_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Poster path',
@@ -343,190 +309,252 @@ CREATE TABLE `movie` (
   PRIMARY KEY (`id`),
   KEY `language_id` (`language_id`),
   KEY `themoviedb_id` (`themoviedb_id`),
-  CONSTRAINT `prod_movie_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `prod_language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `slug` (`slug`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_cast`
+-- Tabellenstruktur für Tabelle `movie_cast`
 --
 
-DROP TABLE IF EXISTS `movie_cast`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_cast` (
-  `id` int(10) unsigned NOT NULL COMMENT 'ID',
+CREATE TABLE IF NOT EXISTS `movie_cast` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
+  `person_id` int(10) unsigned DEFAULT NULL COMMENT 'Person',
   `credit_id` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Credit ID',
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
   `character` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Character',
-  `profile_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Profile path',
   `order` smallint(5) unsigned DEFAULT NULL COMMENT 'Order',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   PRIMARY KEY (`id`),
   KEY `movie_id` (`movie_id`),
-  CONSTRAINT `prod_movie_cast_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `person_id` (`person_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_company`
+-- Tabellenstruktur für Tabelle `movie_company`
 --
 
-DROP TABLE IF EXISTS `movie_company`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_company` (
+CREATE TABLE IF NOT EXISTS `movie_company` (
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
   `company_id` int(10) unsigned NOT NULL COMMENT 'Company',
   PRIMARY KEY (`movie_id`,`company_id`),
-  KEY `company_id` (`company_id`),
-  CONSTRAINT `prod_movie_company_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_movie_company_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `prod_company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `company_id` (`company_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_country`
+-- Tabellenstruktur für Tabelle `movie_country`
 --
 
-DROP TABLE IF EXISTS `movie_country`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_country` (
+CREATE TABLE IF NOT EXISTS `movie_country` (
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
   `country_id` int(10) unsigned NOT NULL COMMENT 'Country',
   PRIMARY KEY (`movie_id`,`country_id`),
-  KEY `country_id` (`country_id`),
-  CONSTRAINT `prod_movie_country_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_movie_country_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `prod_country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `country_id` (`country_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_crew`
+-- Tabellenstruktur für Tabelle `movie_crew`
 --
 
-DROP TABLE IF EXISTS `movie_crew`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_crew` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+CREATE TABLE IF NOT EXISTS `movie_crew` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
+  `person_id` int(10) unsigned DEFAULT NULL COMMENT 'Person',
   `credit_id` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Credit ID',
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
   `department` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Department',
   `job` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Job',
-  `profile_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Profile path',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   PRIMARY KEY (`id`),
   KEY `movie_id` (`movie_id`),
-  CONSTRAINT `prod_movie_crew_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `person_id` (`person_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_genre`
+-- Tabellenstruktur für Tabelle `movie_genre`
 --
 
-DROP TABLE IF EXISTS `movie_genre`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_genre` (
+CREATE TABLE IF NOT EXISTS `movie_genre` (
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
   `genre_id` int(10) unsigned NOT NULL COMMENT 'Genre',
   PRIMARY KEY (`movie_id`,`genre_id`),
-  KEY `genre_id` (`genre_id`),
-  CONSTRAINT `prod_movie_genre_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_movie_genre_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `prod_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `genre_id` (`genre_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_language`
+-- Tabellenstruktur für Tabelle `movie_language`
 --
 
-DROP TABLE IF EXISTS `movie_language`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_language` (
+CREATE TABLE IF NOT EXISTS `movie_language` (
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
   `language_id` int(10) unsigned NOT NULL COMMENT 'Language',
   PRIMARY KEY (`movie_id`,`language_id`),
-  KEY `language_id` (`language_id`),
-  CONSTRAINT `prod_movie_language_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_movie_language_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `prod_language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `language_id` (`language_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_popular`
+-- Tabellenstruktur für Tabelle `movie_popular`
 --
 
-DROP TABLE IF EXISTS `movie_popular`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_popular` (
+CREATE TABLE IF NOT EXISTS `movie_popular` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
   `order` tinyint(4) unsigned NOT NULL COMMENT 'Order',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   PRIMARY KEY (`id`),
-  KEY `movie_id` (`movie_id`),
-  CONSTRAINT `movie_popular_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `movie_id` (`movie_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_movie_similar`
+-- Tabellenstruktur für Tabelle `movie_similar`
 --
 
-DROP TABLE IF EXISTS `movie_similar`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movie_similar` (
+CREATE TABLE IF NOT EXISTS `movie_similar` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
   `similar_to_movie_id` int(10) unsigned DEFAULT NULL COMMENT 'Similiar Movie',
   `similar_to_themoviedb_id` int(10) unsigned NOT NULL COMMENT 'Similar to TheMovieDB',
   PRIMARY KEY (`id`),
   KEY `movie_id` (`movie_id`),
-  KEY `similar_to_movie_id` (`similar_to_movie_id`),
-  CONSTRAINT `prod_movie_similar_ibfk_2` FOREIGN KEY (`similar_to_movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_movie_similar_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `prod_movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `similar_to_movie_id` (`similar_to_movie_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_network`
+-- Tabellenstruktur für Tabelle `movie_video`
 --
 
-DROP TABLE IF EXISTS `network`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `network` (
+CREATE TABLE IF NOT EXISTS `movie_video` (
+  `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The Movie Database ID',
+  `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
+  `key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `site` varchar(127) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `size` int(10) unsigned DEFAULT NULL,
+  `type` varchar(31) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `movie_id` (`movie_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `network`
+--
+
+CREATE TABLE IF NOT EXISTS `network` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_person`
+-- Tabellenstruktur für Tabelle `oauth_access_token`
 --
 
-DROP TABLE IF EXISTS `person`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `person` (
+CREATE TABLE IF NOT EXISTS `oauth_access_token` (
+  `access_token` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Access token',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'User',
+  `oauth_application_id` int(10) unsigned NOT NULL COMMENT 'Oauth application',
+  `scopes` text COLLATE utf8_unicode_ci COMMENT 'Scopes',
+  `expires_at` datetime DEFAULT NULL COMMENT 'Expires at',
+  `created_at` datetime DEFAULT NULL COMMENT 'Created at',
+  `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
+  PRIMARY KEY (`access_token`),
+  KEY `user_id` (`user_id`),
+  KEY `oauth_application_id` (`oauth_application_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `oauth_application`
+--
+
+CREATE TABLE IF NOT EXISTS `oauth_application` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'User',
+  `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Description',
+  `website` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Website',
+  `key` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Key',
+  `secret` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Secret',
+  `callback` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Callback url',
+  `created_at` datetime DEFAULT NULL COMMENT 'Created at',
+  `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `oauth_refresh_token`
+--
+
+CREATE TABLE IF NOT EXISTS `oauth_refresh_token` (
+  `refresh_token` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Refresh token',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'User',
+  `oauth_application_id` int(10) unsigned NOT NULL COMMENT 'Oauth application',
+  `scopes` text COLLATE utf8_unicode_ci COMMENT 'Scopes',
+  `created_at` datetime DEFAULT NULL COMMENT 'Created at',
+  `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
+  PRIMARY KEY (`refresh_token`),
+  KEY `user_id` (`user_id`),
+  KEY `oauth_application_id` (`oauth_application_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `oauth_request_token`
+--
+
+CREATE TABLE IF NOT EXISTS `oauth_request_token` (
+  `request_token` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Request token',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'User',
+  `oauth_application_id` int(10) unsigned NOT NULL COMMENT 'Oauth application',
+  `scopes` text COLLATE utf8_unicode_ci COMMENT 'Scopes',
+  `expires_at` datetime DEFAULT NULL COMMENT 'Expires at',
+  `created_at` datetime DEFAULT NULL COMMENT 'Created at',
+  `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
+  PRIMARY KEY (`request_token`),
+  KEY `user_id` (`user_id`),
+  KEY `oauth_application_id` (`oauth_application_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `person`
+--
+
+CREATE TABLE IF NOT EXISTS `person` (
   `id` int(10) unsigned NOT NULL COMMENT 'ID',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
-  `biography` varchar(1024) COLLATE utf8_unicode_ci COMMENT 'Biography',
+  `biography` text COLLATE utf8_unicode_ci COMMENT 'Biography',
   `birthday` date DEFAULT NULL COMMENT 'Birthday',
   `deathday` date DEFAULT NULL COMMENT 'Deathday',
   `homepage` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Homepage',
@@ -537,17 +565,15 @@ CREATE TABLE `person` (
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_person_alias`
+-- Tabellenstruktur für Tabelle `person_alias`
 --
 
-DROP TABLE IF EXISTS `person_alias`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `person_alias` (
+CREATE TABLE IF NOT EXISTS `person_alias` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `person_id` int(10) unsigned NOT NULL COMMENT 'Person',
   `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Alias',
@@ -555,52 +581,47 @@ CREATE TABLE `person_alias` (
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`),
-  KEY `person_id` (`person_id`),
-  CONSTRAINT `prod_person_alias_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `prod_person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `person_id` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_season`
+-- Tabellenstruktur für Tabelle `season`
 --
 
-DROP TABLE IF EXISTS `season`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `season` (
+CREATE TABLE IF NOT EXISTS `season` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `themoviedb_id` int(10) unsigned NOT NULL COMMENT 'TheMovieDB',
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
-  `number` smallint(5) unsigned NOT NULL COMMENT 'Number',
-  `overview` varchar(1024) COLLATE utf8_unicode_ci COMMENT 'Overview',
+  `number` smallint(5) unsigned DEFAULT NULL COMMENT 'Number',
+  `overview` text COLLATE utf8_unicode_ci COMMENT 'Overview',
   `poster_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Poster path',
   `air_date` date DEFAULT NULL COMMENT 'Air date',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `season_show_id_number` (`show_id`,`number`),
   KEY `themoviedb_id` (`themoviedb_id`),
-  KEY `show_id` (`show_id`),
-  CONSTRAINT `prod_season_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=957 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `show_id` (`show_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show`
+-- Tabellenstruktur für Tabelle `show`
 --
 
-DROP TABLE IF EXISTS `show`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show` (
+CREATE TABLE IF NOT EXISTS `show` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `themoviedb_id` int(10) unsigned NOT NULL COMMENT 'TheMovieDB',
   `language_id` int(10) unsigned NOT NULL COMMENT 'Language',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
   `original_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Original name',
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Slug',
-  `overview` varchar(1024) COLLATE utf8_unicode_ci COMMENT 'Overview',
+  `overview` text COLLATE utf8_unicode_ci COMMENT 'Overview',
   `homepage` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Homepage',
   `first_air_date` date DEFAULT NULL COMMENT 'First air date',
   `last_air_date` date DEFAULT NULL COMMENT 'Last air date',
@@ -615,266 +636,269 @@ CREATE TABLE `show` (
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `show_themoviedb_id_language_id` (`themoviedb_id`,`language_id`),
   KEY `language_id` (`language_id`),
   KEY `themoviedb_id` (`themoviedb_id`),
-  KEY `slug` (`slug`),
-  CONSTRAINT `prod_show_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `prod_language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=1027 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `slug` (`slug`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_cast`
+-- Tabellenstruktur für Tabelle `show_cast`
 --
 
-DROP TABLE IF EXISTS `show_cast`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_cast` (
-  `id` int(10) unsigned NOT NULL COMMENT 'ID',
+CREATE TABLE IF NOT EXISTS `show_cast` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `show_id` int(10) unsigned NOT NULL,
-  `credit_id` int(10) unsigned DEFAULT NULL COMMENT 'Credit ID',
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
+  `person_id` int(10) unsigned DEFAULT NULL COMMENT 'Person',
+  `credit_id` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Credit ID',
   `character` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Character',
-  `profile_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Profile path',
   `order` smallint(5) unsigned DEFAULT NULL COMMENT 'Order',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   PRIMARY KEY (`id`),
   KEY `show_id` (`show_id`),
-  CONSTRAINT `prod_show_cast_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `person_id` (`person_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_country`
+-- Tabellenstruktur für Tabelle `show_country`
 --
 
-DROP TABLE IF EXISTS `show_country`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_country` (
+CREATE TABLE IF NOT EXISTS `show_country` (
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `country_id` int(10) unsigned NOT NULL COMMENT 'Country',
   PRIMARY KEY (`show_id`,`country_id`),
-  KEY `country_id` (`country_id`),
-  CONSTRAINT `prod_show_country_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_show_country_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `prod_country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `country_id` (`country_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_creator`
+-- Tabellenstruktur für Tabelle `show_creator`
 --
 
-DROP TABLE IF EXISTS `show_creator`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_creator` (
+CREATE TABLE IF NOT EXISTS `show_creator` (
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `person_id` int(10) unsigned NOT NULL COMMENT 'Person',
   PRIMARY KEY (`show_id`,`person_id`),
-  KEY `person_id` (`person_id`),
-  CONSTRAINT `prod_show_creator_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_show_creator_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `prod_person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `person_id` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_crew`
+-- Tabellenstruktur für Tabelle `show_crew`
 --
 
-DROP TABLE IF EXISTS `show_crew`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_crew` (
-  `id` int(11) NOT NULL COMMENT 'ID',
+CREATE TABLE IF NOT EXISTS `show_crew` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `show_id` int(10) unsigned NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Name',
+  `person_id` int(10) unsigned DEFAULT NULL COMMENT 'Person',
   `department` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Department',
   `job` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Job',
-  `profile_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Profile path',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   `updated_at` datetime DEFAULT NULL COMMENT 'Updated at',
   PRIMARY KEY (`id`),
   KEY `show_id` (`show_id`),
-  CONSTRAINT `prod_show_crew_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `person_id` (`person_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_genre`
+-- Tabellenstruktur für Tabelle `show_genre`
 --
 
-DROP TABLE IF EXISTS `show_genre`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_genre` (
+CREATE TABLE IF NOT EXISTS `show_genre` (
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `genre_id` int(10) unsigned NOT NULL COMMENT 'Genre',
   PRIMARY KEY (`show_id`,`genre_id`),
-  KEY `genre_id` (`genre_id`),
-  CONSTRAINT `prod_show_genre_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_show_genre_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `prod_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `genre_id` (`genre_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_network`
+-- Tabellenstruktur für Tabelle `show_network`
 --
 
-DROP TABLE IF EXISTS `show_network`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_network` (
+CREATE TABLE IF NOT EXISTS `show_network` (
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `network_id` int(10) unsigned NOT NULL COMMENT 'Network',
   PRIMARY KEY (`show_id`,`network_id`),
-  KEY `network_id` (`network_id`),
-  CONSTRAINT `prod_show_network_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_show_network_ibfk_2` FOREIGN KEY (`network_id`) REFERENCES `prod_network` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `network_id` (`network_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_popular`
+-- Tabellenstruktur für Tabelle `show_popular`
 --
 
-DROP TABLE IF EXISTS `show_popular`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_popular` (
+CREATE TABLE IF NOT EXISTS `show_popular` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `order` tinyint(4) unsigned NOT NULL COMMENT 'Order',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   PRIMARY KEY (`id`),
-  KEY `show_id` (`show_id`),
-  CONSTRAINT `show_popular_show_id` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `show_id` (`show_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_show_runtime`
+-- Tabellenstruktur für Tabelle `show_runtime`
 --
 
-DROP TABLE IF EXISTS `show_runtime`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `show_runtime` (
+CREATE TABLE IF NOT EXISTS `show_runtime` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `show_id` int(11) unsigned NOT NULL COMMENT 'Show',
   `minutes` smallint(5) unsigned NOT NULL COMMENT 'Minutes',
   PRIMARY KEY (`id`),
-  KEY `show_id` (`show_id`),
-  CONSTRAINT `prod_show_runtime_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=292 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `show_id` (`show_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_themoviedb_rate`
+-- Tabellenstruktur für Tabelle `show_video`
 --
 
-DROP TABLE IF EXISTS `themoviedb_rate`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `themoviedb_rate` (
+CREATE TABLE IF NOT EXISTS `show_video` (
+  `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The Movie Database ID',
+  `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
+  `key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `site` varchar(127) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `size` int(10) unsigned DEFAULT NULL,
+  `type` varchar(31) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `show_id` (`show_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `sync_status`
+--
+
+CREATE TABLE IF NOT EXISTS `sync_status` (
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `updated` date NOT NULL DEFAULT '0000-00-00',
+  `value` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`name`,`updated`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `themoviedb_rate`
+--
+
+CREATE TABLE IF NOT EXISTS `themoviedb_rate` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   PRIMARY KEY (`id`),
   KEY `created_at` (`created_at`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_user`
+-- Tabellenstruktur für Tabelle `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name',
   `password` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `language_id` int(10) unsigned DEFAULT '2',
   `timezone` varchar(100) COLLATE utf8_unicode_ci DEFAULT 'UTC' COMMENT 'Timezone',
-  `level` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `reset_key` varchar(75) COLLATE utf8_unicode_ci DEFAULT NULL,
   `validation_key` varchar(75) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `api_key` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `auth_key` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `profile_public` tinyint(1) NOT NULL DEFAULT '0',
+  `profile_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `language_id` (`language_id`),
-  CONSTRAINT `prod_user_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `prod_language` (`id`)
-) ENGINE=MEMORY AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `language_id` (`language_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_user_email_group`
+-- Tabellenstruktur für Tabelle `user_email_group`
 --
 
-DROP TABLE IF EXISTS `user_email_group`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_email_group` (
+CREATE TABLE IF NOT EXISTS `user_email_group` (
   `user_id` int(10) unsigned NOT NULL COMMENT 'User',
   `email_group_id` int(10) unsigned NOT NULL COMMENT 'Email group',
   PRIMARY KEY (`user_id`,`email_group_id`),
-  KEY `user_email_group_email_group_id` (`email_group_id`),
-  CONSTRAINT `user_email_group_email_group_id` FOREIGN KEY (`email_group_id`) REFERENCES `prod_email_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_email_group_user_id` FOREIGN KEY (`user_id`) REFERENCES `prod_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `user_email_group_email_group_id` (`email_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_user_episode`
+-- Tabellenstruktur für Tabelle `user_episode`
 --
 
-DROP TABLE IF EXISTS `user_episode`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_episode` (
+CREATE TABLE IF NOT EXISTS `user_episode` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `episode_id` int(10) unsigned NOT NULL COMMENT 'Episode',
   `run_id` int(10) unsigned NOT NULL COMMENT 'Run',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   PRIMARY KEY (`id`),
   KEY `episode_id` (`episode_id`),
-  KEY `run_id` (`run_id`),
-  CONSTRAINT `prod_user_episode_ibfk_2` FOREIGN KEY (`episode_id`) REFERENCES `prod_episode` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_user_episode_ibfk_3` FOREIGN KEY (`run_id`) REFERENCES `prod_user_show_run` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=9977 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `run_id` (`run_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_user_movie`
+-- Tabellenstruktur für Tabelle `user_movie`
 --
 
-DROP TABLE IF EXISTS `user_movie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_movie` (
+CREATE TABLE IF NOT EXISTS `user_movie` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` int(10) unsigned zerofill NOT NULL COMMENT 'User',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'User',
   `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `movie_id` (`movie_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_user_show`
+-- Tabellenstruktur für Tabelle `user_movie_watchlist`
 --
 
-DROP TABLE IF EXISTS `user_show`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_show` (
+CREATE TABLE IF NOT EXISTS `user_movie_watchlist` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `movie_id` int(10) unsigned NOT NULL COMMENT 'Movie',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'User',
+  `created_at` datetime DEFAULT NULL COMMENT 'Created at',
+  PRIMARY KEY (`id`),
+  KEY `movie_id` (`movie_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `user_show`
+--
+
+CREATE TABLE IF NOT EXISTS `user_show` (
   `user_id` int(10) unsigned NOT NULL COMMENT 'User',
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `archived` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Archived',
@@ -882,39 +906,289 @@ CREATE TABLE `user_show` (
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deleted at',
   PRIMARY KEY (`show_id`,`user_id`),
   KEY `user_id` (`user_id`),
-  KEY `archived` (`archived`),
-  CONSTRAINT `prod_user_show_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_user_show_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prod_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `archived` (`archived`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `prod_user_show_run`
+-- Tabellenstruktur für Tabelle `user_show_run`
 --
 
-DROP TABLE IF EXISTS `user_show_run`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_show_run` (
+CREATE TABLE IF NOT EXISTS `user_show_run` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `user_id` int(10) unsigned NOT NULL COMMENT 'User',
   `show_id` int(10) unsigned NOT NULL COMMENT 'Show',
   `created_at` datetime DEFAULT NULL COMMENT 'Created at',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `show_id` (`show_id`),
-  CONSTRAINT `prod_user_show_run_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `prod_show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `prod_user_show_run_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `prod_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MEMORY AUTO_INCREMENT=222 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+  KEY `show_id` (`show_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+--
+-- Constraints der exportierten Tabellen
+--
 
--- Dump completed on 2014-04-28 17:05:09
+--
+-- Constraints der Tabelle `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD CONSTRAINT `auth_assignment_item_name` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD CONSTRAINT `auth_item_rule_name` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD CONSTRAINT `auth_item_child_child` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `auth_item_child_parent` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `email`
+--
+ALTER TABLE `email`
+  ADD CONSTRAINT `email_assigned_user_id` FOREIGN KEY (`assigned_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `email_respond_user_id` FOREIGN KEY (`respond_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `email_attachment`
+--
+ALTER TABLE `email_attachment`
+  ADD CONSTRAINT `email_attachment_email_id` FOREIGN KEY (`email_id`) REFERENCES `email` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `email_to`
+--
+ALTER TABLE `email_to`
+  ADD CONSTRAINT `email_to_email_id` FOREIGN KEY (`email_id`) REFERENCES `email` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `episode`
+--
+ALTER TABLE `episode`
+  ADD CONSTRAINT `episode_ibfk_2` FOREIGN KEY (`season_id`) REFERENCES `season` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie`
+--
+ALTER TABLE `movie`
+  ADD CONSTRAINT `movie_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_cast`
+--
+ALTER TABLE `movie_cast`
+  ADD CONSTRAINT `movie_cast_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `movie_cast_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_company`
+--
+ALTER TABLE `movie_company`
+  ADD CONSTRAINT `movie_company_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `movie_company_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_country`
+--
+ALTER TABLE `movie_country`
+  ADD CONSTRAINT `movie_country_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `movie_country_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_crew`
+--
+ALTER TABLE `movie_crew`
+  ADD CONSTRAINT `movie_crew_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `movie_crew_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_genre`
+--
+ALTER TABLE `movie_genre`
+  ADD CONSTRAINT `movie_genre_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `movie_genre_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_language`
+--
+ALTER TABLE `movie_language`
+  ADD CONSTRAINT `movie_language_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `movie_language_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_popular`
+--
+ALTER TABLE `movie_popular`
+  ADD CONSTRAINT `movie_popular_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_similar`
+--
+ALTER TABLE `movie_similar`
+  ADD CONSTRAINT `movie_similar_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `movie_similar_ibfk_2` FOREIGN KEY (`similar_to_movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `movie_video`
+--
+ALTER TABLE `movie_video`
+  ADD CONSTRAINT `movie_video_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `oauth_access_token`
+--
+ALTER TABLE `oauth_access_token`
+  ADD CONSTRAINT `oauth_access_token_oauth_application_id` FOREIGN KEY (`oauth_application_id`) REFERENCES `oauth_application` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `oauth_access_token_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `oauth_application`
+--
+ALTER TABLE `oauth_application`
+  ADD CONSTRAINT `oauth_application_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `oauth_refresh_token`
+--
+ALTER TABLE `oauth_refresh_token`
+  ADD CONSTRAINT `oauth_refresh_token_oauth_application_id` FOREIGN KEY (`oauth_application_id`) REFERENCES `oauth_application` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `oauth_refresh_token_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `oauth_request_token`
+--
+ALTER TABLE `oauth_request_token`
+  ADD CONSTRAINT `oauth_request_token_oauth_application_id` FOREIGN KEY (`oauth_application_id`) REFERENCES `oauth_application` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `oauth_request_token_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `person_alias`
+--
+ALTER TABLE `person_alias`
+  ADD CONSTRAINT `person_alias_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `season`
+--
+ALTER TABLE `season`
+  ADD CONSTRAINT `season_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show`
+--
+ALTER TABLE `show`
+  ADD CONSTRAINT `show_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_cast`
+--
+ALTER TABLE `show_cast`
+  ADD CONSTRAINT `show_cast_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `show_cast_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_country`
+--
+ALTER TABLE `show_country`
+  ADD CONSTRAINT `show_country_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `show_country_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_creator`
+--
+ALTER TABLE `show_creator`
+  ADD CONSTRAINT `show_creator_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `show_creator_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_crew`
+--
+ALTER TABLE `show_crew`
+  ADD CONSTRAINT `show_crew_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `show_crew_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_genre`
+--
+ALTER TABLE `show_genre`
+  ADD CONSTRAINT `show_genre_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `show_genre_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_network`
+--
+ALTER TABLE `show_network`
+  ADD CONSTRAINT `show_network_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `show_network_ibfk_2` FOREIGN KEY (`network_id`) REFERENCES `network` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_popular`
+--
+ALTER TABLE `show_popular`
+  ADD CONSTRAINT `show_popular_show_id` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_runtime`
+--
+ALTER TABLE `show_runtime`
+  ADD CONSTRAINT `show_runtime_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `show_video`
+--
+ALTER TABLE `show_video`
+  ADD CONSTRAINT `show_video_show_id` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`);
+
+--
+-- Constraints der Tabelle `user_email_group`
+--
+ALTER TABLE `user_email_group`
+  ADD CONSTRAINT `user_email_group_email_group_id` FOREIGN KEY (`email_group_id`) REFERENCES `email_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_email_group_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `user_episode`
+--
+ALTER TABLE `user_episode`
+  ADD CONSTRAINT `user_episode_ibfk_2` FOREIGN KEY (`episode_id`) REFERENCES `episode` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_episode_ibfk_3` FOREIGN KEY (`run_id`) REFERENCES `user_show_run` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `user_movie`
+--
+ALTER TABLE `user_movie`
+  ADD CONSTRAINT `user_movie_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_movie_ibfk_2` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `user_movie_watchlist`
+--
+ALTER TABLE `user_movie_watchlist`
+  ADD CONSTRAINT `user_movie_watchlist_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_movie_watchlist_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `user_show`
+--
+ALTER TABLE `user_show`
+  ADD CONSTRAINT `user_show_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_show_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `user_show_run`
+--
+ALTER TABLE `user_show_run`
+  ADD CONSTRAINT `user_show_run_ibfk_1` FOREIGN KEY (`show_id`) REFERENCES `show` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_show_run_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
