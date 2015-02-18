@@ -19,7 +19,7 @@
 
 ## Tests
 
-* Create `tests/codeception/_localurl.php` which returns the development url as a string.
+* Create `tests/codeception/_localurl.php` which returns the development url as a string e.g. `<?php return '/seen/index-test.php';`
 
 ## Piwik
 
