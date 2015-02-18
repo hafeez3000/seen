@@ -155,6 +155,32 @@ class TvController extends Controller
 				'genres',
 			])
 			->one();
+		if ($show === null) {
+			$searchSlug = implode('-', array_filter(explode('-', $slug), function($item) {
+				return !is_numeric($item);
+			}));
+
+			if (!empty($searchSlug)) {
+				$show = Show::find()
+					->where(['like', 'slug', $searchSlug])
+					->with([
+						'seasons',
+						'seasons.episodes',
+						'creators',
+						'cast',
+						'cast.person',
+						'crew',
+						'crew.person',
+						'language',
+						'genres',
+					])
+					->one();
+
+				if ($show !== null)
+					return $this->redirect(['view', 'slug' => $show->slug], 301);
+			}
+		}
+
 		if ($show === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 

@@ -249,6 +249,9 @@ class TvMigrateController extends Controller
 		}
 	}
 
+	/**
+	 * Try to fix incorrect slugs
+	 */
 	public function actionFixSlugs()
 	{
 		$shows = Show::find();
@@ -256,7 +259,8 @@ class TvMigrateController extends Controller
 		if (!$this->force)
 			$shows = $shows
 				->where(['like', 'slug', 'slug'])
-				->orWhere('[[slug]] REGEXP "\\-[0-9]+$"');
+				->orWhere('[[slug]] REGEXP "\\-[0-9]+$"')
+				->orWhere(['slug' => '']);
 
 		if ($this->debug)
 			echo "Fixing {$shows->count()} show slugs...\n";
@@ -271,7 +275,8 @@ class TvMigrateController extends Controller
 		if (!$this->force)
 			$movies = $movies
 				->where(['like', 'slug', 'slug'])
-				->orWhere('[[slug]] REGEXP "\\-[0-9]+$"');
+				->orWhere('[[slug]] REGEXP "\\-[0-9]+$"')
+				->orWhere(['slug' => '']);
 
 		if ($this->debug)
 			echo "Fixing {$movies->count()} movie slugs...\n";
@@ -282,6 +287,9 @@ class TvMigrateController extends Controller
 		}
 	}
 
+	/**
+	 * Delete duplicate shows and movies
+	 */
 	public function actionDeleteDuplicates()
 	{
 		$shows = Yii::$app->db->createCommand('

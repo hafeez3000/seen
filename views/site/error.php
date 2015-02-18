@@ -34,6 +34,11 @@ $this->title[] = Yii::t('Error', 'Error {code}', ['code' => $statusCode]);
 		   <?php endif; ?>
 		<?php endif; ?>
 	</div>
+
+	<?php if ($statusCode == 404): ?>
+		<h2><?php echo Yii::t('Error', 'Try to find the right movie or show'); ?></h2>
+		<?php echo $this->render('/site/_search'); ?>
+	<?php endif; ?>
 </div>
 
 <script type="text/javascript">

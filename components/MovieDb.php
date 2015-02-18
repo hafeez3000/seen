@@ -844,9 +844,6 @@ class MovieDb
 			}
 		}
 
-		if ($isSimilarMovie)
-			$movie->slug = '';
-
 		if (!$movie->save()) {
 			Yii::warning("Could update movie #{$movie->id} '" . serialize($movie->errors) . "': " . serialize($attributes), 'application\sync');
 			return false;

@@ -353,7 +353,7 @@ $(function() {
 	// Search tv show
 	var searchTerm = "";
 
-	$("#search").select2({
+	$(".search").select2({
 		placeholder: App.translation.search,
 		minimumInputLength: 3,
 		ajax: {

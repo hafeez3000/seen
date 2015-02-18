@@ -138,19 +138,24 @@ class MovieController extends Controller
 				return !is_numeric($item);
 			}));
 
-			$movie = Movie::find()
-				->where(['like', 'slug', $searchSlug])
-				->with([
-					'language',
-					'crew',
-					'crew.person',
-					'cast',
-					'cast.person',
-					'similarMovies',
-					'similarMovies.userWatches',
-					'genres',
-				])
-				->one();
+			if (!empty($searchSlug)) {
+				$movie = Movie::find()
+					->where(['like', 'slug', $searchSlug])
+					->with([
+						'language',
+						'crew',
+						'crew.person',
+						'cast',
+						'cast.person',
+						'similarMovies',
+						'similarMovies.userWatches',
+						'genres',
+					])
+					->one();
+
+				if ($movie !== null)
+					return $this->redirect(['view', 'slug' => $movie->slug], 301);
+			}
 		}
 
 		if ($movie === null)

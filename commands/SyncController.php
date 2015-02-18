@@ -393,7 +393,6 @@ class SyncController extends Controller
 					if (!$movie->save())
 						Yii::error("Could not save movie: " . serialize($movie->errors) . "!", 'application\sync');
 
-					$movie->slug = '';
 					$movieDb->syncMovie($movie);
 				}
 
@@ -467,7 +466,6 @@ class SyncController extends Controller
 					if (!$show->save())
 						Yii::error("Could not save tv show: " . serialize($show->errors) . "!", 'application\sync');
 
-					$show->slug = '';
 					$movieDb->syncShow($show);
 				}
 
