@@ -8,6 +8,10 @@ use \yii\helpers\Url;
 ?>
 <div id="frontpage">
 
+	<?php echo $this->render('/site/_search'); ?>
+
+	<br>
+
 	<div class="jumbotron">
 		<div class="row">
 			<div class="col-md-6">
