@@ -3,7 +3,7 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
-use \PredictionIO\PredictionIOClient;
+use predictionio\EngineClient;
 
 use \app\components\TimestampBehavior;
 
@@ -359,16 +359,12 @@ class Movie extends ActiveRecord
 	public static function getRecommend()
 	{
 		try {
-			$client = PredictionIOClient::factory([
-				'appkey' => Yii::$app->params['prediction']['key'],
-			]);
-			$client->identify(Yii::$app->user->id);
+			$client = new EngineClient(Yii::$app->params['prediction']['engineserver']);
 
-			$movieIds = $client->execute($client->getCommand('itemrec_get_top_n', [
-				'pio_engine' => 'movie-recommendations',
-				'pio_n' => 50,
-				'pio_itypes' => 'movie',
-			]));
+			$movieIds = $client->sendQuery([
+				'user' => Yii::$app->user->id,
+				'num' => 50,
+			]);
 			$movieIds = array_map(function($movieId) {
 				return str_replace('movie-', '', $movieId);
 			}, $movieIds)['pio_iids'];

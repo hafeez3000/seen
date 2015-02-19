@@ -3,7 +3,7 @@
 use \Yii;
 use \yii\console\Controller;
 
-use \PredictionIO\PredictionIOClient;
+use \predictionio\EventClient;
 
 use \app\models\User;
 use \app\models\Movie;
@@ -15,54 +15,9 @@ class PredictionMigrateController extends Controller
 {
 	public function actionImport()
 	{
-		$client = PredictionIOClient::factory([
-			'appkey' => Yii::$app->params['prediction']['key'],
-		]);
+		$client = new EventClient(Yii::$app->params['prediction']['key'], Yii::$app->params['prediction']['eventserver']);
 
-		$users = User::find()
-			->with(['language'])
-			->asArray()
-			->all();
-
-		foreach ($users as $user) {
-			$response = $client->execute($client->getCommand('create_user', [
-				'pio_uid' => $user['id'],
-				'language' => $user['language']['en_name'],
-			]));
-		}
-
-		$movieQuery = Movie::find()
-			->select([
-				'themoviedb_id',
-				'release_date',
-				'budget',
-				'revenue',
-				'adult',
-				'vote_average',
-			])
-			->distinct()
-			->asArray();
-		$movieCount = $movieQuery->count();
-		$i = 0;
-
-		foreach ($movieQuery->batch() as $movies) {
-			$currentCount = $i * 100;
-			echo "Importing movies {$currentCount}/{$movieCount}\n";
-
-			foreach ($movies as $movie) {
-				$client->execute($client->getCommand('create_item', [
-					'pio_iid' => 'movie-' . $movie['themoviedb_id'],
-					'pio_itypes' => 'movie',
-					'year' => ($movie['release_date'] != null) ? date('Y', strtotime($movie['release_date'])) : '',
-					'budget' => ($movie['budget'] > 0) ? $movie['budget'] : '',
-					'revenue' => ($movie['revenue'] > 0) ? $movie['revenue'] : '',
-					'adult' => ($movie['adult']) ? true : false,
-					'votes' => ($movie['vote_average'] > 0) ? $movie['vote_average'] : '',
-				]));
-			}
-
-			$i++;
-		}
+		echo "Importing user movies...\n";
 
 		$moviesSeen = UserMovie::find()
 			->with([
@@ -77,32 +32,7 @@ class PredictionMigrateController extends Controller
 			]));
 		}
 
-		$tvQuery = Show::find()
-			->select([
-				'themoviedb_id',
-				'first_air_date',
-				'vote_average',
-			])
-			->distinct()
-			->asArray();
-		$tvCount = $tvQuery->count();
-		$i = 0;
-
-		foreach ($tvQuery->batch() as $shows) {
-			$currentCount = $i * 100;
-			echo "Importing shows {$currentCount}/{$tvCount}\n";
-
-			foreach ($shows as $show) {
-				$client->execute($client->getCommand('create_item', [
-					'pio_iid' => 'show-' . $show['themoviedb_id'],
-					'pio_itypes' => 'show',
-					'year' => ($show['first_air_date'] != null) ? date('Y', strtotime($show['first_air_date'])) : '',
-					'votes' => ($show['vote_average'] > 0) ? $show['vote_average'] : '',
-				]));
-			}
-
-			$i++;
-		}
+		echo "Importing user tv shows...\n";
 
 		$showsSeen = UserShow::find()
 			->with([
@@ -117,5 +47,7 @@ class PredictionMigrateController extends Controller
 				'pio_iid' => 'show-' . $show->show->themoviedb_id,
 			]));
 		}
+
+		echo "Finished.\n";
 	}
 }

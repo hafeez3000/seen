@@ -425,7 +425,6 @@ $(function() {
 			markup += "<td class='search-image'><img src='" + posterUrl + "'/></td>";
 			markup += "<td class='search-info'>" + "<h4>" + name + "</h4>";
 
-			console.log(result);
 			switch (result.media_type) {
 				case "tv":
 					if (result.first_air_date && result.first_air_date.length)

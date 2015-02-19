@@ -6,7 +6,7 @@ use \yii\base\BootstrapInterface;
 use \yii\base\Event;
 use \yii\db\ActiveRecord;
 
-use \PredictionIO\PredictionIOClient;
+use \predictionio\EventClient;
 
 use \app\models\User;
 use \app\models\Show;
@@ -36,52 +36,6 @@ class EventBootstrap implements BootstrapInterface
 			$run->save();
 		});
 
-		// Add movie to prediction.io
-		Event::on(Movie::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
-			$movie = $event->sender;
-
-			$client = PredictionIOClient::factory([
-				'appkey' => Yii::$app->params['prediction']['key'],
-			]);
-
-			try {
-				$client->execute($client->getCommand('create_item', [
-					'pio_iid' => 'movie-' . $movie->themoviedb_id,
-					'pio_itypes' => 'movie',
-					'year' => ($movie->release_date != null) ? date('Y', strtotime($movie->release_date)) : '',
-					'budget' => ($movie->budget > 0) ? $movie->budget : '',
-					'revenue' => ($movie->revenue > 0) ? $movie->revenue : '',
-					'adult' => ($movie->adult) ? true : false,
-					'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
-				]));
-			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error('Error while adding movie to prediction.io:' . $e->getMessage());
-			}
-		});
-
-		// Update movie at prediction.io
-		Event::on(Movie::className(), ActiveRecord::EVENT_AFTER_UPDATE, function($event) {
-			$movie = $event->sender;
-
-			$client = PredictionIOClient::factory([
-				'appkey' => Yii::$app->params['prediction']['key'],
-			]);
-
-			try {
-				$client->execute($client->getCommand('create_item', [
-					'pio_iid' => 'movie-' . $movie->themoviedb_id,
-					'pio_itypes' => 'movie',
-					'year' => ($movie->release_date != null) ? date('Y', strtotime($movie->release_date)) : '',
-					'budget' => ($movie->budget > 0) ? $movie->budget : '',
-					'revenue' => ($movie->revenue > 0) ? $movie->revenue : '',
-					'adult' => ($movie->adult) ? true : false,
-					'votes' => ($movie->vote_average > 0) ? $movie->vote_average : '',
-				]));
-			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error('Error while updating movie to prediction.io:' . $e->getMessage());
-			}
-		});
-
 		// Add user movie to prediction.io
 		Event::on(UserMovie::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
 			$userMovie = $event->sender;
@@ -98,46 +52,6 @@ class EventBootstrap implements BootstrapInterface
 				]));
 			} catch (\Guzzle\Http\Exception\CurlException $e) {
 				Yii::error('Error while adding user to prediction.io:' . $e->getMessage());
-			}
-		});
-
-		// Add show to prediction.io
-		Event::on(Show::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
-			$show = $event->sender;
-
-			$client = PredictionIOClient::factory([
-				'appkey' => Yii::$app->params['prediction']['key'],
-			]);
-
-			try {
-				$client->execute($client->getCommand('create_item', [
-					'pio_iid' => 'show-' . $show->themoviedb_id,
-					'pio_itypes' => 'show',
-					'year' => ($show->first_air_date != null) ? date('Y', strtotime($show->first_air_date)) : '',
-					'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
-				]));
-			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error('Error while adding show to prediction.io:' . $e->getMessage());
-			}
-		});
-
-		// Update show at prediction.io
-		Event::on(Show::className(), ActiveRecord::EVENT_AFTER_UPDATE, function($event) {
-			$show = $event->sender;
-
-			$client = PredictionIOClient::factory([
-				'appkey' => Yii::$app->params['prediction']['key'],
-			]);
-
-			try {
-				$client->execute($client->getCommand('create_item', [
-					'pio_iid' => 'show-' . $show->themoviedb_id,
-					'pio_itypes' => 'show',
-					'year' => ($show->first_air_date != null) ? date('Y', strtotime($show->first_air_date)) : '',
-					'votes' => ($show->vote_average > 0) ? $show->vote_average : '',
-				]));
-			} catch (\Guzzle\Http\Exception\CurlException $e) {
-				Yii::error('Error while updating show to prediction.io:' . $e->getMessage());
 			}
 		});
 

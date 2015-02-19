@@ -61,6 +61,8 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 							</a>
 						<?php endif; ?>
 
+						<br>
+
 						<?php if ($movie->onWatchlist): ?>
 							<a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
 								<?php echo Yii::t('Movie/View', 'Remove from watchlist'); ?>
@@ -81,6 +83,32 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 				</div>
 			<?php else: ?>
 				<div class="movie-view-details" id="movie-view-details-full">
+					<div class="row">
+						<div class="col-md-6">
+							<?php if (count($userMovies) === 0): ?>
+								<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-primary">
+									<?php echo Yii::t('Movie/View', 'Watched'); ?>
+								</a>
+							<?php else: ?>
+								<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
+									<?php echo Yii::t('Movie/View', 'Watched again'); ?>
+								</a>
+							<?php endif; ?>
+
+							<br>
+
+							<?php if ($movie->onWatchlist): ?>
+								<a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
+									<?php echo Yii::t('Movie/View', 'Remove from watchlist'); ?>
+								</a>
+							<?php else: ?>
+								<a href="<?php echo Url::toRoute(['watchlist/add', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-success">
+									<?php echo Yii::t('Movie/View', 'Add to watchlist'); ?>
+								</a>
+							<?php endif; ?>
+						</div>
+					</div>
+
 					<?php echo $this->render('_details', [
 						'movie' => $movie,
 						'userMovies' => $userMovies,

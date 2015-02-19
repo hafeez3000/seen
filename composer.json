@@ -23,7 +23,7 @@
 		"shark/simple_html_dom": "dev-master",
 		"lusitanian/oauth": "0.3.*",
 		"predis/predis": "1.0.*",
-		"predictionio/predictionio": "0.7.*",
+		"predictionio/predictionio": "0.8.*",
 		"bower-asset/bootstrap": "3.3.*",
 		"bower-asset/bootswatch": "3.3.*",
 		"bower-asset/select2": "3.5.*",
