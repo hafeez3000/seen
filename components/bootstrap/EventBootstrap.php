@@ -241,13 +241,13 @@ class EventBootstrap implements BootstrapInterface
 		Event::on(UserMovie::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
 			$userMovie = $event->sender;
 
-			//\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-seen-' . $userMovie->user_id]);
+			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-seen-' . $userMovie->user_id]);
 		});
 
 		Event::on(UserMovie::className(), ActiveRecord::EVENT_AFTER_DELETE, function($event) {
 			$userMovie = $event->sender;
 
-			//\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-seen-' . $userMovie->user_id]);
+			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-seen-' . $userMovie->user_id]);
 		});
 	}
 }
