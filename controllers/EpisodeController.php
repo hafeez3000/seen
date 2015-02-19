@@ -34,51 +34,77 @@ class EpisodeController extends Controller
 		];
 	}
 
-	public function actionSeen()
+	public function actionSeen($id = null)
 	{
-		Yii::$app->response->format = Response::FORMAT_JSON;
+		if (Yii::$app->request->isAjax) {
+			Yii::$app->response->format = Response::FORMAT_JSON;
+			$id = Yii::$app->request->post('id');
+		}
 
-		if (!Yii::$app->request->isPost || Yii::$app->request->post('id') === null)
-			throw new yii\web\BadRequestHttpException;
+		if ($id === null)
+			throw new \yii\web\BadRequestHttpException;
 
 		$episode = Episode::find()
-			->where(['id' => Yii::$app->request->post('id')])
-			->with('season')
+			->where(['id' => $id])
+			->with([
+				'season',
+				'season.show'
+			])
 			->one();
 		if ($episode === null)
-			throw new yii\web\NotFoundHttpException;
+			throw new \yii\web\NotFoundHttpException;
 
-		if ($episode->markSeen())
-			return [
-				'success' => true
-			];
-		else
-			return [
-				'success' => false,
-			];
+		if ($episode->markSeen()) {
+			if (Yii::$app->request->isAjax)
+				return [
+					'success' => true
+				];
+			else
+				return $this->redirect(['/tv/view', 'slug' => $episode->season->show->slug]);
+		} else {
+			if (Yii::$app->request->isAjax)
+				return [
+					'success' => false,
+				];
+			else
+				return $this->redirect(['/tv/view', 'slug' => $episode->season->show->slug]);
+		}
 	}
 
-	public function actionUnseen()
+	public function actionUnseen($id)
 	{
-		Yii::$app->response->format = Response::FORMAT_JSON;
+		if (Yii::$app->request->isAjax) {
+			Yii::$app->response->format = Response::FORMAT_JSON;
+			$id = Yii::$app->request->post('id');
+		}
 
-		if (!Yii::$app->request->isPost || Yii::$app->request->post('id') === null)
-			throw new yii\web\BadRequestHttpException;
+		if ($id === null)
+			throw new \yii\web\BadRequestHttpException;
 
 		$episode = Episode::find()
-			->where(['id' => Yii::$app->request->post('id')])
-			->with('season')
+			->where(['id' => $id])
+			->with([
+				'season',
+				'season.show'
+			])
 			->one();
 		if ($episode === null)
-			throw new yii\web\NotFoundHttpException;
+			throw new \yii\web\NotFoundHttpException(Yii::t('Episode', 'The episode could not be found!'));
 
-		if ($episode->markUnseen())
-			return [
-				'success' => true
-			];
-		else
-			return [
-				'success' => false,
-			];
+		if ($episode->markUnseen()) {
+			if (Yii::$app->request->isAjax)
+				return [
+					'success' => true
+				];
+			else
+				return $this->redirect(['/tv/view', 'slug' => $episode->season->show->slug]);
+		} else {
+			if (Yii::$app->request->isAjax)
+				return [
+					'success' => false,
+				];
+			else
+				return $this->redirect(['/tv/view', 'slug' => $episode->season->show->slug]);
+		}
 	}
 }

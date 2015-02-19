@@ -14,6 +14,7 @@ use \app\models\UserShow;
 use \app\models\UserShowRun;
 use \app\models\Movie;
 use \app\models\UserMovie;
+use \app\models\UserEpisode;
 use \app\components\Email;
 use \app\components\Mailchimp;
 
@@ -212,6 +213,16 @@ class EventBootstrap implements BootstrapInterface
 				'name' => 'google-site-verification',
 				'content' => 'BOv-OEbvo3gTTioeF7p14z3AnuANL5TMRHMLtgq_qjo',
 			]);
+		});
+
+		/**
+		 * Invalidate cache tags.
+		 */
+
+		Event::on(UserEpisode::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
+			$userEpisode = $event->sender;
+
+			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . $userEpisode->run->user_id]);
 		});
 	}
 }

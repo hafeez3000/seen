@@ -321,32 +321,30 @@
 				display: inline-block;
 				width: 24%;
 				height: 30px;
-				padding: 1%;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				line-height: 1;
 
-				&.has-seen {
+				.has-seen {
 					color: @gray-light;
 				}
 
-				&.highlight {
+				.highlight {
 					color: @brand-primary
-				}
-
-				&:hover {
-					background-color: @gray-lighter;
-				}
-
-				label {
-					cursor: pointer;
 				}
 
 				a {
 					text-decoration: none;
 					color: inherit;
 					display: block;
+					padding: 1%;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					line-height: 26px;
+					height: 30px;
+					width: 100%;
+
+					&:hover {
+						background-color: @gray-lighter;
+					}
 				}
 			}
 		}

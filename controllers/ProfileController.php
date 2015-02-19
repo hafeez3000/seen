@@ -40,6 +40,12 @@ class ProfileController extends Controller
 		];
 	}
 
+	/**
+	 * Check if $profile exists and is public
+	 *
+	 * @param string $profile
+	 * @return User User model of the owner of the profile
+	 */
 	protected function authenticate($profile)
 	{
 		$user = User::find()
@@ -148,30 +154,37 @@ class ProfileController extends Controller
 				->getAllShows()
 				->all();
 
-			// Load model because cannot be loaded in `usort`
-			foreach ($shows as $show) {
-				$show->getLastEpisode($user->id);
-			}
+			Show::warmLatestEpisodeCache($user->id, $shows);
 
 			usort($shows, function($a, $b) use($user) {
-				if ($a->getLastEpisode($user->id)->one() !== null && $b->getLastEpisode($user->id)->one() !== null) {
-					$aTime = strtotime($a->getLastEpisode($user->id)->one()->created_at);
-					$bTime = strtotime($b->getLastEpisode($user->id)->one()->created_at);
+				$a = $a->getLastEpisode($user->id, true);
+				$b = $b->getLastEpisode($user->id, true);
+
+				if ($a !== null && $b !== null) {
+					$aTime = strtotime($a->created_at);
+					$bTime = strtotime($b->created_at);
 
 					if ($aTime == $bTime)
 						return 0;
 
 					return ($aTime < $bTime) ? 1 : -1;
-				} elseif ($a->getLastEpisode($user->id)->one() === null) {
+				} elseif ($a === null) {
 					return 1;
-				} elseif ($b->getLastEpisode($user->id)->one() === null) {
+				} elseif ($b === null) {
 					return -1;
 				}
 
 				return 0;
 			});
 
-			Yii::$app->cache->set($cacheId, $shows, 3600);
+			$dependency = new \yii\caching\TagDependency([
+				'tags' => [
+					'user-tv-' . $user->id,
+				]
+			]);
+			Yii::$app->cache->set($cacheId, $shows, 0, $dependency);
+		} else {
+			Show::warmLatestEpisodeCache($user->id, $shows);
 		}
 
 		return $this->render('tv', [

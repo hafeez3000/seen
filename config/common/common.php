@@ -27,6 +27,9 @@ $config['components']['urlManager'] = [
 		'tv/sync' => 'tv/sync',
 		'tv/<slug:.*?>' => 'tv/view',
 
+		'episode/seen/<id:\d+>' => 'episode/seen',
+		'episode/unseen/<id:\d+>' => 'episode/unseen',
+
 		// Movies
 		'movies' => 'movie/index',
 		'movie/load' => 'movie/load',

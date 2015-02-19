@@ -106,6 +106,11 @@ class UserEpisode extends ActiveRecord
 		return $this->hasOne(UserShowRun::className(), ['id' => 'run_id']);
 	}
 
+	/**
+	 * Returns the time between the creation date and now as a human readable string.
+	 *
+	 * @return string
+	 */
 	public function getCreatedAtAgo()
 	{
 		$created = new Carbon($this->created_at);

@@ -130,7 +130,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 
-	grunt.registerTask("build", ["uglify:development", "less:development", "concat", "copy"]);
+	grunt.registerTask("css", ["less:development", "concat"]);
+
+	grunt.registerTask("build", ["uglify:development", "css", "copy"]);
 	grunt.registerTask("build_production", ["uglify:production", "less:production", "concat", "copy"]);
 
 	grunt.registerTask("default", ["build"]);

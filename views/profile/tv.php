@@ -26,7 +26,7 @@ $this->title[] = Yii::t('Profile/Tv', '{name} TV Shows', [
 			</h1>
 		</div>
 
-		<div class="col-sm-6 col-md-4">
+		<div class="col-sm-6 col-md-4 search-wrapper">
 			<?php echo $this->render('/site/_search'); ?>
 		</div>
 	</div>
@@ -48,9 +48,9 @@ $this->title[] = Yii::t('Profile/Tv', '{name} TV Shows', [
 							</h4>
 
 							<a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>" class="last-seen">
-								<?php if ($show->getLastEpisode($user->id)->one() !== null): ?>
-									<span title="<?php echo LanguageHelper::dateTime(strtotime($show->getLastEpisode($user->id)->one()->created_at)); ?>">
-										<?php echo $show->getLastEpisode($user->id)->one()->createdAtAgo; ?>
+								<?php if ($show->getLastEpisode($user->id, true) !== null): ?>
+									<span title="<?php echo LanguageHelper::dateTime(strtotime($show->getLastEpisode($user->id, true)->created_at)); ?>">
+										<?php echo $show->getLastEpisode($user->id, true)->createdAtAgo; ?>
 									</span>
 								<?php else: ?>
 									<?php echo Yii::t('Show/Dashboard', 'Not seen yet'); ?>

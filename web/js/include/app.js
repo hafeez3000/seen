@@ -24,9 +24,9 @@ App.init = function() {
 function highlightEpisodes() {
 	var lastChecked = false;
 
-	$(".tv-view-episodes li").removeClass("highlight");
+	$(".tv-view-episodes a").removeClass("highlight");
 
-	$(".tv-view-episodes li").each(function() {
+	$(".tv-view-episodes a").each(function() {
 		if ($(this).attr("data-seen") == "1") {
 			lastChecked = true;
 		} else {
@@ -231,17 +231,20 @@ $(function() {
 
 	if ($("#tv-view").data("subscribed") == "1") {
 		// Mark episodes as seen/unseen
-		$(".tv-view-episodes li").on("click", function() {
-			var $listItem = $(this);
+		$(".tv-view-episodes a").on("click", function(e) {
+			e.preventDefault();
+
+			var $episodeLink = $(this);
 			var urlCheck = $(this).closest("#tv-view-seasons").data("check-url");
 			var urlUnCheck = $(this).closest("#tv-view-seasons").data("uncheck-url");
 			var id = $(this).data("id");
 
-			if ($listItem.attr("data-seen") == "0") {
+			if ($episodeLink.attr("data-seen") == "0") {
 				$.post(urlCheck, {id: id}, function(data) {
 					if (data && data.success) {
-						$listItem.addClass("has-seen");
-						$listItem.attr("data-seen", "1");
+						$episodeLink.addClass("has-seen");
+						$episodeLink.attr("data-seen", "1");
+						$episodeLink.attr("title", $episodeLink.attr("title").replace('as seen', 'as unseen'));
 						highlightEpisodes();
 
 						_paq.push([
@@ -256,8 +259,9 @@ $(function() {
 			} else {
 				$.post(urlUnCheck, {id: id}, function(data) {
 					if (data && data.success) {
-						$listItem.removeClass("has-seen");
-						$listItem.attr("data-seen", "0");
+						$episodeLink.removeClass("has-seen");
+						$episodeLink.attr("data-seen", "0");
+						$episodeLink.attr("title", $episodeLink.attr("title").replace('as unseen', 'as seen'));
 						highlightEpisodes();
 
 						_paq.push([
@@ -270,6 +274,8 @@ $(function() {
 					}
 				});
 			}
+
+			return false;
 		});
 
 		// Mark all episodes from one season as seen

@@ -23,9 +23,9 @@ use \app\components\LanguageHelper;
 			</h4>
 
 			<a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>" class="last-seen">
-				<?php if ($show->lastEpisode !== null): ?>
-					<span title="<?php echo LanguageHelper::dateTime(strtotime($show->lastEpisode->created_at)); ?>">
-						<?php echo $show->lastEpisode->createdAtAgo; ?>
+				<?php if ($show->getLastEpisode(null, true) !== null): ?>
+					<span title="<?php echo LanguageHelper::dateTime(strtotime($show->getLastEpisode(null, true)->created_at)); ?>">
+						<?php echo $show->getLastEpisode(null, true)->createdAtAgo; ?>
 					</span>
 				<?php else: ?>
 					<?php echo Yii::t('Show/Dashboard', 'Not seen yet'); ?>

@@ -243,14 +243,17 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 							<?php foreach ($season->episodes as $episode): ?>
 								<?php if ($show->isUserSubscribed): ?>
 									<li><a class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>"
+										href="<?php echo ($show->isUserSubscribed && isset($episodesSeen[$episode->id])) ? Yii::$app->urlManager->createUrl(['episode/unseen', 'id' => $episode->id]) : Yii::$app->urlManager->createUrl(['episode/seen', 'id' => $episode->id]); ?>"
 										data-id="<?php echo $episode->id; ?>"
 										data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>"
-										title="<?php echo Yii::t('Show/View', 'Label "{name}" as seen', ['name' => $episode->fullName]); ?>">
+										title="<?php echo ($show->isUserSubscribed && isset($episodesSeen[$episode->id])) ? Yii::t('Show/View', 'Label `{name}` as unseen', ['name' => $episode->fullName]) : Yii::t('Show/View', 'Label `{name}` as seen', ['name' => $episode->fullName]); ?>">
 										<?php echo Html::encode($episode->fullName); ?>
-									</li>
+									</a></li>
 								<?php elseif (!Yii::$app->user->isGuest): ?>
 									<li><a
-										title="<?php echo Yii::t('Show/View', 'Subscribe to the show for labeling "{name}" as seen', ['name' => $episode->fullName]); ?>">
+										href="#"
+										onclick="App.warning('<?php echo Yii::t('Show/View', 'Please subscribe to the show before labeling episodes as seen.'); ?>')"
+										title="<?php echo Yii::t('Show/View', 'Subscribe to the show for labeling `{name}` as seen', ['name' => $episode->fullName]); ?>">
 										<?php echo Html::encode($episode->fullName); ?>
 									</a></li>
 								<?php else: ?>

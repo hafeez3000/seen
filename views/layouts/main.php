@@ -84,6 +84,7 @@ AppAsset::register($this);
 							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index'], 'active' => Yii::$app->controller->id == 'movie'],
 							['label' => Yii::$app->user->identity->email,
 								'active' => Yii::$app->controller->id == 'user',
+								'url' => ['user/account'],
 								'items' => [
 									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
 									['label' => Yii::t('Site/Navigation', 'Import'), 'url' => ['user/import']],

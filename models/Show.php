@@ -48,6 +48,8 @@ class Show extends ActiveRecord
 {
 	private $isUserSubscribedCache = [];
 
+	private static $_lastUserEpisodeCache= [];
+
 	/**
 	 * @inheritdoc
 	 */
@@ -316,35 +318,113 @@ class Show extends ActiveRecord
 	}
 
 	/**
+	 * Get the latest episode for all user shows and cache the result.
+	 *
+	 * @param mixed $userId null|int
+	 * @param array $shows
+	 *
+	 * @return void
+	 */
+	public static function warmLatestEpisodeCache($userId = null, $shows)
+	{
+		$userId = ($userId === null) ? Yii::$app->user->id : $userId;
+
+		$ids = array_map(function($show) {
+			return (int) $show->id;
+		}, $shows);
+
+		$episodes = UserEpisode::findBySql('
+			SELECT
+				{{ue1}}.[[id]],
+				{{ue1}}.[[episode_id]],
+				{{ue1}}.[[run_id]],
+				{{ue1}}.[[created_at]]
+			FROM
+				{{%user_episode}} AS {{ue1}}
+			INNER JOIN (
+				SELECT
+					{{%user_show_run}}.[[show_id]],
+					MAX({{%user_episode}}.[[created_at]]) AS [[created_at]]
+				FROM
+					{{%user_episode}},
+					{{%user_show_run}},
+					{{%episode}},
+					{{%season}}
+				WHERE
+					{{%user_show_run}}.[[user_id]] = :userId AND
+					{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]] AND
+					{{%user_episode}}.[[episode_id]] = {{%episode}}.[[id]] AND
+					{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
+					{{%season}}.[[show_id]] IN (' .implode(',', $ids) . ')
+				GROUP BY
+					{{%user_show_run}}.[[show_id]]
+			) AS {{ue2}} ON (
+				{{ue1}}.[[created_at]] = {{ue2}}.[[created_at]] AND
+				{{ue1}}.[[id]] IN (
+					SELECT
+						{{%user_episode}}.[[id]]
+					FROM
+						{{%user_episode}},
+						{{%user_show_run}}
+					WHERE
+						{{%user_show_run}}.[[user_id]] = :userId AND
+						{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]
+				)
+			)
+			')
+			->addParams([
+				':userId' => $userId,
+			])
+			->all();
+
+		foreach ($episodes as $episode) {
+			self::$_lastUserEpisodeCache[$userId][$episode->run->show_id] = $episode;
+		}
+
+		foreach ($shows as $show) {
+			if (!isset(self::$_lastUserEpisodeCache[$userId][$show->id]))
+				self::$_lastUserEpisodeCache[$userId][$show->id] = null;
+		}
+	}
+
+	/**
 	 * @return UserEpisode|null
 	 */
-	public function getLastEpisode($userId = null)
+	public function getLastEpisode($userId = null, $cache = false)
 	{
-		return UserEpisode::findBySql('
-			SELECT
-				{{%user_episode}}.*
-			FROM
-				{{%user_episode}},
-				{{%user_show_run}},
-				{{%episode}},
-				{{%season}},
-				{{%show}}
-			WHERE
-				{{%user_show_run}}.[[user_id]] = :user_id AND
-				{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]] AND
-				{{%user_episode}}.[[episode_id]] = {{%episode}}.[[id]] AND
-				{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
-				{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
-				{{%show}}.[[id]] = :id
-			ORDER BY
-				{{%user_episode}}.[[created_at]] DESC
-			LIMIT
-				1
-		')
-			->addParams([
-				':id' => $this->id,
-				':user_id' => ($userId === null) ? Yii::$app->user->id : $userId,
-			]);
+		$userId = ($userId === null) ? Yii::$app->user->id : $userId;
+
+		if ($cache && isset(self::$_lastUserEpisodeCache[$userId]) && array_key_exists($this->id, self::$_lastUserEpisodeCache[$userId]))
+			return self::$_lastUserEpisodeCache[$userId][$this->id];
+
+		$episode = UserEpisode::find()
+			->select('{{%user_episode}}.*')
+			->from([
+				'{{%user_episode}}',
+				'{{%user_show_run}}',
+				'{{%episode}}',
+				'{{%season}}',
+			])
+			->where([
+				'{{%user_show_run}}.user_id' => $userId,
+			])
+			->andWhere([
+				'and',
+				'{{%user_episode}}.run_id = {{%user_show_run}}.id',
+				'{{%user_episode}}.episode_id = {{%episode}}.id',
+				'{{%episode}}.season_id = {{%season}}.id'
+			])
+			->andWhere([
+				'{{%season}}.show_id' => $this->id,
+			])
+			->groupBy('{{%user_show_run}}.show_id')
+			->orderBy(['{{%user_episode}}.created_at' => SORT_DESC])
+			->limit(1)
+			->one();
+
+		self::$_lastUserEpisodeCache[$userId][$this->id] = $episode;
+
+		return $episode;
 	}
 
 	/**
