@@ -351,7 +351,7 @@ $(function() {
 	});
 
 	// Search tv show
-	var searchTerm = "";
+	var searchTerm = $(".search-form").data("search");
 
 	$(".search").select2({
 		placeholder: App.translation.search,
@@ -493,6 +493,10 @@ $(function() {
 			}
 		});
 	});
+
+	// Init search term
+	if (searchTerm.length > 0)
+		$(".search").select2("search", searchTerm);
 
 	// Import data
 	if ($("#import-foundd").length) {

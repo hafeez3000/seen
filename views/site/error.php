@@ -11,16 +11,22 @@ use yii\helpers\Html;
 $statusCode = isset($exception->statusCode) ? $exception->statusCode : Yii::t('Error', 'Unknown');
 
 $this->title[] = Yii::t('Error', 'Error {code}', ['code' => $statusCode]);
+
+$get = Yii::$app->request->get();
 ?>
 <div id="error">
 	<div class="clearfix">
-		<div class="pull-left">
+		<?php if ($statusCode == 404): ?>
 			<h1><?php echo Html::encode(Yii::t('Error', 'Error {code}', ['code' => $statusCode])); ?></h1>
-		</div>
+		<?php else: ?>
+			<div class="pull-left">
+				<h1><?php echo Html::encode(Yii::t('Error', 'Error {code}', ['code' => $statusCode])); ?></h1>
+			</div>
 
-		<div class="pull-right search-wrapper">
-			<?php echo $this->render('/site/_search'); ?>
-		</div>
+			<div class="pull-right search-wrapper">
+				<?php echo $this->render('/site/_search'); ?>
+			</div>
+		<?php endif; ?>
 	</div>
 
 	<div class="alert alert-danger">
@@ -37,7 +43,23 @@ $this->title[] = Yii::t('Error', 'Error {code}', ['code' => $statusCode]);
 
 	<?php if ($statusCode == 404): ?>
 		<h2><?php echo Yii::t('Error', 'Try to find the right movie or show'); ?></h2>
-		<?php echo $this->render('/site/_search'); ?>
+		<?php
+		$slug = '';
+		if (isset($get['slug'])) {
+			$slugParts = array_values(array_filter(explode('-', $get['slug']), function($part) {
+				return !is_numeric($part);
+			}));
+
+			if (count($slugParts) > 1)
+				unset($slugParts[count($slugParts) - 1]);
+
+			$slug = implode(' ', $slugParts);
+		}
+
+		echo $this->render('/site/_search', [
+			'slug' => $slug,
+		]);
+		?>
 	<?php endif; ?>
 </div>
 

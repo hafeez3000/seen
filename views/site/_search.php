@@ -1,6 +1,7 @@
 <?php
 /**
  * @var yii\web\View $this
+ * @var string $slug (optional)
  */
 
 use \yii\widgets\ActiveForm;
@@ -10,6 +11,7 @@ use \yii\widgets\ActiveForm;
 	'action' => Yii::$app->urlManager->createAbsoluteUrl(['site/load']),
 	'options' => [
 		'class' => 'search-form',
+		'data-search' => isset($slug) ? $slug : '',
 		'data-tv-url' => Yii::$app->urlManager->createAbsoluteUrl(['tv/load']),
 		'data-movie-url' => Yii::$app->urlManager->createAbsoluteUrl(['movie/load']),
 		'data-person-url' => Yii::$app->urlManager->createAbsoluteUrl(['person/load']),
