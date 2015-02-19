@@ -333,12 +333,12 @@ class Show extends ActiveRecord
 			return (int) $show->id;
 		}, $shows);
 
+		if (count($ids) === 0)
+			return;
+
 		$episodes = UserEpisode::findBySql('
 			SELECT
-				{{ue1}}.[[id]],
-				{{ue1}}.[[episode_id]],
-				{{ue1}}.[[run_id]],
-				{{ue1}}.[[created_at]]
+				{{ue1}}.*
 			FROM
 				{{%user_episode}} AS {{ue1}}
 			INNER JOIN (
@@ -372,6 +372,7 @@ class Show extends ActiveRecord
 				)
 			)
 			')
+			->with('run')
 			->addParams([
 				':userId' => $userId,
 			])

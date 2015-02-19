@@ -60,11 +60,12 @@ class TvController extends Controller
 
 		if ($language === null)
 			$language = Language::find()
-
 				->one();
 
 		$shows = Show::popular($language->id)
 			->all();
+
+		Show::warmLatestEpisodeCache(null, $shows);
 
 		return $this->render('popular', [
 			'shows' => $shows,
@@ -73,32 +74,46 @@ class TvController extends Controller
 
 	public function actionArchive()
 	{
-		$shows = Yii::$app->user->identity
-			->getArchivedShows()
-			->all();
+		$cacheId = 'archive-tv-' . Yii::$app->user->id;
+		$shows = Yii::$app->cache->get($cacheId);
 
-		// Load model because cannot be loaded in `usort`
-		foreach ($shows as $show) {
-			$show->lastEpisode;
+		if ($shows === false) {
+			$shows = Yii::$app->user->identity
+				->getArchivedShows()
+				->all();
+
+			Show::warmLatestEpisodeCache(null, $shows);
+
+			usort($shows, function($a, $b) {
+				$a = $a->getLastEpisode(null, true);
+				$b = $b->getLastEpisode(null, true);
+
+				if ($a !== null && $b !== null) {
+					$aTime = strtotime($a->created_at);
+					$bTime = strtotime($b->created_at);
+
+					if ($aTime == $bTime)
+						return 0;
+
+					return ($aTime < $bTime) ? 1 : -1;
+				} elseif ($a === null) {
+					return 1;
+				} elseif ($b === null) {
+					return -1;
+				}
+
+				return 0;
+			});
+
+			$dependency = new \yii\caching\TagDependency([
+				'tags' => [
+					'user-tv-' . Yii::$app->user->id,
+				]
+			]);
+			Yii::$app->cache->set($cacheId, $shows, 0, $dependency);
+		} else {
+			Show::warmLatestEpisodeCache(null, $shows);
 		}
-
-		usort($shows, function($a, $b) {
-			if ($a->lastEpisode !== null && $b->lastEpisode !== null) {
-				$aTime = strtotime($a->lastEpisode->created_at);
-				$bTime = strtotime($b->lastEpisode->created_at);
-
-				if ($aTime == $bTime)
-					return 0;
-
-				return ($aTime < $bTime) ? 1 : -1;
-			} elseif ($a->lastEpisode === null) {
-				return 1;
-			} elseif ($b->lastEpisode === null) {
-				return -1;
-			}
-
-			return 0;
-		});
 
 		return $this->render('archive', [
 			'shows' => $shows,
@@ -482,6 +497,8 @@ class TvController extends Controller
 	public function actionRecommend()
 	{
 		$shows = Show::getRecommend()->all();
+
+		Show::warmLatestEpisodeCache(null, $shows);
 
 		return $this->render('recommendations', [
 			'shows' => $shows,
