@@ -364,10 +364,12 @@ class Movie extends ActiveRecord
 			$movieIds = $client->sendQuery([
 				'user' => Yii::$app->user->id,
 				'num' => 50,
-			]);
-			$movieIds = array_map(function($movieId) {
-				return str_replace('movie-', '', $movieId);
-			}, $movieIds)['pio_iids'];
+				'item' => 'movie',
+			])['itemScores'];
+
+			$movieIds = array_map(function($item) {
+				return (int) str_replace('movie-', '', $item['item']);
+			}, $movieIds);
 
 			$query = Movie::find()
 				->distinct()

@@ -24,12 +24,17 @@ class PredictionMigrateController extends Controller
 				'movie',
 			])
 			->all();
-		foreach ($moviesSeen as $movie) {
-			$client->identify($movie->user_id);
-			$client->execute($client->getCommand('record_action_on_item',  [
-				'pio_action' => 'view',
-				'pio_iid' => 'movie-' . $movie->movie->themoviedb_id,
-			]));
+		foreach ($moviesSeen as $userMovie) {
+			$client->createEvent([
+				'event' => 'watch',
+				'entityType' => 'user',
+				'entityId' => $userMovie->user_id,
+				'targetEntityType' => 'movie',
+				'targetEntityId' => 'movie-' . $userMovie->movie->themoviedb_id,
+				'properties' => [
+					'count' => 1,
+				]
+			]);
 		}
 
 		echo "Importing user tv shows...\n";
@@ -40,12 +45,14 @@ class PredictionMigrateController extends Controller
 				'user'
 			])
 			->all();
-		foreach ($showsSeen as $show) {
-			$client->identify($show->user->id);
-			$client->execute($client->getCommand('record_action_on_item',  [
-				'pio_action' => 'view',
-				'pio_iid' => 'show-' . $show->show->themoviedb_id,
-			]));
+		foreach ($showsSeen as $userShow) {
+			$client->createEvent([
+				'event' => 'subscribe',
+				'entityType' => 'user',
+				'entityId' => $userShow->user_id,
+				'targetEntityType' => 'tv',
+				'targetEntityId' => 'tv-' . $userShow->show->themoviedb_id,
+			]);
 		}
 
 		echo "Finished.\n";

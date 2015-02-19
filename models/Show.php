@@ -532,11 +532,12 @@ class Show extends ActiveRecord
 			$showIds = $client->sendQuery([
 				'user' => Yii::$app->user->id,
 				'num' => 50,
-			]);
+				'item' => 'movie',
+			])['itemScores'];
 
-			$showIds = array_map(function($showId) {
-				return str_replace('show-', '', $showId);
-			}, $showIds)['pio_iids'];
+			$showIds = array_map(function($item) {
+				return (int) str_replace('tv-', '', $item['item']);
+			}, $showIds);
 
 			$query = Show::find()
 				->distinct()
