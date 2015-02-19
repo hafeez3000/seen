@@ -6,7 +6,6 @@
 use \yii\helpers\Html;
 use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
-use \yii\widgets\LinkPager;
 
 $this->title[] = Yii::t('Profile/Movie', '{name} Movies', [
 	'name' => (!empty($user->name)) ? $user->name : $user->email,

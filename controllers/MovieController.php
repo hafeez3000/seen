@@ -80,23 +80,6 @@ class MovieController extends Controller
 
 	public function actionDashboard()
 	{
-		$countQuery = Yii::$app->db->createCommand('
-			SELECT
-				COUNT({{%movie}}.[[id]]) AS [[row_count]]
-			FROM
-				{{%movie}},
-				{{%user_movie}}
-			WHERE
-				{{%user_movie}}.[[user_id]] = :user_id AND
-				{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
-		');
-		$countQuery->bindValue(':user_id', Yii::$app->user->id);
-		$countQuery = $countQuery->queryOne();
-
-		$pages = new Pagination([
-			'totalCount' => $countQuery['row_count'],
-		]);
-
 		$movies = Movie::find()
 			->select('{{%movie}}.*')
 			->from([
@@ -106,8 +89,7 @@ class MovieController extends Controller
 			->where(['{{%user_movie}}.[[user_id]]' => Yii::$app->user->id])
 			->andWhere('{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]')
 			->orderBy(['{{%user_movie}}.[[created_at]]' => SORT_DESC])
-			->offset($pages->offset)
-			->limit($pages->limit)
+			->limit(20)
 			->all();
 
 		$recommendDependency = new \yii\caching\TagDependency([
@@ -124,7 +106,6 @@ class MovieController extends Controller
 
 		return $this->render('dashboard', [
 			'movies' => $movies,
-			'pages' => $pages,
 			'recommendMovies' => Yii::$app->db->cache(function($db) {
 				return Movie::getRecommend()->limit(20)->all();
 			}, 0, $recommendDependency),

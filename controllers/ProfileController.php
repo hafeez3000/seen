@@ -197,23 +197,6 @@ class ProfileController extends Controller
 	{
 		$user = $this->authenticate($profile);
 
-		$countQuery = Yii::$app->db->createCommand('
-			SELECT
-				COUNT({{%movie}}.[[id]]) AS [[row_count]]
-			FROM
-				{{%movie}},
-				{{%user_movie}}
-			WHERE
-				{{%user_movie}}.[[user_id]] = :user_id AND
-				{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]
-		');
-		$countQuery->bindValue(':user_id', $user->id);
-		$countQuery = $countQuery->queryOne();
-
-		$pages = new Pagination([
-			'totalCount' => $countQuery['row_count'],
-		]);
-
 		$movies = Movie::find()
 			->select('{{%movie}}.*')
 			->from([
@@ -223,15 +206,20 @@ class ProfileController extends Controller
 			->where(['{{%user_movie}}.[[user_id]]' => $user->id])
 			->andWhere('{{%movie}}.[[id]] = {{%user_movie}}.[[movie_id]]')
 			->orderBy(['{{%user_movie}}.[[created_at]]' => SORT_DESC])
-			->offset($pages->offset)
-			->limit($pages->limit)
 			->all();
+
+		$watchlistDependency = new \yii\caching\TagDependency([
+			'tags' => [
+				'user-movie-watchlist-' . Yii::$app->user->id,
+			]
+		]);
 
 		return $this->render('movie', [
 			'user' => $user,
 			'movies' => $movies,
-			'pages' => $pages,
-			'watchlistMovies' => Movie::getWatchlist($user->id)->all(),
+			'watchlistMovies' => Yii::$app->db->cache(function($db) {
+				return Movie::getWatchlist()->all();
+			}, 0, $watchlistDependency),
 		]);
 	}
 }
