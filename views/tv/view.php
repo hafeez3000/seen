@@ -241,12 +241,25 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 					<div class="panel-body collapse <?php echo ($seasonComplete || $season->number == 0) ? '' : 'in'; ?>" id="tv-view-season-<?php echo $season->id; ?>-body">
 						<ul class="tv-view-episodes list-unstyled list-inline">
 							<?php foreach ($season->episodes as $episode): ?>
-								<li class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>"
-									data-id="<?php echo $episode->id; ?>"
-									data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>"
-									title="<?php echo Yii::t('Show/View', 'Mark `{name}` as seen', ['name' => $episode->fullName]); ?>">
-									<?php echo Html::encode($episode->fullName); ?>
-								</li>
+								<?php if ($show->isUserSubscribed): ?>
+									<li><a class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>"
+										data-id="<?php echo $episode->id; ?>"
+										data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>"
+										title="<?php echo Yii::t('Show/View', 'Mark "{name}" as seen', ['name' => $episode->fullName]); ?>">
+										<?php echo Html::encode($episode->fullName); ?>
+									</li>
+								<?php elseif (!Yii::$app->user->isGuest): ?>
+									<li><a
+										title="<?php echo Yii::t('Show/View', 'Subscribe to mark "{name}" as seen', ['name' => $episode->fullName]); ?>">
+										<?php echo Html::encode($episode->fullName); ?>
+									</a></li>
+								<?php else: ?>
+									<li><a
+										href="<?php echo Yii::$app->urlManager->createUrl('site/login'); ?>"
+										title="<?php echo Yii::t('Show/View', 'Login to mark `{name}` as seen', ['name' => $episode->fullName]); ?>">
+										<?php echo Html::encode($episode->fullName); ?>
+									</a></li>
+								<?php endif; ?>
 							<?php endforeach; ?>
 						</ul>
 					</div>
