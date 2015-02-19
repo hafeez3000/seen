@@ -351,7 +351,7 @@ $(function() {
 	});
 
 	// Search tv show
-	var searchTerm = $(".search-form").data("search");
+	var searchTerm = ($(".search-form").length) ? $(".search-form").data("search") : "";
 
 	$(".search").select2({
 		placeholder: App.translation.search,
