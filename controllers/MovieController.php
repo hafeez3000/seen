@@ -110,11 +110,27 @@ class MovieController extends Controller
 			->limit($pages->limit)
 			->all();
 
+		$recommendDependency = new \yii\caching\TagDependency([
+			'tags' => [
+				'user-movie-seen-' . Yii::$app->user->id,
+				'user-movie-watchlist-' . Yii::$app->user->id,
+			]
+		]);
+		$watchlistDependency = new \yii\caching\TagDependency([
+			'tags' => [
+				'user-movie-watchlist-' . Yii::$app->user->id,
+			]
+		]);
+
 		return $this->render('dashboard', [
 			'movies' => $movies,
 			'pages' => $pages,
-			'recommendMovies' => Movie::getRecommend()->limit(20)->all(),
-			'watchlistMovies' => Movie::getWatchlist()->all(),
+			'recommendMovies' => Yii::$app->db->cache(function($db) {
+				return Movie::getRecommend()->limit(20)->all();
+			}, 0, $recommendDependency),
+			'watchlistMovies' => Yii::$app->db->cache(function($db) {
+				return Movie::getWatchlist()->all();
+			}, 0, $watchlistDependency),
 		]);
 	}
 

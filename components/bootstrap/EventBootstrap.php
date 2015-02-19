@@ -15,6 +15,7 @@ use \app\models\UserShowRun;
 use \app\models\Movie;
 use \app\models\UserMovie;
 use \app\models\UserEpisode;
+use \app\models\UserMovieWatchlist;
 use \app\components\Email;
 use \app\components\Mailchimp;
 
@@ -223,6 +224,30 @@ class EventBootstrap implements BootstrapInterface
 			$userEpisode = $event->sender;
 
 			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . $userEpisode->run->user_id]);
+		});
+
+		Event::on(UserMovieWatchlist::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
+			$userMovieWatchlist = $event->sender;
+
+			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-watchlist-' . $userMovieWatchlist->user_id]);
+		});
+
+		Event::on(UserMovieWatchlist::className(), ActiveRecord::EVENT_AFTER_DELETE, function($event) {
+			$userMovieWatchlist = $event->sender;
+
+			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-watchlist-' . $userMovieWatchlist->user_id]);
+		});
+
+		Event::on(UserMovie::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
+			$userMovie = $event->sender;
+
+			//\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-seen-' . $userMovie->user_id]);
+		});
+
+		Event::on(UserMovie::className(), ActiveRecord::EVENT_AFTER_DELETE, function($event) {
+			$userMovie = $event->sender;
+
+			//\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-movie-seen-' . $userMovie->user_id]);
 		});
 	}
 }
