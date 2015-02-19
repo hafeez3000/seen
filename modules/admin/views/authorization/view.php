@@ -9,9 +9,9 @@ $this->title[] = $model->name;
 $this->title[] = Yii::t('Authorization', 'Authorization');
 ?>
 
-<h2><?php echo Yii::t('Authorization', 'Authorization {name}', [
+<h1><?php echo Yii::t('Authorization', 'Authorization {name}', [
 	'name' => $model->name,
-]); ?></h2>
+]); ?></h1>
 
 <p>
 	<a class="btn btn-default" href="<?php echo Url::toRoute(['index']); ?>"><?php echo Yii::t('Language', 'All auth items'); ?></a>

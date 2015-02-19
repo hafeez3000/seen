@@ -104,6 +104,8 @@ AppAsset::register($this);
 		<div id="content" class="container">
 			<?php echo $this->render('//layouts/flash.php'); ?>
 
+			<?php echo $this->render('/site/_search'); ?>
+
 			<?php echo $content; ?>
 		</div>
 

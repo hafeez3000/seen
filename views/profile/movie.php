@@ -13,20 +13,12 @@ $this->title[] = Yii::t('Profile/Movie', '{name} Movies', [
 ?>
 
 <div id="movie-dashboard">
-	<div class="row" id="movie-dashboard-header">
-		<div class="col-sm-6 col-md-8">
-			<h1>
-				<small><a href="<?php echo Url::toRoute(['profile/index', 'profile' => $user->profile_name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a></small>
-				<?php echo Yii::t('Profile/Movie', '{name} Movies', [
-					'name' => (!empty($user->name)) ? $user->name : $user->email,
-				]); ?>
-			</h1>
-		</div>
-
-		<div class="col-sm-6 col-md-4 search-wrapper">
-			<?php echo $this->render('/site/_search'); ?>
-		</div>
-	</div>
+	<h1>
+		<small><a href="<?php echo Url::toRoute(['profile/index', 'profile' => $user->profile_name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a></small>
+		<?php echo Yii::t('Profile/Movie', '{name} Movies', [
+			'name' => (!empty($user->name)) ? $user->name : $user->email,
+		]); ?>
+	</h1>
 
 	<?php if (count($watchlistMovies)): ?>
 		<h2><?php echo Yii::t('Profile/Movie', 'Watchlist'); ?></h2>

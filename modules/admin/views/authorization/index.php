@@ -7,7 +7,7 @@ use \yii\helpers\Url;
 $this->title[] = Yii::t('Authorization', 'Authorization');
 ?>
 
-<h2><?php echo Yii::t('Authorization', 'Authorization'); ?></h2>
+<h1><?php echo Yii::t('Authorization', 'Authorization'); ?></h1>
 
 <?php echo GridView::widget([
 	'columns' => [

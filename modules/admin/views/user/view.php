@@ -6,9 +6,9 @@ $this->title[] = $model->email;
 $this->title[] = Yii::t('User', 'Users');
 ?>
 
-<h2><?php echo Yii::t('User', 'User {name}', [
+<h1><?php echo Yii::t('User', 'User {name}', [
 	'name' => !empty($model->name) ? $model->name : $model->email,
-]); ?></h2>
+]); ?></h1>
 
 <p>
 	<a class="btn btn-default" href="<?php echo Url::toRoute(['index']); ?>"><?php echo Yii::t('User', 'All Users'); ?></a>

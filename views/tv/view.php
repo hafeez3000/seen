@@ -24,34 +24,26 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 		</div>
 	<?php endif; ?>
 
-	<div class="row" id="tv-view-header">
-		<div class="col-sm-6 col-md-8">
-			<h1>
-				<?php echo Html::encode($show->completeName); ?>
-				<?php if ($show->isUserSubscribed): ?>
-					<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unsubscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Unsubscribe'); ?></a>
-				<?php else: ?>
-					<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Subscribe'); ?></a>
-				<?php endif; ?>
+	<h1>
+		<?php echo Html::encode($show->completeName); ?>
+		<?php if ($show->isUserSubscribed): ?>
+			<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unsubscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Unsubscribe'); ?></a>
+		<?php else: ?>
+			<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Subscribe'); ?></a>
+		<?php endif; ?>
 
-				<?php if (!Yii::$app->user->isGuest): ?>
-					<?php if ($show->isArchived()): ?>
-						<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Restore from archive'); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
-					<?php else: ?>
-						<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Move to archive'); ?>"><span class="glyphicon glyphicon-lock"></span></a>
-					<?php endif; ?>
-				<?php endif; ?>
+		<?php if (!Yii::$app->user->isGuest): ?>
+			<?php if ($show->isArchived()): ?>
+				<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Restore from archive'); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
+			<?php else: ?>
+				<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Move to archive'); ?>"><span class="glyphicon glyphicon-lock"></span></a>
+			<?php endif; ?>
+		<?php endif; ?>
 
-				<?php if (Yii::$app->user->can('admin')): ?>
-					<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'themoviedbId' => $show->themoviedb_id]); ?>"><?php echo Yii::t('Show', 'Sync') ?></a>
-				<?php endif; ?>
-			</h1>
-		</div>
-
-		<div class="col-sm-6 col-md-4 search-wrapper">
-			<?php echo $this->render('/site/_search'); ?>
-		</div>
-	</div>
+		<?php if (Yii::$app->user->can('admin')): ?>
+			<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'themoviedbId' => $show->themoviedb_id]); ?>"><?php echo Yii::t('Show', 'Sync') ?></a>
+		<?php endif; ?>
+	</h1>
 
 	<div id="tv-view-content" class="row">
 		<div id="tv-view-information" class="col-sm-6 col-md-5 col-lg-4">

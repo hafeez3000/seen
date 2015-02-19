@@ -7,7 +7,7 @@ use \yii\helpers\Url;
 $this->title[] = Yii::t('Language', 'Languages');
 ?>
 
-<h2><?php echo Yii::t('Language', 'Languages'); ?></h2>
+<h1><?php echo Yii::t('Language', 'Languages'); ?></h1>
 
 <?php echo GridView::widget([
 	'columns' => [

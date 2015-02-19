@@ -7,17 +7,11 @@ use \yii\widgets\ActiveForm;
 ?>
 
 <div id="tv-<?php echo $active; ?>" class="tv-dashboard">
-	<div class="row" id="tv-dashboard-header">
-		<div class="col-sm-6 col-md-8">
-			<?php echo $this->render('_navigation', [
-				'active' => $active,
-				'title' => $title,
-			]); ?>
-		</div>
-
-		<div class="col-sm-6 col-md-4 search-wrapper">
-			<?php echo $this->render('/site/_search'); ?>
-		</div>
+	<div id="tv-dashboard-header">
+		<?php echo $this->render('_navigation', [
+			'active' => $active,
+			'title' => $title,
+		]); ?>
 	</div>
 
 	<?php if (count($shows)): ?>

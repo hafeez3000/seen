@@ -210,15 +210,15 @@ class ProfileController extends Controller
 
 		$watchlistDependency = new \yii\caching\TagDependency([
 			'tags' => [
-				'user-movie-watchlist-' . Yii::$app->user->id,
+				'user-movie-watchlist-' . $user->id,
 			]
 		]);
 
 		return $this->render('movie', [
 			'user' => $user,
 			'movies' => $movies,
-			'watchlistMovies' => Yii::$app->db->cache(function($db) {
-				return Movie::getWatchlist()->all();
+			'watchlistMovies' => Yii::$app->db->cache(function($db) use($user) {
+				return Movie::getWatchlist($user->id)->all();
 			}, 0, $watchlistDependency),
 		]);
 	}

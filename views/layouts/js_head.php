@@ -12,6 +12,7 @@
 			first_aired: "<?php echo Yii::t('Show', 'First aired'); ?>",
 			released: "<?php echo Yii::t('Movie', 'Released'); ?>",
 			votes: "<?php echo Yii::t('Show', 'Votes'); ?>",
+			original_title: "<?php echo Yii::t('Show', 'Original Title'); ?>",
 			search: "<?php echo Yii::t('Show', 'Search for TV Shows/Movies/Actors') ?>",
 			highcharts: {
 				decimalPoint: "<?php echo Yii::t('Highcharts', '.'); ?>",

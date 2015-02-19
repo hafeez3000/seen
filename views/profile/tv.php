@@ -15,21 +15,13 @@ $this->title[] = Yii::t('Profile/Tv', '{name} TV Shows', [
 ?>
 
 <div id="tv-dashboard" class="tv-dashboard">
-	<div class="row" id="tv-dashboard-header">
-		<div class="col-sm-6 col-md-8">
-			<h1>
-				<small><a href="<?php echo Url::toRoute(['profile/index', 'profile' => $user->profile_name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a></small>
+	<h1>
+		<small><a href="<?php echo Url::toRoute(['profile/index', 'profile' => $user->profile_name]); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a></small>
 
-				<?php echo Yii::t('Profile/Tv', '{name} TV Shows', [
-					'name' => (!empty($user->name)) ? $user->name : $user->email,
-				]); ?>
-			</h1>
-		</div>
-
-		<div class="col-sm-6 col-md-4 search-wrapper">
-			<?php echo $this->render('/site/_search'); ?>
-		</div>
-	</div>
+		<?php echo Yii::t('Profile/Tv', '{name} TV Shows', [
+			'name' => (!empty($user->name)) ? $user->name : $user->email,
+		]); ?>
+	</h1>
 
 	<?php if (count($shows)): ?>
 		<ul id="tv-dashboard-showlist" class="list-unstyled list-inline">

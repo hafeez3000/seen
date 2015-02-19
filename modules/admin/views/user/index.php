@@ -7,7 +7,7 @@ use \yii\helpers\Url;
 $this->title[] = Yii::t('User', 'Users');
 ?>
 
-<h2><?php echo Yii::t('User', 'Users'); ?></h2>
+<h1><?php echo Yii::t('User', 'Users'); ?></h1>
 
 <?php echo GridView::widget([
 	'columns' => [
@@ -16,6 +16,7 @@ $this->title[] = Yii::t('User', 'Users');
 		'name',
 		[
 			'attribute' => 'language.en_name',
+			'label' => Yii::t('User', 'Language'),
 		],
 		'timezone',
 		'created_at',

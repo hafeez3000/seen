@@ -425,6 +425,7 @@ $(function() {
 			markup += "<td class='search-image'><img src='" + posterUrl + "'/></td>";
 			markup += "<td class='search-info'>" + "<h4>" + name + "</h4>";
 
+			console.log(result);
 			switch (result.media_type) {
 				case "tv":
 					if (result.first_air_date && result.first_air_date.length)
@@ -432,6 +433,9 @@ $(function() {
 
 					if (result.vote_average && result.vote_average > 0)
 						markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
+
+					if (result.original_title && result.original_title.length)
+						markup += "<p>" + App.translation.original_title + ": " + result.original_title + "</p>";
 
 					break;
 				case "movie":
@@ -441,11 +445,17 @@ $(function() {
 					if (result.vote_average && result.vote_average > 0)
 						markup += "<p>" + App.translation.votes + ": " + Math.round(result.vote_average) + "/10</p>";
 
+					if (result.original_title && result.original_title.length)
+						markup += "<p>" + App.translation.original_title + ": " + result.original_title + "</p>";
+
 					break;
 			}
 
-			markup += "</div>";
-			markup += "</td></tr></table>";
+			markup += "</div></td>";
+
+			markup += "<td class='search-type'><span class='label label-info'>" + result.media_type + "</span></td>";
+
+			markup += "</tr></table>";
 
 			return markup;
 		},
@@ -498,6 +508,11 @@ $(function() {
 				$("#ajax-loading").show();
 			}
 		});
+	}).on("select2-clearing", function(e) {
+		// Keep text when closing dropdown
+
+		e.preventDefault();
+		return false;
 	});
 
 	// Init search term
