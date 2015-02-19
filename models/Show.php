@@ -3,7 +3,7 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
-use \PredictionIO\PredictionIOClient;
+use \predictionio\EngineClient;
 
 use \app\components\TimestampBehavior;
 
@@ -527,19 +527,16 @@ class Show extends ActiveRecord
 	public static function getRecommend()
 	{
 		try {
-			$client = PredictionIOClient::factory([
-				'appkey' => Yii::$app->params['prediction']['key'],
-			]);
-			$client->identify(Yii::$app->user->id);
+			$client = new EngineClient(Yii::$app->params['prediction']['engineserver']);
 
-			$movieIds = $client->execute($client->getCommand('itemrec_get_top_n', [
-				'pio_engine' => 'tv-recommandations',
-				'pio_n' => 50,
-				'pio_itypes' => 'show',
-			]));
-			$movieIds = array_map(function($movieId) {
-				return str_replace('show-', '', $movieId);
-			}, $movieIds)['pio_iids'];
+			$showIds = $client->sendQuery([
+				'user' => Yii::$app->user->id,
+				'num' => 50,
+			]);
+
+			$showIds = array_map(function($showId) {
+				return str_replace('show-', '', $showId);
+			}, $showIds)['pio_iids'];
 
 			$query = Show::find()
 				->distinct()
@@ -548,7 +545,7 @@ class Show extends ActiveRecord
 					'{{%show}}',
 					'{{%language}}',
 				])
-				->where(['in', '{{%show}}.[[themoviedb_id]]', $movieIds])
+				->where(['in', '{{%show}}.[[themoviedb_id]]', $showIds])
 				->andWhere('{{%show}}.[[language_id]] = {{%language}}.[[id]]')
 				->andWhere('{{%language}}.[[iso]] = :language')
 				->params([
