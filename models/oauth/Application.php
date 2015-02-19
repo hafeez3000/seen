@@ -163,11 +163,11 @@ class Application extends ActiveRecord
 			],
 			self::SCOPE_TV_SHOWS => [
 				'name' => Yii::t('Scope', 'TV Shows'),
-				'description' => Yii::t('Scope', 'Mark episodes as seen and subscribe to tv shows.'),
+				'description' => Yii::t('Scope', 'Label episodes as seen and subscribe to tv shows.'),
 			],
 			self::SCOPE_MOVIES => [
 				'name' => Yii::t('Scope', 'Movies'),
-				'description' => Yii::t('Scope', 'Mark movies as seen.'),
+				'description' => Yii::t('Scope', 'Label movies as seen.'),
 			],
 		];
 	}

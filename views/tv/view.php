@@ -231,7 +231,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 
 							<div class="pull-right">
 								<?php if ($show->isUserSubscribed): ?>
-									<a href="#" class="mark-season-seen" data-id="<?php echo $season->id; ?>" title="<?php echo Yii::t('Show/View', 'Mark complete season as seen'); ?>"><span class="glyphicon glyphicon-ok"></span></a>&nbsp;
+									<a href="#" class="mark-season-seen" data-id="<?php echo $season->id; ?>" title="<?php echo Yii::t('Show/View', 'Label complete season as seen'); ?>"><span class="glyphicon glyphicon-ok"></span></a>&nbsp;
 								<?php endif; ?>
 								<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>/season/<?php echo $season->number; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank" title="<?php echo Yii::t('Show/View', 'Edit missing information on The Movie Database'); ?>"><span class="glyphicon glyphicon-pencil"></span></a>
 							</div>
@@ -245,18 +245,18 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 									<li><a class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>"
 										data-id="<?php echo $episode->id; ?>"
 										data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>"
-										title="<?php echo Yii::t('Show/View', 'Mark "{name}" as seen', ['name' => $episode->fullName]); ?>">
+										title="<?php echo Yii::t('Show/View', 'Label "{name}" as seen', ['name' => $episode->fullName]); ?>">
 										<?php echo Html::encode($episode->fullName); ?>
 									</li>
 								<?php elseif (!Yii::$app->user->isGuest): ?>
 									<li><a
-										title="<?php echo Yii::t('Show/View', 'Subscribe to mark "{name}" as seen', ['name' => $episode->fullName]); ?>">
+										title="<?php echo Yii::t('Show/View', 'Subscribe to the show for labeling "{name}" as seen', ['name' => $episode->fullName]); ?>">
 										<?php echo Html::encode($episode->fullName); ?>
 									</a></li>
 								<?php else: ?>
 									<li><a
 										href="<?php echo Yii::$app->urlManager->createUrl('site/login'); ?>"
-										title="<?php echo Yii::t('Show/View', 'Login to mark `{name}` as seen', ['name' => $episode->fullName]); ?>">
+										title="<?php echo Yii::t('Show/View', 'Login to label `{name}` as seen', ['name' => $episode->fullName]); ?>">
 										<?php echo Html::encode($episode->fullName); ?>
 									</a></li>
 								<?php endif; ?>

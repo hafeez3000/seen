@@ -48,9 +48,7 @@ class UserController extends BaseController
 			])
 			->one();
 		if ($model === null)
-			throw new \yii\web\NotFoundHttpException(Yii::t('The user #{id} could not be found!', [
-				'id' => $id,
-			]));
+			throw new \yii\web\NotFoundHttpException(Yii::t('The user #{id} could not be found!', ['id' => $id]));
 
 		return $this->render('view', [
 			'model' => $model,

@@ -302,9 +302,9 @@ class MovieController extends Controller
 				->count();
 
 			if ($watchedCount == 1)
-				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have marked the movie as watched. You can always click on the <em>watched again</em> button to track the movie multiple times.'));
+				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have labeled the movie as watched. You can always click on the <em>watched again</em> button to track the movie multiple times.'));
 			else
-				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have marked the movie as watched again.'));
+				Yii::$app->session->setFlash('success', Yii::t('Movie', 'You have labeled the movie as watched again.'));
 
 			return $this->redirect(['view', 'slug' => $movie->slug]);
 		}

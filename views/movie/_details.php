@@ -12,7 +12,7 @@ use \app\components\LanguageHelper;
 		<?php if (!empty($movie->original_title)): ?>
 			<tr>
 				<td><?php echo Yii::t('Movie', 'Original Title'); ?></td>
-				<td><?php echo Yii::t('Movie', Html::encode($movie->original_title)); ?></td>
+				<td><?php Html::encode($movie->original_title); ?></td>
 			</tr>
 		<?php endif; ?>
 

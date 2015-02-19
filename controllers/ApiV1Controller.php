@@ -73,10 +73,10 @@ class ApiV1Controller extends Controller
 									throw new \yii\web\HttpException(401, 'You do not have the permission to update the user account!');
 
 								if ($action->id == 'movie-watch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the movie as seen!');
+									throw new \yii\web\HttpException(401, 'You do not have the permission to label the movie as seen!');
 
 								if ($action->id == 'movie-unwatch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the movie as unseen!');
+									throw new \yii\web\HttpException(401, 'You do not have the permission to label the movie as unseen!');
 
 								if ($action->id == 'show-subscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
 									throw new \yii\web\HttpException(401, 'You do not have the permission to subscribe to the show!');
@@ -85,10 +85,10 @@ class ApiV1Controller extends Controller
 									throw new \yii\web\HttpException(401, 'You do not have the permission to unsubscribe from the show!');
 
 								if ($action->id == 'episode-watch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the episode as seen!');
+									throw new \yii\web\HttpException(401, 'You do not have the permission to label the episode as seen!');
 
 								if ($action->id == 'episode-unwatch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to mark the episode as unseen!');
+									throw new \yii\web\HttpException(401, 'You do not have the permission to label the episode as unseen!');
 
 								// Update timestamp
 								$accessToken->save();
@@ -186,7 +186,7 @@ class ApiV1Controller extends Controller
 	}
 
 	/**
-	 * Mark movie as seen.
+	 * Label movie as seen.
 	 *
 	 * @param integer $id
 	 * @param string $iso

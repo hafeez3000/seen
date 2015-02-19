@@ -18,8 +18,8 @@
  */
 return [
     'Account' => '',
-    'Mark episodes as seen and subscribe to tv shows.' => '',
-    'Mark movies as seen.' => '',
+    'Label episodes as seen and subscribe to tv shows.' => '',
+    'Label movies as seen.' => '',
     'Movies' => '',
     'Read your account data like email, language and your watched tv shows and movies.' => '',
     'Readonly' => '',

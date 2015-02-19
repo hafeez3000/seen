@@ -21,5 +21,6 @@ return [
     'Error {code}' => '',
     'The site you were looking for does not exist! Please contact us if you think this was our mistake.' => '',
     'There was an error while processing your request! We got informed and are trying to fix this error as soon as possible.' => '',
+    'Try to find the right movie or show' => '',
     'Unknown' => '',
 ];
