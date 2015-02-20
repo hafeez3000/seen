@@ -71,7 +71,7 @@ class EpisodeController extends Controller
 		}
 	}
 
-	public function actionUnseen($id)
+	public function actionUnseen($id = null)
 	{
 		if (Yii::$app->request->isAjax) {
 			Yii::$app->response->format = Response::FORMAT_JSON;
