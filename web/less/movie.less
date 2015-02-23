@@ -263,16 +263,27 @@
 }
 
 /**
- * Movie/Index Movie/Recommend
+ * Movie/Popular
  */
-#movie-index, #movie-recommend {
-	.movie-index, .movie-recommend {
+#movie-popular {
+	.movie-popular {
 		margin-bottom: 20px;
 
 		a {
 			display: block;
 			height: 100%;
 			width: 100%;
+		}
+
+		&.movie-popular-watched {
+			img {
+				.grayscale();
+				.transition(all .3s ease);
+
+				&:hover {
+					.grayscale-disable();
+				}
+			}
 		}
 
 		img {

@@ -13,22 +13,14 @@ $this->title[] = Yii::t('Person/View', 'Persons');
 ?>
 
 <div id="person-view">
+	<h1><?php echo Html::encode($person->name); ?></h1>
+
 	<div class="row">
 		<div class="col-sm-4 col-md-3 col-lg-2">
 			<img <?php echo $person->profileUrlLarge; ?>>
 		</div>
 
 		<div class="col-sm-8 col-md-9 col-lg-10">
-			<div class="row">
-				<div class="col-sm-6 col-md-8">
-					<h1><?php echo Html::encode($person->name); ?></h1>
-				</div>
-
-				<div class="col-sm-6 col-md-4">
-					<?php echo $this->render('/site/_search'); ?>
-				</div>
-			</div>
-
 			<?php if (!empty($person->biography)): ?>
 				<p><?php echo Html::encode($person->biography); ?></p>
 			<?php else: ?>
@@ -43,8 +35,8 @@ $this->title[] = Yii::t('Person/View', 'Persons');
 
 			<?php if (!empty($person->birthday) || !empty($perosn->deathday) || !empty($person->homepage)): ?>
 				<div class="row">
-					<div class="col-md-6">
-						<table class="table table-stripped">
+					<div class="col-md-6"
+>						<table class="table table-stripped">
 							<tbody>
 								<?php if (!empty($person->birthday)): ?>
 									<tr>

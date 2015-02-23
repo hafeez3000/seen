@@ -15,19 +15,7 @@ $this->title[] = Yii::t('Error', 'Error {code}', ['code' => $statusCode]);
 $get = Yii::$app->request->get();
 ?>
 <div id="error">
-	<div class="clearfix">
-		<?php if ($statusCode == 404): ?>
-			<h1><?php echo Html::encode(Yii::t('Error', 'Error {code}', ['code' => $statusCode])); ?></h1>
-		<?php else: ?>
-			<div class="pull-left">
-				<h1><?php echo Html::encode(Yii::t('Error', 'Error {code}', ['code' => $statusCode])); ?></h1>
-			</div>
-
-			<div class="pull-right search-wrapper">
-				<?php echo $this->render('/site/_search'); ?>
-			</div>
-		<?php endif; ?>
-	</div>
+	<h1><?php echo Html::encode(Yii::t('Error', 'Error {code}', ['code' => $statusCode])); ?></h1>
 
 	<div class="alert alert-danger">
 		<?php if ((defined('YII_DEBUG') && YII_DEBUG) || Yii::$app->user->can('viewLogs')): ?>

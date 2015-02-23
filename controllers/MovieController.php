@@ -71,9 +71,10 @@ class MovieController extends Controller
 		', [
 			':language_id' => $language->id,
 		])
+			->with('userWatches')
 			->all();
 
-		return $this->render('index', [
+		return $this->render('popular', [
 			'movies' => $movies,
 		]);
 	}
