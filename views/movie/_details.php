@@ -58,16 +58,16 @@ use \app\components\LanguageHelper;
 			</tr>
 		<?php endif; ?>
 
-		<?php /*if (count($movie->genres > 0)): ?>
+		<?php if (count($movie->genres > 0)): ?>
 			<tr>
 				<td><?php echo Yii::t('Movie', 'Genres'); ?></td>
 				<td class="breakable movie-view-details-genres">
 					<?php foreach ($movie->genres as $genre): ?>
-						<span class="label label-default"><?php echo Html::encode($genre->name); ?></span>&nbsp;
+						<span class="label label-default"><?php echo Html::encode($genre->name); ?></span>
 					<?php endforeach; ?>
 				</td>
 			</tr>
-		<?php endif;*/ ?>
+		<?php endif; ?>
 
 		<?php if ($movie->vote_average !== null && $movie->vote_average > 0): ?>
 			<tr>
