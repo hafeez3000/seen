@@ -14,6 +14,17 @@
 	div {
 		margin-bottom: 20px;
 
+		&.person-view-movie-watched, &.person-view-show-subscribed {
+			img {
+				.grayscale();
+				.transition(all .3s ease);
+
+				&:hover {
+					.grayscale-disable();
+				}
+			}
+		}
+
 		img {
 			@media (min-width: @screen-sm-min) {
 				height: 205px!important;

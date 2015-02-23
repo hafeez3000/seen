@@ -27,8 +27,8 @@ class PersonController extends Controller
 		if ($person === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Person/View', 'The person could not be found!'));
 
-		$movies = $person->getMovies()->all();
-		$shows = $person->getShows()->all();
+		$movies = $person->getMovies()->with('userWatches')->all();
+		$shows = $person->getShows()->with('userShows')->all();
 
 		return $this->render('view', [
 			'person' => $person,
