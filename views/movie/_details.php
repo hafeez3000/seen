@@ -12,7 +12,7 @@ use \app\components\LanguageHelper;
 		<?php if (!empty($movie->original_title)): ?>
 			<tr>
 				<td><?php echo Yii::t('Movie', 'Original Title'); ?></td>
-				<td><?php Html::encode($movie->original_title); ?></td>
+				<td><?php echo Html::encode($movie->original_title); ?></td>
 			</tr>
 		<?php endif; ?>
 
@@ -69,24 +69,22 @@ use \app\components\LanguageHelper;
 			</tr>
 		<?php endif; ?>
 
-		<?php if ($movie->vote_average !== null && $movie->vote_average > 0): ?>
-			<tr>
-				<td><?php echo Yii::t('Movie', 'Voting'); ?></td>
-				<td>
-					<span title="<?php echo Yii::t('Movie', '{average}/10 ({count} Votes)', [
-						'average' => $movie->vote_average,
-						'count' => $movie->vote_count,
-						]); ?>">
-						<?php for ($i = 0; $i < round($movie->vote_average); $i++): ?>
-							<span class="glyphicon glyphicon-star"></span>
-						<?php endfor; ?>
-						<?php for ($i = round($movie->vote_average); $i < 10; $i++): ?>
-							<span class="glyphicon glyphicon-star-empty"></span>
-						<?php endfor; ?>
-					</span>
-				</td>
-			</tr>
-		<?php endif; ?>
+		<tr>
+			<td><?php echo Yii::t('Movie', 'Voting'); ?></td>
+			<td>
+				<span title="<?php echo Yii::t('Movie', '{average}/10 ({count} Votes)', [
+					'average' => $movie->vote_average,
+					'count' => $movie->vote_count,
+					]); ?>">
+					<?php for ($i = 0; $i < round($movie->vote_average); $i++): ?>
+						<span class="glyphicon glyphicon-star"></span>
+					<?php endfor; ?>
+					<?php for ($i = round($movie->vote_average); $i < 10; $i++): ?>
+						<span class="glyphicon glyphicon-star-empty"></span>
+					<?php endfor; ?>
+				</span>
+			</td>
+		</tr>
 
 		<?php if (count($userMovies)): ?>
 			<tr>
