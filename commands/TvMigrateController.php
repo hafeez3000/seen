@@ -27,11 +27,13 @@ class TvMigrateController extends Controller
 
 	protected function chooseShow($name, $shows)
 	{
-		if (count($shows) == 1)
+		$showCount = count($shows);
+
+		if ($showCount == 1)
 			return (array) $shows[0];
 		$text = " - Choose result for {$name}\n\n";
 
-		for ($i = 0; $i < count($shows); $i++) {
+		for ($i = 0; $i < $showCount; $i++) {
 			$index = $i + 1;
 			$text .= "{$index}: {$shows[$i]->name} ({$shows[$i]->first_air_date})\n";
 		}
@@ -40,7 +42,7 @@ class TvMigrateController extends Controller
 			'required' => true,
 			'default' => 1,
 			'validator' => function($input, &$error) use($shows) {
-				if ($input > count($shows) || $input < 0) {
+				if ($input > $showCount || $input < 0) {
 					$error = 'You have to choose a valid show';
 					return false;
 				}

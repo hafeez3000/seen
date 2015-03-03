@@ -121,10 +121,11 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 										'average' => $show->vote_average,
 										'count' => $show->vote_count,
 									]); ?>">
-									<?php for ($i = 0; $i < round($show->vote_average); $i++): ?>
+									<?php $voteAverage = round($show->vote_average); ?>
+									<?php for ($i = 0; $i < $voteAverage; $i++): ?>
 										<span class="glyphicon glyphicon-star"></span>
 									<?php endfor; ?>
-									<?php for ($i = round($show->vote_average); $i < 10; $i++): ?>
+									<?php for ($i = $voteAverage; $i < 10; $i++): ?>
 										<span class="glyphicon glyphicon-star-empty"></span>
 									<?php endfor; ?>
 								</span>
