@@ -96,7 +96,7 @@ class UpdateController extends BaseController
 		});
 
 		// Get process list
-		$line = exec("ps aux | grep 'yii-cron'", $processes, $status);
+		exec("ps aux | grep 'yii-cron'", $processes, $status);
 
 		$processes = array_filter($processes, function($process) {
 			if (strpos($process, '/bin/sh -c') === false)

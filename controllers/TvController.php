@@ -286,8 +286,6 @@ class TvController extends Controller
 
 		$show->slug = ''; // Rewrite slug with title
 		if ($movieDb->syncShow($show)) {
-			$successCount = 0;
-			$errorCount = 0;
 			foreach ($show->seasons as $season) {
 				$movieDb->syncSeason($season);
 			}

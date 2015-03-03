@@ -71,8 +71,9 @@ class SitemapController extends Controller
 		}
 
 		$writer->endElement(); //urlset
-
 		$writer->flush();
+
+		echo "Created movie sitemap in " . (time() - $tsStart) . " seconds.\n";
 	}
 
 	public function createShowSitemap()
@@ -90,6 +91,7 @@ class SitemapController extends Controller
 			echo "Could not write tv.xml!\n";
 			return false;
 		}
+		echo "Created tv sitemap in " . (time() - $tsStart) . " seconds.\n";
 	}
 
 	public function createPersonSitemap()

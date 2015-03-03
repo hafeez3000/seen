@@ -283,7 +283,7 @@ class SiteController extends Controller
 				}
 
 				// Get access token
-				$token = $service->requestAccessToken(Yii::$app->request->get('code', ''));
+				$service->requestAccessToken(Yii::$app->request->get('code', ''));
 
 				$profile = json_decode($service->request('/me'));
 

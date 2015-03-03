@@ -15,7 +15,7 @@ class DeployController extends Controller
 			'key' => Yii::$app->params['remote']['key'],
 		]);
 
-		$output = $this->run([
+		$this->run([
 			'cd /var/www/seenapp.com/main',
 			'touch .maintenance',
 			'git fetch --all',
