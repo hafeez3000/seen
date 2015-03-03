@@ -297,7 +297,15 @@ class SiteController extends Controller
 					$user->email = $profile->email;
 					$user->name = $profile->name;
 					$user->password = 0;
-					$user->timezone = @timezone_name_from_abbr('', ($profile->timezone - 1) * 3600, 0);
+
+					try {
+						$timezone = timezone_name_from_abbr('', ($profile->timezone - 1) * 3600, 0);
+					} catch (\Exception $e) {
+						$timezone = 'UTC';
+					}
+					if ($timezone === false)
+						$timezone = 'UTC';
+					$user->timezone = $timezone;
 
 					if ($language !== null) {
 						$user->language_id = $language->id;
