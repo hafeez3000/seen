@@ -206,7 +206,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 				<?php foreach ($season->episodes as $episode): ?>
 					<?php if (!$show->isUserSubscribed || !isset($episodesSeen[$episode->id])): ?>
 						<?php $seasonComplete = false; ?>
-						<?php continue; ?>
+						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
 
