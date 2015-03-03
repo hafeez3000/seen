@@ -1,6 +1,8 @@
 <?php
 
-class m140425_172146_create_rbac_tables extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140425_172146_create_rbac_tables extends Migration
 {
 	public function up()
 	{

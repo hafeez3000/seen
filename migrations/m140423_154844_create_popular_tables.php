@@ -1,6 +1,8 @@
 <?php
 
-class m140423_154844_create_popular_tables extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140423_154844_create_popular_tables extends Migration
 {
 	public function up()
 	{

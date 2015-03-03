@@ -1,6 +1,8 @@
 <?php
 
-class m140728_170901_add_log_prefix extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140728_170901_add_log_prefix extends Migration
 {
 	public function up()
 	{

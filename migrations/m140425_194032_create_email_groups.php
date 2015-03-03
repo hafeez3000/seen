@@ -1,6 +1,8 @@
 <?php
 
-class m140425_194032_create_email_groups extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140425_194032_create_email_groups extends Migration
 {
 	public function up()
 	{

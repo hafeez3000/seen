@@ -1,6 +1,8 @@
 <?php
 
-class m140515_122257_movie_watchlist extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140515_122257_movie_watchlist extends Migration
 {
 	public function up()
 	{

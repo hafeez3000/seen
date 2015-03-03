@@ -1,6 +1,8 @@
 <?php
 
-class m140519_140601_unique_episodes extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140519_140601_unique_episodes extends Migration
 {
     public function up()
     {

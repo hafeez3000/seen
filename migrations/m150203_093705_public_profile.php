@@ -1,6 +1,8 @@
 <?php
 
-class m150203_093705_public_profile extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m150203_093705_public_profile extends Migration
 {
 	public function up()
 	{

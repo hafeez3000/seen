@@ -1,6 +1,8 @@
 <?php
 
-class m140426_114710_user_timezone extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140426_114710_user_timezone extends Migration
 {
 	public function up()
 	{

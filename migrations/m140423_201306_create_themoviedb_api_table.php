@@ -1,6 +1,8 @@
 <?php
 
-class m140423_201306_create_themoviedb_api_table extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140423_201306_create_themoviedb_api_table extends Migration
 {
 	public function up()
 	{

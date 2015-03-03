@@ -1,6 +1,8 @@
 <?php
 
-class m140915_161052_movie_shows_videos extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140915_161052_movie_shows_videos extends Migration
 {
 	public function up()
 	{

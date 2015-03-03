@@ -6,7 +6,9 @@ use \app\components\rules\ViewEmailsInGroupRule;
 use \app\components\rules\ReplyEmailsInGroupRule;
 use \app\components\rules\ManageEmailGroupsRule;
 
-class m140427_150000_rbac_init extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140427_150000_rbac_init extends Migration
 {
 	public function up()
 	{

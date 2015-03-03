@@ -1,6 +1,8 @@
 <?php
 
-class m140425_100755_update_themoviedb_rate extends \yii\db\Migration
+use \yii\db\Migration;
+
+class m140425_100755_update_themoviedb_rate extends Migration
 {
 	public function up()
 	{
