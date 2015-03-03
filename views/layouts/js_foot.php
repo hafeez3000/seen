@@ -1,4 +1,4 @@
-<?php if (!defined('YII_DEBUG') || YII_DEBUG == false): ?>
+<?php if (!defined('YII_DEBUG') || !YII_DEBUG): ?>
 	<!-- Piwik -->
 	<script type="text/javascript">
 		_paq.push(["setCookieDomain", "*.seenapp.com"]);

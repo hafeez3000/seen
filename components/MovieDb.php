@@ -325,7 +325,7 @@ class MovieDb
 
 		$attributes = $this->getShow($show);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for show #{$show->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -544,7 +544,7 @@ class MovieDb
 
 		$attributes = $this->getSeason($season);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for season #{$season->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -596,7 +596,7 @@ class MovieDb
 
 		$attributes = $this->getEpisode($episode);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for episode #{$episode->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -652,7 +652,7 @@ class MovieDb
 
 		$attributes = $this->getMovie($movie, $language);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for movie #{$movie->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -861,7 +861,7 @@ class MovieDb
 
 		$attributes = $this->getPerson($person);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			if (!empty($person->deleted_at)) {
 				$person->delete();
 			} else {
@@ -896,7 +896,7 @@ class MovieDb
 
 		$attributes = $this->getTvChange($id);
 
-		if ($attributes == false)
+		if ($attributes === false)
 			return false;
 
 		$shows = Show::find()
@@ -1464,7 +1464,7 @@ class MovieDb
 
 		$attributes = $this->getSeasonChanges($id);
 
-		if ($attributes == false)
+		if ($attributes === false)
 			return false;
 
 		$seasons = Season::find()
@@ -1635,7 +1635,7 @@ class MovieDb
 
 		$attributes = $this->getEpisodeChanges($id);
 
-		if ($attributes == false)
+		if ($attributes === false)
 			return false;
 
 		$episodes = Episode::find()
