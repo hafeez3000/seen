@@ -336,8 +336,6 @@ class Show extends ActiveRecord
 		if (count($ids) === 0)
 			return;
 
-		return;
-
 		$episodes = UserEpisode::findBySql('
 			SELECT
 				{{ue1}}.*
