@@ -967,7 +967,7 @@ class MovieDb
 								}
 								break;
 							default:
-								die('Unknown tv season item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv season item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1008,7 +1008,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown tv created_by item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv created_by item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1082,7 +1082,7 @@ class MovieDb
 								}
 								break;
 							default:
-								die('Unknown tv crew item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv crew item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1109,7 +1109,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown tv cast item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv cast item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1151,7 +1151,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown tv genres item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv genres item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1201,7 +1201,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown tv origin_country item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv origin_country item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1249,7 +1249,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown tv network item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv network item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1302,7 +1302,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown tv video item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown tv video item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1453,7 +1453,7 @@ class MovieDb
 
 					break;
 				default:
-					die('Unknown tv attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
+					throw new \Exception('Unknown tv attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
 			}
 		}
 	}
@@ -1556,7 +1556,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown season episode item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown season episode item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1573,7 +1573,7 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown season season_number item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown season season_number item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1624,7 +1624,7 @@ class MovieDb
 				case 'tvrage_id':
 					break;
 				default:
-					die('Unknown season attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
+					throw new \Exception('Unknown season attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
 			}
 		}
 	}
@@ -1681,7 +1681,7 @@ class MovieDb
 								}
 								break;
 							default:
-								die('Unknown episode images item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown episode images item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1771,7 +1771,7 @@ class MovieDb
 								}
 								break;
 							default:
-								die('Unknown episode season_number item action ' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown episode season_number item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1819,12 +1819,12 @@ class MovieDb
 
 								break;
 							default:
-								die('Unknown episode episode_number item action' . $item->action . ': ' . serialize([$id, $attribute]));
+								throw new \Exception('Unknown episode episode_number item action' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
 				default:
-					die('Unknown episode attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
+					throw new \Exception('Unknown episode attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
 			}
 		}
 	}
