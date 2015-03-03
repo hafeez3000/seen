@@ -1,7 +1,6 @@
 <?php namespace app\components\bootstrap;
 
 use \Yii;
-use \yii\base\Application;
 use \yii\base\BootstrapInterface;
 
 use \app\models\Language;

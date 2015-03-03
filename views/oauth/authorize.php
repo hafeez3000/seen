@@ -4,7 +4,6 @@
  */
 
 use \yii\helpers\Html;
-use \yii\helpers\Url;
 use \yii\widgets\ActiveForm;
 
 $this->title[] = Yii::t('Oauth', 'Authorize {name}', ['name' => $application->name])

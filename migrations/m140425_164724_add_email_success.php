@@ -1,9 +1,6 @@
 <?php
 
-use \yii\db\Schema;
-use \yii\db\Migration;
-
-class m140425_164724_add_email_success extends Migration
+class m140425_164724_add_email_success extends \yii\db\Migration
 {
     public function up()
     {

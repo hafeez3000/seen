@@ -1,9 +1,6 @@
 <?php
 
-use yii\db\Schema;
-use \yii\db\Migration;
-
-class m140505_093820_rbac_manage_languages extends Migration
+class m140505_093820_rbac_manage_languages extends \yii\db\Migration
 {
 	public function up()
 	{

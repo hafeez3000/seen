@@ -1,7 +1,5 @@
 <?php
 
-use yii\db\Schema;
-
 class m140425_100755_update_themoviedb_rate extends \yii\db\Migration
 {
 	public function up()

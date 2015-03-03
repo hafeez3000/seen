@@ -6,9 +6,7 @@ use \yii\console\Controller;
 use \predictionio\EventClient;
 
 use \app\models\User;
-use \app\models\Movie;
 use \app\models\UserMovie;
-use \app\models\Show;
 use \app\models\UserShow;
 
 class PredictionMigrateController extends Controller

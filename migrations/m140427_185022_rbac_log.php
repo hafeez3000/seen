@@ -1,8 +1,6 @@
 <?php
 
-use \yii\db\Migration;
-
-class m140427_185022_rbac_log extends Migration
+class m140427_185022_rbac_log extends \yii\db\Migration
 {
 	public function up()
 	{

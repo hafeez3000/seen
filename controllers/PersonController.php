@@ -5,6 +5,7 @@ use \yii\web\Controller;
 use \yii\web\Response;
 
 use \app\models\Person;
+use \app\components\MovieDb;
 
 class PersonController extends Controller
 {

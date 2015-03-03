@@ -5,9 +5,6 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
-use \yii\widgets\ActiveForm;
-
-use \app\components\LanguageHelper;
 
 $this->title[] = $movie->completeTitle;
 $this->title[] = Yii::t('Movie/View', 'Movies');

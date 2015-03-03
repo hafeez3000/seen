@@ -1,9 +1,6 @@
 <?php
 
-use \yii\db\Schema;
-use \yii\db\Migration;
-
-class m140516_201817_sync_status extends Migration
+class m140516_201817_sync_status extends \yii\db\Migration
 {
 	public function up()
 	{

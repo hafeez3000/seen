@@ -1,9 +1,6 @@
 <?php
 
-use yii\db\Schema;
-use \yii\db\Migration;
-
-class m140503_212928_season_number_null extends Migration
+class m140503_212928_season_number_null extends \yii\db\Migration
 {
 	public function up()
 	{

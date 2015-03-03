@@ -1,7 +1,5 @@
 <?php
 
-use yii\db\Schema;
-
 class m140425_121149_create_email_table extends \yii\db\Migration
 {
 	public function up()

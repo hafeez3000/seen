@@ -1,9 +1,6 @@
 <?php
 
-use \yii\db\Schema;
-use \yii\db\Migration;
-
-class m140430_111220_rest_api extends Migration
+class m140430_111220_rest_api extends \yii\db\Migration
 {
 	public function up()
 	{

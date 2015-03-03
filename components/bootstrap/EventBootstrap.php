@@ -1,7 +1,6 @@
 <?php namespace app\components\bootstrap;
 
 use \Yii;
-use \yii\base\Application;
 use \yii\base\BootstrapInterface;
 use \yii\base\Event;
 use \yii\db\ActiveRecord;
@@ -9,10 +8,8 @@ use \yii\db\ActiveRecord;
 use \predictionio\EventClient;
 
 use \app\models\User;
-use \app\models\Show;
 use \app\models\UserShow;
 use \app\models\UserShowRun;
-use \app\models\Movie;
 use \app\models\UserMovie;
 use \app\models\UserEpisode;
 use \app\models\UserMovieWatchlist;

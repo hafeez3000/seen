@@ -2,7 +2,6 @@
 
 use \Yii;
 use \yii\filters\AccessControl;
-use \yii\data\Pagination;
 
 use \app\modules\admin\controllers\BaseController;
 use \app\modules\admin\models\UserSearch;

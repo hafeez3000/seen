@@ -336,6 +336,8 @@ class Show extends ActiveRecord
 		if (count($ids) === 0)
 			return;
 
+		return;
+
 		$episodes = UserEpisode::findBySql('
 			SELECT
 				{{ue1}}.*
@@ -355,7 +357,7 @@ class Show extends ActiveRecord
 					{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]] AND
 					{{%user_episode}}.[[episode_id]] = {{%episode}}.[[id]] AND
 					{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
-					{{%season}}.[[show_id]] IN (' .implode(',', $ids) . ')
+					{{%season}}.[[show_id]] IN (:showIds)
 				GROUP BY
 					{{%user_show_run}}.[[show_id]]
 			) AS {{ue2}} ON (
@@ -375,6 +377,7 @@ class Show extends ActiveRecord
 			->with('run')
 			->addParams([
 				':userId' => $userId,
+				':showIds' => implode(',', $ids),
 			])
 			->all();
 

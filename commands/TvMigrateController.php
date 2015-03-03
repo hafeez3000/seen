@@ -143,9 +143,7 @@ class TvMigrateController extends Controller
 				$insertCommand->bindValue(':created_at', date('Y-m-d H:i:s'));
 
 				if (!$insertCommand->execute()) {
-					echo "Could not inser user show:\n";
-					var_dump($userShowOld);
-
+					echo "Could not insert user show: {$userShowOld->id}\n";
 					continue;
 				}
 
@@ -154,8 +152,7 @@ class TvMigrateController extends Controller
 				$migrateUpdateCommand->bindValue(':language', $userShowOld['show_language']);
 				$migrateUpdateCommand->execute();
 			} else {
-				echo "Could not find show:\n";
-				var_dump($userShowOld);
+				echo "Could not find show: {$userShowOld->id}\n";
 				continue;
 			}
 		}
@@ -179,9 +176,7 @@ class TvMigrateController extends Controller
 				$insertCommand->bindValue(':id', $oldRun['id']);
 
 				if (!$insertCommand->execute()) {
-					echo "Could not inser user show run:\n";
-					var_dump($oldRun);
-
+					echo "Could not inser user show run: {$oldRun->id}\n";
 					continue;
 				}
 
@@ -243,8 +238,8 @@ class TvMigrateController extends Controller
 			$insertCommand->bindValue(':created_at', $episode['created_at']);
 
 			if (!$insertCommand->execute()) {
-				echo "Could not inser user episode:\n";
-				var_dump($episode);
+				echo "Could not inser user episode: {$episode->id}\n";
+				continue;
 			}
 		}
 	}

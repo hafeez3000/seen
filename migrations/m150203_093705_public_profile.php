@@ -1,9 +1,6 @@
 <?php
 
-use yii\db\Schema;
-use yii\db\Migration;
-
-class m150203_093705_public_profile extends Migration
+class m150203_093705_public_profile extends \yii\db\Migration
 {
 	public function up()
 	{
