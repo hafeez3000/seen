@@ -287,13 +287,13 @@ $(function() {
 			var $season = $("#tv-view-season-" + seasonId);
 
 			$season.find("li").each(function() {
-				var $listItem = $(this);
-				var id = $(this).data("id");
+				var $linkItem = $(this).find("a");
+				var id = $linkItem.data("id");
 
 				$.post(urlCheck, {id: id}, function(data) {
 					if (data && data.success) {
-						$listItem.addClass("has-seen");
-						$listItem.data("seen", 1);
+						$linkItem.addClass("has-seen");
+						$linkItem.attr("data-seen", "1");
 						highlightEpisodes();
 					}
 				});
