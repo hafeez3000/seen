@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'An unknown error occured!' => '',
     'An unknown error occured! Please try again later.' => '',
     'Error {code}' => '',
     'The site you were looking for does not exist! Please contact us if you think this was our mistake.' => '',

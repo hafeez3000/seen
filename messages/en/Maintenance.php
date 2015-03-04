@@ -17,5 +17,5 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'The application is currently not available, please try again in a few seconds.' => '',
+    'The application is currently updating, please try again in a few seconds.' => '',
 ];

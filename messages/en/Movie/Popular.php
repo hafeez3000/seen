@@ -21,4 +21,6 @@ return [
     'ID' => '',
     'Movie' => '',
     'Order' => '',
+    'Popular Movies' => '',
+    'Your Movies' => '',
 ];

@@ -23,6 +23,7 @@ return [
     'Movies' => '',
     'Remove from watchlist' => '',
     'Similar Movies' => '',
+    'The movie currently does not have a description. Help by <a href="{url}">adding one</a>!' => '',
     'Videos' => '',
     'Watched' => '',
     'Watched again' => '',

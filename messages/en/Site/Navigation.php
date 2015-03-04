@@ -22,7 +22,6 @@ return [
     'Authorization' => '',
     'Contact' => '',
     'Developer' => '',
-    'Email' => '',
     'Frontpage' => '',
     'Import' => '',
     'Imprint' => '',

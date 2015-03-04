@@ -17,12 +17,17 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Authenticate' => '',
+    'Connect TheMovieDB' => '',
     'Email' => '',
     'Name' => '',
     'Password (only change to set a new one)' => '',
+    'Preferences' => '',
     'Public profile' => '',
+    'Reconnect TheMovieDB' => '',
     'Save Settings' => '',
     'Settings saved.' => '',
+    'Sync' => '',
     'The timezone does not exist!' => '',
     'Your Account' => '',
 ];

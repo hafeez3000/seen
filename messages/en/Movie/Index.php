@@ -18,6 +18,4 @@
  */
 return [
     'Movies' => '',
-    'Popular Movies' => '',
-    'Your Movies' => '',
 ];
