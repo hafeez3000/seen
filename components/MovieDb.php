@@ -2045,6 +2045,8 @@ class MovieDb
 				$rating->save();
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -2110,6 +2112,8 @@ class MovieDb
 				$rating->save();
 			}
 		}
+
+		return true;
 	}
 
 	/**

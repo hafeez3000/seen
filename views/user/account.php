@@ -61,6 +61,8 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb']); ?>" class="btn btn-default"><?php echo Yii::t('User/Account', 'Reconnect TheMovieDB'); ?></a>
 
 					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb/sync']); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> <?php echo Yii::t('User/Account', 'Sync'); ?></a>
+
+					<p class="text-muted"><?php echo Yii::t('User/Account', 'Your accounts are synced periodically every 24 hours, but you can start syncing your ratings immediately.'); ?></p>
 				<?php else: ?>
 					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb']); ?>" class="btn btn-info"><?php echo Yii::t('User/Account', 'Connect TheMovieDB'); ?></a>
 				<?php endif; ?>
