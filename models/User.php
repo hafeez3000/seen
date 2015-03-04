@@ -19,6 +19,7 @@ use \app\components\Email;
  * @property string $reset_key
  * @property string $validation_key
  * @property string $auth_key
+ * @property string $themoviedb_session_id
  * @property boolean $profile_public
  * @property string $profile_name
  * @property string $created_at

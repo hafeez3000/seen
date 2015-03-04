@@ -112,26 +112,22 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 						</tr>
 					<?php endif; ?>
 
-					<?php if ($show->vote_count > 0): ?>
-						<tr>
-							<td><?php echo Yii::t('Show/View', '{average} out of 10', [
-								'average' => $show->vote_average,
-							]); ?></td>
-							<td>
-								<span title="<?php echo Yii::t('Show/View', '{average}/10 ({count} Votes)', [
-										'average' => $show->vote_average,
-										'count' => $show->vote_count,
-									]); ?>">
-									<?php for ($i = 0; $i < round($show->vote_average); $i++): ?>
-										<span class="glyphicon glyphicon-star"></span>
-									<?php endfor; ?>
-									<?php for ($i = round($show->vote_average); $i < 10; $i++): ?>
-										<span class="glyphicon glyphicon-star-empty"></span>
-									<?php endfor; ?>
-								</span>
-							</td>
-						</tr>
-					<?php endif; ?>
+					<tr>
+						<td><?php echo Yii::t('Show/View', 'Voting'); ?></td>
+						<td>
+							<span title="<?php echo Yii::t('Show/View', '{average}/10 ({count} Votes)', [
+									'average' => $show->vote_average,
+									'count' => $show->vote_count,
+								]); ?>">
+								<?php for ($i = 0; $i < round($show->vote_average); $i++): ?>
+									<span class="glyphicon glyphicon-star"></span>
+								<?php endfor; ?>
+								<?php for ($i = round($show->vote_average); $i < 10; $i++): ?>
+									<span class="glyphicon glyphicon-star-empty"></span>
+								<?php endfor; ?>
+							</span>
+						</td>
+					</tr>
 				</table>
 			</div>
 
