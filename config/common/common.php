@@ -54,7 +54,11 @@ $config['components']['urlManager'] = [
 		'login/<service:.*?>' => 'site/oauth',
 
 		'logout' => 'site/logout',
+
+		// Account
 		'account' => 'user/account',
+		'auth/themoviedb/callback' => 'auth/themoviedb-callback',
+		'auth/themoviedb' => 'auth/themoviedb',
 
 		// Admin
 		'admin' => 'admin/site/index',

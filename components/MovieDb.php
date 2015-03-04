@@ -1828,4 +1828,36 @@ class MovieDb
 			}
 		}
 	}
+
+	/**
+	 * Create a new request token.
+	 *
+	 * @return string
+	 */
+	public function createRequestToken()
+	{
+		$response = $this->get('/authentication/token/new');
+		if ($response !== false && $response->success === true)
+			return $response->request_token;
+		else
+			return null;
+	}
+
+	/**
+	 * Get session ID from request token.
+	 *
+	 * @param string $requestToken
+	 *
+	 * @return string
+	 */
+	public function createSessionID($requestToken)
+	{
+		$response = $this->get('/authentication/session/new', [
+			'request_token' => $requestToken,
+		]);
+		if ($response !== false && $response->success === true)
+			return $response->session_id;
+		else
+			return null;
+	}
 }

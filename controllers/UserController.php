@@ -40,6 +40,7 @@ class UserController extends Controller
 
 		return $this->render('account', [
 			'model' => $model,
+			'user' => Yii::$app->user->identity,
 		]);
 	}
 

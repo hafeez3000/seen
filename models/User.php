@@ -52,6 +52,7 @@ class User extends ActiveRecord implements IdentityInterface
 			[['language_id'], 'integer'],
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
 			[['auth_key'], 'string', 'max' => 32],
+			[['themoviedb_session_id'], 'string', 'max' => 40],
 			[['profile_public'], 'boolean'],
 			[['profile_name'], 'string', 'max' => 64],
 			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s']

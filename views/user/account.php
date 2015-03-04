@@ -15,6 +15,8 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 
 	<div class="row">
 		<div class="col-md-6">
+			<h2><?php echo Yii::t('User/Account', 'Preferences'); ?></h2>
+
 			<?php $form = ActiveForm::begin([
 				'id' => 'account-form',
 				'options' => [
@@ -49,6 +51,18 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 			</div>
 
 			<?php ActiveForm::end(); ?>
+		</div>
+
+		<div class="col-md-6">
+			<h2><?php echo Yii::t('User/Account', 'Authenticate'); ?></h2>
+
+			<p>
+				<?php if (!empty($user->themoviedb_session_id)): ?>
+					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb']); ?>" class="btn btn-default"><?php echo Yii::t('User/Account', 'Reconnect TheMovieDB'); ?></a>
+				<?php else: ?>
+					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb']); ?>" class="btn btn-info"><?php echo Yii::t('User/Account', 'Connect TheMovieDB'); ?></a>
+				<?php endif; ?>
+			</p>
 		</div>
 	</div>
 </div>
