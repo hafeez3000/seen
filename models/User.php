@@ -19,6 +19,7 @@ use \app\components\TimestampBehavior;
  * @property string $validation_key
  * @property string $auth_key
  * @property string $themoviedb_session_id
+ * @property int $themoviedb_account_id
  * @property boolean $profile_public
  * @property string $profile_name
  * @property string $created_at
@@ -53,6 +54,7 @@ class User extends ActiveRecord implements IdentityInterface
 			[['reset_key', 'validation_key'], 'string', 'max' => 75],
 			[['auth_key'], 'string', 'max' => 32],
 			[['themoviedb_session_id'], 'string', 'max' => 40],
+			[['themoviedb_account_id'], 'integer'],
 			[['profile_public'], 'boolean'],
 			[['profile_name'], 'string', 'max' => 64],
 			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
@@ -406,5 +408,15 @@ class User extends ActiveRecord implements IdentityInterface
 			->where(['{{%user_show_run}}.[[user_id]]' => $this->id])
 			->andWhere('{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]]')
 			->andWhere('{{%episode}}.[[id]] = {{%user_episode}}.[[episode_id]]');
+	}
+
+	/**
+	 * Check if the user has added his TheMovieDB account.
+	 *
+	 * @return bool
+	 */
+	public function hasTheMovieDBAccount()
+	{
+		return (!empty($this->themoviedb_session_id) && !empty($this->themoviedb_account_id));
 	}
 }

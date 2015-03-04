@@ -12,7 +12,7 @@ use \app\components\LanguageHelper;
 		<?php if (!empty($movie->original_title)): ?>
 			<tr>
 				<td><?php echo Yii::t('Movie', 'Original Title'); ?></td>
-				<td><?php echo Html::encode($movie->original_title); ?></td>
+				<td title="<?php echo Html::encode($movie->original_title); ?>"><?php echo Html::encode($movie->original_title); ?></td>
 			</tr>
 		<?php endif; ?>
 
@@ -75,13 +75,22 @@ use \app\components\LanguageHelper;
 				<span title="<?php echo Yii::t('Movie', '{average}/10 ({count} Votes)', [
 					'average' => $movie->vote_average,
 					'count' => $movie->vote_count,
-					]); ?>">
-					<?php $voteAverage = round($movie->vote_average); ?>
+					]); ?>" class="movie-rating rating">
+					<?php $voteAverage = ($userRating !== null) ? $userRating->rating : round($movie->vote_average); ?>
 					<?php for ($i = 0; $i < $voteAverage; $i++): ?>
-						<span class="glyphicon glyphicon-star"></span>
+						<a
+							href="<?php echo Yii::$app->urlManager->createUrl(['/movie/rate', 'slug' => $movie->slug, 'rating' => $i + 1]); ?>"
+							title="<?php echo Yii::t('Movie', 'Rate with {count} stars', ['count' => $i + 1]); ?>"
+							class="<?php echo ($userRating !== null) ? 'rating-user' : ''; ?>">
+							<span class="glyphicon glyphicon-star"></span>
+						</a>
 					<?php endfor; ?>
 					<?php for ($i = $voteAverage; $i < 10; $i++): ?>
-						<span class="glyphicon glyphicon-star-empty"></span>
+						<a
+							href="<?php echo Yii::$app->urlManager->createUrl(['/movie/rate', 'slug' => $movie->slug, 'rating' => $i + 1]); ?>"
+							title="<?php echo Yii::t('Movie', 'Rate with {count} stars', ['count' => $i + 1]); ?>">
+							<span class="glyphicon glyphicon-star-empty"></span>
+						</a>
 					<?php endfor; ?>
 				</span>
 			</td>

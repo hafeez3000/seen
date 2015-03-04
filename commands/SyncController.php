@@ -14,6 +14,7 @@ use \app\models\ShowPopular;
 use \app\models\Language;
 use \app\models\Person;
 use \app\models\SyncStatus;
+use \app\models\User;
 
 /**
  * Sync data with TheMovieDB.
@@ -537,6 +538,31 @@ class SyncController extends Controller
 			$completedChanges[] = $person->id;
 			$syncStatus->value = serialize($completedChanges);
 			$syncStatus->save();
+		}
+	}
+
+	public function actionRatings()
+	{
+		Yii::info('Sync user ratings...', 'application\sync');
+
+		$movieDb = new MovieDb;
+
+		$users = User::find()
+			->where(['not', ['themoviedb_session_id' => null]])
+			->where(['not', ['themoviedb_account_id' => null]]);
+
+		if ($this->debug) {
+			$userCount = $users->count();
+			$i = 1;
+		}
+
+		foreach ($users->each() as $user) {
+			if ($this->debug) {
+				echo "Update ratings for user {$i}/{$userCount}\n";
+				$i++;
+			}
+
+			$movieDb->syncUserRatings($user);
 		}
 	}
 }

@@ -40,6 +40,7 @@ $config['components']['urlManager'] = [
 		'movie/dashboard' => 'movie/dashboard',
 		'movie/watch/<slug:.*?>' => 'movie/watch',
 		'movie/unwatch/<id:\d+>' => 'movie/unwatch',
+		'movie/<slug:.*?>/rate/<rating:\d+>' => 'movie/rate',
 		'movie/<slug:.*?>' => 'movie/view',
 
 		'watchlist/add/<slug:.*?>' => 'watchlist/add',
@@ -57,8 +58,9 @@ $config['components']['urlManager'] = [
 
 		// Account
 		'account' => 'user/account',
-		'auth/themoviedb/callback' => 'auth/themoviedb-callback',
 		'auth/themoviedb' => 'auth/themoviedb',
+		'auth/themoviedb/callback' => 'auth/themoviedb-callback',
+		'auth/themoviedb/sync' => 'auth/themoviedb-sync',
 
 		// Admin
 		'admin' => 'admin/site/index',

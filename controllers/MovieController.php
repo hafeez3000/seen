@@ -9,6 +9,7 @@ use \app\models\Movie;
 use \app\models\Language;
 use \app\models\UserMovie;
 use \app\models\UserMovieWatchlist;
+use \app\models\UserMovieRating;
 use \app\components\MovieDb;
 
 class MovieController extends Controller
@@ -26,10 +27,10 @@ class MovieController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['watch', 'unwatch'],
+				'only' => ['watch', 'unwatch', 'rate'],
 				'rules' => [
 					[
-						'actions' => ['watch', 'unwatch'],
+						'actions' => ['watch', 'unwatch', 'rate'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -183,6 +184,7 @@ class MovieController extends Controller
 					'cast.person',
 					'similarMovies',
 					'similarMovies.userWatches',
+					'genres',
 				])
 				->params([
 					':language' => Yii::$app->language,
@@ -192,9 +194,18 @@ class MovieController extends Controller
 			$movieNative = null;
 		}
 
+		if (!Yii::$app->user->isGuest)
+			$userRating = UserMovieRating::find()
+				->where(['user_id' => Yii::$app->user->id])
+				->where(['themoviedb_id' => $movie->themoviedb_id])
+				->one();
+		else
+			$userRating = null;
+
 		return $this->render('view', [
 			'movie' => $movie,
 			'userMovies' => $userMovies,
+			'userRating' => $userRating,
 			'movieNative' => $movieNative,
 		]);
 	}
@@ -328,6 +339,49 @@ class MovieController extends Controller
 			'value' => $movie->id,
 		]));
 
+		return $this->redirect(['view', 'slug' => $movie->slug]);
+	}
+
+	/**
+	 * Rate a movie.
+	 */
+	public function actionRate($slug, $rating)
+	{
+		if ($rating < 1 || $rating > 10)
+			throw new \yii\web\BadRequestHttpException(Yii::t('Movie/Rating', 'The rating has to be between 1 and 10'));
+
+		$movie = Movie::find()
+			->where(['slug' => $slug])
+			->one();
+
+		if ($movie === null)
+			throw new \yii\web\NotFoundHttpException(Yii::t('Movie/Rating', 'The movie could not be found!'));
+
+		$movieRating = UserMovieRating::find()
+			->where(['user_id' => Yii::$app->user->id])
+			->where(['themoviedb_id' => $movie->themoviedb_id])
+			->one();
+
+		if ($movieRating === null) {
+			$movieRating = new UserMovieRating;
+			$movieRating->user_id = Yii::$app->user->id;
+			$movieRating->themoviedb_id = $movie->themoviedb_id;
+		}
+
+		$movieRating->rating = $rating;
+
+		if (Yii::$app->user->identity->hasTheMovieDBAccount()) {
+			$themoviedb = new MovieDb;
+			if (!$themoviedb->rateMovie(Yii::$app->user->identity, $movieRating->themoviedb_id, $movieRating->rating)) {
+				$movieRating->sync = false;
+				Yii::$app->session->setFlash('warning', Yii::t('Movie/Rating', 'Your rating could not be synced with themoviedb'));
+			}
+		}
+
+		$movieRating->sync = true;
+		$movieRating->save();
+
+		Yii::$app->session->setFlash('success', Yii::t('Movie/Rating', 'You successfully rated the movie with {count} stars.', ['count' => $movieRating->rating]));
 		return $this->redirect(['view', 'slug' => $movie->slug]);
 	}
 }

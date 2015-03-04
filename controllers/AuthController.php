@@ -13,10 +13,10 @@ class AuthController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['themoviedb', 'themoviedbCallback'],
+				'only' => ['themoviedb', 'themoviedbCallback', 'themoviedbSync'],
 				'rules' => [
 					[
-						'actions' => ['themoviedb', 'themoviedbCallback'],
+						'actions' => ['themoviedb', 'themoviedbCallback', 'themoviedbSync'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -26,7 +26,7 @@ class AuthController extends Controller
 	}
 
 	/**
-	 * Link themoviedb with local account.
+	 * Get request token from themoviedb and redirect user.
 	 */
 	public function actionThemoviedb()
 	{
@@ -38,6 +38,9 @@ class AuthController extends Controller
 		]));
 	}
 
+	/**
+	 * Get session and account ID for the request token.
+	 */
 	public function actionThemoviedbCallback()
 	{
 		if (Yii::$app->request->get('request_token', null) === null)
@@ -64,6 +67,15 @@ class AuthController extends Controller
 
 		$user = Yii::$app->user->identity;
 		$user->themoviedb_session_id = $sessionId;
+
+		$accountId = $themoviedb->getAccountId($sessionId);
+		if ($accountId === false) {
+			Yii::$app->session->setFlash('error', Yii::t('Auth/Themoviedb', 'Error while authenticating!'));
+			return $this->redirect(['/user/account']);
+		}
+
+		$user->themoviedb_account_id = $accountId;
+
 		if (!$user->save()) {
 			Yii::$app->session->setFlash('error', Yii::t('Auth/Themoviedb', 'Error while authenticating!'));
 			return $this->redirect(['/user/account']);
@@ -71,5 +83,28 @@ class AuthController extends Controller
 
 		Yii::$app->session->setFlash('success', Yii::t('Auth/Themoviedb', 'TheMovieDB account successfully connected.'));
 		return $this->redirect(['/user/account']);
+	}
+
+	/**
+	 * Sync account data.
+	 */
+	public function actionThemoviedbSync()
+	{
+		$themoviedb = new MovieDb;
+		$success = $themoviedb->syncUserRatings(Yii::$app->user->identity);
+
+		if (Yii::$app->request->isAjax) {
+			Yii::$app->response->format = Response::FORMAT_JSON;
+
+			return [
+				'success' => $success,
+			];
+		} else {
+			if ($success)
+				Yii::$app->session->setFlash('success', Yii::t('Auth/Themoviedb', 'Account data synced.'));
+			else
+				Yii::$app->session->setFlash('error', Yii::t('Auth/Themoviedb', 'Could not sync account data!'));
+			return $this->redirect(['/user/account']);
+		}
 	}
 }

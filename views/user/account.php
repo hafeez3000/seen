@@ -57,8 +57,10 @@ $this->title[] = Yii::t('User/Account', 'Your Account');
 			<h2><?php echo Yii::t('User/Account', 'Authenticate'); ?></h2>
 
 			<p>
-				<?php if (!empty($user->themoviedb_session_id)): ?>
+				<?php if ($user->hasTheMovieDBAccount()): ?>
 					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb']); ?>" class="btn btn-default"><?php echo Yii::t('User/Account', 'Reconnect TheMovieDB'); ?></a>
+
+					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb/sync']); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> <?php echo Yii::t('User/Account', 'Sync'); ?></a>
 				<?php else: ?>
 					<a href="<?php echo Yii::$app->urlManager->createUrl(['auth/themoviedb']); ?>" class="btn btn-info"><?php echo Yii::t('User/Account', 'Connect TheMovieDB'); ?></a>
 				<?php endif; ?>
