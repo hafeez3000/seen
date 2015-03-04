@@ -211,7 +211,7 @@ class User extends ActiveRecord implements IdentityInterface
 	{
 		if (empty($this->profile_name) && $this->profile_public) {
 			$this->profile_name = $this->id . '-' . substr(md5($this->email), 0, 6);
-		} elseif ($this->profile_name !== null) {
+		} elseif ($this->profile_name !== null && !$this->profile_public) {
 			$this->profile_name = null;
 		}
 
