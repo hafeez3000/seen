@@ -4,7 +4,7 @@ use \Yii;
 use \yii\db\ActiveRecord;
 
 /**
- * This is the model class for movie ratings from a User.
+ * This is the model class for tv show ratings from a User.
  *
  * @property integer $id
  * @property integer $user_id
@@ -14,14 +14,14 @@ use \yii\db\ActiveRecord;
  *
  * @property User $user
  */
-class UserMovieRating extends ActiveRecord
+class UserShowRating extends ActiveRecord
 {
 	/**
 	 * @inheritdoc
 	 */
 	public static function tableName()
 	{
-		return '{{%user_movie_rating}}';
+		return '{{%user_show_rating}}';
 	}
 
 	/**

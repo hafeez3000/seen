@@ -344,6 +344,9 @@ class MovieController extends Controller
 
 	/**
 	 * Rate a movie.
+	 *
+	 * @param string $slug
+	 * @param int $rating
 	 */
 	public function actionRate($slug, $rating)
 	{

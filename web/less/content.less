@@ -236,3 +236,27 @@ h1, h2, h3, h4 {
 		}
 	}
 }
+
+/**
+ * Rating
+ */
+.rating {
+	a {
+		text-decoration: none!important;
+		color: @brand-info;
+	}
+
+	.rating-user {
+		color: @brand-warning;
+	}
+
+	.highlight {
+		span {
+			color: @brand-primary;
+
+			&:before {
+				content: "\e006";
+			}
+		}
+	}
+}

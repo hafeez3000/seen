@@ -29,6 +29,7 @@ use \app\models\Language;
 use \app\models\ShowVideo;
 use \app\models\MovieVideo;
 use \app\models\UserMovieRating;
+use \app\models\UserShowRating;
 
 class MovieDb
 {
@@ -1941,6 +1942,8 @@ class MovieDb
 	/**
 	 * Sync ratings with themoviedb.
 	 *
+	 * @param \app\models\User $user
+	 *
 	 * @return bool
 	 */
 	public function syncUserRatings($user)
@@ -1950,6 +1953,43 @@ class MovieDb
 
 		Yii::info("Syncing ratings for user #{$user->id}...", 'application\sync');
 
+		$successMovie = $this->syncMovieRatings($user);
+		$successTv = $this->syncTvRatings($user);
+
+		// Sync movies rated locally
+		$movieRatings = UserMovieRating::find()
+			->where(['user_id' => $user->id])
+			->where(['sync' => false])
+			->all();
+		foreach ($movieRatings as $movieRating) {
+			$this->rateMovie($user, $movieRating->themoviedb_id, $movieRating->rating);
+			$movieRating->sync = true;
+			$movieRating->save();
+		}
+
+		// Sync tv shows rated locally
+		$showRatings = UserShowRating::find()
+			->where(['user_id' => $user->id])
+			->where(['sync' => false])
+			->all();
+		foreach ($showRatings as $showRating) {
+			$this->rateTv($user, $showRating->themoviedb_id, $showRating->rating);
+			$showRating->sync = true;
+			$showRating->save();
+		}
+
+		return ($successMovie && $successTv);
+	}
+
+	/**
+	 * Only sync local movie ratings with themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 *
+	 * @return bool
+	 */
+	protected function syncMovieRatings($user)
+	{
 		// Sync movies rated at themoviedb.org
 		$results = $this->paginate(sprintf('/account/%d/rated/movies', $user->themoviedb_account_id), [
 			'session_id' => $user->themoviedb_session_id,
@@ -2005,24 +2045,108 @@ class MovieDb
 				$rating->save();
 			}
 		}
-
-		// Sync movies rated locally
-		$movieRatings = UserMovieRating::find()
-			->where(['user_id' => $user->id])
-			->where(['sync' => false])
-			->all();
-		foreach ($movieRatings as $movieRating) {
-			$this->rateMovie($user, $movieRating->themoviedb_id, $movieRating->rating);
-			$movieRating->sync = true;
-			$movieRating->save();
-		}
-
-		return true;
 	}
 
+	/**
+	 * Only sync local tv ratings with themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 *
+	 * @return bool
+	 */
+	protected function syncTvRatings($user)
+	{
+		// Sync movies rated at themoviedb.org
+		$results = $this->paginate(sprintf('/account/%d/rated/tv', $user->themoviedb_account_id), [
+			'session_id' => $user->themoviedb_session_id,
+			'language' => $user->language->iso,
+		]);
+
+		if ($results === false)
+			return false;
+
+		foreach ($results as $showRating) {
+			// Search for rated show
+			$show = Show::find()
+				->where(['themoviedb_id' => $showRating->id])
+				->andWhere(['language_id' => $user->language->id])
+				->one();
+
+			if ($show === null) {
+				// Create new show
+				$show = new Show;
+				$show->themoviedb_id = $showRating->id;
+				$show->language_id = $user->language->id;
+				$show->backdrop_path = $showRating->backdrop_path;
+				$show->original_name = $showRating->original_name;
+				$show->first_air_date = $showRating->first_air_date;
+				$show->poster_path = $showRating->poster_path;
+				$show->popularity = $showRating->popularity;
+				$show->name = $showRating->name;
+				$show->vote_average = $showRating->vote_average;
+				$show->vote_count = $showRating->vote_count;
+				if (!$show->save())
+					return false;
+			}
+
+			$rating = UserShowRating::find()
+				->where(['user_id' => $user->id])
+				->where(['themoviedb_id' => $showRating->id])
+				->one();
+
+			if ($rating === null) {
+				// Create rating
+				$rating = new UserShowRating;
+				$rating->user_id = $user->id;
+				$rating->themoviedb_id = $showRating->id;
+				$rating->rating = $showRating->rating;
+				$rating->sync = true;
+				$rating->save();
+			} else if ($rating->rating != $showRating->rating ||
+				$rating->sync === false)
+			{
+				$rating->rating = $showRating->rating;
+				$rating->sync = true;
+				$rating->save();
+			}
+		}
+	}
+
+	/**
+	 * Save a movie rating for a user at themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 * @param int $themoviedbId
+	 * @param int $rating
+	 *
+	 * @return bool
+	 */
 	public function rateMovie($user, $themoviedbId, $rating)
 	{
 		$result = $this->post(sprintf('/movie/%d/rating', $themoviedbId), [
+			'session_id' => $user->themoviedb_session_id,
+		], [
+			'value' => $rating,
+		]);
+
+		if ($result !== false && isset($result->status_code) && ($result->status_code === 12 || $result->status_code === 1))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Save a tv show rating for a user at themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 * @param int $themoviedbId
+	 * @param int $rating
+	 *
+	 * @return bool
+	 */
+	public function rateTv($user, $themoviedbId, $rating)
+	{
+		$result = $this->post(sprintf('/tv/%d/rating', $themoviedbId), [
 			'session_id' => $user->themoviedb_session_id,
 		], [
 			'value' => $rating,

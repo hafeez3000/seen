@@ -117,12 +117,22 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 							<span title="<?php echo Yii::t('Show/View', '{average}/10 ({count} Votes)', [
 									'average' => $show->vote_average,
 									'count' => $show->vote_count,
-								]); ?>">
-								<?php for ($i = 0; $i < round($show->vote_average); $i++): ?>
-									<span class="glyphicon glyphicon-star"></span>
+								]); ?>" class="tv-rating rating">
+								<?php $voteAverage = ($userRating !== null) ? $userRating->rating : round($show->vote_average); ?>
+								<?php for ($i = 0; $i < round($voteAverage); $i++): ?>
+									<a
+										href="<?php echo Yii::$app->urlManager->createUrl(['/tv/rate', 'slug' => $show->slug, 'rating' => $i + 1]); ?>"
+										title="<?php echo Yii::t('Movie', 'Rate with {count} stars', ['count' => $i + 1]); ?>"
+										class="<?php echo ($userRating !== null) ? 'rating-user' : ''; ?>">
+										<span class="glyphicon glyphicon-star"></span>
+									</a>
 								<?php endfor; ?>
-								<?php for ($i = round($show->vote_average); $i < 10; $i++): ?>
-									<span class="glyphicon glyphicon-star-empty"></span>
+								<?php for ($i = round($voteAverage); $i < 10; $i++): ?>
+									<a
+										href="<?php echo Yii::$app->urlManager->createUrl(['/tv/rate', 'slug' => $show->slug, 'rating' => $i + 1]); ?>"
+										title="<?php echo Yii::t('Movie', 'Rate with {count} stars', ['count' => $i + 1]); ?>">
+										<span class="glyphicon glyphicon-star-empty"></span>
+									</a>
 								<?php endfor; ?>
 							</span>
 						</td>
