@@ -4,7 +4,6 @@
  */
 
 use \yii\widgets\LinkPager;
-use \yii\helpers\Url;
 
 echo $this->render('_navigation');
 

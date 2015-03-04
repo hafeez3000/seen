@@ -1,6 +1,5 @@
 <?php
 
-use \yii\db\Schema;
 use \yii\db\Migration;
 
 class m140506_110741_fix_credits extends Migration

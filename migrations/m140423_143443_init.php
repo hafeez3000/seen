@@ -1,6 +1,5 @@
 <?php
 
-use \yii\db\Schema;
 use \yii\db\Migration;
 
 class m140423_143443_init extends Migration

@@ -5,9 +5,6 @@
 
 use \yii\helpers\Html;
 use \yii\helpers\Url;
-use \yii\widgets\ActiveForm;
-
-use \app\components\LanguageHelper;
 
 $this->title[] = $movie->completeTitle;
 $this->title[] = Yii::t('Movie/View', 'Movies');
@@ -44,77 +41,50 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 		</div>
 
 		<div class="col-sm-8">
-			<?php if (!empty($movie->overview)): ?>
-				<div class="row">
-					<div class="col-md-7" id="movie-view-overview">
+			<div class="row">
+				<div class="col-md-7" id="movie-view-overview">
+					<?php if (!empty($movie->overview)): ?>
 						<?php echo Html::encode($movie->overview); ?>
-					</div>
-
-					<div class="col-md-5 movie-view-details" id="movie-view-details-side">
-						<?php if (count($userMovies) === 0): ?>
-							<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-primary">
-								<?php echo Yii::t('Movie/View', 'Watched'); ?>
-							</a>
-						<?php else: ?>
-							<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
-								<?php echo Yii::t('Movie/View', 'Watched again'); ?>
-							</a>
-						<?php endif; ?>
-
-						<br>
-
-						<?php if ($movie->onWatchlist): ?>
-							<a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
-								<?php echo Yii::t('Movie/View', 'Remove from watchlist'); ?>
-							</a>
-						<?php else: ?>
-							<a href="<?php echo Url::toRoute(['watchlist/add', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-success">
-								<?php echo Yii::t('Movie/View', 'Add to watchlist'); ?>
-							</a>
-						<?php endif; ?>
-
-						<br>
-
-						<?php echo $this->render('_details', [
-							'movie' => $movie,
-							'userMovies' => $userMovies,
-						]); ?>
-					</div>
-				</div>
-			<?php else: ?>
-				<div class="movie-view-details" id="movie-view-details-full">
-					<div class="row">
-						<div class="col-md-6">
-							<?php if (count($userMovies) === 0): ?>
-								<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-primary">
-									<?php echo Yii::t('Movie/View', 'Watched'); ?>
-								</a>
-							<?php else: ?>
-								<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
-									<?php echo Yii::t('Movie/View', 'Watched again'); ?>
-								</a>
-							<?php endif; ?>
-
-							<br>
-
-							<?php if ($movie->onWatchlist): ?>
-								<a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
-									<?php echo Yii::t('Movie/View', 'Remove from watchlist'); ?>
-								</a>
-							<?php else: ?>
-								<a href="<?php echo Url::toRoute(['watchlist/add', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-success">
-									<?php echo Yii::t('Movie/View', 'Add to watchlist'); ?>
-								</a>
-							<?php endif; ?>
+					<?php else: ?>
+						<div class="alert alert-info">
+							<?php echo Yii::t('Movie/View', 'The movie currently does not have a description. Help by <a href="{url}">adding one</a>!', [
+								'url' => 'https://www.themoviedb.org/movie/' . $movie->themoviedb_id . '/edit?' . http_build_query(['language' => $movie->language->iso]),
+							]) ?>
 						</div>
-					</div>
+					<?php endif; ?>
+				</div>
+
+				<div class="col-md-5 movie-view-details" id="movie-view-details-side">
+					<?php if (count($userMovies) === 0): ?>
+						<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-primary">
+							<?php echo Yii::t('Movie/View', 'Watched'); ?>
+						</a>
+					<?php else: ?>
+						<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
+							<?php echo Yii::t('Movie/View', 'Watched again'); ?>
+						</a>
+					<?php endif; ?>
+
+					<br>
+
+					<?php if ($movie->onWatchlist): ?>
+						<a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
+							<?php echo Yii::t('Movie/View', 'Remove from watchlist'); ?>
+						</a>
+					<?php else: ?>
+						<a href="<?php echo Url::toRoute(['watchlist/add', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-success">
+							<?php echo Yii::t('Movie/View', 'Add to watchlist'); ?>
+						</a>
+					<?php endif; ?>
+
+					<br>
 
 					<?php echo $this->render('_details', [
 						'movie' => $movie,
 						'userMovies' => $userMovies,
 					]); ?>
 				</div>
-			<?php endif; ?>
+			</div>
 
 			<?php if (count($movie->videos)): ?>
 				<div id="movie-view-videos">

@@ -9,7 +9,6 @@ use \yii\bootstrap\Nav;
 use \yii\bootstrap\NavBar;
 
 use \app\assets\AppAsset;
-use \app\components\LanguageHelper;
 
 AppAsset::register($this);
 ?>
@@ -50,12 +49,6 @@ AppAsset::register($this);
 				echo Nav::widget([
 					'options' => ['class' => 'navbar-nav'],
 					'items' => [
-						[
-							'label' => Yii::t('Site/Navigation', 'Email'),
-							'url' => ['email/index'],
-							'visible' => Yii::$app->user->can('viewEmails'),
-							'active' => Yii::$app->controller->id == 'email',
-						],
 						[
 							'label' => Yii::t('Site/Navigation', 'Log'),
 							'url' => ['log/index'],

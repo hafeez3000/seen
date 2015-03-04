@@ -1,6 +1,5 @@
 <?php
 
-use \yii\db\Schema;
 use \yii\db\Migration;
 
 class m140504_161940_language_popular extends Migration

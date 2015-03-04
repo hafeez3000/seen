@@ -5,7 +5,6 @@ use \yii\db\ActiveRecord;
 use \yii\web\IdentityInterface;
 
 use \app\components\TimestampBehavior;
-use \app\components\Email;
 
 /**
  * Model class for Users.

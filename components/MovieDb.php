@@ -2,9 +2,6 @@
 
 use \Yii;
 
-use \Tmdb\ApiToken;
-use \Tmdb\Client;
-
 use \app\models\Show;
 use \app\models\Person;
 use \app\models\ShowRuntime;
@@ -328,7 +325,7 @@ class MovieDb
 
 		$attributes = $this->getShow($show);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for show #{$show->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -479,8 +476,9 @@ class MovieDb
 					$cast->show_id = $show->id;
 					$cast->person_id = $castAttributes->id;
 
-					if (!$cast->save())
-						var_dump($cast->errors);
+					if (!$cast->save()) {
+						Yii::error("Could not save cast: " . serialize($cast->errors));
+					}
 				}
 			}
 		}
@@ -546,7 +544,7 @@ class MovieDb
 
 		$attributes = $this->getSeason($season);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for season #{$season->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -598,7 +596,7 @@ class MovieDb
 
 		$attributes = $this->getEpisode($episode);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for episode #{$episode->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -654,7 +652,7 @@ class MovieDb
 
 		$attributes = $this->getMovie($movie, $language);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			Yii::error("Could not get attributes from api for movie #{$movie->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
@@ -863,7 +861,7 @@ class MovieDb
 
 		$attributes = $this->getPerson($person);
 
-		if ($attributes == false) {
+		if ($attributes === false) {
 			if (!empty($person->deleted_at)) {
 				$person->delete();
 			} else {
@@ -898,7 +896,7 @@ class MovieDb
 
 		$attributes = $this->getTvChange($id);
 
-		if ($attributes == false)
+		if ($attributes === false)
 			return false;
 
 		$shows = Show::find()
@@ -969,8 +967,7 @@ class MovieDb
 								}
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown tv season item action ' . $item->action);
+								throw new \Exception('Unknown tv season item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1011,8 +1008,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown tv created_by item action ' . $item->action);
+								throw new \Exception('Unknown tv created_by item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1086,8 +1082,7 @@ class MovieDb
 								}
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown tv crew item action ' . $item->action);
+								throw new \Exception('Unknown tv crew item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1114,8 +1109,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown tv cast item action ' . $item->action);
+								throw new \Exception('Unknown tv cast item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1157,8 +1151,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown tv genres item action ' . $item->action);
+								throw new \Exception('Unknown tv genres item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1208,8 +1201,7 @@ class MovieDb
 
 								break;
 							default:
-									var_dump($id, $attribute);
-									die('Unknown tv origin_country item action ' . $item->action);
+								throw new \Exception('Unknown tv origin_country item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1257,8 +1249,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown tv network item action ' . $item->action);
+								throw new \Exception('Unknown tv network item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1311,8 +1302,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown tv video item action ' . $item->action);
+								throw new \Exception('Unknown tv video item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1463,8 +1453,7 @@ class MovieDb
 
 					break;
 				default:
-					var_dump($id, $attribute);
-					die('Unknown tv attribute key ' . $attribute->key);
+					throw new \Exception('Unknown tv attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
 			}
 		}
 	}
@@ -1475,7 +1464,7 @@ class MovieDb
 
 		$attributes = $this->getSeasonChanges($id);
 
-		if ($attributes == false)
+		if ($attributes === false)
 			return false;
 
 		$seasons = Season::find()
@@ -1567,8 +1556,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump('season', $id, $attribute);
-								die('Unknown season episode item action ' . $item->action);
+								throw new \Exception('Unknown season episode item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1585,8 +1573,7 @@ class MovieDb
 
 								break;
 							default:
-								var_dump('season', $id, $attribute);
-								die('Unknown season season_number item action ' . $item->action);
+								throw new \Exception('Unknown season season_number item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1637,8 +1624,7 @@ class MovieDb
 				case 'tvrage_id':
 					break;
 				default:
-					var_dump($id, $attribute);
-					die('Unknown season attribute key ' . $attribute->key);
+					throw new \Exception('Unknown season attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
 			}
 		}
 	}
@@ -1649,7 +1635,7 @@ class MovieDb
 
 		$attributes = $this->getEpisodeChanges($id);
 
-		if ($attributes == false)
+		if ($attributes === false)
 			return false;
 
 		$episodes = Episode::find()
@@ -1695,8 +1681,7 @@ class MovieDb
 								}
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown episode images item action ' . $item->action);
+								throw new \Exception('Unknown episode images item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
@@ -1786,8 +1771,7 @@ class MovieDb
 								}
 								break;
 							default:
-								var_dump($id, $attribute);
-								die('Unknown episode season_number item action ' . $item->action);
+								throw new \Exception('Unknown episode season_number item action ' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 
@@ -1835,14 +1819,12 @@ class MovieDb
 
 								break;
 							default:
-								var_dump($id, $item);
-								die('Unknown episode episode_number item action' . $item->action);
+								throw new \Exception('Unknown episode episode_number item action' . $item->action . ': ' . serialize([$id, $attribute]));
 						}
 					}
 					break;
 				default:
-					var_dump($id, $attribute);
-					die('Unknown episode attribute key ' . $attribute->key);
+					throw new \Exception('Unknown episode attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
 			}
 		}
 	}

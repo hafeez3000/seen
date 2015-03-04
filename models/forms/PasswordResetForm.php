@@ -4,7 +4,6 @@ use \Yii;
 use \yii\base\Model;
 
 use \app\models\User;
-use \app\components\Email;
 
 /**
  * PasswordResetSendForm is the model behind the password reset send form.

@@ -286,8 +286,6 @@ class TvController extends Controller
 
 		$show->slug = ''; // Rewrite slug with title
 		if ($movieDb->syncShow($show)) {
-			$successCount = 0;
-			$errorCount = 0;
 			foreach ($show->seasons as $season) {
 				$movieDb->syncSeason($season);
 			}
@@ -382,6 +380,8 @@ class TvController extends Controller
 
 		$userShow->archived = true;
 		if ($userShow->save()) {
+			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . Yii::$app->user->id]);
+
 			if (Yii::$app->request->isAjax) {
 				Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -436,6 +436,8 @@ class TvController extends Controller
 
 		$userShow->archived = false;
 		if ($userShow->save()) {
+			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . Yii::$app->user->id]);
+
 			if (Yii::$app->request->isAjax) {
 				Yii::$app->response->format = Response::FORMAT_JSON;
 

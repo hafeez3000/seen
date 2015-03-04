@@ -6,9 +6,6 @@
 use \yii\helpers\Url;
 use \yii\helpers\Html;
 
-use \app\components\ActiveForm;
-use \app\models\forms\ImportForm;
-
 $this->title[] = Yii::t('Import/Foundd', 'Import data from FOUNDD');
 ?>
 <div id="import-foundd" class="import-data">

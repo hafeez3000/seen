@@ -1,6 +1,5 @@
 <?php
 
-use \yii\db\Schema;
 use \yii\db\Migration;
 
 class m140520_171124_rbac_users extends Migration

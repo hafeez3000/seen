@@ -1,6 +1,5 @@
 <?php
 
-use \yii\db\Schema;
 use \yii\db\Migration;
 
 class m140425_194032_create_email_groups extends Migration

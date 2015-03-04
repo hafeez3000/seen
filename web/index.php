@@ -4,8 +4,8 @@ date_default_timezone_set('UTC');
 $env = isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'development';
 
 if ($env == 'development') {
-	defined('YII_DEBUG') or define('YII_DEBUG', true);
-	defined('YII_ENV') or define('YII_ENV', 'dev');
+	defined('YII_DEBUG') || define('YII_DEBUG', true);
+	defined('YII_ENV') || define('YII_ENV', 'dev');
 }
 
 require(__DIR__ . '/../vendor/autoload.php');

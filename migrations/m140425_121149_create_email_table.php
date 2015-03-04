@@ -1,8 +1,8 @@
 <?php
 
-use yii\db\Schema;
+use \yii\db\Migration;
 
-class m140425_121149_create_email_table extends \yii\db\Migration
+class m140425_121149_create_email_table extends Migration
 {
 	public function up()
 	{

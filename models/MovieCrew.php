@@ -4,7 +4,6 @@ use \Yii;
 use \yii\db\ActiveRecord;
 
 use \app\components\TimestampBehavior;
-use \app\components\PersonTrait;
 
 /**
  * This is the model class for the Movie Crew.

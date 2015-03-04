@@ -1,12 +1,12 @@
 <?php
 
 use \Yii;
-use \yii\db\Schema;
-use \yii\db\Migration;
 
 use \app\components\rules\ViewEmailsInGroupRule;
 use \app\components\rules\ReplyEmailsInGroupRule;
 use \app\components\rules\ManageEmailGroupsRule;
+
+use \yii\db\Migration;
 
 class m140427_150000_rbac_init extends Migration
 {

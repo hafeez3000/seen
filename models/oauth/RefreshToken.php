@@ -17,7 +17,7 @@ use \app\models\User;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property OauthApplication $oauthApplication
+ * @property Application $oauthApplication
  * @property User $user
  */
 class RefreshToken extends ActiveRecord
@@ -92,7 +92,7 @@ class RefreshToken extends ActiveRecord
 	 */
 	public function getOauthApplication()
 	{
-		return $this->hasOne(OauthApplication::className(), ['id' => 'oauth_application_id']);
+		return $this->hasOne(Application::className(), ['id' => 'oauth_application_id']);
 	}
 
 	/**

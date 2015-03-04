@@ -3,8 +3,6 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
-use \app\components\TimestampBehavior;
-
 /**
  * This is the model class for Show Creators.
  *

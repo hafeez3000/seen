@@ -4,12 +4,10 @@ use \Yii;
 use \yii\filters\AccessControl;
 use \yii\web\Controller;
 use \yii\web\Response;
-use \yii\data\Pagination;
 
 use \app\models\Movie;
 use \app\models\Language;
 use \app\models\UserMovie;
-use \app\models\MoviePopular;
 use \app\models\UserMovieWatchlist;
 use \app\components\MovieDb;
 

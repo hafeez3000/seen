@@ -76,10 +76,11 @@ use \app\components\LanguageHelper;
 					'average' => $movie->vote_average,
 					'count' => $movie->vote_count,
 					]); ?>">
-					<?php for ($i = 0; $i < round($movie->vote_average); $i++): ?>
+					<?php $voteAverage = round($movie->vote_average); ?>
+					<?php for ($i = 0; $i < $voteAverage; $i++): ?>
 						<span class="glyphicon glyphicon-star"></span>
 					<?php endfor; ?>
-					<?php for ($i = round($movie->vote_average); $i < 10; $i++): ?>
+					<?php for ($i = $voteAverage; $i < 10; $i++): ?>
 						<span class="glyphicon glyphicon-star-empty"></span>
 					<?php endfor; ?>
 				</span>

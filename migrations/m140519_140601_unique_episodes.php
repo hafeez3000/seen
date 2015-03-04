@@ -1,9 +1,8 @@
 <?php
 
-use \yii\db\Schema;
 use \yii\db\Migration;
 
-class m140519_140601_unique_episodes extends \yii\db\Migration
+class m140519_140601_unique_episodes extends Migration
 {
     public function up()
     {

@@ -3,7 +3,6 @@
  * @var yii\web\View $this
  */
 
-use \yii\widgets\ActiveForm;
 use \yii\helpers\Url;
 use \yii\helpers\Html;
 

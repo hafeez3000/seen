@@ -1,7 +1,6 @@
 <?php
 
-use yii\db\Schema;
-use yii\db\Migration;
+use \yii\db\Migration;
 
 class m150203_093705_public_profile extends Migration
 {

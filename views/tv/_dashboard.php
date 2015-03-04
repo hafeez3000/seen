@@ -2,8 +2,6 @@
 /**
  * @var yii\web\View $this
  */
-
-use \yii\widgets\ActiveForm;
 ?>
 
 <div id="tv-<?php echo $active; ?>" class="tv-dashboard">

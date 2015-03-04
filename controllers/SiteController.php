@@ -3,13 +3,13 @@
 use \Yii;
 use \yii\filters\AccessControl;
 use \yii\web\Controller;
-use \yii\filters\VerbFilter;
 use \yii\helpers\Url;
 
 use \OAuth\ServiceFactory;
 use \OAuth\OAuth2\Service\Facebook;
 use \OAuth\Common\Storage\Redis;
 use \OAuth\Common\Consumer\Credentials;
+
 use \Predis\Client as Predis;
 
 use \app\models\User;
@@ -283,7 +283,7 @@ class SiteController extends Controller
 				}
 
 				// Get access token
-				$token = $service->requestAccessToken(Yii::$app->request->get('code', ''));
+				$service->requestAccessToken(Yii::$app->request->get('code', ''));
 
 				$profile = json_decode($service->request('/me'));
 
@@ -297,7 +297,15 @@ class SiteController extends Controller
 					$user->email = $profile->email;
 					$user->name = $profile->name;
 					$user->password = 0;
-					$user->timezone = @timezone_name_from_abbr('', ($profile->timezone - 1) * 3600, 0);
+
+					try {
+						$timezone = timezone_name_from_abbr('', ($profile->timezone - 1) * 3600, 0);
+					} catch (\Exception $e) {
+						$timezone = 'UTC';
+					}
+					if ($timezone === false)
+						$timezone = 'UTC';
+					$user->timezone = $timezone;
 
 					if ($language !== null) {
 						$user->language_id = $language->id;
