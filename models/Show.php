@@ -120,7 +120,7 @@ class Show extends ActiveRecord
 			],
 			'slug' => [
 				'class' => 'Zelenin\yii\behaviors\Slug',
-				'attribute' => ['themoviedb_id', 'name', 'language.iso'],
+				'attribute' => ['themoviedb_id', 'completeName', 'language.iso'],
 				'slugAttribute' => 'slug',
 				'replacement' => '-',
 				'lowercase' => true,
