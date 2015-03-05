@@ -56,8 +56,4 @@ return [
 	'prediction' => [
 		'key' => '',
 	],
-	'adsense' => [
-		'client' => '',
-		'slot' => '',
-	],
 ];

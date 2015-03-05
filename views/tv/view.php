@@ -135,18 +135,6 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 				</table>
 			</div>
 
-			<div id="tv-view-ads">
-				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-				<ins class="adsbygoogle"
-					style="display:block"
-					data-ad-client="<?php echo Yii::$app->params['adsense']['client']; ?>"
-					data-ad-slot="<?php echo Yii::$app->params['adsense']['slot']; ?>"
-					data-ad-format="auto"></ins>
-				<script>
-				(adsbygoogle = window.adsbygoogle || []).push({});
-				</script>
-			</div>
-
 			<?php if (count($show->videos)): ?>
 				<div id="tv-view-videos">
 					<h2><?php echo Yii::t('Show/View', 'Videos'); ?></h2>

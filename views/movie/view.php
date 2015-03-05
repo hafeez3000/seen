@@ -26,18 +26,6 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 	<div class="row">
 		<div class="col-sm-4">
 			<img <?php echo $movie->posterUrlLarge; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
-
-			<div id="movie-view-ads">
-				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-				<ins class="adsbygoogle"
-					style="display:block"
-					data-ad-client="<?php echo Yii::$app->params['adsense']['client']; ?>"
-					data-ad-slot="<?php echo Yii::$app->params['adsense']['slot']; ?>"
-					data-ad-format="auto"></ins>
-				<script>
-				(adsbygoogle = window.adsbygoogle || []).push({});
-				</script>
-			</div>
 		</div>
 
 		<div class="col-sm-8">
