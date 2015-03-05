@@ -28,6 +28,8 @@ use \app\models\Company;
 use \app\models\Language;
 use \app\models\ShowVideo;
 use \app\models\MovieVideo;
+use \app\models\UserMovieRating;
+use \app\models\UserShowRating;
 
 class MovieDb
 {
@@ -87,6 +89,64 @@ class MovieDb
 		curl_setopt($curl, CURLOPT_HEADER, false);
 
 		Yii::trace("Execute request to {$url} with parameters...", 'application\sync');
+
+		$this->lastStatus = null;
+		$response = curl_exec($curl);
+		if ($response === false) {
+			Yii::error("Error while requesting {$path}");
+			$this->errors[] = "Error while requesting {$path}";
+			return false;
+		}
+
+		$status = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		if ($status < 200 || $status >= 400) {
+			Yii::error("Error while requesting {$url}, code {$status}: " . $response);
+			$this->errors[] = "Error while requesting {$path}, code {$status}: " . $response;
+			$this->lastStatus = $status;
+			return false;
+		}
+
+		Yii::trace("Executed get request successfully ({$status}) to {$url} with parameters.", 'application\sync');
+
+		$result = json_decode($response);
+		curl_close($curl);
+
+		if ($result === false)
+			Yii::warning("Could not decode json response from {url}!");
+
+		return $result;
+	}
+
+	protected function post($path, $parameters = [], $data = [])
+	{
+		$rate = $this->getCurrentRate();
+
+		while ($rate >= 30) {
+			$this->throttle();
+
+			$rate = $this->getCurrentRate();
+		}
+
+		$this->raiseRate();
+
+		$parameters = array_merge_recursive($parameters, [
+			'api_key' => $this->key,
+		]);
+		$url = Yii::$app->params['themoviedb']['url'] . $path . '?' . http_build_query($parameters);
+		$dataString = json_encode($data);
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $dataString);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+			'Content-Type: application/json',
+			'Content-Length: ' . strlen($dataString))
+		);
+
+		Yii::trace("Execute post request to {$url} with parameters...", 'application\sync');
 
 		$this->lastStatus = null;
 		$response = curl_exec($curl);
@@ -1827,5 +1887,278 @@ class MovieDb
 					throw new \Exception('Unknown episode attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
 			}
 		}
+	}
+
+	/**
+	 * Create a new request token.
+	 *
+	 * @return string
+	 */
+	public function createRequestToken()
+	{
+		$response = $this->get('/authentication/token/new');
+		if ($response !== false && $response->success === true)
+			return $response->request_token;
+		else
+			return null;
+	}
+
+	/**
+	 * Get session ID from request token.
+	 *
+	 * @param string $requestToken
+	 *
+	 * @return string
+	 */
+	public function createSessionID($requestToken)
+	{
+		$response = $this->get('/authentication/session/new', [
+			'request_token' => $requestToken,
+		]);
+		if ($response !== false && $response->success === true)
+			return $response->session_id;
+		else
+			return null;
+	}
+
+	/**
+	 * Get the account ID for the session ID.
+	 *
+	 * @param string $sessionId
+	 *
+	 * @return int
+	 */
+	public function getAccountId($sessionId)
+	{
+		$response = $this->get('/account', [
+			'session_id' => $sessionId,
+		]);
+		if ($response !== false && is_integer($response->id))
+			return $response->id;
+		else
+			return null;
+	}
+
+	/**
+	 * Sync ratings with themoviedb.
+	 *
+	 * @param \app\models\User $user
+	 *
+	 * @return bool
+	 */
+	public function syncUserRatings($user)
+	{
+		if (!$user->hasTheMovieDBAccount())
+			return true;
+
+		Yii::info("Syncing ratings for user #{$user->id}...", 'application\sync');
+
+		$successMovie = $this->syncMovieRatings($user);
+		$successTv = $this->syncTvRatings($user);
+
+		// Sync movies rated locally
+		$movieRatings = UserMovieRating::find()
+			->where(['user_id' => $user->id])
+			->where(['sync' => false])
+			->all();
+		foreach ($movieRatings as $movieRating) {
+			$this->rateMovie($user, $movieRating->themoviedb_id, $movieRating->rating);
+			$movieRating->sync = true;
+			$movieRating->save();
+		}
+
+		// Sync tv shows rated locally
+		$showRatings = UserShowRating::find()
+			->where(['user_id' => $user->id])
+			->where(['sync' => false])
+			->all();
+		foreach ($showRatings as $showRating) {
+			$this->rateTv($user, $showRating->themoviedb_id, $showRating->rating);
+			$showRating->sync = true;
+			$showRating->save();
+		}
+
+		return ($successMovie && $successTv);
+	}
+
+	/**
+	 * Only sync local movie ratings with themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 *
+	 * @return bool
+	 */
+	protected function syncMovieRatings($user)
+	{
+		// Sync movies rated at themoviedb.org
+		$results = $this->paginate(sprintf('/account/%d/rated/movies', $user->themoviedb_account_id), [
+			'session_id' => $user->themoviedb_session_id,
+			'language' => $user->language->iso,
+		]);
+
+		if ($results === false)
+			return false;
+
+		foreach ($results as $movieRating) {
+			// Search for rated movie
+			$movie = Movie::find()
+				->where(['themoviedb_id' => $movieRating->id])
+				->andWhere(['language_id' => $user->language->id])
+				->one();
+
+			if ($movie === null) {
+				// Create new movie
+				$movie = new Movie;
+				$movie->themoviedb_id = $movieRating->id;
+				$movie->language_id = $user->language->id;
+				$movie->adult = $movieRating->adult;
+				$movie->backdrop_path = $movieRating->backdrop_path;
+				$movie->original_title = $movieRating->original_title;
+				$movie->release_date = $movieRating->release_date;
+				$movie->poster_path = $movieRating->poster_path;
+				$movie->popularity = $movieRating->popularity;
+				$movie->title = $movieRating->title;
+				$movie->vote_average = $movieRating->vote_average;
+				$movie->vote_count = $movieRating->vote_count;
+				if (!$movie->save())
+					return false;
+			}
+
+			$rating = UserMovieRating::find()
+				->where(['user_id' => $user->id])
+				->where(['themoviedb_id' => $movieRating->id])
+				->one();
+
+			if ($rating === null) {
+				// Create rating
+				$rating = new UserMovieRating;
+				$rating->user_id = $user->id;
+				$rating->themoviedb_id = $movieRating->id;
+				$rating->rating = $movieRating->rating;
+				$rating->sync = true;
+				$rating->save();
+			} else if ($rating->rating != $movieRating->rating ||
+				$rating->sync === false)
+			{
+				$rating->rating = $movieRating->rating;
+				$rating->sync = true;
+				$rating->save();
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Only sync local tv ratings with themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 *
+	 * @return bool
+	 */
+	protected function syncTvRatings($user)
+	{
+		// Sync movies rated at themoviedb.org
+		$results = $this->paginate(sprintf('/account/%d/rated/tv', $user->themoviedb_account_id), [
+			'session_id' => $user->themoviedb_session_id,
+			'language' => $user->language->iso,
+		]);
+
+		if ($results === false)
+			return false;
+
+		foreach ($results as $showRating) {
+			// Search for rated show
+			$show = Show::find()
+				->where(['themoviedb_id' => $showRating->id])
+				->andWhere(['language_id' => $user->language->id])
+				->one();
+
+			if ($show === null) {
+				// Create new show
+				$show = new Show;
+				$show->themoviedb_id = $showRating->id;
+				$show->language_id = $user->language->id;
+				$show->backdrop_path = $showRating->backdrop_path;
+				$show->original_name = $showRating->original_name;
+				$show->first_air_date = $showRating->first_air_date;
+				$show->poster_path = $showRating->poster_path;
+				$show->popularity = $showRating->popularity;
+				$show->name = $showRating->name;
+				$show->vote_average = $showRating->vote_average;
+				$show->vote_count = $showRating->vote_count;
+				if (!$show->save())
+					return false;
+			}
+
+			$rating = UserShowRating::find()
+				->where(['user_id' => $user->id])
+				->where(['themoviedb_id' => $showRating->id])
+				->one();
+
+			if ($rating === null) {
+				// Create rating
+				$rating = new UserShowRating;
+				$rating->user_id = $user->id;
+				$rating->themoviedb_id = $showRating->id;
+				$rating->rating = $showRating->rating;
+				$rating->sync = true;
+				$rating->save();
+			} else if ($rating->rating != $showRating->rating ||
+				$rating->sync === false)
+			{
+				$rating->rating = $showRating->rating;
+				$rating->sync = true;
+				$rating->save();
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Save a movie rating for a user at themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 * @param int $themoviedbId
+	 * @param int $rating
+	 *
+	 * @return bool
+	 */
+	public function rateMovie($user, $themoviedbId, $rating)
+	{
+		$result = $this->post(sprintf('/movie/%d/rating', $themoviedbId), [
+			'session_id' => $user->themoviedb_session_id,
+		], [
+			'value' => $rating,
+		]);
+
+		if ($result !== false && isset($result->status_code) && ($result->status_code === 12 || $result->status_code === 1))
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Save a tv show rating for a user at themoviedb.org.
+	 *
+	 * @param \app\models\User $user
+	 * @param int $themoviedbId
+	 * @param int $rating
+	 *
+	 * @return bool
+	 */
+	public function rateTv($user, $themoviedbId, $rating)
+	{
+		$result = $this->post(sprintf('/tv/%d/rating', $themoviedbId), [
+			'session_id' => $user->themoviedb_session_id,
+		], [
+			'value' => $rating,
+		]);
+
+		if ($result !== false && isset($result->status_code) && ($result->status_code === 12 || $result->status_code === 1))
+			return true;
+		else
+			return false;
 	}
 }

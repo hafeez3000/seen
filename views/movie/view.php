@@ -70,6 +70,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<?php echo $this->render('_details', [
 						'movie' => $movie,
 						'userMovies' => $userMovies,
+						'userRating' => $userRating,
 					]); ?>
 				</div>
 			</div>

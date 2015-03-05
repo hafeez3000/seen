@@ -583,4 +583,15 @@ $(function() {
 	$(".autoselect").on("click", function() {
 		this.select();
 	});
+
+	/**
+	 * Voting
+	 */
+	$(".rating a").on("mouseover", function() {
+		$(this).addClass("highlight")
+		$(this).prevAll().addClass("highlight");
+	}).on("mouseout", function() {
+		$(this).removeClass("highlight");
+		$(this).prevAll().removeClass("highlight");
+	});
 });

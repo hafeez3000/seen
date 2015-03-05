@@ -8,6 +8,8 @@ use \yii\web\Response;
 use \app\models\Show;
 use \app\models\Language;
 use \app\models\UserShow;
+use \app\models\UserShowRating;
+
 use \app\components\MovieDb;
 
 class TvController extends Controller
@@ -25,10 +27,10 @@ class TvController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync', 'recommend'],
+				'only' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync', 'recommend', 'rate'],
 				'rules' => [
 					[
-						'actions' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'recommend'],
+						'actions' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'recommend', 'rate'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -235,6 +237,7 @@ class TvController extends Controller
 					'crew',
 					'crew.person',
 					'language',
+					'genres',
 				])
 				->params([
 					':language' => Yii::$app->language,
@@ -244,9 +247,18 @@ class TvController extends Controller
 			$showNative = null;
 		}
 
+		if (!Yii::$app->user->isGuest)
+			$userRating = UserShowRating::find()
+				->where(['user_id' => Yii::$app->user->id])
+				->where(['themoviedb_id' => $show->themoviedb_id])
+				->one();
+		else
+			$userRating = null;
+
 		return $this->render('view', [
 			'show' => $show,
 			'showNative' => $showNative,
+			'userRating' => $userRating,
 		]);
 	}
 
@@ -505,5 +517,51 @@ class TvController extends Controller
 		return $this->render('recommendations', [
 			'shows' => $shows,
 		]);
+	}
+
+	/**
+	 * Rate a tv show.
+	 *
+	 * @param string $slug
+	 * @param int $rating
+	 */
+	public function actionRate($slug, $rating)
+	{
+		if ($rating < 1 || $rating > 10)
+			throw new \yii\web\BadRequestHttpException(Yii::t('Show/Rating', 'The rating has to be between 1 and 10'));
+
+		$show = Show::find()
+			->where(['slug' => $slug])
+			->one();
+
+		if ($show === null)
+			throw new \yii\web\NotFoundHttpException(Yii::t('Show/Rating', 'The tv show could not be found!'));
+
+		$showRating = UserShowRating::find()
+			->where(['user_id' => Yii::$app->user->id])
+			->where(['themoviedb_id' => $show->themoviedb_id])
+			->one();
+
+		if ($showRating === null) {
+			$showRating = new UserShowRating;
+			$showRating->user_id = Yii::$app->user->id;
+			$showRating->themoviedb_id = $show->themoviedb_id;
+		}
+
+		$showRating->rating = $rating;
+
+		if (Yii::$app->user->identity->hasTheMovieDBAccount()) {
+			$themoviedb = new MovieDb;
+			if (!$themoviedb->rateTv(Yii::$app->user->identity, $showRating->themoviedb_id, $showRating->rating)) {
+				$showRating->sync = false;
+				Yii::$app->session->setFlash('warning', Yii::t('Show/Rating', 'Your rating could not be synced with themoviedb'));
+			}
+		}
+
+		$showRating->sync = true;
+		$showRating->save();
+
+		Yii::$app->session->setFlash('success', Yii::t('Show/Rating', 'You successfully rated the tv show with {count} stars.', ['count' => $showRating->rating]));
+		return $this->redirect(['view', 'slug' => $show->slug]);
 	}
 }

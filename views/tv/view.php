@@ -111,27 +111,32 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 						</tr>
 					<?php endif; ?>
 
-					<?php if ($show->vote_count > 0): ?>
-						<tr>
-							<td><?php echo Yii::t('Show/View', '{average} out of 10', [
-								'average' => $show->vote_average,
-							]); ?></td>
-							<td>
-								<span title="<?php echo Yii::t('Show/View', '{average}/10 ({count} Votes)', [
-										'average' => $show->vote_average,
-										'count' => $show->vote_count,
-									]); ?>">
-									<?php $voteAverage = round($show->vote_average); ?>
-									<?php for ($i = 0; $i < $voteAverage; $i++): ?>
+					<tr>
+						<td><?php echo Yii::t('Show/View', 'Voting'); ?></td>
+						<td>
+							<span title="<?php echo Yii::t('Show/View', '{average}/10 ({count} Votes)', [
+									'average' => $show->vote_average,
+									'count' => $show->vote_count,
+								]); ?>" class="tv-rating rating">
+								<?php $voteAverage = ($userRating !== null) ? $userRating->rating : round($show->vote_average); ?>
+								<?php for ($i = 0; $i < round($voteAverage); $i++): ?>
+									<a
+										href="<?php echo Yii::$app->urlManager->createUrl(['/tv/rate', 'slug' => $show->slug, 'rating' => $i + 1]); ?>"
+										title="<?php echo Yii::t('Movie', 'Rate with {count} stars', ['count' => $i + 1]); ?>"
+										class="<?php echo ($userRating !== null) ? 'rating-user' : ''; ?>">
 										<span class="glyphicon glyphicon-star"></span>
-									<?php endfor; ?>
-									<?php for ($i = $voteAverage; $i < 10; $i++): ?>
+									</a>
+								<?php endfor; ?>
+								<?php for ($i = round($voteAverage); $i < 10; $i++): ?>
+									<a
+										href="<?php echo Yii::$app->urlManager->createUrl(['/tv/rate', 'slug' => $show->slug, 'rating' => $i + 1]); ?>"
+										title="<?php echo Yii::t('Movie', 'Rate with {count} stars', ['count' => $i + 1]); ?>">
 										<span class="glyphicon glyphicon-star-empty"></span>
-									<?php endfor; ?>
-								</span>
-							</td>
-						</tr>
-					<?php endif; ?>
+									</a>
+								<?php endfor; ?>
+							</span>
+						</td>
+					</tr>
 				</table>
 			</div>
 

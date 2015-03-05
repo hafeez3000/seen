@@ -13,6 +13,7 @@ use \app\components\TimestampBehavior;
  * @property integer $movie_id
  * @property string $created_at
  *
+ * @property User $user
  * @property Movie $movie
  */
 class UserMovie extends ActiveRecord

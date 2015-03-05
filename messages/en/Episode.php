@@ -31,6 +31,7 @@ return [
     'Production code' => '',
     'Season' => '',
     'Still path' => '',
+    'The episode could not be found!' => '',
     'Updated at' => '',
     'Vote count' => '',
 ];

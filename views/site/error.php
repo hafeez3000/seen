@@ -13,6 +13,9 @@ $statusCode = isset($exception->statusCode) ? $exception->statusCode : Yii::t('E
 $this->title[] = Yii::t('Error', 'Error {code}', ['code' => $statusCode]);
 
 $get = Yii::$app->request->get();
+if (empty($message)) {
+	$message = Yii::t('Error', 'An unknown error occured!');
+}
 ?>
 <div id="error">
 	<h1><?php echo Html::encode(Yii::t('Error', 'Error {code}', ['code' => $statusCode])); ?></h1>

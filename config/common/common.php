@@ -25,6 +25,7 @@ $config['components']['urlManager'] = [
 		'tv/archive/<slug:.*?>' => 'tv/archive-show',
 		'tv/unarchive/<slug:.*?>' => 'tv/unarchive-show',
 		'tv/sync' => 'tv/sync',
+		'tv/<slug:.*?>/rate/<rating:\d+>' => 'tv/rate',
 		'tv/<slug:.*?>' => 'tv/view',
 
 		'GET episode/seen/<id:\d+>' => 'episode/seen',
@@ -40,6 +41,7 @@ $config['components']['urlManager'] = [
 		'movie/dashboard' => 'movie/dashboard',
 		'movie/watch/<slug:.*?>' => 'movie/watch',
 		'movie/unwatch/<id:\d+>' => 'movie/unwatch',
+		'movie/<slug:.*?>/rate/<rating:\d+>' => 'movie/rate',
 		'movie/<slug:.*?>' => 'movie/view',
 
 		'watchlist/add/<slug:.*?>' => 'watchlist/add',
@@ -54,7 +56,12 @@ $config['components']['urlManager'] = [
 		'login/<service:.*?>' => 'site/oauth',
 
 		'logout' => 'site/logout',
+
+		// Account
 		'account' => 'user/account',
+		'auth/themoviedb' => 'auth/themoviedb',
+		'auth/themoviedb/callback' => 'auth/themoviedb-callback',
+		'auth/themoviedb/sync' => 'auth/themoviedb-sync',
 
 		// Admin
 		'admin' => 'admin/site/index',
