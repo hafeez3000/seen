@@ -12,6 +12,7 @@ $config['components']['urlManager'] = [
 	'rules' => [
 		'imprint' => 'site/imprint',
 		'privacy' => 'site/privacy',
+		'contact' => 'site/contact',
 
 		// TV
 		'tv' => 'tv/index',
@@ -86,6 +87,14 @@ $config['components']['urlManager'] = [
 		'profile/<profile:\d+\-\w+>' => 'profile/index',
 		'profile/<profile:\d+\-\w+>/movies' => 'profile/movie',
 		'profile/<profile:\d+\-\w+>/tv-shows' => 'profile/tv',
+
+		// Lists
+		'lists' => 'lists/index',
+		'list/create' => 'lists/create',
+		'list/<slug:.*?>/update' => 'lists/update',
+		'list/<slug:.*?>/delete' => 'lists/delete',
+		'list/<slug:.*?>/entry/add' => 'lists-entry/create',
+		'list/<slug:.*?>' => 'lists/view',
 
 		// API version 1
 		'GET api/v1/user' => 'api-v1/user',

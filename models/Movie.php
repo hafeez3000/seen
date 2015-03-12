@@ -358,6 +358,9 @@ class Movie extends ActiveRecord
 	 */
 	public static function getRecommend()
 	{
+		return self::getStandardRecommendations();
+
+		// ToDo: Implement PredictionIO
 		try {
 			$client = new EngineClient(Yii::$app->params['prediction']['engineserver']);
 
@@ -446,5 +449,18 @@ class Movie extends ActiveRecord
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path . '"';
 		else
 			return 'data-src="holder.js/500x750/#eee:#555/text:' . $this->title . '"';
+	}
+
+	/**
+	 * Get the src attribute for an image tag for a normal size backdrop image.
+	 *
+	 * @return string
+	 */
+	public function getBackdropUrlLarge()
+	{
+		if (!empty($this->poster_path))
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w1280/' . $this->backdrop_path . '"';
+		else
+			return 'data-src="holder.js/780x200/#eee:#555/text:' . $this->title . '"';
 	}
 }

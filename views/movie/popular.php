@@ -6,7 +6,7 @@
 use \yii\helpers\Html;
 use \yii\helpers\Url;
 
-$this->title[] = Yii::t('Movie/Index', 'Movies');
+$this->title[] = Yii::t('Movie/Popular', 'Movies');
 ?>
 
 <div id="movie-popular">
@@ -27,12 +27,18 @@ $this->title[] = Yii::t('Movie/Index', 'Movies');
 	</div>
 
 	<div class="row">
-		<?php foreach ($movies as $movie): ?>
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 movie-popular <?php if (count($movie->userWatches) > 0): ?>movie-popular-watched<?php endif; ?>">
-				<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
-					<img <?php echo $movie->posterUrlLarge; ?>>
-				</a>
+		<?php if (count($movies)): ?>
+			<?php foreach ($movies as $movie): ?>
+				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 movie-popular <?php if (count($movie->userWatches) > 0): ?>movie-popular-watched<?php endif; ?>">
+					<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
+						<img <?php echo $movie->posterUrlLarge; ?>>
+					</a>
+				</div>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<div class="alert alert-info">
+				<?php echo Yii::t('Movie/Popular', 'We currently do not have popular movies. Please come back later.'); ?>
 			</div>
-		<?php endforeach; ?>
+		<?php endif; ?>
 	</div>
 </div>

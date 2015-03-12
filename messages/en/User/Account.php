@@ -30,4 +30,5 @@ return [
     'Sync' => '',
     'The timezone does not exist!' => '',
     'Your Account' => '',
+    'Your accounts are synced periodically every 24 hours, but you can start syncing your ratings immediately.' => '',
 ];

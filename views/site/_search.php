@@ -12,9 +12,6 @@ use \yii\widgets\ActiveForm;
 	'options' => [
 		'class' => 'search-form',
 		'data-search' => isset($slug) ? $slug : '',
-		'data-tv-url' => Yii::$app->urlManager->createAbsoluteUrl(['tv/load']),
-		'data-movie-url' => Yii::$app->urlManager->createAbsoluteUrl(['movie/load']),
-		'data-person-url' => Yii::$app->urlManager->createAbsoluteUrl(['person/load']),
 	]
 ]); ?>
 

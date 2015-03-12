@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 		"vendor/bower/holderjs/holder.js",
 		"vendor/bower/jquery-cookie/jquery.cookie.js",
 		"web/js/include/modernizr.custom.js",
+		"web/js/include/jquery.keynav.js",
 	];
 
 	var jsAdminFiles = [
@@ -131,8 +132,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-copy");
 
 	grunt.registerTask("css", ["less:development", "concat"]);
+	grunt.registerTask("js", ["uglify:development"]);
 
-	grunt.registerTask("build", ["uglify:development", "css", "copy"]);
+	grunt.registerTask("build", ["js", "css", "copy"]);
 	grunt.registerTask("build_production", ["uglify:production", "less:production", "concat", "copy"]);
 
 	grunt.registerTask("default", ["build"]);

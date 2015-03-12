@@ -26,6 +26,7 @@ return [
     'Import' => '',
     'Imprint' => '',
     'Language' => '',
+    'Lists' => '',
     'Log' => '',
     'Login' => '',
     'Logout' => '',

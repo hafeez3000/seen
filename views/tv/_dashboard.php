@@ -27,6 +27,8 @@
 				<?php echo Yii::t('Show/Dashboard', 'You are not subscribe to a TV Show! Start with searching for your favorites.'); ?>
 			<?php elseif ($active == 'archive'): ?>
 				<?php echo Yii::t('Show/Dashboard', 'Your archive is empty! Add TV Shows which are not in production anymore or you are currently not watching.'); ?>
+				<?php elseif ($active == 'popular'): ?>
+				<?php echo Yii::t('Show/Dashboard', 'We currently do not have popular tv shows. Please come back later.'); ?>
 			<?php elseif ($active == 'recommend'): ?>
 				<?php echo Yii::t('Show/Dashboard', 'We currently cannot recommend any new shows for you! Try to subscribe to more shows you like.'); ?>
 			<?php endif; ?>

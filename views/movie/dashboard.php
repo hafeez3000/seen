@@ -45,7 +45,7 @@ $this->title[] = Yii::t('Movie/Dashboard', 'Your Movies');
 			</ul>
 		</div>
 	<?php else: ?>
-		<div class="alert alert-info"><?php echo Yii::t('Movie/Dashboard', 'Start by adding movies you watched. After you added your first movies we can recommend new movies based on your seen ones.'); ?>
+		<div class="alert alert-info"><?php echo Yii::t('Movie/Dashboard', 'Start by adding movies you watched. After you added a few, we can recommend new movies based on your seen ones.'); ?></div>
 	<?php endif; ?>
 
 	<?php if (count($movies)): ?>

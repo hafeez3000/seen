@@ -365,7 +365,7 @@ $(function() {
 		ajax: {
 			url: App.themoviedb.url + "/search/multi",
 			dataType: 'jsonp',
-			quietMillis: 100,
+			quietMillis: 250,
 			cache: true,
 			data: function (term, page) {
 				searchTerm = term;
@@ -459,7 +459,12 @@ $(function() {
 			return markup;
 		},
 		formatSelection: function(result) {
-			return result.name;
+			switch (result.media_type) {
+				case "tv": return result.name;
+				case "movie": return result.title;
+				case "person": return result.name;
+				default: return result.name || result.title;
+			}
 		},
 		escapeMarkup: function(m) {
 			return m;
@@ -468,21 +473,23 @@ $(function() {
 		var url;
 		var $form = $(this).closest("form");
 		var id = e.val;
+		var inputId = $(this).attr("id");
 
 		if (!e.added || !e.added.media_type)
 			return;
 
 		switch (e.added.media_type) {
 			case "tv":
-				url = $form.attr("data-tv-url");
+				url = App.urls.datatv;
 				break;
 			case "person":
-				url = $form.attr("data-person-url");
+				url = App.urls.dataperson;
 				break;
 			case "movie":
-				url = $form.attr("data-movie-url");
+				url = App.urls.datamovie;
 				break;
 			default:
+				App.error("Unknown media type: " + e.added.media_type);
 				return;
 		}
 
@@ -492,19 +499,26 @@ $(function() {
 			data: {
 				id: id
 			},
+			beforeSend: function(){
+				$("#ajax-loading").show();
+			},
+			complete: function() {
+				$("#ajax-loading").hide();
+			},
 			success: function(data) {
-				if (data && data.success && data.url) {
-					window.location.href = data.url;
-				} else if (data && !data.success && data.message) {
-					App.error(data.message);
+				if (inputId == "listsentry-themoviedb_id") {
+					$form.find("#listsentry-type").val(e.added.media_type);
+					return true;
+				} else {
+					if (data && data.success && data.url) {
+						window.location.href = data.url;
+					} else if (data && !data.success && data.message) {
+						App.error(data.message);
+					}
 				}
 			},
 			error: function(data) {
 				App.error(App.translation.unknown_error);
-				$("#ajax-loading").hide();
-			},
-			beforeSend: function(){
-				$("#ajax-loading").show();
 			}
 		});
 	}).on("select2-clearing", function(e) {
@@ -594,4 +608,6 @@ $(function() {
 		$(this).removeClass("highlight");
 		$(this).prevAll().removeClass("highlight");
 	});
+
+	$(".list-entry").keynav();
 });

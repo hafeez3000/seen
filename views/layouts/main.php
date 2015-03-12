@@ -82,6 +82,7 @@ AppAsset::register($this);
 						'items' => [
 							['label' => Yii::t('Site/Navigation', 'TV Shows'), 'url' => ['tv/index'], 'active' => Yii::$app->controller->id == 'tv'],
 							['label' => Yii::t('Site/Navigation', 'Movies'), 'url' => ['movie/index'], 'active' => Yii::$app->controller->id == 'movie'],
+							//['label' => Yii::t('Site/Navigation', 'Lists'), 'url' => ['lists/index'], 'active' => Yii::$app->controller->id == 'lists'],
 							['label' => Yii::$app->user->identity->email,
 								'active' => Yii::$app->controller->id == 'user',
 								'url' => ['user/account'],

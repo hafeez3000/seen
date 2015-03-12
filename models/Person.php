@@ -110,6 +110,19 @@ class Person extends \yii\db\ActiveRecord
 	}
 
 	/**
+	 * Get the absolute url to the max profile image.
+	 *
+	 * @return string
+	 */
+	public function getProfileUrlOriginal()
+	{
+		if (!empty($this->profile_path))
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'original' . $this->profile_path . '"';
+		else
+			return 'data-src="holder.js/585x248/#eee:#555/text:' . $this->name . '"';
+	}
+
+	/**
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getAliases()

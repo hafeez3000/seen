@@ -7,6 +7,11 @@
 			url: "<?php echo Yii::$app->params['themoviedb']['url']; ?>",
 			image_url: "<?php echo Yii::$app->params['themoviedb']['image_url']; ?>"
 		},
+		urls: {
+			datatv: "<?php echo Yii::$app->urlManager->createAbsoluteUrl(['tv/load']); ?>",
+			datamovie: "<?php echo Yii::$app->urlManager->createAbsoluteUrl(['movie/load']); ?>",
+			dataperson: "<?php echo Yii::$app->urlManager->createAbsoluteUrl(['person/load']); ?>"
+		},
 		translation: {
 			unknown_error: "<?php echo Yii::t('Error', 'An unknown error occured! Please try again later.'); ?>",
 			first_aired: "<?php echo Yii::t('Show', 'First aired'); ?>",

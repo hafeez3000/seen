@@ -526,6 +526,9 @@ class Show extends ActiveRecord
 	 */
 	public static function getRecommend()
 	{
+		return [];
+
+		// ToDo: Implement PredictionIO
 		try {
 			$client = new EngineClient(Yii::$app->params['prediction']['engineserver']);
 
