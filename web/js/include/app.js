@@ -493,6 +493,8 @@ $(function() {
 				return;
 		}
 
+		console.log("Loading item #", id, "from", url);
+
 		$.ajax({
 			type: "post",
 			url: url,
@@ -507,9 +509,12 @@ $(function() {
 			},
 			success: function(data) {
 				if (inputId == "listsentry-themoviedb_id") {
+					console.log("Adding item to list");
 					$form.find("#listsentry-type").val(e.added.media_type);
 					return true;
 				} else {
+					console.log("Item found => redirecting...");
+
 					if (data && data.success && data.url) {
 						window.location.href = data.url;
 					} else if (data && !data.success && data.message) {
