@@ -27,10 +27,10 @@ class TvController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync', 'recommend', 'rate'],
+				'only' => ['dashboard', 'subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync', 'recommend', 'rate'],
 				'rules' => [
 					[
-						'actions' => ['subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'recommend', 'rate'],
+						'actions' => ['dashboard', 'subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'recommend', 'rate'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
