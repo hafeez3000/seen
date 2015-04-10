@@ -430,7 +430,7 @@ class Movie extends ActiveRecord
 	public function getPosterUrlSmall()
 	{
 		if (!empty($this->poster_path))
-			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w92/' . $this->poster_path . '"';
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w92' . $this->poster_path . '"';
 		else
 			return 'data-src="holder.js/92x138/#eee:#555/text:' . $this->title . '"';
 	}
@@ -438,7 +438,7 @@ class Movie extends ActiveRecord
 	public function getPosterUrl()
 	{
 		if (!empty($this->poster_path))
-			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w342/' . $this->poster_path . '"';
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w342' . $this->poster_path . '"';
 		else
 			return 'data-src="holder.js/342x513/#eee:#555/text:' . $this->title . '"';
 	}
@@ -446,7 +446,7 @@ class Movie extends ActiveRecord
 	public function getPosterUrlLarge()
 	{
 		if (!empty($this->poster_path))
-			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w500/' . $this->poster_path . '"';
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w500' . $this->poster_path . '"';
 		else
 			return 'data-src="holder.js/500x750/#eee:#555/text:' . $this->title . '"';
 	}
@@ -459,7 +459,7 @@ class Movie extends ActiveRecord
 	public function getBackdropUrlLarge()
 	{
 		if (!empty($this->poster_path))
-			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w1280/' . $this->backdrop_path . '"';
+			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w1280' . $this->backdrop_path . '"';
 		else
 			return 'data-src="holder.js/780x200/#eee:#555/text:' . $this->title . '"';
 	}
