@@ -660,7 +660,7 @@ class MovieDb
 			Yii::error("Could not get attributes from api for episode #{$episode->id}...", 'application\sync');
 
 			if ($this->lastStatus == 404)
-				$episode->delete();
+				$episode->trash();
 
 			return false;
 		}
@@ -1567,6 +1567,7 @@ class MovieDb
 										$episode->link('season', $season);
 									} else if ($episode->themoviedb_id == 0) {
 										$episode->themoviedb_id = $item->value->episode_id;
+										$episode->deleted_at = null;
 										$episode->save();
 									}
 								}
@@ -1586,6 +1587,9 @@ class MovieDb
 
 										$episode->save();
 										$episode->link('season', $season);
+									} else if (!empty($episode->deleted_at)) {
+										$episode->deleted_at = null;
+										$episode->save();
 									}
 								}
 								break;
@@ -1599,8 +1603,9 @@ class MovieDb
 									])
 									->all();
 
-								foreach ($episodes as $episode)
-									$episode->delete();
+								foreach ($episodes as $episode) {
+									$episode->trash();
+								}
 
 								break;
 							case 'destroyed':
@@ -1612,7 +1617,7 @@ class MovieDb
 									->all();
 
 								foreach ($episodes as $episode)
-									$episode->delete();
+									$episode->trash();
 
 								break;
 							default:
@@ -1709,6 +1714,13 @@ class MovieDb
 
 		if (count($episodes) == 0)
 			return false;
+
+		foreach ($episodes as $episode) {
+			if (!empty($episode->deleted_at)) {
+				$episode->deleted_at = null;
+				$episode->save();
+			}
+		}
 
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {

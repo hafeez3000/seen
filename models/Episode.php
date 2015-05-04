@@ -169,4 +169,10 @@ class Episode extends ActiveRecord
 
 		return $userEpisode->delete();
 	}
+
+	public function trash()
+	{
+		$this->deleted_at = date('Y-m-d H:i:s');
+		$this->save();
+	}
 }
