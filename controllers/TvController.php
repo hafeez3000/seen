@@ -342,6 +342,7 @@ class TvController extends Controller
 			$userShow->save();
 		}
 
+		\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . Yii::$app->user->id]);
 		return $this->redirect(['view', 'slug' => $show->slug]);
 	}
 
@@ -365,6 +366,7 @@ class TvController extends Controller
 			->one();
 		$userShow->delete();
 
+		\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . Yii::$app->user->id]);
 		return $this->redirect(['view', 'slug' => $show->slug]);
 	}
 
