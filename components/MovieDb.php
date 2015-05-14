@@ -1687,6 +1687,7 @@ class MovieDb
 				case 'freebase_mid':
 				case 'tvdb_id':
 				case 'tvrage_id':
+				case 'locked':
 					break;
 				default:
 					throw new \Exception('Unknown season attribute key ' . $attribute->key . ': ' . serialize([$id, $attribute]));
