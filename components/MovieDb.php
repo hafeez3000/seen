@@ -70,7 +70,7 @@ class MovieDb
 	{
 		$rate = $this->getCurrentRate();
 
-		while ($rate >= 30) {
+		while ($rate >= 40) {
 			$this->throttle();
 
 			$rate = $this->getCurrentRate();
