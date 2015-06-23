@@ -1,11 +1,16 @@
 <?php
+
+require(__DIR__ . '/.env.php');
+
 date_default_timezone_set('UTC');
 
 $env = isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'development';
 
 if ($env == 'development') {
 	defined('YII_DEBUG') || define('YII_DEBUG', true);
-	defined('YII_ENV') || define('YII_ENV', 'dev');
+	defined('YII_ENV') || define('YII_ENV', 'local');
+} else {
+	defined('YII_ENV') || define('YII_ENV', 'production');
 }
 
 require(__DIR__ . '/../vendor/autoload.php');

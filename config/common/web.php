@@ -15,7 +15,7 @@ $config['components']['user'] = [
 ];
 
 $config['components']['errorHandler'] = [
-	'errorAction' => 'site/error',
+	'class' => 'ladamalina\yii2_rollbar\WebErrorHandler',
 ];
 
 $config['components']['assetManager'] = [

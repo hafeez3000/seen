@@ -2,7 +2,9 @@
 
 $config['name'] = 'SEEN';
 $config['basePath'] = dirname(dirname(__DIR__));
-$config['bootstrap'] = [];
+$config['bootstrap'] = [
+	'rollbar',
+];
 
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');
 
@@ -135,6 +137,12 @@ $config['components']['authManager'] = [
 
 $config['components']['cache'] = [
 	'class' => 'yii\caching\DummyCache',
+];
+
+$config['components']['rollbar'] = [
+	'class' => 'ladamalina\yii2_rollbar\RollbarComponent',
+	'accessToken' => $rollbarAccessToken,
+	'environment' => YII_ENV,
 ];
 
 $config['modules']['admin'] = [
