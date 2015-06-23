@@ -106,6 +106,7 @@ class Season extends ActiveRecord
 	public function getEpisodes()
 	{
 		return $this->hasMany(Episode::className(), ['season_id' => 'id'])
+			->where(['{{%episode}}.[[deleted_at]]' => null])
 			->orderBy(['{{%episode}}.[[number]]' => SORT_ASC]);
 	}
 
