@@ -141,7 +141,7 @@ $config['components']['cache'] = [
 
 $config['components']['rollbar'] = [
 	'class' => 'ladamalina\yii2_rollbar\RollbarComponent',
-	'accessToken' => $rollbarAccessToken,
+	'accessToken' => isset($rollbarAccessToken) ? $rollbarAccessToken : '',
 	'environment' => YII_ENV,
 ];
 
