@@ -1,6 +1,11 @@
 <?php
 
 return [
+	'remote' => [
+		'host' => '',
+		'username' => '',
+		'key' => '',
+	],
 	'themoviedb' => [
 		'key' => '',
 		'url' => 'https://api.themoviedb.org/',
