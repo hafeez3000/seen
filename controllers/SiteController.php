@@ -287,6 +287,9 @@ class SiteController extends Controller
 
 				$profile = json_decode($service->request('/me'));
 
+				if (!isset($profile->email))
+					throw new \yii\web\BadRequestHttpException(Yii::t('Site/Login', 'SEEN needs access to your email to log you in via facebook!'));
+
 				$user = User::findByEmail($profile->email);
 				if ($user === null) {
 					$language = Language::find()
