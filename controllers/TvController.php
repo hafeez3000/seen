@@ -275,7 +275,7 @@ class TvController extends Controller
 
 		if ($language === null)
 			$language = Language::find()
-				->where(['iso' => Yii::$app->params['lang']['default']])
+				->where(['iso' => Yii::$app->params['lang']['default_iso']])
 				->one();
 
 		$show = Show::find()
