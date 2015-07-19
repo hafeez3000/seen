@@ -23,28 +23,6 @@ use \app\models\forms\PasswordResetForm;
 
 class SiteController extends Controller
 {
-	public function behaviors()
-	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'only' => ['login', 'logout', 'signUp'],
-				'rules' => [
-					[
-						'actions' => ['logout'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-					[
-						'actions' => ['login', 'signup', 'reset', 'resetPassword'],
-						'allow' => true,
-						'roles' => ['?']
-					]
-				],
-			],
-		];
-	}
-
 	public function actions()
 	{
 		return [
@@ -107,6 +85,9 @@ class SiteController extends Controller
 
 	public function actionLogin()
 	{
+		if (!Yii::$app->user->isGuest)
+			return $this->goHome();
+
 		$this->layout = 'login';
 
 		$model = new LoginForm;
@@ -125,6 +106,9 @@ class SiteController extends Controller
 
 	public function actionLogout()
 	{
+		if (Yii::$app->user->isGuest)
+			return $this->goHome();
+
 		Yii::$app->user->logout();
 
 		return $this->goHome();
@@ -132,6 +116,9 @@ class SiteController extends Controller
 
 	public function actionSignUp()
 	{
+		if (!Yii::$app->user->isGuest)
+			return $this->goHome();
+
 		$this->layout = 'login';
 
 		$model = new SignupForm;
@@ -153,6 +140,9 @@ class SiteController extends Controller
 
 	public function actionReset()
 	{
+		if (!Yii::$app->user->isGuest)
+			return $this->goHome();
+
 		$this->layout = 'login';
 
 		$model = new PasswordResetSendForm;
@@ -169,6 +159,9 @@ class SiteController extends Controller
 
 	public function actionResetPassword($token)
 	{
+		if (!Yii::$app->user->isGuest)
+			return $this->goHome();
+
 		$this->layout = 'login';
 
 		$model = new PasswordResetForm($token);
