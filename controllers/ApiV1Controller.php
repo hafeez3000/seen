@@ -111,7 +111,7 @@ class ApiV1Controller extends Controller
 	 */
 	public function actionUser()
 	{
-		return Yii::$app->user;
+		return Yii::$app->user->identity;
 	}
 
 	/**
@@ -123,7 +123,7 @@ class ApiV1Controller extends Controller
 	{
 		$attributes = json_decode(Yii::$app->request->rawBody);
 
-		$user = Yii::$app->user;
+		$user = Yii::$app->user->identity;
 		$updated = false;
 
 		if (isset($attributes->language)) {
