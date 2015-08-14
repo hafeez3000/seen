@@ -17,6 +17,7 @@ use \app\models\UserEpisode;
 use \app\models\UserShowRun;
 use \app\models\Episode;
 use \app\models\forms\AccountForm;
+use \app\modules\admin\models\Key;
 use \app\components\MovieDb;
 
 class ApiV1Controller extends Controller
@@ -53,8 +54,26 @@ class ApiV1Controller extends Controller
 								throw new \yii\web\HttpException(400, 'No authorization header found!');
 
 							$accessTokenFound = preg_match('/Bearer(.*)/', $_SERVER['HTTP_AUTHORIZATION'], $accessTokenMatch);
-							if ($accessTokenFound !== 1)
-								throw new \yii\web\HttpException(400, 'No bearer access token found!');
+
+							if ($accessTokenFound !== 1) {
+								// If no bearer access token was found
+								// check if basic key is present
+								$basicKeyFound = preg_match('/Basic(.*)/', $_SERVER['HTTP_AUTHORIZATION'], $basicKeyMatch);
+								if ($basicKeyFound !== 1)
+									throw new \yii\web\HttpException(400, 'No access token found!');
+
+								$basicKey = Key::find()
+									->where(['key' => trim($basicKeyMatch[1])])
+									->with(['user'])
+									->one();
+
+								if ($basicKey === null)
+									throw new \yii\web\HttpException(400, 'Invalid key');
+
+								Yii::$app->user->setIdentity($basicKey->user);
+								// No need to set scopes, basic auth can access everything
+								return true;
+							}
 
 							$accessToken = AccessToken::find()
 								->where(['access_token' => trim($accessTokenMatch[1])])
@@ -65,38 +84,37 @@ class ApiV1Controller extends Controller
 								])
 								->one();
 
-							if ($accessToken !== null) {
-								Yii::$app->user->setIdentity($accessToken->user);
-								$this->scopes = explode(',', $accessToken->scopes);
-
-								if ($action->id == 'update-user' && !in_array(Application::SCOPE_ACCOUNT, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to update the user account!');
-
-								if ($action->id == 'movie-watch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to label the movie as seen!');
-
-								if ($action->id == 'movie-unwatch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to label the movie as unseen!');
-
-								if ($action->id == 'show-subscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to subscribe to the show!');
-
-								if ($action->id == 'show-unsubscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to unsubscribe from the show!');
-
-								if ($action->id == 'episode-watch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to label the episode as seen!');
-
-								if ($action->id == 'episode-unwatch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
-									throw new \yii\web\HttpException(401, 'You do not have the permission to label the episode as unseen!');
-
-								// Update timestamp
-								$accessToken->save();
-
-								return true;
-							} else {
+							if ($accessToken === null)
 								throw new \yii\web\HttpException(401, 'Invalid access token!');
-							}
+
+							Yii::$app->user->setIdentity($accessToken->user);
+							$this->scopes = explode(',', $accessToken->scopes);
+
+							if ($action->id == 'update-user' && !in_array(Application::SCOPE_ACCOUNT, $this->scopes))
+								throw new \yii\web\HttpException(401, 'You do not have the permission to update the user account!');
+
+							if ($action->id == 'movie-watch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
+								throw new \yii\web\HttpException(401, 'You do not have the permission to label the movie as seen!');
+
+							if ($action->id == 'movie-unwatch' && !in_array(Application::SCOPE_MOVIES, $this->scopes))
+								throw new \yii\web\HttpException(401, 'You do not have the permission to label the movie as unseen!');
+
+							if ($action->id == 'show-subscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+								throw new \yii\web\HttpException(401, 'You do not have the permission to subscribe to the show!');
+
+							if ($action->id == 'show-unsubscribe' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+								throw new \yii\web\HttpException(401, 'You do not have the permission to unsubscribe from the show!');
+
+							if ($action->id == 'episode-watch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+								throw new \yii\web\HttpException(401, 'You do not have the permission to label the episode as seen!');
+
+							if ($action->id == 'episode-unwatch' && !in_array(Application::SCOPE_TV_SHOWS, $this->scopes))
+								throw new \yii\web\HttpException(401, 'You do not have the permission to label the episode as unseen!');
+
+							// Update timestamp
+							$accessToken->save();
+
+							return true;
 						}
 					],
 				],
