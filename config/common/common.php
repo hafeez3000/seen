@@ -110,6 +110,7 @@ $config['components']['urlManager'] = [
 		'DELETE api/v1/shows/<id:\d+>/<iso:\w+>' => 'api-v1/show-unsubscribe',
 		'POST api/v1/shows/<id:\d+>/<iso:\w+>/<season:\d+>/<episode:\d+>' => 'api-v1/episode-watch',
 		'DELETE api/v1/shows/<id:\d+>/<iso:\w+>/<season:\d+>/<episode:\d+>' => 'api-v1/episode-unwatch',
+		'GET api/v1/unseen-episodes' => 'api-v1/unseen-episodes',
 
 		// Base module routes
 		'<module:\w+>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',

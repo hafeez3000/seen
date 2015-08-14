@@ -399,6 +399,16 @@ class ApiV1Controller extends Controller
 		];
 	}
 
+	/**
+	 * Label a episode as watched.
+	 *
+	 * @param int $id
+	 * @param string $iso
+	 * @param int $season
+	 * @param int $episode
+	 *
+	 * @return
+	 */
 	public function actionEpisodeWatch($id, $iso, $season, $episode)
 	{
 		$episode = Episode::findBySql('
@@ -476,6 +486,16 @@ class ApiV1Controller extends Controller
 		}
 	}
 
+	/**
+	 * Label a episode as unwatched.
+	 *
+	 * @param int $id
+	 * @param string $iso
+	 * @param int $season
+	 * @param int $episode
+	 *
+	 * @return
+	 */
 	public function actionEpisodeUnwatch($id, $iso, $season, $episode)
 	{
 		$episode = Episode::findBySql('
@@ -533,5 +553,49 @@ class ApiV1Controller extends Controller
 		return [
 			'success' => true,
 		];
+	}
+
+	/**
+	 * Return a list of unseen episodes of all subscribed tv shows.
+	 *
+	 * @return
+	 */
+	public function actionUnseenEpisodes()
+	{
+		return Yii::$app->db->createCommand('
+			SELECT
+				IF(LENGTH({{%show}}.[[name]]) > 0, {{%show}}.[[name]], {{%show}}.[[original_name]]) as [[name]],
+				{{%season}}.[[number]] AS [[season]],
+				{{%episode}}.[[number]] AS [[episode]]
+			FROM
+				{{%user_show}},
+				{{%show}},
+				{{%season}},
+				{{%episode}}
+			WHERE
+				{{%user_show}}.[[user_id]] = :user_id AND
+				{{%user_show}}.[[deleted_at]] IS NULL AND
+				{{%show}}.[[id]] = {{%user_show}}.[[show_id]] AND
+				{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
+				{{%season}}.[[number]] > 0 AND
+				{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
+				{{%episode}}.[[id]] NOT IN (
+					SELECT
+						{{%user_episode}}.[[episode_id]]
+					FROM
+						{{%user_episode}},
+						{{%user_show_run}}
+					WHERE
+						{{%user_episode}}.[[run_id]] = {{%user_show_run}}.[[id]] AND
+						{{%user_show_run}}.[[user_id]] = :user_id
+				)
+			ORDER BY
+				{{%show}}.[[name]] ASC,
+				{{%season}}.[[number]] ASC,
+				{{%episode}}.[[number]] ASC
+		', [
+			':user_id' => Yii::$app->user->id,
+		])
+			->queryAll();
 	}
 }
