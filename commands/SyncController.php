@@ -4,6 +4,7 @@ use \Yii;
 use \yii\console\Controller;
 
 use \app\components\MovieDb;
+
 use \app\models\Show;
 use \app\models\Episode;
 use \app\models\Season;
@@ -74,14 +75,14 @@ class SyncController extends Controller
 
 			$movieDb->syncShow($show);
 
-			if ($this->force) {
-				foreach ($show->seasons as $season) {
-					if ($this->debug) {
-						echo "Season {$season->number}/" . count($show->seasons) . "\n";
-					}
+			foreach ($show->seasons as $season) {
+				if ($this->debug) {
+					echo "Season {$season->number}/" . count($show->seasons) . "\n";
+				}
 
-					$movieDb->syncSeason($season);
+				$movieDb->syncSeason($season);
 
+				if ($this->force) {
 					foreach ($season->episodes as $episode) {
 						$movieDb->syncEpisode($episode);
 					}
