@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	var App = {
-		baseUrl: "<?php echo Yii::$app->request->baseUrl; ?>",
+		baseUrl: "<?php echo Yii::$app->params['baseUrl']; ?>",
 		language: "<?php echo Yii::$app->language; ?>",
 		themoviedb: {
 			key: "<?php echo Yii::$app->params['themoviedb']['key']; ?>",

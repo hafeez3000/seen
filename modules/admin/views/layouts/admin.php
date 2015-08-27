@@ -40,7 +40,7 @@ AppAsset::register($this);
 		<header>
 			<?php
 				NavBar::begin([
-					'brandLabel' => Yii::t('Admin', '{name} - Administration', ['name' => Yii::$app->name]),
+					'brandLabel' => Yii::t('Admin', 'Administration'),
 					'brandUrl' => ['/admin'],
 					'options' => [
 						'class' => 'navbar-inverse',
@@ -67,23 +67,29 @@ AppAsset::register($this);
 							'visible' => Yii::$app->user->can('viewUsers'),
 							'active' => Yii::$app->controller->id == 'user',
 						],
-                        [
-                            'label' => Yii::t('Site/Navigation', 'Update'),
-                            'url' => ['update/index'],
-                            'visible' => Yii::$app->user->can('viewUpdates'),
-                            'active' => Yii::$app->controller->id == 'update',
-                        ],
-                        [
-                            'label' => Yii::t('Site/Navigation', 'Authorization'),
-                            'url' => ['authorization/index'],
+						[
+							'label' => Yii::t('Site/Navigation', 'Update'),
+							'url' => ['update/index'],
+							'visible' => Yii::$app->user->can('viewUpdates'),
+							'active' => Yii::$app->controller->id == 'update',
+						],
+						[
+							'label' => Yii::t('Site/Navigation', 'Authorization'),
+							'url' => ['authorization/index'],
+							'visible' => Yii::$app->user->can('admin'),
+							'active' => Yii::$app->controller->id == 'authorization',
+						],
+						[
+							'label' => Yii::t('Site/Navigation', 'Statistics'),
+							'url' => ['statistic/index'],
+							'visible' => Yii::$app->user->can('admin'),
+							'active' => Yii::$app->controller->id == 'statistic',
+						],
+						[
+                            'label' => Yii::t('Site/Navigation', 'Missing'),
+                            'url' => ['missing/index'],
                             'visible' => Yii::$app->user->can('admin'),
-                            'active' => Yii::$app->controller->id == 'authorization',
-                        ],
-                        [
-                            'label' => Yii::t('Site/Navigation', 'Statistics'),
-                            'url' => ['statistic/index'],
-                            'visible' => Yii::$app->user->can('admin'),
-                            'active' => Yii::$app->controller->id == 'statistic',
+                            'active' => Yii::$app->controller->id == 'missing',
                         ],
 					],
 				]);
@@ -91,16 +97,7 @@ AppAsset::register($this);
 				echo Nav::widget([
 					'options' => ['class' => 'navbar-nav navbar-right'],
 					'items' => [
-                        ['label' => Yii::t('Site/Navigation', 'Frontpage'), 'url' => Yii::$app->homeUrl],
-						['label' => Yii::$app->user->identity->email,
-							'active' => Yii::$app->controller->id == 'user',
-                            'items' => [
-                                ['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['//user/account']],
-                                ['label' => Yii::t('Site/Navigation', 'Import'), 'url' => ['//user/import']],
-                                ['label' => '', 'options' => ['class' => 'divider']],
-                                ['label' => Yii::t('Site/Navigation', 'Logout'), 'url' => ['//site/logout']],
-                            ]
-						],
+						['label' => Yii::t('Site/Navigation', 'Frontpage'), 'url' => Yii::$app->homeUrl],
 					],
 				]);
 
@@ -121,7 +118,7 @@ AppAsset::register($this);
 			</div>
 		</footer>
 
-        <?php echo $this->render('//layouts/js_foot.php'); ?>
+		<?php echo $this->render('//layouts/js_foot.php'); ?>
 
 		<?php $this->endBody() ?>
 	</body>
