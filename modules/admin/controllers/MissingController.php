@@ -14,10 +14,10 @@ class MissingController extends BaseController
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['index'],
+				'only' => ['index', 'syncSeasons'],
 				'rules' => [
 					[
-						'actions' => ['index'],
+						'actions' => ['index', 'syncSeasons'],
 						'allow' => true,
 						'roles' => ['admin'],
 					],
@@ -63,14 +63,9 @@ class MissingController extends BaseController
 		];
 	}
 
-	/**
-	 * Sync all seasons with missing episodes
-	 *
-	 * @return string
-	 */
-	public function actionIndex()
+	public function actionSyncSeasons()
 	{
-		$shows = Yii::$app->db->createCommand('
+		$seasons = Yii::$app->db->createCommand('
 			SELECT DISTINCT
 				{{%season}}.[[id]]
 			FROM
@@ -82,14 +77,50 @@ class MissingController extends BaseController
 					FROM
 						{{%episode}}
 					WHERE
-						{{%episode}}.[[season_id]] = {{%season}}.[[id]]
+						{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
+						{{%season}}.[[number]] <> 0
+					HAVING
+						COUNT({{%episode}}.[[number]]) < MAX({{%episode}}.[[number]])
+				)
+		')->queryAll();
+
+		return $this->render('sync-seasons', [
+			'seasons' => $seasons,
+		]);
+	}
+
+	/**
+	 * Sync all seasons with missing episodes
+	 *
+	 * @return string
+	 */
+	public function actionIndex()
+	{
+		$seasons = Yii::$app->db->createCommand('
+			SELECT DISTINCT
+				{{%show}}.[[original_name]],
+				{{%show}}.[[themoviedb_id]],
+				{{%season}}.[[number]]
+			FROM
+				{{%show}},
+				{{%season}}
+			WHERE
+				{{%show}}.[[id]] = {{%season}}.[[show_id]] AND
+				{{%season}}.[[id]] IN (
+					SELECT DISTINCT
+						{{%episode}}.[[season_id]]
+					FROM
+						{{%episode}}
+					WHERE
+						{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
+						{{%season}}.[[number]] <> 0
 					HAVING
 						COUNT({{%episode}}.[[number]]) < MAX({{%episode}}.[[number]])
 				)
 		')->queryAll();
 
 		return $this->render('index', [
-			'shows' => $shows,
+			'seasons' => $seasons,
 		]);
 	}
 }
