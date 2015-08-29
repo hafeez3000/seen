@@ -13,15 +13,7 @@ $this->title[] = Yii::t('Site/Contact', 'Contact');
 ?>
 
 <div id="contact">
-	<div class="clearfix">
-		<div class="pull-left">
-			<h1><?php echo Yii::t('Site/Contact', 'Contact'); ?></h1>
-		</div>
-
-		<div class="pull-right search-wrapper">
-			<?php echo $this->render('/site/_search'); ?>
-		</div>
-	</div>
+	<h1><?php echo Yii::t('Site/Contact', 'Contact'); ?></h1>
 
 	<div class="row">
 		<div class="col-md-6">
