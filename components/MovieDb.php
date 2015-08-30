@@ -614,6 +614,11 @@ class MovieDb
 		}
 
 		if (is_array($attributes->episodes)) {
+			foreach ($season->episodes as $episode) {
+				// Mark as deleted
+				$episode->trash();
+			}
+
 			foreach ($attributes->episodes as $episodeAttributes) {
 				$episode = Episode::findOne([
 					'season_id' => $season->id,
@@ -629,6 +634,9 @@ class MovieDb
 					$season->link('episodes', $episode);
 					continue;
 				} else {
+					// Restore deleted episode
+					$episode->restore();
+
 					$episode->attributes = (array) $episodeAttributes;
 					$episode->number = $episodeAttributes->episode_number;
 					$episode->save();
