@@ -1,4 +1,5 @@
 !.gitignore
 !common/*.php
 !testing/*.php
+!example/*.php
 *
