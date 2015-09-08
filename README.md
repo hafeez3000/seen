@@ -16,6 +16,7 @@
 * `composer install`
 * `grunt`
 * Copy social glyphicons web fonts (not included) into the `web/fonts/` directory
+* Create database tables with `./yii migrate`
 
 ## Tests
 
