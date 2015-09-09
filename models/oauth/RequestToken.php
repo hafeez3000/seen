@@ -2,7 +2,6 @@
 
 use \Yii;
 use \yii\db\ActiveRecord;
-use \yii\helpers\Security;
 
 use \app\components\TimestampBehavior;
 use \app\models\User;
@@ -79,7 +78,7 @@ class RequestToken extends ActiveRecord
 		if ($this->isNewRecord) {
 			$double = true;
 			while ($double) {
-				$this->request_token = strtolower(Security::generateRandomKey(32));
+				$this->request_token = strtolower(Yii::$app->getSecurity()->generateRandomString());
 				$double = RequestToken::find()
 					->where(['request_token' => $this->request_token])
 					->exists();

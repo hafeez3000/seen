@@ -2,7 +2,6 @@
 
 use \Yii;
 use \yii\db\ActiveRecord;
-use \yii\helpers\Security;
 
 use \app\components\TimestampBehavior;
 use \app\models\User;
@@ -133,7 +132,7 @@ class Application extends ActiveRecord
 	{
 		$double = true;
 		while ($double) {
-			$this->key = strtolower(Security::generateRandomKey(32));
+			$this->key = strtolower(Yii::$app->getSecurity()->generateRandomString());
 			$double = Application::find()
 				->where(['key' => $this->key])
 				->exists();
@@ -141,7 +140,7 @@ class Application extends ActiveRecord
 
 		$double = true;
 		while ($double) {
-			$this->secret = strtolower(Security::generateRandomKey(32));
+			$this->secret = strtolower(Yii::$app->getSecurity()->generateRandomString());
 			$double = Application::find()
 				->where(['secret' => $this->secret])
 				->exists();
