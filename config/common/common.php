@@ -9,7 +9,7 @@ $config['bootstrap'] = [
 $config['extensions'] = require(__DIR__ . '/../../vendor/yiisoft/extensions.php');
 
 $config['components']['urlManager'] = [
-	'baseUrl' => 'http://seenapp.com/',
+	'baseUrl' => 'https://seenapp.com/',
 	'enablePrettyUrl' => true,
 	'showScriptName' => false,
 	'rules' => [
