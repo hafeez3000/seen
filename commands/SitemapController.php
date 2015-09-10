@@ -114,7 +114,7 @@ class SitemapController extends Controller
 	public function actionCreate()
 	{
 		echo "Creating Sitemaps...\n";
-
+		$tsStart = time();
 		$sitemapindex = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>');
 
 		$this->createMovieSitemap();
