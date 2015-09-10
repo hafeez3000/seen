@@ -19,7 +19,7 @@ class LanguageBootstrap implements BootstrapInterface
 	public function bootstrap($app)
 	{
 		// Set language
-		$language = 'en-US';
+		$language = 'en';
 
 		if (Yii::$app->user->isGuest) {
 			if (Yii::$app->session->get('language', false) === false) {
@@ -35,6 +35,9 @@ class LanguageBootstrap implements BootstrapInterface
 				$language = $this->getDefaultLanguage();
 		}
 
+		if (strlen($language) > 2)
+			$language = substr($language, 0, 2);
+
 		$exists = Language::find()
 			->where(['iso' => $language])
 			->exists();
@@ -42,11 +45,6 @@ class LanguageBootstrap implements BootstrapInterface
 		if ($exists)
 			$app->language = $language;
 		else
-			$app->language = $app->params['lang']['default'];
-
-		// Restore default application language to prevent errors with missing translation files
-		if ($app->language == 'en') {
-			$app->language = 'en-US';
-		}
+			$app->language = $app->params['lang']['default_iso'];
 	}
 }
