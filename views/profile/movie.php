@@ -4,6 +4,7 @@
  */
 
 use \yii\helpers\Html;
+use \yii\helpers\Url;
 
 $this->title[] = Yii::t('Profile/Movie', '{name} Movies', [
 	'name' => (!empty($user->name)) ? $user->name : $user->email,
