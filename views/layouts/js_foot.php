@@ -1,4 +1,4 @@
-<?php if (!defined('YII_DEBUG') || !YII_DEBUG): ?>
+<?php if (isset(Yii::$app->params['piwik']) && Yii::$app->params['piwik'] === true): ?>
 	<!-- Piwik -->
 	<script type="text/javascript">
 		_paq.push(["setCookieDomain", "*.seenapp.com"]);

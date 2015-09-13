@@ -85,7 +85,7 @@ AppAsset::register($this);
 							//['label' => Yii::t('Site/Navigation', 'Lists'), 'url' => ['lists/index'], 'active' => Yii::$app->controller->id == 'lists'],
 							['label' => Yii::$app->user->identity->email,
 								'active' => Yii::$app->controller->id == 'user',
-								'url' => ['user/account'],
+								'url' => '#',
 								'items' => [
 									['label' => Yii::t('Site/Navigation', 'Account'), 'url' => ['user/account']],
 									['label' => Yii::t('Site/Navigation', 'Import'), 'url' => ['user/import']],
@@ -118,11 +118,16 @@ AppAsset::register($this);
 					</div>
 
 					<div class="pull-right">
-						<p><?php echo Html::a(Yii::t('Site/Navigation', 'Imprint'), ['site/imprint']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Privacy'), ['site/privacy']); ?> | <?php echo Html::a(Yii::t('Site/Navigation', 'Developer'), ['developer/index']); ?></p>
+						<p>
+							<?php echo Html::a(Yii::t('Site/Navigation', 'Imprint'), ['site/imprint']); ?> |
+							<?php echo Html::a(Yii::t('Site/Navigation', 'Privacy'), ['site/privacy']); ?> |
+							<?php echo Html::a(Yii::t('Site/Navigation', 'Developer'), ['developer/index']); ?>
+						</p>
 					</div>
 				</div>
 
 				<div class="clearfix">
+					<a href="https://mixpanel.com/f/partner"><img src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png" alt="Mobile Analytics" /></a>
 					<a href="https://twitter.com/seenappcom" class="twitter-follow-button" data-show-count="false" data-lang="<?php echo Yii::$app->language; ?>">Follow @seenappcom</a>
 				</div>
 			</div>

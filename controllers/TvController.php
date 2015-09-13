@@ -11,6 +11,7 @@ use \app\models\UserShow;
 use \app\models\UserShowRating;
 
 use \app\components\MovieDb;
+use \app\components\YiiMixpanel;
 
 class TvController extends Controller
 {
@@ -69,6 +70,8 @@ class TvController extends Controller
 
 		Show::warmLatestEpisodeCache(null, $shows);
 
+		YiiMixpanel::track('Show Popular TV');
+
 		return $this->render('popular', [
 			'shows' => $shows,
 		]);
@@ -117,6 +120,8 @@ class TvController extends Controller
 			Show::warmLatestEpisodeCache(null, $shows);
 		}
 
+		YiiMixpanel::track('Show TV Archive');
+
 		return $this->render('archive', [
 			'shows' => $shows,
 		]);
@@ -164,6 +169,8 @@ class TvController extends Controller
 		} else {
 			Show::warmLatestEpisodeCache(null, $shows);
 		}
+
+		YiiMixpanel::track('Show TV Dashboard');
 
 		return $this->render('dashboard', [
 			'shows' => $shows,
@@ -255,6 +262,11 @@ class TvController extends Controller
 		else
 			$userRating = null;
 
+		YiiMixpanel::track('Show TV Show', [
+			'show_id' => $show->themoviedb_id,
+			'language' => $show->language->name,
+		]);
+
 		return $this->render('view', [
 			'show' => $show,
 			'showNative' => $showNative,
@@ -298,9 +310,10 @@ class TvController extends Controller
 
 		$show->slug = ''; // Rewrite slug with title
 		if ($movieDb->syncShow($show)) {
-			foreach ($show->seasons as $season) {
-				$movieDb->syncSeason($season);
-			}
+			YiiMixpanel::track('Load TV Show', [
+				'show_id' => $show->themoviedb_id,
+				'language' => $show->language->name,
+			]);
 
 			return [
 				'success' => true,
@@ -342,6 +355,11 @@ class TvController extends Controller
 			$userShow->save();
 		}
 
+		YiiMixpanel::track('Subscribe to TV Show', [
+			'show_id' => $show->themoviedb_id,
+			'language' => $show->language->name,
+		]);
+
 		\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . Yii::$app->user->id]);
 		return $this->redirect(['view', 'slug' => $show->slug]);
 	}
@@ -365,6 +383,11 @@ class TvController extends Controller
 			->andWhere(['show_id' => $show->id])
 			->one();
 		$userShow->delete();
+
+		YiiMixpanel::track('Unsubscribe from TV Show', [
+			'show_id' => $show->themoviedb_id,
+			'language' => $show->language->name,
+		]);
 
 		\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . Yii::$app->user->id]);
 		return $this->redirect(['view', 'slug' => $show->slug]);
@@ -391,6 +414,11 @@ class TvController extends Controller
 			->one();
 		if ($userShow === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The show is already archived!'));
+
+		YiiMixpanel::track('Archive TV Show', [
+			'show_id' => $show->themoviedb_id,
+			'language' => $show->language->name,
+		]);
 
 		$userShow->archived = true;
 		if ($userShow->save()) {
@@ -448,6 +476,11 @@ class TvController extends Controller
 		if ($userShow === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The show is not archived!'));
 
+		YiiMixpanel::track('Unarchive TV Show', [
+			'show_id' => $show->themoviedb_id,
+			'language' => $show->language->name,
+		]);
+
 		$userShow->archived = false;
 		if ($userShow->save()) {
 			\yii\caching\TagDependency::invalidate(Yii::$app->cache, ['user-tv-' . Yii::$app->user->id]);
@@ -500,11 +533,6 @@ class TvController extends Controller
 		foreach ($shows as $show) {
 			$movieDb->syncShow($show);
 			$result['shows']++;
-
-			foreach ($show->seasons as $season) {
-				$movieDb->syncSeason($season);
-				$result['seasons']++;
-			}
 		}
 
 		return $result;
@@ -562,6 +590,12 @@ class TvController extends Controller
 
 		$showRating->sync = true;
 		$showRating->save();
+
+		YiiMixpanel::track('Rate TV Show', [
+			'show_id' => $show->themoviedb_id,
+			'language' => $show->language->name,
+			'rating' => $showRating->rating,
+		]);
 
 		Yii::$app->session->setFlash('success', Yii::t('Show/Rating', 'You successfully rated the tv show with {count} stars.', ['count' => $showRating->rating]));
 		return $this->redirect(['view', 'slug' => $show->slug]);

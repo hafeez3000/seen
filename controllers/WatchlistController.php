@@ -6,6 +6,7 @@ use \yii\filters\AccessControl;
 
 use \app\models\Movie;
 use \app\models\UserMovieWatchlist;
+use \app\components\YiiMixpanel;
 
 class WatchlistController extends Controller
 {
@@ -42,17 +43,15 @@ class WatchlistController extends Controller
 		if ($watchlist !== null) {
 			Yii::$app->session->setFlash('warning', Yii::t('User/MovieWatchlist', 'The movie is already on your watchlist!'));
 		} else {
+			YiiMixpanel::track('Add Movie to Watchlist', [
+				'movie' => $movie->themoviedb_id,
+				'language' => $movie->language->name,
+			]);
+
 			$watchlist = new UserMovieWatchlist;
 			$watchlist->movie_id = $movie->id;
 			$watchlist->user_id = Yii::$app->user->id;
 			$watchlist->save();
-
-			Yii::$app->session->setFlash('event', serialize([
-				'category' => 'movie',
-				'action' => 'watchlist',
-				'name' => 'add',
-				'value' => $movie->id,
-			]));
 		}
 
 		return $this->redirect(['movie/view', 'slug' => $movie->slug]);
@@ -74,12 +73,10 @@ class WatchlistController extends Controller
 		if ($watchlist !== null) {
 			$watchlist->delete();
 
-			Yii::$app->session->setFlash('event', serialize([
-				'category' => 'movie',
-				'action' => 'watchlist',
-				'name' => 'remove',
-				'value' => $movie->id,
-			]));
+			YiiMixpanel::track('Remove Movie from Watchlist', [
+				'movie' => $movie->themoviedb_id,
+				'language' => $movie->language->name,
+			]);
 		}
 
 		return $this->redirect(['movie/view', 'slug' => $movie->slug]);

@@ -6,6 +6,7 @@ use \yii\web\Controller;
 
 use \app\models\forms\AccountForm;
 use \app\models\forms\ImportForm;
+use \app\components\YiiMixpanel;
 
 class UserController extends Controller
 {
@@ -38,6 +39,8 @@ class UserController extends Controller
 
 		$model->password = '';
 
+		YiiMixpanel::track('Show Account');
+
 		return $this->render('account', [
 			'model' => $model,
 			'user' => Yii::$app->user->identity,
@@ -57,6 +60,8 @@ class UserController extends Controller
 				return $this->redirect(['import/' . $model->type]);
 			}
 		}
+
+		YiiMixpanel::track('Show Import');
 
 		return $this->render('import', [
 			'model' => $model,

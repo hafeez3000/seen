@@ -20,6 +20,7 @@ use \app\models\forms\SignupForm;
 use \app\models\forms\ContactForm;
 use \app\models\forms\PasswordResetSendForm;
 use \app\models\forms\PasswordResetForm;
+use \app\components\YiiMixpanel;
 
 class SiteController extends Controller
 {
@@ -80,6 +81,8 @@ class SiteController extends Controller
 
 	public function actionIndex()
 	{
+		YiiMixpanel::track('Show Frontpage');
+
 		return $this->render('index');
 	}
 
@@ -93,11 +96,14 @@ class SiteController extends Controller
 		$model = new LoginForm;
 
 		if ($model->load(Yii::$app->request->post()) && $model->login()) {
-			Yii::$app->session->setFlash('goal', 2);
+			YiiMixpanel::track('Successfull Login');
+
 			Yii::$app->session->setFlash('success', Yii::t('Site/Login', 'Welcome back!'));
 
 			return $this->goBack();
 		} else {
+			YiiMixpanel::track('Show Login');
+
 			return $this->render('login', [
 				'model' => $model,
 			]);
@@ -109,6 +115,7 @@ class SiteController extends Controller
 		if (Yii::$app->user->isGuest)
 			return $this->goHome();
 
+		YiiMixpanel::track('Logout');
 		Yii::$app->user->logout();
 
 		return $this->goHome();
@@ -124,7 +131,8 @@ class SiteController extends Controller
 		$model = new SignupForm;
 
 		if ($model->load(Yii::$app->request->post()) && $model->register()) {
-			Yii::$app->session->setFlash('goal', 1);
+			YiiMixpanel::track('Successfull Sign Up');
+
 			Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN! <a href="{url-account}">Update your timezone</a> or add <a href="{url-movies}">movies</a> or <a href="{url-tv}">tv shows</a>', [
 				'url-account' => Url::toRoute(['/user/account']),
 				'url-movies' => Url::toRoute(['/movies']),
@@ -133,6 +141,8 @@ class SiteController extends Controller
 
 			return $this->redirect(['tv/index']);
 		} else
+			YiiMixpanel::track('Show Sign Up');
+
 			return $this->render('sign-up', [
 				'model' => $model,
 			]);
@@ -148,9 +158,13 @@ class SiteController extends Controller
 		$model = new PasswordResetSendForm;
 
 		if ($model->load(Yii::$app->request->post()) && $model->send()) {
+			YiiMixpanel::track('Reset Password Send');
+
 			Yii::$app->session->setFlash('info', Yii::t('User/Reset', 'Please check your emails to reset your password!'));
 			return $this->redirect(['login']);
 		} else {
+			YiiMixpanel::track('Show Reset Password');
+
 			return $this->render('reset-send', [
 				'model' => $model,
 			]);
@@ -170,9 +184,13 @@ class SiteController extends Controller
 			throw new \yii\web\NotFoundHttpException(Yii::t('User/Reset', 'Your password was already reset!'));
 
 		if ($model->load(Yii::$app->request->post()) && $model->reset()) {
+			YiiMixpanel::track('Changed Password (After Reset)');
+
 			Yii::$app->session->setFlash('info', Yii::t('User/Reset', 'Password changed! You can now login with your new password.'));
 			return $this->redirect(['login']);
 		} else {
+			YiiMixpanel::track('Show Change Password (After Reset)');
+
 			return $this->render('reset', [
 				'model' => $model,
 			]);
@@ -183,11 +201,13 @@ class SiteController extends Controller
 	{
 		$model = new ContactForm;
 		if ($model->load(Yii::$app->request->post()) && $model->contact()) {
-			Yii::$app->session->setFlash('goal', 3);
+			YiiMixpanel::track('Created Contact Message');
 			Yii::$app->session->setFlash('success', Yii::t('Site/Contact', 'Thanks for your message! We will answer your request as soon as possible.'));
 
 			return $this->redirect(['/site/contact']);
 		} else {
+			YiiMixpanel::track('Show Contact Form');
+
 			return $this->render('contact', [
 				'model' => $model,
 			]);
@@ -197,6 +217,8 @@ class SiteController extends Controller
 	public function actionImprint()
 	{
 		$path = $this->viewPath . '/imprint/' . Yii::$app->language . '.php';
+
+		YiiMixpanel::track('Show Imprint');
 
 		if (file_exists($path))
 			return $this->render('imprint/' . Yii::$app->language);
@@ -208,6 +230,8 @@ class SiteController extends Controller
 	{
 		$path = $this->viewPath . '/privacy/' . Yii::$app->language . '.php';
 
+		YiiMixpanel::track('Show Privacy');
+
 		if (file_exists($path))
 			return $this->render('privacy/' . Yii::$app->language);
 		else
@@ -216,14 +240,25 @@ class SiteController extends Controller
 
 	public function actionLanguage($iso)
 	{
+		$oldLanguage = Language::find()
+			->select(['id', 'iso', 'name'])
+			->where(['iso' => Yii::$app->language])
+			->asArray()
+			->one();
+
 		$language = Language::find()
-			->select(['id', 'iso'])
+			->select(['id', 'iso', 'name'])
 			->where(['iso' => $iso])
 			->asArray()
 			->one();
 
 		if ($language === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Site', 'The language does not exist!'));
+
+		YiiMixpanel::track('Changed Language', [
+			'old_language' => $oldLanguage['name'],
+			'new_language' => $language['name'],
+		]);
 
 		if (Yii::$app->user->isGuest) {
 			Yii::$app->session->set('language', $language['iso']);
@@ -311,18 +346,24 @@ class SiteController extends Controller
 						throw new \yii\web\HttpException(500);
 					}
 
+					YiiMixpanel::track('Authorize Facebook', [
+						'new' => true,
+					]);
+
 					Yii::$app->user->login($user, 3600 * 24 * 30);
-					Yii::$app->session->setFlash('goal', 1);
 					Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN! <a href="{url-account}">Update your timezone</a> or add <a href="{url-movies}">movies</a> or <a href="{url-tv}">tv shows</a>', [
 						'url-account' => Url::toRoute(['/user/account']),
 						'url-movies' => Url::toRoute(['/movies']),
 						'url-tv' => Url::toRoute(['/tv']),
 					]));
 					return $this->redirect(['tv/index']);
+				} else {
+					YiiMixpanel::track('Authorize Facebook', [
+						'new' => false,
+					]);
 				}
 
 				Yii::$app->user->login($user, 3600 * 24 * 30);
-				Yii::$app->session->setFlash('goal', 2);
 				Yii::$app->session->setFlash('success', Yii::t('Site/Login', 'Welcome back!'));
 				return $this->goBack();
 

@@ -27,16 +27,14 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 		<?php echo Html::encode($show->completeName); ?>
 		<?php if ($show->isUserSubscribed): ?>
 			<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unsubscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Unsubscribe'); ?></a>
-		<?php else: ?>
-			<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Subscribe'); ?></a>
-		<?php endif; ?>
 
-		<?php if (!Yii::$app->user->isGuest): ?>
 			<?php if ($show->isArchived()): ?>
 				<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Restore from archive'); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
 			<?php else: ?>
 				<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Move to archive'); ?>"><span class="glyphicon glyphicon-lock"></span></a>
 			<?php endif; ?>
+		<?php else: ?>
+			<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Subscribe'); ?></a>
 		<?php endif; ?>
 
 		<?php if (Yii::$app->user->can('admin')): ?>
@@ -216,7 +214,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 
 							<div class="pull-right">
 								<?php if ($show->isUserSubscribed): ?>
-									<a href="#" class="mark-season-seen" data-id="<?php echo $season->id; ?>" title="<?php echo Yii::t('Show/View', 'Label complete season as seen'); ?>"><span class="glyphicon glyphicon-ok"></span></a>&nbsp;
+									<a href="#" class="mark-season-seen" data-id="<?php echo $season->id; ?>" data-id="<?php echo $season->id; ?>" data-season="<?php echo $season->themoviedb_id; ?>" data-show="<?php echo $season->show->themoviedb_id; ?>" title="<?php echo Yii::t('Show/View', 'Label complete season as seen'); ?>"><span class="glyphicon glyphicon-ok"></span></a>&nbsp;
 								<?php endif; ?>
 								<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>/season/<?php echo $season->number; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank" title="<?php echo Yii::t('Show/View', 'Edit missing information on The Movie Database'); ?>"><span class="glyphicon glyphicon-pencil"></span></a>
 							</div>
@@ -229,7 +227,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 								<?php if ($show->isUserSubscribed): ?>
 									<li><a class="<?php if ($show->isUserSubscribed && isset($episodesSeen[$episode->id])): ?>has-seen<?php endif; ?>"
 										href="<?php echo ($show->isUserSubscribed && isset($episodesSeen[$episode->id])) ? Yii::$app->urlManager->createUrl(['episode/unseen', 'id' => $episode->id]) : Yii::$app->urlManager->createUrl(['episode/seen', 'id' => $episode->id]); ?>"
-										data-id="<?php echo $episode->id; ?>"
+										data-id="<?php echo $episode->id; ?>" data-episode="<?php echo $episode->themoviedb_id; ?>" data-season="<?php echo $episode->season->themoviedb_id; ?>" data-show="<?php echo $episode->season->show->themoviedb_id; ?>"
 										data-seen="<?php if (isset($episodesSeen[$episode->id])): ?>1<?php else: ?>0<?php endif; ?>"
 										title="<?php echo ($show->isUserSubscribed && isset($episodesSeen[$episode->id])) ? Yii::t('Show/View', 'Label `{name}` as unseen', ['name' => $episode->fullName]) : Yii::t('Show/View', 'Label `{name}` as seen', ['name' => $episode->fullName]); ?>">
 										<?php echo Html::encode($episode->fullName); ?>

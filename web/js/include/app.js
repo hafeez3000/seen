@@ -222,6 +222,14 @@ function syncImportMovie() {
 	}
 }
 
+/**
+ * Mixpanel
+ */
+if (App.user.guest === false)
+	mixpanel.identify(App.user.id);
+
+mixpanel.people.set(App.user);
+
 $(function() {
 	console.log("Init application...");
 
@@ -247,13 +255,12 @@ $(function() {
 						$episodeLink.attr("title", $episodeLink.attr("title").replace('as seen', 'as unseen'));
 						highlightEpisodes();
 
-						_paq.push([
-							"trackEvent",
-							"tv",
-							"episode",
-							"seen",
-							id
-						]);
+						// Track seen episode
+						mixpanel.track("Episode Seen", {
+							"episode": $episodeLink.attr("data-episode"),
+							"season": $episodeLink.attr("data-season"),
+							"show": $episodeLink.attr("data-show")
+						});
 					}
 				});
 			} else {
@@ -264,13 +271,12 @@ $(function() {
 						$episodeLink.attr("title", $episodeLink.attr("title").replace('as unseen', 'as seen'));
 						highlightEpisodes();
 
-						_paq.push([
-							"trackEvent",
-							"tv",
-							"episode",
-							"unseen",
-							id
-						]);
+						// Track unseen episode
+						mixpanel.track("Episode Unseen", {
+							"episode": $episodeLink.attr("data-episode"),
+							"season": $episodeLink.attr("data-season"),
+							"show": $episodeLink.attr("data-show")
+						});
 					}
 				});
 			}
@@ -299,13 +305,11 @@ $(function() {
 				});
 			});
 
-			_paq.push([
-				"trackEvent",
-				"tv",
-				"season",
-				"seen",
-				seasonId
-			]);
+			// Track seen season
+			mixpanel.track("Season Seen", {
+				"season": $linkItem.attr("data-season"),
+				"show": $linkItem.attr("data-show")
+			});
 
 			return false;
 		});
@@ -315,48 +319,12 @@ $(function() {
 			highlightEpisodes();
 	}
 
-	// Archive/Unarchive tv shows
-	$(".archive-show").on("click", function(e) {
-		e.preventDefault();
-
-		var $item = $(this).closest(".tv-dashboard-show");
-
-		var url = $(this).attr("href");
-		$.ajax({
-			type: "get",
-			url: url,
-			success: function(data) {
-				if (data && data.success) {
-					$item.hide("fast");
-
-					_paq.push([
-						"trackEvent",
-						"tv",
-						"archive",
-						"archive",
-						$item.data("id")
-					]);
-				} else if (data && !data.success && data.message) {
-					App.error(data.message);
-				}
-			},
-			beforeSend: function(){
-				$("#ajax-loading").show();
-			},
-			complete: function(){
-				$("#ajax-loading").hide();
-			}
-		});
-
-		return false;
-	});
-
 	// Language selector
 	$("#language-selector").select2().on("change", function(e) {
 		window.location.href = App.baseUrl + "/language/" + e.val;
 	});
 
-	// Search tv show
+	// Search for media
 	var searchTerm = "";
 
 	$(".search").select2({
@@ -365,7 +333,7 @@ $(function() {
 		ajax: {
 			url: App.themoviedb.url + "/search/multi",
 			dataType: 'jsonp',
-			quietMillis: 250,
+			quietMillis: 300,
 			cache: true,
 			data: function (term, page) {
 				searchTerm = term;
@@ -379,11 +347,11 @@ $(function() {
 				};
 			},
 			results: function (data, page) {
-				_paq.push(['trackSiteSearch',
-					searchTerm,
-					false,
-					data.total_results
-				]);
+				// Track side search
+				mixpanel.track("Search", {
+					"results": data.total_results,
+					"term": searchTerm
+				});
 
 				var more = page < data.total_pages;
 
@@ -526,11 +494,6 @@ $(function() {
 				App.error(App.translation.unknown_error);
 			}
 		});
-	}).on("select2-clearing", function(e) {
-		// Keep text when closing dropdown
-
-		e.preventDefault();
-		return false;
 	});
 
 	// Init search term
@@ -552,19 +515,7 @@ $(function() {
 		$("#import-progress").find(".import-max").html(length);
 	}
 
-	if ($("#email-reply-form-affix").length) {
-		var $emailReplyAffix = $("#email-reply-form-affix");
-		var top = $emailReplyAffix.offset().top;
-
-		$emailReplyAffix.affix({
-			offset: {
-				top: top
-			}
-		});
-	}
-
 	if ($("#updates-index").length) {
-		console.log("updates-index");
 		$("#updates-index table tbody tr").each(function() {
 			var $row = $(this);
 

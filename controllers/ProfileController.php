@@ -133,6 +133,10 @@ class ProfileController extends Controller
 			$lastShow = $lastShow->show;
 		}
 
+		YiiMixpanel::track('Visit Profile', [
+			'profile_id' => $user->id,
+		]);
+
 		return $this->render('index', [
 			'user' => $user,
 			'movie' => $lastMovie,
@@ -185,6 +189,10 @@ class ProfileController extends Controller
 			Show::warmLatestEpisodeCache($user->id, $shows);
 		}
 
+		YiiMixpanel::track('Visit Profile TV', [
+			'profile_id' => $user->id,
+		]);
+
 		return $this->render('tv', [
 			'user' => $user,
 			'shows' => $shows,
@@ -210,6 +218,10 @@ class ProfileController extends Controller
 			'tags' => [
 				'user-movie-watchlist-' . $user->id,
 			]
+		]);
+
+		YiiMixpanel::track('Visit Profile Movie', [
+			'profile_id' => $user->id,
 		]);
 
 		return $this->render('movie', [

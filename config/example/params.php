@@ -61,5 +61,6 @@ return [
 	],
 	'prediction' => [
 		'key' => '',
+		'eventserver' => '',
 	],
 ];

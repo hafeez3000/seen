@@ -11,6 +11,7 @@ use \app\models\UserMovie;
 use \app\models\UserMovieWatchlist;
 use \app\models\UserMovieRating;
 use \app\components\MovieDb;
+use \app\components\YiiMixpanel;
 
 class MovieController extends Controller
 {
@@ -73,6 +74,8 @@ class MovieController extends Controller
 			->with('userWatches')
 			->all();
 
+		YiiMixpanel::track('Show Popular Movies');
+
 		return $this->render('popular', [
 			'movies' => $movies,
 		]);
@@ -103,6 +106,8 @@ class MovieController extends Controller
 				'user-movie-watchlist-' . Yii::$app->user->id,
 			]
 		]);
+
+		YiiMixpanel::track('Show Movie Dashboard');
 
 		return $this->render('dashboard', [
 			'movies' => $movies,
@@ -202,6 +207,11 @@ class MovieController extends Controller
 		else
 			$userRating = null;
 
+		YiiMixpanel::track('Show Movie', [
+			'movie_id' => $movie->themoviedb_id,
+			'language' => $movie->language->name,
+		]);
+
 		return $this->render('view', [
 			'movie' => $movie,
 			'userMovies' => $userMovies,
@@ -251,6 +261,11 @@ class MovieController extends Controller
 
 		$movie->slug = ''; // Rewrite slug with title
 		if ($movieDb->syncMovie($movie)) {
+			YiiMixpanel::track('Load Movie', [
+				'movie_id' => $movie->themoviedb_id,
+				'language' => $movie->language->name,
+			]);
+
 			return [
 				'success' => true,
 				'slug' => $movie->slug,
@@ -268,6 +283,7 @@ class MovieController extends Controller
 	{
 		$movie = Movie::find()
 			->where(['slug' => $slug])
+			->with(['language'])
 			->one();
 		if ($movie === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Movie', 'The movie could not be found!'));
@@ -287,12 +303,10 @@ class MovieController extends Controller
 		if ($watchlist !== null)
 			$watchlist->delete();
 
-		Yii::$app->session->setFlash('event', serialize([
-			'category' => 'movie',
-			'action' => 'watched',
-			'name' => 'add',
-			'value' => $movie->id,
-		]));
+		YiiMixpanel::track('Movie Watch', [
+			'movie_id' => $movie->themoviedb_id,
+			'language' => $movie->language->name,
+		]);
 
 		if (Yii::$app->request->isAjax) {
 			Yii::$app->response->format = Response::FORMAT_JSON;
@@ -332,12 +346,10 @@ class MovieController extends Controller
 		$movie = $userMovie->movie;
 		$userMovie->delete();
 
-		Yii::$app->session->setFlash('event', serialize([
-			'category' => 'movie',
-			'action' => 'watched',
-			'name' => 'remove',
-			'value' => $movie->id,
-		]));
+		YiiMixpanel::track('Movie Unwatch', [
+			'movie_id' => $movie->themoviedb_id,
+			'language' => $movie->language->name,
+		]);
 
 		return $this->redirect(['view', 'slug' => $movie->slug]);
 	}
@@ -383,6 +395,12 @@ class MovieController extends Controller
 
 		$movieRating->sync = true;
 		$movieRating->save();
+
+		YiiMixpanel::track('Movie Rate', [
+			'movie_id' => $movie->themoviedb_id,
+			'language' => $movie->language->name,
+			'rating' => $movieRating->rating,
+		]);
 
 		Yii::$app->session->setFlash('success', Yii::t('Movie/Rating', 'You successfully rated the movie with {count} stars.', ['count' => $movieRating->rating]));
 		return $this->redirect(['view', 'slug' => $movie->slug]);

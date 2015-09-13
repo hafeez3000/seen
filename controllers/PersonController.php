@@ -6,6 +6,7 @@ use \yii\web\Response;
 
 use \app\models\Person;
 use \app\components\MovieDb;
+use \app\components\YiiMixpanel;
 
 class PersonController extends Controller
 {
@@ -30,6 +31,10 @@ class PersonController extends Controller
 
 		$movies = $person->getMovies()->with('userWatches')->all();
 		$shows = $person->getShows()->with('userShows')->all();
+
+		YiiMixpanel::track('Person View', [
+			'person_id' => $person->id,
+		]);
 
 		return $this->render('view', [
 			'person' => $person,
@@ -60,6 +65,10 @@ class PersonController extends Controller
 		$person->save();
 
 		$movieDb = new MovieDb;
+
+		YiiMixpanel::track('Person Load', [
+			'person_id' => $person->id,
+		]);
 
 		if ($movieDb->syncPerson($person)) {
 			return [

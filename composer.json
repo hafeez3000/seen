@@ -24,6 +24,7 @@
 		"predis/predis": "1.0.*",
 		"predictionio/predictionio": "0.8.*",
 		"visualappeal/yii2-rollbar": "1.0.*",
+		"mixpanel/mixpanel-php": "2.6.*",
 		"bower-asset/bootstrap": "3.3.*",
 		"bower-asset/bootswatch": "3.3.*",
 		"bower-asset/select2": "3.5.*",

@@ -4,6 +4,7 @@ use \Yii;
 use \yii\base\Model;
 
 use \app\models\User;
+use \app\components\YiiMixpanel;
 
 /**
  * SignupForm is the model behind the sign up form.
@@ -41,6 +42,8 @@ class SignupForm extends Model
 			$user->email = $this->email;
 			$user->setPassword($this->password);
 			$user->save();
+
+			YiiMixpanel::createAlias(\session_id(), $user->id);
 
 			return Yii::$app->user->login($user, 3600*24*30);
 		} else {

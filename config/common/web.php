@@ -8,6 +8,7 @@ $config['bootstrap'][] = 'app\components\bootstrap\MaintenanceBootstrap';
 $config['bootstrap'][] = 'log';
 $config['bootstrap'][] = 'app\components\bootstrap\EventBootstrap';
 $config['bootstrap'][] = 'app\components\bootstrap\LanguageBootstrap';
+$config['bootstrap'][] = 'app\components\bootstrap\MixpanelBootstrap';
 
 $config['components']['user'] = [
 	'identityClass' => 'app\models\User',

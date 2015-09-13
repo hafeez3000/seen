@@ -5,6 +5,7 @@ use \yii\filters\AccessControl;
 use \yii\web\Controller;
 
 use \app\components\MovieDb;
+use \app\components\YiiMixpanel;
 
 class AuthController extends Controller
 {
@@ -82,6 +83,12 @@ class AuthController extends Controller
 		}
 
 		Yii::$app->session->setFlash('success', Yii::t('Auth/Themoviedb', 'TheMovieDB account successfully connected.'));
+
+		YiiMixpanel::track('TheMovieDB Connect', [
+			'user_id' => $user->id,
+			'themoviedb_account_id' => $accountId,
+		]);
+
 		return $this->redirect(['/user/account']);
 	}
 
@@ -92,6 +99,10 @@ class AuthController extends Controller
 	{
 		$themoviedb = new MovieDb;
 		$success = $themoviedb->syncUserRatings(Yii::$app->user->identity);
+
+		YiiMixpanel::track('TheMovieDB Sync', [
+			'user_id' => Yii::$app->user->identity->id,
+		]);
 
 		if (Yii::$app->request->isAjax) {
 			Yii::$app->response->format = Response::FORMAT_JSON;
