@@ -61,10 +61,14 @@ Der Anbieter verwendet die Protokolldaten nur für statistische Auswertungen zum
 
 <h2>Piwik</h2>
 
-<p>Dieses Angebot benutzt Piwik, eine Open-Source-Software zur statistischen Auswertung der Nutzerzugriffe. Piwik verwendet sog. “Cookies”, Textdateien, die auf dem Computer der Nutzer gespeichert werden und die eine Analyse der Benutzung der Website durch die Nutzer ermöglichen. Die durch den Cookie erzeugten Informationen über die Benutzung dieses Agebotes werden auf dem Server des Anbieters in Deutschland gespeichert. Die IP-Adresse wird sofort nach der Verarbeitung und vor deren Speicherung anonymisiert. Nutzer können die Installation der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern; Der Anbieter weisen die Nutzer jedoch darauf hin, dass sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website vollumfänglich nutzen können.</p>
+<p>Dieses Angebot benutzt Piwik, eine Open-Source-Software zur statistischen Auswertung der Nutzerzugriffe. Piwik verwendet sog. "Cookies", Textdateien, die auf dem Computer der Nutzer gespeichert werden und die eine Analyse der Benutzung der Website durch die Nutzer ermöglichen. Die durch den Cookie erzeugten Informationen über die Benutzung dieses Agebotes werden auf dem Server des Anbieters in Deutschland gespeichert. Die IP-Adresse wird sofort nach der Verarbeitung und vor deren Speicherung anonymisiert. Nutzer können die Installation der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern.</p>
 
 <iframe style="border: 0; height: 200px; width: 100%; margin: 0;" src="https://stats.visualappeal.de/index.php?module=CoreAdminHome&amp;action=optOut&amp;language=de"></iframe>
 
-<p>Die Datenschutzerklärung wurde zuletzt am 27. April 2014 bearbeitet.</p>
+<h2>Mixpanel</h2>
+
+<p><a href="https://mixpanel.com/privacy/">Mixpanel</a> ist ein Analysedienst der dabei Hilft Anwendungen zu verbessern. Mixpanel verwendet sog. "Cookies", Textdateien, die auf dem Computer der Nutzer gespeichert werden und die eine Analyse der Benutzung der Website durch die Nutzer ermöglichen. Die durch den Cookie erzeugten Informationen über die Benutzung dieses Agebotes werden auf dem Server des Anbieters in Deutschland gespeichert. Nutzer können die Installation der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern oder sich auf der Webseite des Anbieters <a href="https://mixpanel.com/optout/">austragen</a>.</p>
+
+<p>Die Datenschutzerklärung wurde zuletzt am 13. September 2015 bearbeitet.</p>
 
 <p><a href="http://rechtsanwalt-schwenke.de/smmr-buch/datenschutz-muster-generator-fuer-webseiten-blogs-und-social-media/" class="text-muted">Datenschutz-Muster von Rechtsanwalt Thomas Schwenke - I LAW it</a></p>

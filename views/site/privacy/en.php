@@ -52,10 +52,15 @@ $this->title[] = Yii::t('Site/Privacy', 'Privacy');
 
 <p><strong>SEEN</strong> has the discretion to update this privacy policy at any time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this privacy policy periodically and become aware of modifications.</p>
 
+<h2>Mixpanel</h2>
+
+<p><strong>SEEN</strong> uses <a href="https://mixpanel.com/privacy/">Mixpanel</a>, an application analytics service. If you choose to not be tracked by mixpanel you can <a href="https://mixpanel.com/optout/">opt out</a> anytime or disable cookies for this website in your browser settings.
+</p>
+
 <h2>Your acceptance of these terms</h2>
 
 <p>By using this Site, you signify your acceptance of this policy. If you do not agree to this policy, please do not use our Site. Your continued use of the Site following the posting of changes to this policy will be deemed your acceptance of those changes.</p>
 
-<p>This document was last updated on April 27, 2014</p>
+<p>This document was last updated on September 13, 2015</p>
 
 <p class="text-muted">Privacy policy created by http://www.generateprivacypolicy.com</p>
