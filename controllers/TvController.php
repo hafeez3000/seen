@@ -263,7 +263,6 @@ class TvController extends Controller
 			$userRating = null;
 
 		YiiMixpanel::track('Show TV Show', [
-			'show_id' => $show->themoviedb_id,
 			'language' => $show->language->name,
 		]);
 
@@ -311,7 +310,6 @@ class TvController extends Controller
 		$show->slug = ''; // Rewrite slug with title
 		if ($movieDb->syncShow($show)) {
 			YiiMixpanel::track('Load TV Show', [
-				'show_id' => $show->themoviedb_id,
 				'language' => $show->language->name,
 			]);
 
@@ -356,7 +354,6 @@ class TvController extends Controller
 		}
 
 		YiiMixpanel::track('Subscribe to TV Show', [
-			'show_id' => $show->themoviedb_id,
 			'language' => $show->language->name,
 		]);
 
@@ -385,7 +382,6 @@ class TvController extends Controller
 		$userShow->delete();
 
 		YiiMixpanel::track('Unsubscribe from TV Show', [
-			'show_id' => $show->themoviedb_id,
 			'language' => $show->language->name,
 		]);
 
@@ -416,7 +412,6 @@ class TvController extends Controller
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The show is already archived!'));
 
 		YiiMixpanel::track('Archive TV Show', [
-			'show_id' => $show->themoviedb_id,
 			'language' => $show->language->name,
 		]);
 
@@ -477,7 +472,6 @@ class TvController extends Controller
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The show is not archived!'));
 
 		YiiMixpanel::track('Unarchive TV Show', [
-			'show_id' => $show->themoviedb_id,
 			'language' => $show->language->name,
 		]);
 
@@ -592,7 +586,6 @@ class TvController extends Controller
 		$showRating->save();
 
 		YiiMixpanel::track('Rate TV Show', [
-			'show_id' => $show->themoviedb_id,
 			'language' => $show->language->name,
 			'rating' => $showRating->rating,
 		]);

@@ -32,9 +32,7 @@ class PersonController extends Controller
 		$movies = $person->getMovies()->with('userWatches')->all();
 		$shows = $person->getShows()->with('userShows')->all();
 
-		YiiMixpanel::track('Person View', [
-			'person_id' => $person->id,
-		]);
+		YiiMixpanel::track('Person View');
 
 		return $this->render('view', [
 			'person' => $person,
@@ -66,9 +64,7 @@ class PersonController extends Controller
 
 		$movieDb = new MovieDb;
 
-		YiiMixpanel::track('Person Load', [
-			'person_id' => $person->id,
-		]);
+		YiiMixpanel::track('Person Load');
 
 		if ($movieDb->syncPerson($person)) {
 			return [

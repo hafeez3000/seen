@@ -208,7 +208,6 @@ class MovieController extends Controller
 			$userRating = null;
 
 		YiiMixpanel::track('Show Movie', [
-			'movie_id' => $movie->themoviedb_id,
 			'language' => $movie->language->name,
 		]);
 
@@ -262,7 +261,6 @@ class MovieController extends Controller
 		$movie->slug = ''; // Rewrite slug with title
 		if ($movieDb->syncMovie($movie)) {
 			YiiMixpanel::track('Load Movie', [
-				'movie_id' => $movie->themoviedb_id,
 				'language' => $movie->language->name,
 			]);
 
@@ -304,7 +302,6 @@ class MovieController extends Controller
 			$watchlist->delete();
 
 		YiiMixpanel::track('Movie Watch', [
-			'movie_id' => $movie->themoviedb_id,
 			'language' => $movie->language->name,
 		]);
 
@@ -347,7 +344,6 @@ class MovieController extends Controller
 		$userMovie->delete();
 
 		YiiMixpanel::track('Movie Unwatch', [
-			'movie_id' => $movie->themoviedb_id,
 			'language' => $movie->language->name,
 		]);
 
@@ -397,7 +393,6 @@ class MovieController extends Controller
 		$movieRating->save();
 
 		YiiMixpanel::track('Movie Rate', [
-			'movie_id' => $movie->themoviedb_id,
 			'language' => $movie->language->name,
 			'rating' => $movieRating->rating,
 		]);

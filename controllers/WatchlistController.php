@@ -44,7 +44,6 @@ class WatchlistController extends Controller
 			Yii::$app->session->setFlash('warning', Yii::t('User/MovieWatchlist', 'The movie is already on your watchlist!'));
 		} else {
 			YiiMixpanel::track('Add Movie to Watchlist', [
-				'movie' => $movie->themoviedb_id,
 				'language' => $movie->language->name,
 			]);
 
@@ -74,7 +73,6 @@ class WatchlistController extends Controller
 			$watchlist->delete();
 
 			YiiMixpanel::track('Remove Movie from Watchlist', [
-				'movie' => $movie->themoviedb_id,
 				'language' => $movie->language->name,
 			]);
 		}
