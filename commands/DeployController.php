@@ -21,6 +21,7 @@ class DeployController extends Controller
 			'git fetch --all',
 			'git reset --hard origin/master',
 			'composer install --optimize-autoloader --no-dev --prefer-dist',
+			'npm install',
 			'./yii migrate --interactive=0',
 			'grunt build_production',
 			'./yii cache/flush cache --interactive=0',

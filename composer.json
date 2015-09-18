@@ -48,12 +48,6 @@
 	"scripts": {
 		"post-create-project-cmd": [
 			"yii\\composer\\Installer::setPermission"
-		],
-		"post-install-cmd": [
-			"npm install"
-		],
-		"post-update-cmd": [
-			"npm update"
 		]
 	},
 	"config": {
