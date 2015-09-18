@@ -11,6 +11,7 @@ install:
   - npm install -g bower
   - composer global require "fxp/composer-asset-plugin:1.0.*"
   - composer install --dev --no-progress
+  - npm install
   - echo "<?php return '/web/index-test.php';" >> ./tests/codeception/_localurl.php
   - 'cd tests && ./../vendor/bin/codecept build'
 
