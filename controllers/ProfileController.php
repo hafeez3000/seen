@@ -10,6 +10,7 @@ use \app\models\UserMovie;
 use \app\models\Show;
 use \app\models\UserShow;
 use \app\models\Language;
+use \app\components\YiiMixpanel;
 
 class ProfileController extends Controller
 {
