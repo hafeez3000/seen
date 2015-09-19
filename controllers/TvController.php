@@ -177,12 +177,21 @@ class TvController extends Controller
 		]);
 	}
 
+	/**
+	 * Display the episodes of a tv shows.
+	 *
+	 * @param string $slug
+	 *
+	 * @return string
+	 */
 	public function actionView($slug)
 	{
 		$show = Show::find()
 			->where(['slug' => $slug])
 			->with([
-				'seasons',
+				'seasons' => function($query) {
+					$query->orderBy('number DESC');
+				},
 				'seasons.episodes',
 				'creators',
 				'cast',
@@ -202,7 +211,9 @@ class TvController extends Controller
 				$show = Show::find()
 					->where(['like', 'slug', $searchSlug])
 					->with([
-						'seasons',
+						'seasons' => function($query) {
+							$query->orderBy('number DESC');
+						},
 						'seasons.episodes',
 						'creators',
 						'cast',
