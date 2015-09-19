@@ -202,6 +202,9 @@ class TvController extends Controller
 				'genres',
 			])
 			->one();
+
+		// Show was not found by slug
+		// => search by old slug format
 		if ($show === null) {
 			$searchSlug = implode('-', array_filter(explode('-', $slug), function($item) {
 				return !is_numeric($item);
@@ -233,6 +236,7 @@ class TvController extends Controller
 		if ($show === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
 
+		// Check if the show is available in the users native language
 		if ($show->language->iso != Yii::$app->language) {
 			$showNative = Show::find()
 				->select('{{%show}}.*')
@@ -246,17 +250,6 @@ class TvController extends Controller
 				])
 				->andWhere('{{%show}}.[[language_id]] = {{%language}}.[[id]]')
 				->andWhere('{{%language}}.[[iso]] = :language')
-				->with([
-					'seasons',
-					'seasons.episodes',
-					'creators',
-					'cast',
-					'cast.person',
-					'crew',
-					'crew.person',
-					'language',
-					'genres',
-				])
 				->params([
 					':language' => Yii::$app->language,
 				])
@@ -265,13 +258,15 @@ class TvController extends Controller
 			$showNative = null;
 		}
 
-		if (!Yii::$app->user->isGuest)
+		// Get user rating
+		if (!Yii::$app->user->isGuest) {
 			$userRating = UserShowRating::find()
 				->where(['user_id' => Yii::$app->user->id])
 				->where(['themoviedb_id' => $show->themoviedb_id])
 				->one();
-		else
+		} else {
 			$userRating = null;
+		}
 
 		YiiMixpanel::track('Show TV Show', [
 			'language' => $show->language->name,

@@ -31,7 +31,7 @@ $this->title[] = Yii::t('Movie/Popular', 'Movies');
 			<?php foreach ($movies as $movie): ?>
 				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 movie-popular <?php if (count($movie->userWatches) > 0): ?>movie-popular-watched<?php endif; ?>">
 					<a href="<?php echo Url::toRoute(['view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
-						<img <?php echo $movie->posterUrlLarge; ?>>
+						<img <?php echo $movie->posterLargeAttribute; ?>>
 					</a>
 				</div>
 			<?php endforeach; ?>

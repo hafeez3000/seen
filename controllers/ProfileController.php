@@ -12,6 +12,9 @@ use \app\models\UserShow;
 use \app\models\Language;
 use \app\components\YiiMixpanel;
 
+/**
+ * Manages the views for the public user profile.
+ */
 class ProfileController extends Controller
 {
 	public function beforeAction($action)

@@ -28,7 +28,7 @@ $this->title[] = Yii::t('Profile/Tv', '{name} TV Shows', [
 				<li class="tv-dashboard-show" id="show-<?php echo $show->id; ?>" data-id="<?php echo $show->id; ?>">
 					<figure>
 						<a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]) ?>" title="<?php echo $show->completeName; ?>">
-							<img <?php echo $show->posterUrl; ?> alt="<?php echo Html::encode($show->completeName); ?>" title="<?php echo Html::encode($show->completeName); ?>">
+							<img <?php echo $show->posterMediumAttribute; ?> alt="<?php echo Html::encode($show->completeName); ?>" title="<?php echo Html::encode($show->completeName); ?>">
 						</a>
 
 						<figcaption class="clearfix">

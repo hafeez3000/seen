@@ -88,7 +88,7 @@ class Person extends \yii\db\ActiveRecord
 	 *
 	 * @return string
 	 */
-	public function getProfileUrl()
+	public function getProfileSmallAttribute()
 	{
 		if (!empty($this->profile_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w45' . $this->profile_path . '"';
@@ -101,25 +101,12 @@ class Person extends \yii\db\ActiveRecord
 	 *
 	 * @return string
 	 */
-	public function getProfileUrlLarge()
+	public function getProfileMediumAttribute()
 	{
 		if (!empty($this->profile_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w185' . $this->profile_path . '"';
 		else
 			return 'data-src="holder.js/165x248/#eee:#555/text:' . $this->name . '"';
-	}
-
-	/**
-	 * Get the absolute url to the max profile image.
-	 *
-	 * @return string
-	 */
-	public function getProfileUrlOriginal()
-	{
-		if (!empty($this->profile_path))
-			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'original' . $this->profile_path . '"';
-		else
-			return 'data-src="holder.js/585x248/#eee:#555/text:' . $this->name . '"';
 	}
 
 	/**

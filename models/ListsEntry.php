@@ -180,7 +180,7 @@ class ListsEntry extends ActiveRecord
 
 		switch ($this->type) {
 			case self::TYPE_MOVIE:
-				return $this->_model->backdropUrlLarge;
+				return $this->_model->backdropLargeAttribute;
 				break;
 			case self::TYPE_TV_SHOW:
 				return $this->_model->completeName;

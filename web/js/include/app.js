@@ -151,7 +151,7 @@ function syncImportMovie() {
 
 				var imagePath = (result.poster_path && result.poster_path.length) ?
 					App.themoviedb.image_url + "w185" + result.poster_path :
-					"http://placehold.it/185x260/eee/555&text=" + encodeURIComponent(result.title);
+					"https://placehold.it/185x260/eee/555&text=" + encodeURIComponent(result.title);
 
 				$link = $("<a data-id='" + result.id + "' title='" + result.title + "'><img src='" + imagePath + "'></a>");
 				$link.on("click", function(e) {
@@ -387,7 +387,7 @@ $(function() {
 			if (poster !== false) {
 				posterUrl = App.themoviedb.image_url + "w92" + poster;
 			} else {
-				posterUrl = "http://placehold.it/92x135/eee/555&text=" + encodeURIComponent(name);
+				posterUrl = "https://placehold.it/92x135/eee/555&text=" + encodeURIComponent(name);
 			}
 
 			markup += "<td class='search-image'><img src='" + posterUrl + "'/></td>";

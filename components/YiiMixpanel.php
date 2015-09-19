@@ -24,7 +24,7 @@ class YiiMixpanel
 	/**
 	 * Init the mixpanel component
 	 *
-	 * @return [type]
+	 * @return void
 	 */
 	protected static function init()
 	{

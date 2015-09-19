@@ -13,6 +13,28 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 ?>
 
 <div id="tv-view" data-subscribed="<?php echo $show->isUserSubscribed ? 1 : 0; ?>">
+	<div id="tv-background" class="full-size-background" style="background-image: url(<?php echo $show->backdropLargeUrl; ?>)">
+		<h1><?php echo Html::encode($show->completeName); ?></h1>
+
+		<div class="tv-actions media-actions">
+			<?php if ($show->isUserSubscribed): ?>
+				<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unsubscribe', 'slug' => $show->slug]); ?>"><span class="glyphicon glyphicon-remove"></span> <?php echo Yii::t('Show', 'Unsubscribe'); ?></a>
+
+				<?php if ($show->isArchived()): ?>
+					<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Restore from archive'); ?>"><span class="glyphicon glyphicon-arrow-left"></span> <?php echo Yii::t('Show', 'Dashboard'); ?></a>
+				<?php else: ?>
+					<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Move to archive'); ?>"><span class="glyphicon glyphicon-tag"></span> <?php echo Yii::t('Show', 'Archive'); ?></a>
+				<?php endif; ?>
+			<?php else: ?>
+				<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><span class="glyphicon glyphicon-heart"></span> <?php echo Yii::t('Show', 'Subscribe'); ?></a>
+			<?php endif; ?>
+
+			<?php if (Yii::$app->user->can('admin')): ?>
+				<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'themoviedbId' => $show->themoviedb_id]); ?>"><span class="glyphicon glyphicon-refresh"></span> <?php echo Yii::t('Show', 'Sync') ?></a>
+			<?php endif; ?>
+		</div>
+	</div>
+
 	<?php if ($showNative !== null): ?>
 		<div class="alert alert-info">
 			<?php echo Yii::t('Movie', 'The Show is also available in <a href="{url}" title="{title}">{language}</a>', [
@@ -23,29 +45,10 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 		</div>
 	<?php endif; ?>
 
-	<h1>
-		<?php echo Html::encode($show->completeName); ?>
-		<?php if ($show->isUserSubscribed): ?>
-			<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unsubscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Unsubscribe'); ?></a>
-
-			<?php if ($show->isArchived()): ?>
-				<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['unarchive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Restore from archive'); ?>"><span class="glyphicon glyphicon-arrow-left"></span></a>
-			<?php else: ?>
-				<a class="btn btn-default btn-sm" href="<?php echo Url::toRoute(['archive-show', 'slug' => $show->slug]); ?>" title="<?php echo Yii::t('Show', 'Move to archive'); ?>"><span class="glyphicon glyphicon-lock"></span></a>
-			<?php endif; ?>
-		<?php else: ?>
-			<a class="btn btn-primary btn-sm" href="<?php echo Url::toRoute(['subscribe', 'slug' => $show->slug]); ?>"><?php echo Yii::t('Show', 'Subscribe'); ?></a>
-		<?php endif; ?>
-
-		<?php if (Yii::$app->user->can('admin')): ?>
-			<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'themoviedbId' => $show->themoviedb_id]); ?>"><?php echo Yii::t('Show', 'Sync') ?></a>
-		<?php endif; ?>
-	</h1>
-
 	<div id="tv-view-content" class="row">
 		<div id="tv-view-information" class="col-sm-6 col-md-5 col-lg-4">
 			<div id="tv-view-backdrop">
-				<img <?php echo $show->backdropUrl; ?> alt="<?php echo Html::encode($show->completeName); ?>">
+				<img <?php echo $show->posterLargeAttribute; ?> alt="<?php echo Html::encode($show->completeName); ?>">
 			</div>
 
 			<?php if (!empty($show->overview)): ?>
@@ -164,7 +167,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 										'character' => $cast->character,
 									]
 								)) : Html::encode($cast->person->name); ?>">
-									<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Show/View', '{name} as {character}', [
+									<img <?php echo $cast->person->profileMediumAttribute; ?> alt="<?php echo Html::encode(Yii::t('Show/View', '{name} as {character}', [
 										'name' => $cast->person->name,
 										'character' => $cast->character,
 									])); ?>">

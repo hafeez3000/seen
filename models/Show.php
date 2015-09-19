@@ -584,12 +584,12 @@ class Show extends ActiveRecord
 	 *
 	 * @return string
 	 */
-	public function getBackdropUrl()
+	public function getBackdropLargeUrl()
 	{
 		if (!empty($this->backdrop_path))
-			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w780' . $this->backdrop_path . '"';
+			return Yii::$app->params['themoviedb']['image_url'] . 'w1280' . $this->backdrop_path;
 		else
-			return 'data-src="holder.js/720x720/#eee:#555/text:' . $this->name . '"';
+			return 'https://placehold.it/1280x500/eee/555&text=' . urlencode(Yii::t('Show', 'No Image'));
 	}
 
 	/**
@@ -597,7 +597,7 @@ class Show extends ActiveRecord
 	 *
 	 * @return string
 	 */
-	public function getPosterUrl()
+	public function getPosterMediumAttribute()
 	{
 		if (!empty($this->poster_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w185' . $this->poster_path . '"';
@@ -610,7 +610,7 @@ class Show extends ActiveRecord
 	 *
 	 * @return string
 	 */
-	public function getPosterUrlLarge()
+	public function getPosterLargeAttribute()
 	{
 		if (!empty($this->poster_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w500' . $this->poster_path . '"';

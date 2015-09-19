@@ -17,7 +17,7 @@ $this->title[] = Yii::t('Person/View', 'Persons');
 
 	<div class="row">
 		<div class="col-sm-4 col-md-3 col-lg-2">
-			<img <?php echo $person->profileUrlLarge; ?>>
+			<img <?php echo $person->profileMediumAttribute; ?>>
 		</div>
 
 		<div class="col-sm-8 col-md-9 col-lg-10">
@@ -70,7 +70,7 @@ $this->title[] = Yii::t('Person/View', 'Persons');
 					<?php foreach ($movies as $movie): ?>
 						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 <?php if (count($movie->userWatches) > 0): ?>person-view-movie-watched<?php endif; ?>">
 							<a href="<?php echo Url::toRoute(['movie/view', 'slug' => $movie->slug]); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
-								<img <?php echo $movie->posterUrlLarge; ?>>
+								<img <?php echo $movie->posterLargeAttribute; ?>>
 							</a>
 						</div>
 					<?php endforeach; ?>
@@ -84,7 +84,7 @@ $this->title[] = Yii::t('Person/View', 'Persons');
 					<?php foreach ($shows as $show): ?>
 						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 <?php if ($show->isUserSubscribed): ?>person-view-show-subscribed<?php endif; ?>">
 							<a href="<?php echo Url::toRoute(['tv/view', 'slug' => $show->slug]); ?>" title="<?php echo Html::encode($show->name); ?>">
-								<img <?php echo $show->posterUrlLarge; ?>>
+								<img <?php echo $show->posterLargeAttribute; ?>>
 							</a>
 						</div>
 					<?php endforeach; ?>

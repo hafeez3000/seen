@@ -21,11 +21,35 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 		</div>
 	<?php endif; ?>
 
-	<h1><?php echo Html::encode($movie->completeTitle); ?></h1>
+	<div id="movie-background" class="full-size-background" style="background-image: url(<?php echo $movie->backdropLargeUrl; ?>)">
+		<h1><?php echo Html::encode($movie->completeTitle); ?></h1>
+
+		<div class="movie-actions media-actions">
+			<?php if (count($userMovies) === 0): ?>
+				<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-sm btn-primary">
+					<span class="glyphicon glyphicon-film"></span> <?php echo Yii::t('Movie/View', 'Watched'); ?>
+				</a>
+			<?php else: ?>
+				<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-sm btn-default">
+					<span class="glyphicon glyphicon-film"></span> <?php echo Yii::t('Movie/View', 'Watched again'); ?>
+				</a>
+			<?php endif; ?>
+
+			<?php if ($movie->onWatchlist): ?>
+				<a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-sm btn-default">
+					<span class="glyphicon glyphicon-remove"></span> <?php echo Yii::t('Movie/View', 'Remove from watchlist'); ?>
+				</a>
+			<?php else: ?>
+				<a href="<?php echo Url::toRoute(['watchlist/add', 'slug' => $movie->slug]); ?>" class="btn btn-sm btn-success">
+					<span class="glyphicon glyphicon-tag"></span> <?php echo Yii::t('Movie/View', 'Add to watchlist'); ?>
+				</a>
+			<?php endif; ?>
+		</div>
+	</div>
 
 	<div class="row">
 		<div class="col-sm-4">
-			<img <?php echo $movie->posterUrlLarge; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
+			<img <?php echo $movie->posterLargeAttribute; ?> alt="<?php echo Html::encode($movie->completeTitle); ?>" title="<?php echo Html::encode($movie->completeTitle); ?>">
 		</div>
 
 		<div class="col-sm-8">
@@ -43,30 +67,6 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 				</div>
 
 				<div class="col-md-5 movie-view-details" id="movie-view-details-side">
-					<?php if (count($userMovies) === 0): ?>
-						<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-primary">
-							<?php echo Yii::t('Movie/View', 'Watched'); ?>
-						</a>
-					<?php else: ?>
-						<a href="<?php echo Url::toRoute(['watch', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
-							<?php echo Yii::t('Movie/View', 'Watched again'); ?>
-						</a>
-					<?php endif; ?>
-
-					<br>
-
-					<?php if ($movie->onWatchlist): ?>
-						<a href="<?php echo Url::toRoute(['watchlist/remove', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-default">
-							<?php echo Yii::t('Movie/View', 'Remove from watchlist'); ?>
-						</a>
-					<?php else: ?>
-						<a href="<?php echo Url::toRoute(['watchlist/add', 'slug' => $movie->slug]); ?>" class="btn btn-block btn-sm btn-success">
-							<?php echo Yii::t('Movie/View', 'Add to watchlist'); ?>
-						</a>
-					<?php endif; ?>
-
-					<br>
-
 					<?php echo $this->render('_details', [
 						'movie' => $movie,
 						'userMovies' => $userMovies,
@@ -101,7 +101,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 										'character' => $cast->character,
 									]
 								)) : Html::encode($cast->person->name); ?>">
-									<img <?php echo $cast->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
+									<img <?php echo $cast->person->profileMediumAttribute; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{name} as {character}', [
 										'name' => $cast->person->name,
 										'character' => $cast->character,
 									])); ?>">
@@ -123,7 +123,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 									'name' => $crew->person->name,
 									'job' => $crew->job,
 								])); ?>">
-									<img <?php echo $crew->person->profileUrl; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+									<img <?php echo $crew->person->profileMediumAttribute; ?> alt="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
 										'name' => $crew->person->name,
 										'job' => $crew->job,
 									])); ?>">
@@ -143,7 +143,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 							<?php if ($similarMovie->id != $movie->id): ?>
 								<li class="<?php if (count($similarMovie->userWatches) > 0): ?>movie-view-similar-watched<?php endif; ?>">
 									<a href="<?php echo Url::toRoute(['view', 'slug' => $similarMovie->slug]); ?>" title="<?php echo Html::encode($similarMovie->title); ?>">
-										<img <?php echo $similarMovie->posterUrlSmall; ?> alt="<?php echo Html::encode($similarMovie->title); ?>">
+										<img <?php echo $similarMovie->posterSmallAttribute; ?> alt="<?php echo Html::encode($similarMovie->title); ?>">
 									</a>
 								</li>
 							<?php endif; ?>
