@@ -10,6 +10,13 @@ use \app\components\YiiMixpanel;
 
 class PersonController extends Controller
 {
+	/**
+	 * Disable CSRF validation for ajax requests.
+	 *
+	 * @param yii\base\Action $action
+	 *
+	 * @return boolean
+	 */
 	public function beforeAction($action)
 	{
 		if (Yii::$app->request->isAjax)
@@ -18,6 +25,13 @@ class PersonController extends Controller
 		return parent::beforeAction($action);
 	}
 
+	/**
+	 * Displays a person
+	 *
+	 * @param string $id
+	 *
+	 * @return string
+	 */
 	public function actionView($id)
 	{
 		$person = Person::find()
@@ -32,7 +46,7 @@ class PersonController extends Controller
 		$movies = $person->getMovies()->with('userWatches')->all();
 		$shows = $person->getShows()->with('userShows')->all();
 
-		YiiMixpanel::track('Person View');
+		YiiMixpanel::track('Show Person');
 
 		return $this->render('view', [
 			'person' => $person,
@@ -41,6 +55,11 @@ class PersonController extends Controller
 		]);
 	}
 
+	/**
+	 * Load a person from TheMovieDB.
+	 *
+	 * @return array
+	 */
 	public function actionLoad()
 	{
 		Yii::$app->response->format = Response::FORMAT_JSON;

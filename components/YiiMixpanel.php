@@ -14,10 +14,12 @@ class YiiMixpanel
 	 */
 	protected static function isBot()
 	{
-		if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT'])) {
-			return true;
-		} else {
-			return false;
+		if (isset($_SERVER['HTTP_USER_AGENT'])) {
+			if (preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT']) === 1) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -28,10 +30,9 @@ class YiiMixpanel
 	 */
 	protected static function init()
 	{
-		if (isset(Yii::$app->params['mixpanel']) && !self::isBot() && self::$mp === null)
+		if (isset(Yii::$app->params['mixpanel']) && !self::isBot() && self::$mp === null) {
 			self::$mp =  Mixpanel::getInstance(Yii::$app->params['mixpanel']);
-		else
-			self::$mp = null;
+		}
 	}
 
 	/**
