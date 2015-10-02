@@ -487,6 +487,8 @@ $(function() {
 						window.location.href = data.url;
 					} else if (data && !data.success && data.message) {
 						App.error(data.message);
+					} else {
+						App.error('Unknown response');
 					}
 				}
 			},
