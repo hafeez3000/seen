@@ -3,8 +3,6 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
-use \predictionio\EngineClient;
-
 use \app\components\TimestampBehavior;
 
 /**
@@ -519,49 +517,6 @@ class Show extends ActiveRecord
 				':user_id' => Yii::$app->user->id,
 				':show_id' => $this->id,
 			]);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public static function getRecommend()
-	{
-		return [];
-
-		// ToDo: Implement PredictionIO
-		try {
-			$client = new EngineClient(Yii::$app->params['prediction']['engineserver']);
-
-			$showIds = $client->sendQuery([
-				'user' => Yii::$app->user->id,
-				'num' => 50,
-				'item' => 'movie',
-			])['itemScores'];
-
-			$showIds = array_map(function($item) {
-				return (int) str_replace('tv-', '', $item['item']);
-			}, $showIds);
-
-			$query = Show::find()
-				->distinct()
-				->select('{{%show}}.*')
-				->from([
-					'{{%show}}',
-					'{{%language}}',
-				])
-				->where(['in', '{{%show}}.[[themoviedb_id]]', $showIds])
-				->andWhere('{{%show}}.[[language_id]] = {{%language}}.[[id]]')
-				->andWhere('{{%language}}.[[iso]] = :language')
-				->params([
-					':language' => Yii::$app->language,
-				]);
-
-			return $query;
-		} catch (\Exception $e) {
-			Yii::error('Error while getting user movie predictions:' . $e->getMessage());
-
-			return Show::find()->where(['id' => 0]);
-		}
 	}
 
 	/**

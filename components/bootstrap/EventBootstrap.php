@@ -5,8 +5,6 @@ use \yii\base\BootstrapInterface;
 use \yii\base\Event;
 use \yii\db\ActiveRecord;
 
-use \predictionio\EventClient;
-
 use \app\models\User;
 use \app\models\UserShow;
 use \app\models\UserShowRun;
@@ -31,68 +29,6 @@ class EventBootstrap implements BootstrapInterface
 			$run->user_id = $userShow->user_id;
 			$run->show_id = $userShow->show_id;
 			$run->save();
-		});
-
-		// Add user movie to prediction.io
-		Event::on(UserMovie::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
-			$userMovie = $event->sender;
-
-			$client = new EventClient(Yii::$app->params['prediction']['key'], Yii::$app->params['prediction']['eventserver']);
-
-			try {
-				$client->createEvent([
-					'event' => 'view',
-					'entityType' => 'user',
-					'entityId' => $userMovie->user_id,
-					'targetEntityType' => 'movie',
-					'targetEntityId' => 'movie-' . $userMovie->movie->themoviedb_id,
-				]);
-			} catch (\Exception $e) {
-				Yii::error('Error while adding user to prediction.io:' . $e->getMessage());
-			}
-		});
-
-		Event::on(UserMovie::className(), ActiveRecord::EVENT_AFTER_DELETE, function($event) {
-			$userMovie = $event->sender;
-
-			$client = new EventClient(Yii::$app->params['prediction']['key'], Yii::$app->params['prediction']['eventserver']);
-
-			try {
-				$client->deleteItem('movie-' . $userMovie->movie->themoviedb_id);
-			} catch (\Exception $e) {
-				Yii::error('Error while adding user to prediction.io:' . $e->getMessage());
-			}
-		});
-
-		// Add user show to prediction.io
-		Event::on(UserShow::className(), ActiveRecord::EVENT_AFTER_INSERT, function($event) {
-			$userShow = $event->sender;
-
-			$client = new EventClient(Yii::$app->params['prediction']['key'], Yii::$app->params['prediction']['eventserver']);
-
-			try {
-				$client->createEvent([
-					'event' => 'view',
-					'entityType' => 'user',
-					'entityId' => $userShow->user_id,
-					'targetEntityType' => 'tv',
-					'targetEntityId' => 'tv-' . $userShow->show->themoviedb_id,
-				]);
-			} catch (\Exception $e) {
-				Yii::error('Error while adding user show to prediction.io:' . $e->getMessage());
-			}
-		});
-
-		Event::on(UserShow::className(), ActiveRecord::EVENT_AFTER_DELETE, function($event) {
-			$userShow = $event->sender;
-
-			$client = new EventClient(Yii::$app->params['prediction']['key'], Yii::$app->params['prediction']['eventserver']);
-
-			try {
-				$client->deleteItem('tv-' . $userShow->show->themoviedb_id);
-			} catch (\Exception $e) {
-				Yii::error('Error while adding user to prediction.io:' . $e->getMessage());
-			}
 		});
 
 		// Send welcome email

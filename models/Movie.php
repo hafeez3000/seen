@@ -3,8 +3,6 @@
 use \Yii;
 use \yii\db\ActiveRecord;
 
-use predictionio\EngineClient;
-
 use \app\components\TimestampBehavior;
 
 /**
@@ -319,7 +317,10 @@ class Movie extends ActiveRecord
 			return $this->original_title;
 	}
 
-	protected static function getStandardRecommendations()
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public static function getRecommend()
 	{
 		return Movie::find()
 			->distinct()
@@ -351,53 +352,6 @@ class Movie extends ActiveRecord
 				':user_id' => Yii::$app->user->id,
 				':language' => Yii::$app->language,
 			]);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public static function getRecommend()
-	{
-		return self::getStandardRecommendations();
-
-		// ToDo: Implement PredictionIO
-		try {
-			$client = new EngineClient(Yii::$app->params['prediction']['engineserver']);
-
-			$movieIds = $client->sendQuery([
-				'user' => Yii::$app->user->id,
-				'num' => 50,
-				'item' => 'movie',
-			])['itemScores'];
-
-			$movieIds = array_map(function($item) {
-				return (int) str_replace('movie-', '', $item['item']);
-			}, $movieIds);
-
-			$query = Movie::find()
-				->distinct()
-				->select('{{%movie}}.*')
-				->from([
-					'{{%movie}}',
-					'{{%language}}',
-				])
-				->where(['in', '{{%movie}}.[[themoviedb_id]]', $movieIds])
-				->andWhere('{{%movie}}.[[language_id]] = {{%language}}.[[id]]')
-				->andWhere('{{%language}}.[[iso]] = :language')
-				->params([
-					':language' => Yii::$app->language,
-				]);
-
-			if ($query->count() <= 5) {
-				return self::getStandardRecommendations();
-			}
-
-			return $query;
-		} catch (\Exception $e) {
-			Yii::error('Error while getting user predictions from prediction.io:' . $e->getMessage());
-
-			return self::getStandardRecommendations();
-		}
 	}
 
 	/**
