@@ -1,7 +1,5 @@
 <?php
 
-use \Yii;
-
 use \app\components\rules\ViewEmailsInGroupRule;
 use \app\components\rules\ReplyEmailsInGroupRule;
 use \app\components\rules\ManageEmailGroupsRule;
