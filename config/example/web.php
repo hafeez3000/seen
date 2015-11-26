@@ -18,4 +18,6 @@ $config['components']['cache'] = [
 	'class' => 'yii\caching\DummyCache',
 ];
 
+$config['components']['urlManager']['baseUrl'] = 'http://seen.app/';
+
 return $config;

@@ -20,6 +20,7 @@ $config['components']['cache'] = [
         'class' => 'yii\caching\FileCache',
 ];
 
+$config['components']['urlManager']['baseUrl'] = 'http://seen.app/';
 $config['components']['log']['flushInterval'] = 100;
 
 return $config;
