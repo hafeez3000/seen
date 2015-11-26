@@ -225,10 +225,12 @@ function syncImportMovie() {
 /**
  * Mixpanel
  */
-if (App.user.guest === false)
-	mixpanel.identify(App.user.id);
+if (typeof mixpanel != 'undefined') {
+	if (App.user.guest === false)
+		mixpanel.identify(App.user.id);
 
-mixpanel.people.set(App.user);
+	mixpanel.people.set(App.user);
+}
 
 $(function() {
 	console.log("Init application...");
