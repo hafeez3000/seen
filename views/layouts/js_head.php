@@ -76,7 +76,7 @@
 			"guest": false,
 			"id": <?php echo Yii::$app->user->identity->id; ?>,
 			"email": "<?php echo Yii::$app->user->identity->email; ?>",
-			"language": "<?php echo Yii::$app->user->identity->language->name; ?>",
+			"language": "<?php echo isset(Yii::$app->user->identity->language->name) ? Yii::$app->user->identity->language->name : 'English'; ?>",
 			"timezone": "<?php echo Yii::$app->user->identity->timezone; ?>",
 			"themoviedb_account": <?php echo !empty(Yii::$app->user->identity->themoviedb_account_id) ? 'true' : 'false'; ?>,
 			"public_profile": <?php echo Yii::$app->user->identity->profile_public ? 'true' : 'false'; ?>,
