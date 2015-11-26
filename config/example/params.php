@@ -23,8 +23,8 @@ return [
 		],
 	],
 	'mailchimp' => [
-		'apikey' => '',
-		'listid' => '',
+		'apikey' => 'INVALID',
+		'listid' => 'INVALID',
 	],
 	'salt' => '$6$rounds=10000$12345678abcdefg$',
 	'lang' => [
