@@ -230,6 +230,13 @@ if (typeof mixpanel != 'undefined') {
 		mixpanel.identify(App.user.id);
 
 	mixpanel.people.set(App.user);
+} else {
+	var mixpanel = {
+		track: function() {
+			console.debug('Mixpanel is not loaded!');
+			return false;
+		}
+	}
 }
 
 $(function() {
