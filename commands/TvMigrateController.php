@@ -7,6 +7,7 @@ use \app\components\MovieDb;
 use \app\models\Show;
 use \app\models\Movie;
 use \app\models\Language;
+use \app\models\Person;
 
 /**
  * Migrate old tv shows to the new themoviedb format.
