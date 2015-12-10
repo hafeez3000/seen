@@ -314,7 +314,7 @@ class TvController extends Controller
 		$movieDb = new MovieDb;
 
 		$show->slug = ''; // Rewrite slug with title
-		if ($movieDb->syncShow($show)) {
+		if ($movieDb->syncShow($show, true)) {
 			YiiMixpanel::track('Load TV Show', [
 				'language' => $show->language->name,
 			]);

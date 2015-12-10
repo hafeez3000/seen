@@ -83,6 +83,8 @@ class MovieDb
 		]);
 		$url = Yii::$app->params['themoviedb']['url'] . $path . '?' . http_build_query($parameters);
 
+		Yii::info('Call api at ' . $url);
+
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -379,7 +381,15 @@ class MovieDb
 		}, $results);
 	}
 
-	public function syncShow($show)
+	/**
+	 * Load tv show details from TheMovieDB and save them in the database.
+	 *
+	 * @param id $show TheMovieDB Show ID
+	 * @param boolean $syncSeasons Sync tv show seasons
+	 *
+	 * @return boolean
+	 */
+	public function syncShow($show, $syncSeasons = false)
 	{
 		Yii::info("Syncing tv show #{$show->id} '{$show->name}'...", 'application\sync');
 
@@ -504,6 +514,10 @@ class MovieDb
 					$season->save();
 
 					$show->link('seasons', $season);
+
+					if ($syncSeasons)
+						$this->syncSeason($season);
+
 					continue;
 				}
 
