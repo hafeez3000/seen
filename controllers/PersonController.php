@@ -28,18 +28,29 @@ class PersonController extends Controller
 	/**
 	 * Displays a person
 	 *
-	 * @param string $id
+	 * @param string $slug
 	 *
 	 * @return string
 	 */
-	public function actionView($id)
+	public function actionView($slug)
 	{
-		$person = Person::find()
-			->where(['id' => $id])
-			->with([
-				'aliases'
-			])
-			->one();
+		if (is_numeric($slug)) {
+			$person = Person::find()
+				->where(['id' => $slug])
+				->one();
+
+			if ($person !== null && !empty($person->slug)) {
+				return $this->redirect(['person/view', 'slug' => $person->slug], 301);
+			}
+		} else {
+			$person = Person::find()
+				->where(['slug' => $slug])
+				->with([
+					'aliases'
+				])
+				->one();
+		}
+
 		if ($person === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Person/View', 'The person could not be found!'));
 
@@ -74,7 +85,7 @@ class PersonController extends Controller
 		if ($person !== null)
 			return [
 				'success' => true,
-				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/person/view', 'id' => $person->id])
+				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/person/view', 'slug' => $person->slug])
 			];
 
 		$person = new Person;
@@ -88,7 +99,7 @@ class PersonController extends Controller
 		if ($movieDb->syncPerson($person)) {
 			return [
 				'success' => true,
-				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/person/view', 'id' => $person->id])
+				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/person/view', 'slug' => $person->slug])
 			];
 		} else {
 			return [

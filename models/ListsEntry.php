@@ -213,7 +213,7 @@ class ListsEntry extends ActiveRecord
 				return Yii::$app->urlManager->createAbsoluteUrl(['/tv/view', 'slug' => $this->_model->slug]);
 				break;
 			case self::TYPE_PERSON:
-				return Yii::$app->urlManager->createAbsoluteUrl(['/person/view', 'id' => $this->_model->id]);
+				return Yii::$app->urlManager->createAbsoluteUrl(['/person/view', 'slug' => $this->_model->slug]);
 				break;
 			default:
 				throw new \yii\web\BadRequestHttpException(sprintf('Unknown type %d', $this->type));

@@ -101,7 +101,7 @@ class SitemapController extends Controller
 		$personSitemap = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"></urlset>');
 		foreach (Person::find()->where(['deleted_at' => null])->asArray()->each(1000) as $person) {
 			$url = $personSitemap->addChild('url');
-			$url->addChild('loc', Yii::$app->urlManager->createAbsoluteUrl(['person/view', 'id' => $person['id']]));
+			$url->addChild('loc', Yii::$app->urlManager->createAbsoluteUrl(['person/view', 'slug' => $person['slug']]));
 			$url->addChild('lastmod', date(DATE_ATOM, strtotime($person['updated_at'])));
 		}
 		if (file_put_contents(__DIR__ . '/../assets/sitemaps/actors.xml', $personSitemap->asXML()) === false) {

@@ -10,6 +10,7 @@ use \app\components\TimestampBehavior;
  *
  * @property integer $id
  * @property string $name
+ * @property string $slug
  * @property string $biography
  * @property string $birthday
  * @property string $deathday
@@ -45,7 +46,7 @@ class Person extends \yii\db\ActiveRecord
 			[['birthday', 'deathday'], 'date', 'format' => 'php:Y-m-d'],
 			[['created_at', 'updated_at', 'deleted_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
 			[['adult'], 'boolean'],
-			[['name', 'homepage', 'place_of_birth', 'profile_path'], 'string', 'max' => 255]
+			[['name', 'slug', 'homepage', 'place_of_birth', 'profile_path'], 'string', 'max' => 255]
 		];
 	}
 
@@ -57,6 +58,7 @@ class Person extends \yii\db\ActiveRecord
 		return [
 			'id' => Yii::t('Person', 'ID'),
 			'name' => Yii::t('Person', 'Name'),
+			'slug' => Yii::t('Person', 'Slug'),
 			'biography' => Yii::t('Person', 'Biography'),
 			'birthday' => Yii::t('Person', 'Birthday'),
 			'deathday' => Yii::t('Person', 'Deathday'),
@@ -79,6 +81,15 @@ class Person extends \yii\db\ActiveRecord
 					ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
 					ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
 				],
+			],
+			'slug' => [
+				'class' => 'Zelenin\yii\behaviors\Slug',
+				'attribute' => ['id', 'name'],
+				'slugAttribute' => 'slug',
+				'replacement' => '-',
+				'lowercase' => true,
+				'ensureUnique' => true,
+				'immutable' => false,
 			],
 		];
 	}

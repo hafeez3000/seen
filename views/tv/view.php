@@ -160,7 +160,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 					<ul id="tv-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($show->cast as $cast): ?>
 							<li>
-								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $cast->person->id]); ?>" title="<?php echo (!empty($cast->character)) ? Html::encode(Yii::t('Show/View',
+								<a href="<?php echo Url::toRoute(['/person/view', 'slug' => $cast->person->slug]); ?>" title="<?php echo (!empty($cast->character)) ? Html::encode(Yii::t('Show/View',
 									'{name} as {character}',
 									[
 										'name' => $cast->person->name,
@@ -184,7 +184,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 
 					<div id="tv-view-crew" class="list-unstyled">
 						<?php foreach ($show->crew as $crew): ?>
-							<a href="<?php echo Url::toRoute(['/person/view', 'id' => $crew->person->id]); ?>"><?php echo Html::encode($crew->person->name); ?></a>,&nbsp;
+							<a href="<?php echo Url::toRoute(['/person/view', 'slug' => $crew->person->slug]); ?>"><?php echo Html::encode($crew->person->name); ?></a>,&nbsp;
 						<?php endforeach; ?>
 					</div>
 				</div>

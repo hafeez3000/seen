@@ -51,6 +51,10 @@ $config['components']['urlManager'] = [
 		'watchlist/add/<slug:.*?>' => 'watchlist/add',
 		'watchlist/remove/<slug:.*?>' => 'watchlist/remove',
 
+		// Persons
+		'person/load' => 'person/load',
+		'person/<slug:.*?>' => 'person/view',
+
 		// Oauth
 		'login/oauth/authorize' => 'oauth/authorize',
 		'POST login/oauth/access_token' => 'oauth/access-token',

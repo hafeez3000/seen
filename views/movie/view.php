@@ -94,7 +94,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-cast" class="list-unstyled list-inline">
 						<?php foreach ($movie->cast as $cast): ?>
 							<li>
-								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $cast->person->id]); ?>" title="<?php echo (!empty($cast->character)) ? Html::encode(Yii::t('Movie',
+								<a href="<?php echo Url::toRoute(['/person/view', 'slug' => $cast->person->slug]); ?>" title="<?php echo (!empty($cast->character)) ? Html::encode(Yii::t('Movie',
 									'{name} as {character}',
 									[
 										'name' => $cast->person->name,
@@ -119,7 +119,7 @@ $this->title[] = Yii::t('Movie/View', 'Movies');
 					<ul id="movie-view-crew" class="list-unstyled list-inline">
 						<?php foreach ($movie->crew as $crew): ?>
 							<li>
-								<a href="<?php echo Url::toRoute(['/person/view', 'id' => $crew->person->id]); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
+								<a href="<?php echo Url::toRoute(['/person/view', 'slug' => $crew->person->slug]); ?>" title="<?php echo Html::encode(Yii::t('Movie', '{job}: {name}', [
 									'name' => $crew->person->name,
 									'job' => $crew->job,
 								])); ?>">
