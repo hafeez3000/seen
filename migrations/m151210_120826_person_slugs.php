@@ -17,13 +17,13 @@ class m151210_120826_person_slugs extends Migration
 		$i = 0;
 		$personCount = $persons->count();
 
-		foreach ($persons->each() as $person) {
+		foreach ($persons->each(1000) as $person) {
 			if ($i % 10000 === 0) {
 				echo "Migrated person slug {$i}/{$personCount}\n";
 			}
 
 			$person->save();
-			$i++;
+			$i += 1000;
 		}
 	}
 
