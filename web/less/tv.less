@@ -339,6 +339,19 @@
 	}
 }
 
+#tv-popular {
+	.tv-dashboard-show-subscribed {
+		img {
+			.grayscale();
+			.transition(all .3s ease);
+
+			&:hover {
+				.grayscale-disable();
+			}
+		}
+	}
+}
+
 /*#tv-view-cast {
 	a {
 		display: block;
