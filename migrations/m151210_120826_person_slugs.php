@@ -23,7 +23,7 @@ class m151210_120826_person_slugs extends Migration
 			}
 
 			$person->save();
-			$i += 1000;
+			$i++;
 		}
 	}
 

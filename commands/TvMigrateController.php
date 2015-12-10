@@ -314,4 +314,27 @@ class TvMigrateController extends Controller
 
 		echo "Deleted {$shows} shows and {$movies} movies\n";
 	}
+
+	/**
+	 * Add slugs to persons.
+	 *
+	 * @return void
+	 */
+	public function actionAddPersonSlugs()
+	{
+		$persons = Person::find()
+			->where(['slug' => null]);
+
+		$i = 0;
+		$personCount = $persons->count();
+
+		foreach ($persons->each(1000) as $person) {
+			if ($i % 10000 === 0) {
+				echo "Migrated person slug {$i}/{$personCount}\n";
+			}
+
+			$person->save();
+			$i++;
+		}
+	}
 }
