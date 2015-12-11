@@ -9,7 +9,7 @@ class m151210_120826_person_slugs extends Migration
 {
 	public function up()
 	{
-		$this->addColumn('{{%person}}', 'slug', 'varchar(255) AFTER {{name}}');
+		$this->addColumn('{{%person}}', 'slug', 'varchar(255) AFTER [[name]]');
 
 		$persons = Person::find()
 			->where(['slug' => null]);
