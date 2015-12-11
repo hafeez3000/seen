@@ -566,7 +566,8 @@ class ApiV1Controller extends Controller
 			SELECT
 				IF(LENGTH({{%show}}.[[name]]) > 0, {{%show}}.[[name]], {{%show}}.[[original_name]]) as [[name]],
 				{{%season}}.[[number]] AS [[season]],
-				{{%episode}}.[[number]] AS [[episode]]
+				{{%episode}}.[[number]] AS [[episode]],
+				{{%show}}.[[themoviedb_id]]
 			FROM
 				{{%user_show}},
 				{{%show}},
