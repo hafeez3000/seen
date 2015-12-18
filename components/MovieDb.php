@@ -1706,6 +1706,7 @@ class MovieDb
 				case 'images':
 				case 'videos':
 				case 'general':
+				case 'freebase_id':
 				case 'freebase_mid':
 				case 'tvdb_id':
 				case 'tvrage_id':
