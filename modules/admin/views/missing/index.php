@@ -28,6 +28,8 @@ $this->title[] = Yii::t('Admin', 'Missing Episodes');
 
 			console.info("Sync", offset, "seasons of season", season, "from show", id);
 
+			$element.html("<div class='spinner-loader' style='font-size: 3px; font-color: #333;'>Loading...</div>");
+
 			async.eachLimit(offsets, 4, function(offset, cb) {
 				console.debug("Starting to sync offset", offset);
 				var url = "<?php echo Yii::$app->urlManager->createAbsoluteUrl(['/admin/missing/sync-multiple']); ?>";
@@ -61,6 +63,6 @@ $this->title[] = Yii::t('Admin', 'Missing Episodes');
 
 <ul>
 	<?php foreach ($seasons as $season): ?>
-		<li><a href="https://www.themoviedb.org/tv/<?php echo $season['themoviedb_id']; ?>/season/<?php echo $season['number']; ?>" target="_blank"><?php echo $season['original_name']; ?> (S<?php echo $season['number']; ?>)</a> <a href="#" class="sync-season" data-id="<?php echo $season['themoviedb_id']; ?>" data-count="<?php echo $season['season_count']; ?>" data-season="<?php echo $season['number']; ?>"><i class="glyphicon glyphicon-refresh"></i> [<?php echo $season['season_count']; ?>]</a></li>
+		<li><a href="<?php echo Yii::$app->urlManager->createAbsoluteUrl(['/']); ?>tv/<?php echo $season['themoviedb_id']; ?>" title="Show on SEEN"><?php echo $season['original_name']; ?> (S<?php echo $season['number']; ?>)</a> <a href="https://www.themoviedb.org/tv/<?php echo $season['themoviedb_id']; ?>/season/<?php echo $season['number']; ?>" title="Show on TheMovieDB"><i class="glyphicon glyphicon-share"></i></a> <a href="#" class="sync-season" data-id="<?php echo $season['themoviedb_id']; ?>" data-season="<?php echo $season['number']; ?>" title="Sync missing episodes"><i class="glyphicon glyphicon-refresh"></i></a></li>
 	<?php endforeach; ?>
 </ul>

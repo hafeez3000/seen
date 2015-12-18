@@ -188,6 +188,7 @@ class TvController extends Controller
 	{
 		$show = Show::find()
 			->where(['slug' => $slug])
+			->orWhere(['themoviedb_id' => $slug])
 			->with([
 				'seasons' => function($query) {
 					$query->orderBy('number DESC');
@@ -235,6 +236,11 @@ class TvController extends Controller
 
 		if ($show === null)
 			throw new \yii\web\NotFoundHttpException(Yii::t('Show', 'The TV Show could not be found!'));
+
+		// Redirect if only ID was given
+		if ((string) $show->themoviedb_id == (string) $slug) {
+			return $this->redirect(['/tv/view', 'slug' => $show->slug]);
+		}
 
 		// Check if the show is available in the users native language
 		if ($show->language->iso != Yii::$app->language) {

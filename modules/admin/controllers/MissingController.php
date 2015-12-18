@@ -149,34 +149,13 @@ class MissingController extends BaseController
 					FROM
 						{{%episode}}
 					WHERE
+						{{%episode}}.[[deleted_at]] IS NULL AND
 						{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
 						{{%season}}.[[number]] <> 0
 					HAVING
 						COUNT({{%episode}}.[[number]]) < MAX({{%episode}}.[[number]])
 				)
 		')->queryAll();
-
-		for ($i = 0; $i < count($seasons); $i++) {
-			$command = Yii::$app->db->createCommand('
-				SELECT
-					COUNT({{%season}}.[[id]]) AS [[count]]
-				FROM
-					{{%season}},
-					{{%show}}
-				WHERE
-					{{%show}}.[[themoviedb_id]] = :themoviedb_id AND
-					{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
-					{{%season}}.[[number]] = :season_number
-				', [
-					':themoviedb_id' => $seasons[$i]['themoviedb_id'],
-				]);
-			$command->bindValues([
-				':themoviedb_id' => $seasons[$i]['themoviedb_id'],
-				':season_number' => $seasons[$i]['number'],
-			]);
-			$countRaw = $command->queryOne();
-			$seasons[$i]['season_count'] = $countRaw['count'];
-		}
 
 		return $this->render('index', [
 			'seasons' => $seasons,
