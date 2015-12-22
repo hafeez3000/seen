@@ -45,6 +45,11 @@ class TvController extends Controller
 		];
 	}
 
+	/**
+	 * Display popular show for guests and the tv dashboard for users.
+	 *
+	 * @return string
+	 */
 	public function actionIndex()
 	{
 		if (Yii::$app->user->isGuest) {
@@ -54,6 +59,11 @@ class TvController extends Controller
 		}
 	}
 
+	/**
+	 * Display popular tv shows.
+	 *
+	 * @return string
+	 */
 	public function actionPopular()
 	{
 		$language = Language::find()
@@ -188,7 +198,6 @@ class TvController extends Controller
 	{
 		$show = Show::find()
 			->where(['slug' => $slug])
-			->orWhere(['themoviedb_id' => $slug])
 			->with([
 				'seasons' => function($query) {
 					$query->orderBy('number DESC');
@@ -203,6 +212,26 @@ class TvController extends Controller
 				'genres',
 			])
 			->one();
+
+		// Check of only the MovieDB ID was given
+		if ($show === null) {
+			$show = Show::find()
+				->where(['themoviedb_id' => $slug])
+				->with([
+					'seasons' => function($query) {
+						$query->orderBy('number DESC');
+					},
+					'seasons.episodes',
+					'creators',
+					'cast',
+					'cast.person',
+					'crew',
+					'crew.person',
+					'language',
+					'genres',
+				])
+				->one();
+		}
 
 		// Show was not found by slug
 		// => search by old slug format
