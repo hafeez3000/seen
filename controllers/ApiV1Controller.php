@@ -567,16 +567,19 @@ class ApiV1Controller extends Controller
 				IF(LENGTH({{%show}}.[[name]]) > 0, {{%show}}.[[name]], {{%show}}.[[original_name]]) as [[name]],
 				{{%season}}.[[number]] AS [[season]],
 				{{%episode}}.[[number]] AS [[episode]],
-				{{%show}}.[[themoviedb_id]]
+				{{%show}}.[[themoviedb_id]],
+				{{%language}}.[[iso]]
 			FROM
 				{{%user_show}},
 				{{%show}},
 				{{%season}},
-				{{%episode}}
+				{{%episode}},
+				{{%language}}
 			WHERE
 				{{%user_show}}.[[user_id]] = :user_id AND
 				{{%user_show}}.[[deleted_at]] IS NULL AND
 				{{%show}}.[[id]] = {{%user_show}}.[[show_id]] AND
+				{{%language}}.[[id]] = {{%show}}.[[language_id]] AND
 				{{%season}}.[[show_id]] = {{%show}}.[[id]] AND
 				{{%season}}.[[number]] > 0 AND
 				{{%episode}}.[[season_id]] = {{%season}}.[[id]] AND
