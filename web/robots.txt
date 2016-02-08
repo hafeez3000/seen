@@ -2,3 +2,6 @@ User-agent: *
 Disallow: /api/v1/
 Disallow: /login/
 Disallow: /sign-up/
+Disallow: /movie/load
+Disallow: /tv/load
+Disallow: /person/load
