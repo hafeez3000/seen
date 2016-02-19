@@ -2,13 +2,12 @@ module.exports = function(grunt) {
 	var jsFiles = [
 		"vendor/bower/jquery/dist/jquery.min.js",
 		"vendor/bower/bootstrap/dist/js/bootstrap.min.js",
-		"vendor/bower/select2/select2.min.js",
+		"vendor/bower/select2/dist/js/select2.full.min.js",
 		"vendor/bower/spin.js/spin.js",
-		"vendor/bower/moment/min/moment-with-langs.min.js",
-		"vendor/bower/holderjs/holder.js",
-		"vendor/bower/jquery-cookie/jquery.cookie.js",
+		"vendor/bower/moment/min/moment-with-locales.min.js",
+		"vendor/bower/holderjs/holder.min.js",
 		"web/js/include/modernizr.custom.js",
-		"web/js/include/jquery.keynav.js",
+		"web/js/include/jquery.keynav.js"
 	];
 
 	var jsAdminFiles = [
@@ -72,8 +71,7 @@ module.exports = function(grunt) {
 			app: {
 				src: [
 					"vendor/bower/bootswatch/lumen/bootstrap.min.css",
-					"vendor/bower/select2/select2.css",
-					"vendor/bower/select2-bootstrap-css/select2-bootstrap.css",
+					"vendor/bower/select2/dist/css/select2.min.css",
 					"web/css/app.min.css"
 				],
 				dest: "web/css/app.min.css"

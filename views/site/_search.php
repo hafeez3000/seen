@@ -15,6 +15,8 @@ use \yii\widgets\ActiveForm;
 	]
 ]); ?>
 
-	<input type="hidden" class="search" name="id" style="margin-top: 30px; width: 100%;">
+	<select class="search" name="id" style="margin-top: 30px; width: 100%;">
+		<option value="" disabled="disabled" selected="selected"><?php echo Yii::t('Show', 'Search for TV Shows/Movies/Actors') ?></option>
+	</select>
 
 <?php ActiveForm::end();

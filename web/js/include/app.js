@@ -329,39 +329,42 @@ $(function() {
 	}
 
 	// Language selector
-	$("#language-selector").select2().on("change", function(e) {
-		window.location.href = App.baseUrl + "/language/" + e.val;
+	$("#language-selector").select2().on("select2:select", function(e) {
+		if (!e.params || !e.params.data || !e.params.data.id)
+			return;
+
+		window.location.href = App.baseUrl + "/language/" + e.params.data.id;
 	});
 
-	// Search for media
 	var searchTerm = "";
 
+	// Search for media
 	$(".search").select2({
-		placeholder: App.translation.search,
 		minimumInputLength: 3,
 		ajax: {
 			url: App.themoviedb.url + "/search/multi",
-			dataType: 'jsonp',
+			dataType: 'json',
 			quietMillis: 300,
 			cache: true,
-			data: function (term, page) {
-				searchTerm = term;
+			data: function (params) {
+				searchTerm = params.term;
 
 				return {
 					api_key: App.themoviedb.key,
-					query: term,
-					page: page,
+					query: params.term,
+					page: params.page,
 					language: App.language,
 					search_type: "ngram"
 				};
 			},
-			results: function (data, page) {
+			processResults: function (data, params) {
 				// Track side search
 				mixpanel.track("Search", {
 					"results": data.total_results,
 					"term": searchTerm
 				});
 
+				var page = params.page || 1;
 				var more = page < data.total_pages;
 
 				return {
@@ -370,7 +373,11 @@ $(function() {
 				};
 			}
 		},
-		formatResult: function(result) {
+		templateResult: function(result) {
+			if (result.disabled) {
+				return result.text;
+			}
+
 			var name, poster, poster_url;
 
 			switch (result.media_type) {
@@ -435,27 +442,28 @@ $(function() {
 
 			return markup;
 		},
-		formatSelection: function(result) {
+		templateSelection: function(result) {
 			switch (result.media_type) {
 				case "tv": return result.name;
 				case "movie": return result.title;
 				case "person": return result.name;
-				default: return result.name || result.title;
+				default: return result.text || result.name || result.title;
 			}
 		},
 		escapeMarkup: function(m) {
 			return m;
-		},
-	}).on("change", function(e) {
+		}
+	}).on("select2:select", function(e) {
 		var url;
+		var data = e.params.data || {};
 		var $form = $(this).closest("form");
-		var id = e.val;
+		var id = data.id || 0;
 		var inputId = $(this).attr("id");
 
-		if (!e.added || !e.added.media_type)
+		if (!data || !data.media_type)
 			return;
 
-		switch (e.added.media_type) {
+		switch (data.media_type) {
 			case "tv":
 				url = App.urls.datatv;
 				break;
@@ -466,7 +474,7 @@ $(function() {
 				url = App.urls.datamovie;
 				break;
 			default:
-				App.error("Unknown media type: " + e.added.media_type);
+				App.error("Unknown media type: " + data.media_type);
 				return;
 		}
 
@@ -487,7 +495,7 @@ $(function() {
 			success: function(data) {
 				if (inputId == "listsentry-themoviedb_id") {
 					console.log("Adding item to list");
-					$form.find("#listsentry-type").val(e.added.media_type);
+					$form.find("#listsentry-type").val(data.media_type);
 					return true;
 				} else {
 					console.log("Item found => redirecting...");

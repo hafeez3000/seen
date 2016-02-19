@@ -9,7 +9,7 @@ class LanguageBootstrap implements BootstrapInterface
 {
 	public function getDefaultLanguage()
 	{
-		$language = new \Browser\Language;
+		$language = new \Sinergi\BrowserDetector\Language;
 		return $language->getLanguage();
 	}
 
