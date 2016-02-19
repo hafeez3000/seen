@@ -1742,12 +1742,19 @@ class MovieDb
 		if (count($episodes) == 0)
 			return false;
 
+		// Restore episodes if deleted
+		$restored = false;
 		foreach ($episodes as $episode) {
 			if (!empty($episode->deleted_at)) {
+				$restored = true;
+
 				$episode->deleted_at = null;
 				$episode->save();
 			}
 		}
+
+		if ($restored)
+			Yii::info("Episode #{$id} restored.", 'application\sync');
 
 		foreach ($attributes->changes as $attribute) {
 			switch ($attribute->key) {
