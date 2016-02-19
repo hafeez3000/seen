@@ -569,6 +569,35 @@ $(function() {
 		});
 	});
 
+	$(".season-sync").on("click", function(e) {
+		e.preventDefault();
+
+		var $link = $(this);
+		var url = $(this).attr("href");
+		$(this).addClass("icon-loading");
+
+		$.ajax({
+			type: "get",
+			url: url,
+			success: function(data) {
+				if (data.success === true)
+					App.success('Successfully synced season in ' + data.seasons + ' languages.');
+				else {
+					console.debug(data);
+					App.warning('There was an error! Could not sync season.');
+				}
+
+				$link.removeClass("icon-loading");
+			},
+			error: function() {
+				App.error('There was a critical error! Could not sync season.');
+				$link.removeClass("icon-loading");
+			}
+		});
+
+		return false;
+	});
+
 	$(".autoselect").on("click", function() {
 		this.select();
 	});

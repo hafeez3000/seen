@@ -9,6 +9,7 @@ use \app\models\Show;
 use \app\models\Language;
 use \app\models\UserShow;
 use \app\models\UserShowRating;
+use \app\models\Season;
 
 use \app\components\MovieDb;
 use \app\components\YiiMixpanel;
@@ -28,7 +29,7 @@ class TvController extends Controller
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
-				'only' => ['dashboard', 'subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync', 'recommend', 'rate'],
+				'only' => ['dashboard', 'subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'sync', 'syncSeason', 'recommend', 'rate'],
 				'rules' => [
 					[
 						'actions' => ['dashboard', 'subscribe', 'unsubscribe', 'archive', 'archiveShow', 'unarchiveShow', 'recommend', 'rate'],
@@ -36,7 +37,7 @@ class TvController extends Controller
 						'roles' => ['@'],
 					],
 					[
-						'actions' => ['sync'],
+						'actions' => ['sync', 'syncSeason'],
 						'allow' => true,
 						'roles' => ['admin'],
 					]
@@ -549,25 +550,60 @@ class TvController extends Controller
 		}
 	}
 
-	public function actionSync($themoviedbId)
+	/**
+	 * Sync the show.
+	 *
+	 * @param int $theMovieDbId
+	 *
+	 * @return array
+	 */
+	public function actionSync($theMovieDbId)
 	{
 		Yii::$app->response->format = Response::FORMAT_JSON;
 
 		$shows = Show::find()
-			->where(['themoviedb_id' => $themoviedbId])
+			->where(['themoviedb_id' => $theMovieDbId])
 			->with('seasons')
 			->all();
 
 		$movieDb = new MovieDb;
 		$result = [
 			'shows' => 0,
-			'seasons' => 0,
 			'success' => true,
 		];
 
 		foreach ($shows as $show) {
 			$movieDb->syncShow($show);
 			$result['shows']++;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Sync the season.
+	 *
+	 * @param int $theMovieDbId
+	 *
+	 * @return array
+	 */
+	public function actionSyncSeason($theMovieDbId)
+	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+
+		$seasons = Season::find()
+			->where(['themoviedb_id' => $theMovieDbId])
+			->all();
+
+		$movieDb = new MovieDb;
+		$result = [
+			'seasons' => 0,
+			'success' => true,
+		];
+
+		foreach ($seasons as $season) {
+			$movieDb->syncSeason($season);
+			$result['seasons']++;
 		}
 
 		return $result;

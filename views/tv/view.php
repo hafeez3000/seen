@@ -30,7 +30,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 			<?php endif; ?>
 
 			<?php if (Yii::$app->user->can('admin')): ?>
-				<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'themoviedbId' => $show->themoviedb_id]); ?>"><span class="glyphicon glyphicon-refresh"></span> <?php echo Yii::t('Show', 'Sync') ?></a>
+				<a class="btn btn-default btn-sm" data-loading-text="<?php echo Yii::t('Show', 'Syncing...') ?>" id="show-sync" data-url="<?php echo Url::toRoute(['sync', 'theMovieDbId' => $show->themoviedb_id]); ?>"><span class="glyphicon glyphicon-refresh"></span> <?php echo Yii::t('Show', 'Sync') ?></a>
 			<?php endif; ?>
 		</div>
 	</div>
@@ -220,6 +220,10 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 									<a href="#" class="mark-season-seen" data-id="<?php echo $season->id; ?>" data-id="<?php echo $season->id; ?>" data-season="<?php echo $season->themoviedb_id; ?>" data-show="<?php echo $season->show->themoviedb_id; ?>" title="<?php echo Yii::t('Show/View', 'Label complete season as seen'); ?>"><span class="glyphicon glyphicon-ok"></span></a>&nbsp;
 								<?php endif; ?>
 								<a href="https://www.themoviedb.org/tv/<?php echo $show->themoviedb_id; ?>/season/<?php echo $season->number; ?>?<?php echo http_build_query(['language' => $show->language->iso]) ?>" target="_blank" title="<?php echo Yii::t('Show/View', 'Edit missing information on The Movie Database'); ?>"><span class="glyphicon glyphicon-pencil"></span></a>
+								<?php if (Yii::$app->user->can('admin')): ?>
+									&nbsp;
+									<a class="season-sync" href="<?php echo Url::toRoute(['sync-season', 'theMovieDbId' => $season->themoviedb_id]); ?>" title="<?php echo Yii::t('Show', 'Sync Season') ?>"><span class="glyphicon glyphicon-refresh"></span></a>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
