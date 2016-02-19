@@ -31,13 +31,9 @@ AppAsset::register($this);
 	<?php echo $this->render('//layouts/js_head.php'); ?>
 
 	<?php $this->head() ?>
-
-	<link rel="stylesheet" href="http://css-spinners.com/css/spinner/spinner.css" type="text/css">
 </head>
 	<body>
 		<?php $this->beginBody() ?>
-
-		<?php echo $this->render('//layouts/_spinner.php'); ?>
 
 		<header>
 			<?php
