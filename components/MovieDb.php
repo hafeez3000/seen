@@ -993,6 +993,9 @@ class MovieDb
 			switch ($attribute->key) {
 				case 'season':
 					foreach ($attribute->items as $item) {
+						if (isset($item->value->season_number) && $item->value->season_number < 0)
+							$item->value->season_number = 0;
+
 						switch ($item->action) {
 							case 'created':
 								foreach ($shows as $show) {
