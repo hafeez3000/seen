@@ -204,7 +204,7 @@ $this->title[] = Yii::t('Show/View', 'TV Shows');
 					<?php endif; ?>
 				<?php endforeach; ?>
 
-				<div id="tv-view-season-<?php echo $season->id; ?>" class="tv-view-season panel panel-default" data-number="<?php echo $season->number; ?>">
+				<div id="tv-view-season-<?php echo $season->id; ?>" class="tv-view-season panel <?php echo ($seasonComplete || $season->number == 0) ? 'tv-view-season-completed panel-default' : 'in panel-primary'; ?>" data-number="<?php echo $season->number; ?>">
 					<div class="panel-heading">
 						<div class="clearfix">
 							<div class="pull-left">
