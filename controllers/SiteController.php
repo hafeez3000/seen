@@ -281,6 +281,7 @@ class SiteController extends Controller
 	{
 		$services = [
 			'facebook',
+			'google',
 		];
 
 		if (!in_array($service, $services)) {
@@ -308,6 +309,7 @@ class SiteController extends Controller
 				}
 
 				if (Yii::$app->request->get('state', null) === null || Yii::$app->request->get('state') != Yii::$app->session['oauth2state']) {
+					unset(Yii::$app->session['oauth2state']);
 					throw new \yii\web\BadRequestHttpException(Yii::t('Site/Login', 'Invalid state!'));
 				}
 
@@ -324,6 +326,82 @@ class SiteController extends Controller
 					// Create new user
 					$language = Language::find()
 						->where(['iso' => substr($profile->getLocale(), 0, 2)])
+						->one();
+
+					$user = new User;
+					$user->email = $profile->getEmail();
+					$user->name = $profile->getName();
+					$user->password = 0;
+
+					// Wait for https://github.com/thephpleague/oauth2-facebook/pull/15
+					$user->timezone = 'UTC';
+
+					if ($language !== null)
+						$user->language_id = $language->id;
+
+					if (!$user->save())
+						throw new \yii\web\HttpException(500);
+
+					YiiMixpanel::track('Authorize Facebook', [
+						'new' => true,
+					]);
+
+					Yii::$app->user->login($user, 3600 * 24 * 30);
+					Yii::$app->session->setFlash('success', Yii::t('User/Signup', 'Welcome to SEEN! <a href="{url-account}">Update your timezone</a> or add <a href="{url-movies}">movies</a> or <a href="{url-tv}">tv shows</a>', [
+						'url-account' => Url::toRoute(['/user/account']),
+						'url-movies' => Url::toRoute(['/movies']),
+						'url-tv' => Url::toRoute(['/tv']),
+					]));
+					return $this->redirect(['tv/index']);
+				} else {
+					YiiMixpanel::track('Authorize Facebook', [
+						'new' => false,
+					]);
+				}
+
+				Yii::$app->user->login($user, 3600 * 24 * 30);
+				Yii::$app->session->setFlash('success', Yii::t('Site/Login', 'Welcome back!'));
+
+				return $this->goBack();
+
+				break;
+			case 'google':
+				$provider = new \League\OAuth2\Client\Provider\Google([
+					'clientId' => Yii::$app->params['oauth']['google']['key'],
+					'clientSecret' => Yii::$app->params['oauth']['google']['secret'],
+					'redirectUri' => Yii::$app->params['baseUrl'] . '/login/google',
+				]);
+
+				if (Yii::$app->request->get('error', null) !== null)
+					throw new \yii\web\BadRequestHttpException(Yii::$app->request->get('error', null));
+
+				if (Yii::$app->request->get('code', null) === null) {
+					$url = $provider->getAuthorizationUrl([
+						'scope' => ['email'],
+					]);
+					Yii::$app->session['oauth2state'] = $provider->getState();
+
+					return $this->redirect($url);
+				}
+
+				if (Yii::$app->request->get('state', null) === null || Yii::$app->request->get('state') != Yii::$app->session['oauth2state']) {
+					unset(Yii::$app->session['oauth2state']);
+					throw new \yii\web\BadRequestHttpException(Yii::t('Site/Login', 'Invalid state!'));
+				}
+
+				// Get user
+				$token = $provider->getAccessToken('authorization_code', [
+					'code' => Yii::$app->request->get('code', '')
+				]);
+
+				$profile = $provider->getResourceOwner($token);
+
+				// Check if user is already in database
+				$user = User::findByEmail($profile->getEmail());
+				if ($user === null) {
+					// Create new user
+					$language = Language::find()
+						->where(['iso' => 'en'])
 						->one();
 
 					$user = new User;
