@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./yii message config/common/messages.php && ./yii language
+php ./yii message config/common/messages.php && php ./yii language

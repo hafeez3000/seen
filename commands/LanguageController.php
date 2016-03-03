@@ -62,7 +62,7 @@ class LanguageController extends Controller
 				$languageFilePath = $languageBasePath . $languageFile;
 
 				if (!is_dir(dirname($languageFilePath))) {
-					if (!mkdir(dirname($languageFilePath), 0777, true)) {
+					if (!mkdir(dirname($languageFilePath), 0755, true)) {
 						echo "Could not create language base directory {$languageFilePath}!\n";
 						continue;
 					}
