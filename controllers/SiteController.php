@@ -289,62 +289,56 @@ class SiteController extends Controller
 			]));
 		}
 
-		$redis = new Predis([
-			'host' => Yii::$app->params['redis']['host'],
-			'port' => Yii::$app->params['redis']['port'],
-		]);
-		$storage = new Redis($redis, 'seen_oauth_token', 'seen_oauth_state');
-
-		$serviceFactory = new ServiceFactory;
-
 		switch ($service) {
 			case 'facebook':
-				$service = $serviceFactory->createService('facebook', new Credentials(
-					Yii::$app->params['oauth']['facebook']['key'],
-					Yii::$app->params['oauth']['facebook']['secret'],
-					Yii::$app->request->absoluteUrl
-				), $storage, [Facebook::SCOPE_EMAIL]);
+				$provider = new \League\OAuth2\Client\Provider\Facebook([
+					'clientId' => Yii::$app->params['oauth']['facebook']['key'],
+					'clientSecret' => Yii::$app->params['oauth']['facebook']['secret'],
+					'redirectUri' => Yii::$app->params['baseUrl'] . '/login/facebook',
+					'graphApiVersion' => 'v2.5',
+				]);
 
-				// Redirect user to facebook
 				if (Yii::$app->request->get('code', null) === null) {
-					return $this->redirect($service->getAuthorizationUri()->getAbsoluteUri());
+					$url = $provider->getAuthorizationUrl([
+						'scope' => ['email'],
+					]);
+					Yii::$app->session['oauth2state'] = $provider->getState();
+
+					return $this->redirect($url);
 				}
 
-				// Get access token
-				$service->requestAccessToken(Yii::$app->request->get('code', ''));
+				if (Yii::$app->request->get('state', null) === null || Yii::$app->request->get('state') != Yii::$app->session['oauth2state']) {
+					throw new \yii\web\BadRequestHttpException(Yii::t('Site/Login', 'Invalid state!'));
+				}
 
-				$profile = json_decode($service->request('/me'));
+				// Get user
+				$token = $provider->getAccessToken('authorization_code', [
+					'code' => Yii::$app->request->get('code', '')
+				]);
 
-				if (!isset($profile->email))
-					throw new \yii\web\BadRequestHttpException(Yii::t('Site/Login', 'SEEN needs access to your email to log you in via facebook!'));
+				$profile = $provider->getResourceOwner($token);
 
-				$user = User::findByEmail($profile->email);
+				// Check if user is already in database
+				$user = User::findByEmail($profile->getEmail());
 				if ($user === null) {
+					// Create new user
 					$language = Language::find()
-						->where(['iso' => substr($profile->locale, 0, 2)])
+						->where(['iso' => substr($profile->getLocale(), 0, 2)])
 						->one();
 
 					$user = new User;
-					$user->email = $profile->email;
-					$user->name = $profile->name;
+					$user->email = $profile->getEmail();
+					$user->name = $profile->getName();
 					$user->password = 0;
 
-					try {
-						$timezone = timezone_name_from_abbr('', ($profile->timezone - 1) * 3600, 0);
-					} catch (\Exception $e) {
-						$timezone = 'UTC';
-					}
-					if ($timezone === false)
-						$timezone = 'UTC';
-					$user->timezone = $timezone;
+					// Wait for https://github.com/thephpleague/oauth2-facebook/pull/15
+					$user->timezone = 'UTC';
 
-					if ($language !== null) {
+					if ($language !== null)
 						$user->language_id = $language->id;
-					}
 
-					if (!$user->save()) {
+					if (!$user->save())
 						throw new \yii\web\HttpException(500);
-					}
 
 					YiiMixpanel::track('Authorize Facebook', [
 						'new' => true,
@@ -365,6 +359,7 @@ class SiteController extends Controller
 
 				Yii::$app->user->login($user, 3600 * 24 * 30);
 				Yii::$app->session->setFlash('success', Yii::t('Site/Login', 'Welcome back!'));
+
 				return $this->goBack();
 
 				break;
