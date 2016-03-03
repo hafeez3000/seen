@@ -186,7 +186,7 @@ class MovieDb
 		if (isset($results->results)) {
 			$output = array_merge($results->results, $output);
 
-			if (!isset($results->total_pages)) {
+			if (!isset($results->total_pages) || !isset($results->total_pages)) {
 				return $output;
 			}
 
