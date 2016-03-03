@@ -22,9 +22,9 @@ class DeployController extends Controller
 			'git reset --hard origin/master',
 			'composer install --optimize-autoloader --no-dev --prefer-dist',
 			'npm install',
-			'./yii migrate --interactive=0',
+			'php ./yii migrate --interactive=0',
 			'grunt build_production',
-			'./yii cache/flush cache --interactive=0',
+			'php ./yii cache/flush cache --interactive=0',
 			'rm -f .maintenance',
 		], function($line) {
 			echo $line;
