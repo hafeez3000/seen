@@ -18,4 +18,8 @@ $config['components']['cache'] = [
 	'class' => 'yii\caching\DummyCache',
 ];
 
+$config['components']['request'] = [
+	'cookieValidationKey' => 'HsWBzDNJmTN0dgBduywwTnnu79obc9z6gp',
+];
+
 return $config;

@@ -33,10 +33,6 @@ $config['components']['assetManager'] = [
 	],
 ];
 
-$config['components']['request'] = [
-	'cookieValidationKey' => 'ulht1utnbaliHGHKABHha89124bujlksaf',
-];
-
 $config['modules']['gridview'] = [
 	'class' => '\kartik\grid\Module'
 ];
