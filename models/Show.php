@@ -557,7 +557,7 @@ class Show extends ActiveRecord
 		if (!empty($this->poster_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w185' . $this->poster_path . '"';
 		else
-			return 'data-src="holder.js/175x272/#eee:#555/text:' . $this->name . '"';
+			return 'data-src="holder.js/175x272?theme=gray&text=' . $this->name . '"';
 	}
 
 	/**
@@ -570,7 +570,7 @@ class Show extends ActiveRecord
 		if (!empty($this->poster_path))
 			return 'src="' . Yii::$app->params['themoviedb']['image_url'] . 'w500' . $this->poster_path . '"';
 		else
-			return 'data-src="holder.js/500x735/#eee:#555/text:' . $this->name . '"';
+			return 'data-src="holder.js/500x735?theme=gray&text=' . $this->name . '"';
 	}
 
 	/**

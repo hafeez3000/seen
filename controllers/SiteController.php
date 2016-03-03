@@ -76,7 +76,7 @@ class SiteController extends Controller
 		if (isset($data['backdrop_path']))
 			return '<a href="' . Yii::$app->urlManager->createUrl(['tv/view', 'slug' => $data['slug']]) . '" title="' . $data['name'] . '"><img src="https://image.tmdb.org/t/p/w780' . $data['backdrop_path'] . '" alt="' . $data['name'] . '"></a>';
 		else
-			return '<img data-src="holder.js/524x245/#eee:#555/text:' . Yii::$app->name . '">';
+			return '<img data-src="holder.js/524x245?theme=gray&text=' . Yii::$app->name . '">';
 	}
 
 	public function actionIndex()
