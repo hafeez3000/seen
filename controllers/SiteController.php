@@ -326,6 +326,7 @@ class SiteController extends Controller
 					// Create new user
 					$language = Language::find()
 						->where(['iso' => substr($profile->getLocale(), 0, 2)])
+						->orWhere(['iso' => Yii::$app->params['lang']['default_iso']])
 						->one();
 
 					$user = new User;
