@@ -25,7 +25,7 @@ class m140430_111220_rest_api extends Migration
 
 		// Create request token on user authorization
 		$this->createTable('{{%oauth_request_token}}', [
-			'request_token' => 'varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT "Request token"',
+			'request_token' => 'varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT "Request token"',
 			'user_id' => 'int(10) unsigned NOT NULL COMMENT "User"',
 			'oauth_application_id' => 'int(10) unsigned NOT NULL COMMENT "Oauth application"',
 			'scopes' => 'text COLLATE utf8_unicode_ci COMMENT "Scopes"',
@@ -41,7 +41,7 @@ class m140430_111220_rest_api extends Migration
 
 		// Access tokens
 		$this->createTable('{{%oauth_access_token}}', [
-			'access_token' => 'varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT "Access token"',
+			'access_token' => 'varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT "Access token"',
 			'user_id' => 'int(10) unsigned NOT NULL COMMENT "User"',
 			'oauth_application_id' => 'int(10) unsigned NOT NULL COMMENT "Oauth application"',
 			'scopes' => 'text COLLATE utf8_unicode_ci COMMENT "Scopes"',
@@ -57,7 +57,7 @@ class m140430_111220_rest_api extends Migration
 
 		// Refresh tokens
 		$this->createTable('{{%oauth_refresh_token}}', [
-			'refresh_token' => 'varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT "Refresh token"',
+			'refresh_token' => 'varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT "Refresh token"',
 			'user_id' => 'int(10) unsigned NOT NULL COMMENT "User"',
 			'oauth_application_id' => 'int(10) unsigned NOT NULL COMMENT "Oauth application"',
 			'scopes' => 'text COLLATE utf8_unicode_ci COMMENT "Scopes"',

@@ -4,7 +4,7 @@
 
 ## Requirements
 
-* PHP >= 5.4
+* PHP >= 5.4 (with intl extension)
 * MySQL / MariaDB
 * Node.js
 
@@ -16,6 +16,7 @@
 * `composer install`
 * `grunt`
 * Copy social glyphicons web fonts (not included) into the `web/fonts/` directory
+* Copy `web/.env.sample.php` to `web/.env.php` and insert rollbar access token
 * Create database tables with `./yii migrate`
 
 ## Tests

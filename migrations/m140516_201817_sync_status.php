@@ -8,9 +8,9 @@ class m140516_201817_sync_status extends Migration
 	{
 		$this->createTable('{{%sync_status}}', [
 			'name' => 'varchar(255) NOT NULL',
-			'updated' => 'date DEFAULT "0000-00-00"',
+			'updated' => 'date DEFAULT NULL',
 			'value' => 'TEXT DEFAULT NULL',
-			'PRIMARY KEY([[name]], [[updated]])',
+			'UNIQUE KEY([[name]], [[updated]])',
 		]);
 	}
 

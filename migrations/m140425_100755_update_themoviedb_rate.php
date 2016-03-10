@@ -13,7 +13,5 @@ class m140425_100755_update_themoviedb_rate extends Migration
 	public function down()
 	{
 		$this->alterColumn('{{%themoviedb_rate}}', 'created_at', 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT "Created at"');
-
-		return false;
 	}
 }

@@ -20,4 +20,8 @@ $config['components']['cache'] = [
 
 $config['components']['urlManager']['baseUrl'] = 'http://seen.app/';
 
+$config['components']['request'] = [
+	'cookieValidationKey' => '1234567890abcdef',
+];
+
 return $config;
