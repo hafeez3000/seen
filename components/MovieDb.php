@@ -1888,6 +1888,10 @@ class MovieDb
 					break;
 				case 'episode_number':
 					foreach ($attribute->items as $item) {
+						// Skip episodes with a number of e.g. -1
+						if (isset($item->value) && $item->value < 0)
+							continue;
+
 						switch ($item->action) {
 							case 'updated':
 								foreach ($episodes as $episode) {

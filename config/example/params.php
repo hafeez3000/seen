@@ -37,11 +37,11 @@ return [
 			'thousandsSep' => ',',
 		],
 		'en-US' => [
-						'datetime' => 'd/m/Y H:i',
-						'date' => 'd/m/Y',
-						'decPoint' => '.',
-						'thousandsSep' => ',',
-				],
+			'datetime' => 'd/m/Y H:i',
+			'date' => 'd/m/Y',
+			'decPoint' => '.',
+			'thousandsSep' => ',',
+		],
 		'de' => [
 			'datetime' => 'd.m.Y H:i',
 			'date' => 'd.m.Y',
