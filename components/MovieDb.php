@@ -1575,6 +1575,10 @@ class MovieDb
 								$this->syncEpisodeChanges($item->value->episode_id);
 								break;
 							case 'created':
+								// Skip episodes with a number of e.g. -1
+								if ($item->value->episode_number < 0)
+									continue;
+
 								foreach ($seasons as $season) {
 									$episode = Episode::find()
 										->where([
