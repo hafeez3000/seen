@@ -340,8 +340,10 @@ class SiteController extends Controller
 					if ($language !== null)
 						$user->language_id = $language->id;
 
-					if (!$user->save())
+					if (!$user->save()) {
+						Yii::error('Could not save user: ' . serialize($user->errors));
 						throw new \yii\web\HttpException(500);
+					}
 
 					YiiMixpanel::track('Authorize Facebook', [
 						'new' => true,
