@@ -342,7 +342,8 @@ class SiteController extends Controller
 
 					if (!$user->save()) {
 						Yii::error('Could not save user: ' . serialize($user->errors));
-						throw new \yii\web\HttpException(500);
+						Yii::$app->session->setFlash('error', Yii::t('User/Signup', 'Your account could not be created! Maybe your email address has the wrong format? Please register with your email address and password.'));
+						return $this->redirect(['site/sign-up']);
 					}
 
 					YiiMixpanel::track('Authorize Facebook', [
