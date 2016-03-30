@@ -24,4 +24,16 @@ $config['components']['request'] = [
 	'cookieValidationKey' => '1234567890abcdef',
 ];
 
+$config['components']['mailer'] = [
+	'class' => 'yii\swiftmailer\Mailer',
+	'transport' => [
+		'class' => 'Swift_SmtpTransport',
+		'host' => 'smtp.mailgun.org',
+		'username' => 'postmaster@seenapp.com',
+		'password' => 'b38515777246c0211836b12ee1b53da8',
+		'port' => '587',
+		'encryption' => 'tls',
+	],
+];
+
 return $config;

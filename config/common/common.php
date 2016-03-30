@@ -154,6 +154,10 @@ $config['components']['rollbar'] = [
 	'environment' => YII_ENV,
 ];
 
+$config['components']['mailer'] = [
+	'class' => 'yii\swiftmailer\Mailer',
+];
+
 $config['modules']['admin'] = [
 	'class' => 'app\modules\admin\Module',
 ];
@@ -176,8 +180,7 @@ if (!YII_ENV_TEST) {
 				'class' => 'yii\log\DbTarget',
 				'levels' => ['info'],
 				'categories' => [
-					'application\sync',
-					'application\mail',
+					'application\sync'
 				],
 			],
 		],

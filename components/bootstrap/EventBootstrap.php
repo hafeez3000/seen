@@ -11,7 +11,6 @@ use \app\models\UserShowRun;
 use \app\models\UserMovie;
 use \app\models\UserEpisode;
 use \app\models\UserMovieWatchlist;
-use \app\components\Email;
 use \app\components\Mailchimp;
 
 class EventBootstrap implements BootstrapInterface
@@ -35,10 +34,6 @@ class EventBootstrap implements BootstrapInterface
 		Event::on(User::className(), User::EVENT_AFTER_REGISTER, function($event) {
 			$user = $event->sender;
 
-			$email = new Email;
-			$email->to = $user->email;
-			$email->subject = Yii::t('Email/Register', 'Welcome to SEEN');
-
 			$html = Yii::t('Email/Register', '<h1 class="h1">Welcome to <span class="highlight">SEEN</span></h1>');
 			$html .= Yii::t(
 				'Email/Register',
@@ -49,18 +44,24 @@ class EventBootstrap implements BootstrapInterface
 				)
 			);
 
-			$email->send(
-				'Default',
+			$plain = Yii::t('Email/Register', 'Welcome to SEEN') . "\n\n";
+			$plain .= Yii::t(
+				'Email/Register',
+				'You successfully registered at seenapp.com! Start now by subscribing to your favorite tv shows: {url-tv}',
 				array(
-					array(
-						'name' => 'content',
-						'content' => $html,
-					)
-				),
-				array(
-					'register',
+					'url-tv' => Yii::$app->urlManager->createAbsoluteUrl('/tv'),
 				)
 			);
+
+			Yii::$app->mailer->compose()
+				->setFrom([
+					Yii::$app->params['email']['system'] => Yii::$app->params['email']['from']
+				])
+				->setTo($user->email)
+				->setSubject(Yii::t('Email/Register', 'Welcome to SEEN'))
+				->setTextBody($plain)
+				->setHtmlBody($html)
+				->send();
 		});
 
 		// Register user to mailchimp

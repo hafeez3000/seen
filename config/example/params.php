@@ -15,12 +15,6 @@ return [
 	'email' => [
 		'admin' => 'admin@seenapp.com',
 		'system' => 'no-reply@seenapp.com',
-		'mandrill' => [
-			'baseUrl' => 'https://mandrillapp.com/api/1.0/',
-			'apikey' => 'invalid',
-			'globalMergeVars' => [
-			],
-		],
 	],
 	'mailchimp' => [
 		'apikey' => 'INVALID',

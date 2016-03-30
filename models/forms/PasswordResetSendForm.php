@@ -44,30 +44,32 @@ class PasswordResetSendForm extends Model
 		$user->generateResetKey();
 		$user->save();
 
-		$email = new Email;
-		$email->to = $user->email;
-		$email->subject = Yii::t('Email/PasswordReset', '[SEEN] Reset your password');
-
 		$html = Yii::t('Email/PasswordReset', '<h1 class="h1">Reset your password</h1>');
 		$html .= Yii::t(
 			'Email/PasswordReset',
-			'<p>To reset your password please go to <a href="{url}">{url}</a>.</p>',
+			'<p>To reset your password at seenapp.com please go to <a href="{url}">{url}</a>.</p>',
 			array(
 				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/site/reset-password', 'token' => $user->reset_key]),
 			)
 		);
 
-		return $email->send(
-			'Default',
+		$plain = Yii::t('Email/PasswordReset', 'Reset your password') . "\n\n";
+		$plain .= Yii::t(
+			'Email/PasswordReset',
+			'To reset your password at seenapp.com please go to: {url}',
 			array(
-				array(
-					'name' => 'content',
-					'content' => $html,
-				)
-			),
-			array(
-				'password-reset',
+				'url' => Yii::$app->urlManager->createAbsoluteUrl(['/site/reset-password', 'token' => $user->reset_key]),
 			)
 		);
+
+		return Yii::$app->mailer->compose()
+			->setFrom([
+				Yii::$app->params['email']['system'] => Yii::$app->params['email']['from']
+			])
+			->setTo($user->email)
+			->setSubject(Yii::t('Email/PasswordReset', '[SEEN] Reset your password'))
+			->setTextBody($plain)
+			->setHtmlBody($html)
+			->send();
 	}
 }
