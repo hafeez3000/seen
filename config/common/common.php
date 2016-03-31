@@ -163,6 +163,7 @@ $config['modules']['admin'] = [
 ];
 
 if (!YII_ENV_TEST) {
+	// Dev or prod env
 	$config['components']['log'] = [
 		'traceLevel' => YII_DEBUG ? 3 : 0,
 		'targets' => [
@@ -184,5 +185,11 @@ if (!YII_ENV_TEST) {
 				],
 			],
 		],
+	];
+} else {
+	// Testing env
+	$config['components']['mailer'] = [
+		'class' => 'yii\swiftmailer\Mailer',
+		'useFileTransport' => true,
 	];
 }
