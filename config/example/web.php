@@ -29,8 +29,8 @@ $config['components']['mailer'] = [
 	'transport' => [
 		'class' => 'Swift_SmtpTransport',
 		'host' => 'smtp.mailgun.org',
-		'username' => 'postmaster@seenapp.com',
-		'password' => 'b38515777246c0211836b12ee1b53da8',
+		'username' => '',
+		'password' => '',
 		'port' => '587',
 		'encryption' => 'tls',
 	],
